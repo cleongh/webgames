@@ -198,8 +198,6 @@ Es importante (al menos muy útil) usar un editor profesional:
 - [[http://www.vim.org/][Vim]]
 - [[https://www.gnu.org/software/emacs/][Emacs]]
 
-#+REVEAL: split
-
 ** Características deseables
 :PROPERTIES:
 :CUSTOM_ID: características-deseables

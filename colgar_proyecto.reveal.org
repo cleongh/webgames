@@ -10,61 +10,42 @@
 
 Hay que alojar el proyecto en un sitio web
 
-Todos, a través del
-[[https://docs.github.com/en/pages/getting-started-with-github-pages][servicio
+Todos, a través del [[https://docs.github.com/en/pages/getting-started-with-github-pages][servicio
 de páginas públicas en GitHub]] podéis simplemente hacer un commit del
 proyecto y servir la URL
 
 #+REVEAL: split
 
-Alternativas:
+Alternativas (hay más):
 
 1. Sólo tenéis que crear una rama =main= en un repositorio, y tener ahí
    el archivo =index.html= apropiado (los servidores web usan el
    documento =index.html= como el servido por defecto)
 2. Tener nuestra versión de producción en una carpeta =docs= de =main=
    (tenéis que configurarlo en "Settings")
-3. Tener nuestra versión de producción en una rama =gh-pages= (que
-   podéis/deberíais crear como
-   [[https://jiafulow.github.io/blog/2020/07/09/create-gh-pages-branch-in-existing-repo/][orphan
-   branch]])
 
 #+REVEAL: split
 
-Una ventaja de hacerlo desde =main= es que no hay que hacer nada más que
-desarrollar y hacer =push=, y servimos los mismos archivos de desarrollo
+Una ventaja de hacerlo desde =main= es que no hay que hacer nada más que desarrollar y hacer =push=, y servimos los mismos archivos de desarrollo
 
 En general /esto no es idóneo/, pero acelera y simplifica el proceso
 
 #+REVEAL: split
 
-Una ventaja de hacerlo desde =docs= o desde =gh-pages= es que, si el
-repositorio es privado, sólo se servirá/será público lo de esa carpeta
-
-#+REVEAL: split
+Una ventaja de hacerlo desde =docs= es que, si el repositorio es privado, solo se servirá/será público lo de esa carpeta
 
 ** Rutas
 :PROPERTIES:
 :CUSTOM_ID: rutas
 :END:
 
-#+REVEAL: split
-
-#+begin_html
-  <!-- Recordemos que Phaser no usa recursos cargados desde local, hace falta hacerlo a través de un servidor web
-
-  --- -->
-#+end_html
 
 Tened cuidado con los recursos:
 
-- Referenciadlos con *rutas relativas* a vuestros =.html= y =.js=
-  (=imgs/imagen.png=), en vez de *rutas absolutas*
+- Referenciadlos con *rutas relativas* a vuestros =.html= y =.js=  (=imgs/imagen.png=), en vez de *rutas absolutas*
   (=http://mi.ruta.cambiante/imgs/imagen.png=)
 - Aseguraos de que están cargados antes de iniciar su uso
 - Aseguraos de que están siempre disponibles
-
-#+REVEAL: split
 
 ** Página en la que incluir el proyecto
 :PROPERTIES:
@@ -74,21 +55,17 @@ El archivo =index.html= tiene que ser una página presentable y "bonita"
 
 #+REVEAL: split
 
-Tiene que tener el título del proyecto, un resumen del GDD (una versión
-en HTML), enlaces pertinentes (como, por ejemplo, al código en
-=GitHub=), instrucciones y cualquier información adicional relevante
+Tiene que tener el título del proyecto, un resumen del GDD (una versión en HTML), enlaces pertinentes (como, por ejemplo, al código en =GitHub=), instrucciones y cualquier información adicional relevante
 
 #+REVEAL: split
 
-Además, hay que poner la licencia del mismo e información de la
-asignatura
+Además, hay que poner la licencia del mismo e información de la asignatura
 
 * Desarrollo y despliegue
 :PROPERTIES:
 :CUSTOM_ID: desarrollo-y-despliegue
 :END:
 
-#+REVEAL: split
 
 No tenéis que desarrollar con la máquina de GitHub, sino en local
 
@@ -98,8 +75,7 @@ Hacer =push= para probar es lento y es una carga innecesaria
 
 Siempre:
 
-- Abrir vuestro editor favorito con los archivos html y js
-- Arrancar un servidor con =npx live-server= o similar
+- Abrir vuestro editor favorito con los archivos HTML, JS y demás
 - Abrir el navegador con la URL del servidor local
 - Abrir las herramientas de desarrollo del navegador
 
@@ -110,7 +86,6 @@ Revisad los recursos del Campus:
 
 - Depurar con Google Chrome
 - Depurar JavaScript en el navegador
-
 #+end_quote
 
 #+REVEAL: split
@@ -118,92 +93,47 @@ Revisad los recursos del Campus:
 Cuando funcione:
 
 - Hacer =push= y publicar =main=
-- Publicar sólo carpeta =docs= o rama =gh-pages= y copiar a esta
-  carpeta/rama sólo cuando haya material mejorado
-
-#+begin_html
-  <!-- 
-  # Makefiles
-
-  ---
-
-  Cuando se crea un proyecto, desplegar o construir siempre es una tarea importante
-
-  Pero si es manual, es tediosa y propensa a errores
-
-  ---
-
-  Por eso se suelen crear guiones de construcción que nos sirven para automatizar el proceso:
-
-  ```bash
-  # construir.sh
-  mkdir -p docs
-  cp *.html docs/
-  cp -r assets/ docs/
-  ```
-
-  ---
-
-  Un script sencillo funciona cuando hay pocos archivos, pero cuando el proyecto crece, sólo queremos modificar aquello que cambia
-
-  Para eso tenemos `make` y sus `Makefiles`
-
-  ---
-
-  ```Makefile
-  all: docs/index.html docs/game.js
-
-  docs/%.html: %.html
-    cp $< $@
-
-  docs/%.js: %.js
-    cp $< $@
-
-  clean:
-    rm -rf docs/
-
-  .PHONY: all clean
-  ```
-
-  ---
-
-  Así, podemos construir:
-
-  ```bash
-  make # o make all
-  ```
-
-  O borrar todo:
-
-  ```bash
-  make clean
-  ```
-
-  ---
-
-  De hecho, podemos hacer una regla para que los archivos se copien siempre que cambien:
-
-  ```Makefile
-  watch: all
-      watchman-make -p *.html *.js --run make
-
-  .PHONY: watch
-  ```
-
-  ---
+- Publicar solo carpeta =docs= cuando haya material mejorado (/release/)
 
 
-  Para ejecutar un `Makefile` hace falta ejecutar (y tener instalado) `make` en el directorio en el que está el `Makefile`
+* Gestión avanzada
 
-  ```bash
-  -> ls
-  .
-  ..
-  Makefile
-  -> make watch
-  ```
+** =package.json=
 
-  ---
+Es un archivo (en JSON) que describe nuestro proyecto JavaScript en =node.js=, y es la información básica para =npm=
 
-  Esto hace que publicar en la carpeta `docs` sea mucho más sencillo -->
-#+end_html
+Indica las librerías que hacen falta, con sus versiones
+
+También incluyen comandos que vamos a usar (cómo desarrollar, como hacer el /release/)
+
+** Parcel
+
+[[https://parceljs.org/][Parcel]] es una herramienta de configuración automática de proyectos JS (hay otras como [[https://webpack.js.org/][Webpack]])
+
+#+REVEAL: split
+
+Parcel es un /bundler/, un programa que coge un punto inicial (=index.html= en nuestro caso), y a partir de lo que haya enlazado, construye:
+
+- Un servidor de desarrollo, para trabajar en local: vuelve a generar las dependencias, recarga la página...
+- Una versión de publicación, optimizada para ser publicada
+
+** Instalación de Parcel
+
+Para instalar Parcel tenéis que usar =npm=
+
+- Se puede instalar directamente (mala idea): src_sh{npm install parcel}
+- Editando el archivo de proyecto de =node.js=: =package.json=
+
+** Uso de Parcel
+
+Parcel simplifica mucho el desarrollo web
+
+1. Tenemos un proyecto con un =package.json= que incluye Parcel en sus dependencias
+2. Decimos a =npm= que instale las dependencias automáticamente, y eso instalará Parcel y todo lo demás (Phaser, por ejemplo)
+3. Arrancamos el servidor de desarrollo de Parcel, que analiza y actualiza los cambios
+4. Cada vez que queramos hacer /release/, creamos una build apropiada
+5. Hacemos =push= del contenido, y con GitHub pages ya está publicado
+
+** Ejemplo
+
+[[https://github.com/cleongh/plantillaphaser][Ejemplo en la plantilla de la asignatura]]
