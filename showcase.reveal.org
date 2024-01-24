@@ -68,18 +68,18 @@
 :END:
 - Eficiencia más predecible y en bytecode
 - Traductor de LLVM (C/C++) a Webassembly
-- ¡Juegos con rendimiento casi nativo en el browser!
+- ¡Juegos con buen rendimiento y predecible en el navegador!
 - (Hay partes importantes aún en desarrollo)
 
 * Showcase
 :PROPERTIES:
 :CUSTOM_ID: showcase
 :END:
-* Videojuegos comerciales
+** Videojuegos comerciales
 :PROPERTIES:
 :CUSTOM_ID: videojuegos-comerciales
 :END:
-** Gods will be watching
+*** Gods will be watching
 :PROPERTIES:
 :CUSTOM_ID: gods-will-be-watching
 :END:
@@ -88,7 +88,7 @@
 
 [[http://www.deconstructeam.com/games/gods-will-be-watching-es/]]
 
-** Dicey Dungeons (Terry Cavanagh)
+*** Dicey Dungeons (Terry Cavanagh)
 :PROPERTIES:
 :CUSTOM_ID: dicey-dungeons-terry-cavanagh
 :width: 70%
@@ -98,97 +98,82 @@
 
 [[https://terrycavanaghgames.com/dice/9/html5/]]
 
-** Heroes of Paragon
+*** Heroes of Paragon
 :PROPERTIES:
 :CUSTOM_ID: heroes-of-paragon
 :END:
 
-#+begin_html
-  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/dhP5tR1KIss" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-#+end_html
 
-#+begin_html
-  </iframe>
-#+end_html
+#+begin_export html
+  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/dhP5tR1KIss" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+#+end_export
 
 [[https://apps.facebook.com/heroesofp]]
 
-** The curious expedition
+*** The curious expedition
 :PROPERTIES:
 :CUSTOM_ID: the-curious-expedition
 :END:
 
-#+begin_html
-  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/O5rfiQJTVqw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-#+end_html
-
-#+begin_html
-  </iframe>
-#+end_html
+#+begin_export html
+  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/O5rfiQJTVqw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>  </iframe>
+#+end_export
 
 [[http://www.curious-expedition.com/]]
 
-** Iron Maiden: Speed of Light
+*** Iron Maiden: Speed of Light
 :PROPERTIES:
 :CUSTOM_ID: iron-maiden-speed-of-light
 :END:
 
-#+begin_html
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/yLuliCWjGXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-#+end_html
-
-#+begin_html
-  </iframe>
-#+end_html
+#+begin_export html
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/yLuliCWjGXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>  </iframe>
+#+end_export
 
 [[http://speedoflight.ironmaiden.com/]]
 
-** Elliot Quest
+*** Elliot Quest
 :PROPERTIES:
 :CUSTOM_ID: elliot-quest
 :END:
 
-#+begin_html
-  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qisxfEWLOrU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-#+end_html
-
-#+begin_html
-  </iframe>
-#+end_html
+#+begin_export html
+  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qisxfEWLOrU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>  </iframe>
+#+end_export
 
 [[http://elliotquest.com/]]
 
-* Videojuegos amateur, demos comerciales, game jams, etc.
+** Videojuegos amateur, demos comerciales, game jams, etc.
 :PROPERTIES:
 :CUSTOM_ID: videojuegos-amateur-demos-comerciales-game-jams-etc.
 :END:
-** Playcanvas' Swooop
+*** Playcanvas' Swooop
 :PROPERTIES:
 :CUSTOM_ID: playcanvas-swooop
 :END:
 
-#+begin_html
-  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/zU9MMbWyMzs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-#+end_html
-
-#+begin_html
-  </iframe>
-#+end_html
+#+begin_export html
+  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/zU9MMbWyMzs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>  </iframe>
+#+end_export
 
 [[https://playcanv.as/p/JtL2iqIH/]]
 
-** Evil Glitch
+*** Evil Glitch
 :PROPERTIES:
 :CUSTOM_ID: evil-glitch
 :END:
-[[http://js13kgames.com/games/evil-glitch/index.html][[[file:evil_glitch.png]]]]
 
-[[http://js13kgames.com/games/evil-glitch/index.html]]
+#+caption: http://js13kgames.com/games/evil-glitch/index.html
+#+attr_html: :height 500
+[[file:evil_glitch.png]]
 
-** Agar.io y Slither.io
+
+*** Agar.io y Slither.io
 :PROPERTIES:
 :CUSTOM_ID: agar.io-y-slither.io
 :END:
+
 #+caption: Agar.io y Slither.io
 [[file:slither-agar.png]]
 
@@ -196,22 +181,18 @@
 
 [[http://slither.io/]]
 
-** Helloenjoy's HelloRun
+*** Helloenjoy's HelloRun
 :PROPERTIES:
 :CUSTOM_ID: helloenjoys-hellorun
 :END:
 
-#+begin_html
-  <iframe src="https://player.vimeo.com/video/73947186?color=ff1561" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
-#+end_html
-
-#+begin_html
-  </iframe>
-#+end_html
+#+begin_export html
+  <iframe src="https://player.vimeo.com/video/73947186?color=ff1561" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>  </iframe>
+#+end_export
 
 [[https://helloenjoy.com]]
 
-** Language of the Gods
+*** Language of the Gods
 :PROPERTIES:
 :CUSTOM_ID: language-of-the-gods
 :END:
@@ -238,13 +219,9 @@
 :CUSTOM_ID: quake-js
 :END:
 
-#+begin_html
-  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/uEBX152k9FQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-#+end_html
-
-#+begin_html
-  </iframe>
-#+end_html
+#+begin_export html
+  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/uEBX152k9FQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>  </iframe>
+#+end_export
 
 [[http://www.quakejs.com/]]
 
@@ -266,26 +243,15 @@
 :END:
 [[https://webamp.org]]
 
-#+begin_html
-  <!-- ## A-Painter -->
-#+end_html
-
-#+begin_html
-  <!-- <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/MTt_mN9UBqs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-#+end_html
 
 ** Elm Time Travelling Debugger
 :PROPERTIES:
 :CUSTOM_ID: elm-time-travelling-debugger
 :END:
 
-#+begin_html
-  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/8VQ6e_o2aZo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-#+end_html
-
-#+begin_html
-  </iframe>
-#+end_html
+#+begin_export html
+  <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/8VQ6e_o2aZo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>  </iframe>
+#+end_export
 
 ** Más demos
 :PROPERTIES:

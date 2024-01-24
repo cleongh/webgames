@@ -18,7 +18,6 @@ por ejemplo)
 :CUSTOM_ID: los-proyectos-en-la-web-son-particulares
 :END:
 
-#+REVEAL: split
 
 ** Perdemos una buena parte del control sobre el cliente
 :PROPERTIES:
@@ -37,7 +36,6 @@ operativo
 
 (Podemos, pero seguramente /no es lo ideal/)
 
-#+REVEAL: split
 
 ** Los ciclos de desarrollo son *muy cortos*
 :PROPERTIES:
@@ -51,7 +49,6 @@ La competencia en la web en *inmensa*
 La oferta cambia constantemente (literalmente, todos los días y a todas
 horas)
 
-#+REVEAL: split
 
 ** La ganancia y pérdida de usuarios es muy rápida (*baja inercia*)
 :PROPERTIES:
@@ -67,7 +64,6 @@ En general, es difícil alinearse con "campañas" o "temporadas"
 Atraer al usuario es sólo el primer paso: hay que saber mantenerlo,
 hacer que comunique, comparta y dé publicidad
 
-#+REVEAL: split
 
 ** Nuestro código se publica abierto
 :PROPERTIES:
@@ -88,7 +84,6 @@ cualquiera podrá ver nuestro código
 :CUSTOM_ID: cómo-gestionar-las-particularidades
 :END:
 
-#+REVEAL: split
 
 ** Ser visibles
 :PROPERTIES:
@@ -113,7 +108,6 @@ proyecto
 
 La calidad es un requisito fundamental, pero no lo es todo
 
-#+REVEAL: split
 
 ** [[https://es.wikipedia.org/wiki/Release_early,_release_often][Release early, release often]]
 :PROPERTIES:
@@ -143,7 +137,6 @@ menos importante
 Hoy en día, grandes proyectos de videojuegos han dado el salto al código
 abierto con muchísimo éxito
 
-#+REVEAL: split
 
 ** Desarrollo en cliente y servidor
 :PROPERTIES:
@@ -171,7 +164,6 @@ Esto no sólo se centra en el /servidor de juego/, sino también en:
 Esto quiere decir que un juego en Internet que corra en el navegador
 tienen muchos más aspectos que el código
 
-#+REVEAL: split
 
 ** No olvidemos las pruebas
 :PROPERTIES:
@@ -192,7 +184,6 @@ y destinadas a hacer que algo se rompa
 Cada versión preparada para el lanzamiento tiene que tener su propio set
 de pruebas
 
-#+REVEAL: split
 
 ** Mantenimiento
 :PROPERTIES:
@@ -227,7 +218,6 @@ No todo son malas noticias
 La razón por lo que los juegos en el navegador tienen tanto éxito (y
 bastante futuro a priori) es que ofrecen muchas oportunidades
 
-#+REVEAL: split
 
 ** "No hay despliegue en cliente"
 :PROPERTIES:
@@ -247,7 +237,6 @@ El cliente *no* tiene que:
 - Ir a la tienda
 - Descargar (activamente) nada
 
-#+REVEAL: split
 
 ** Es crucial recibir realimentación
 :PROPERTIES:
@@ -282,7 +271,6 @@ con sus jugadores/
 Cuanto más accesibles y sencillas sean, más fácil es encontrar respuesta
 (nadie quiere pasarse media hora para poner una reclamación)
 
-#+REVEAL: split
 
 ** Aplicar la realimentación, probar y volver a desplegar ha de ser rápido
 :PROPERTIES:
@@ -305,7 +293,6 @@ Con el [[https://en.wikipedia.org/wiki/Free-to-play][F2P]] y la
 accesibilidad en Internet de casi todos juegos, la calidad, la respuesta
 rápida y la adaptación constante son fundamentales
 
-#+REVEAL: split
 
 ** Monetización
 :PROPERTIES:
@@ -330,15 +317,6 @@ juegue, lo complicado es vivir de ello
 Se pueden terminar vendiendo en un marketplace (Steam, App Store, Google
 Play...)
 
-- Wrappers ([[https://nwjs.io/][NW.js]],
-  [[https://cordova.apache.org/][Apache Cordova]]... ) para distribuir
+- Wrappers ([[https://www.electronjs.org/es/][Electron]], [[https://nwjs.io/][NW.js]],  [[https://cordova.apache.org/][Apache Cordova]]... ) para distribuir
   tu juego en estos marketplace
 - Tu juego en HTML5 se distribuye y ejecuta como una aplicación nativa
-
-#+REVEAL: split
-
-En [[https://www.truevalhalla.com/blog][esta página]] podéis ver un
-ejemplo (¡con mucho detalle!) de un modelo de monetización exitoso
-
-El autor hasta ha publicado
-[[https://www.truevalhalla.com/blog/ebook][un libro]]
