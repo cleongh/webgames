@@ -1,0 +1,344 @@
+#+title: Proyectos en la web
+#+setupfile: setup.org
+
+* ¿Proyectos o juegos?
+:PROPERTIES:
+:CUSTOM_ID: proyectos-o-juegos
+:END:
+
+#+REVEAL: split
+
+En realidad, hablaremos de videojuegos en HTML5
+
+Muchos aspectos son extrapolables a otros proyectos y sectores (móviles,
+por ejemplo)
+
+* Los proyectos en la web son particulares
+:PROPERTIES:
+:CUSTOM_ID: los-proyectos-en-la-web-son-particulares
+:END:
+
+#+REVEAL: split
+
+** Perdemos una buena parte del control sobre el cliente
+:PROPERTIES:
+:CUSTOM_ID: perdemos-una-buena-parte-del-control-sobre-el-cliente
+:END:
+
+#+REVEAL: split
+
+No sabemos, a priori, si el acceso a nuestro proyecto será con un PC, un
+móvil, una tablet...
+
+#+REVEAL: split
+
+Además, no sabemos el navegador, ni podemos controlar el sistema
+operativo
+
+(Podemos, pero seguramente /no es lo ideal/)
+
+#+REVEAL: split
+
+** Los ciclos de desarrollo son *muy cortos*
+:PROPERTIES:
+:CUSTOM_ID: los-ciclos-de-desarrollo-son-muy-cortos
+:END:
+
+#+REVEAL: split
+
+La competencia en la web en *inmensa*
+
+La oferta cambia constantemente (literalmente, todos los días y a todas
+horas)
+
+#+REVEAL: split
+
+** La ganancia y pérdida de usuarios es muy rápida (*baja inercia*)
+:PROPERTIES:
+:CUSTOM_ID: la-ganancia-y-pérdida-de-usuarios-es-muy-rápida-baja-inercia
+:END:
+
+#+REVEAL: split
+
+En general, es difícil alinearse con "campañas" o "temporadas"
+
+#+REVEAL: split
+
+Atraer al usuario es sólo el primer paso: hay que saber mantenerlo,
+hacer que comunique, comparta y dé publicidad
+
+#+REVEAL: split
+
+** Nuestro código se publica abierto
+:PROPERTIES:
+:CUSTOM_ID: nuestro-código-se-publica-abierto
+:END:
+
+#+REVEAL: split
+
+(O una buena parte de él)
+
+#+REVEAL: split
+
+Si nuestro juego corre completamente en cliente y está en JavaScript,
+cualquiera podrá ver nuestro código
+
+* Cómo gestionar las particularidades
+:PROPERTIES:
+:CUSTOM_ID: cómo-gestionar-las-particularidades
+:END:
+
+#+REVEAL: split
+
+** Ser visibles
+:PROPERTIES:
+:CUSTOM_ID: ser-visibles
+:END:
+
+#+REVEAL: split
+
+Es fundamental tener un posicionamiento bueno
+([[https://es.wikipedia.org/wiki/Posicionamiento_en_buscadores][SEO]]/[[https://es.wikipedia.org/wiki/Mercadotecnia_en_motores_de_b%C3%BAsqueda][SEM]])
+
+#+REVEAL: split
+
+También es importante pensar en particular en el público al que queremos
+orientarnos, y tener presencia en los sitios que se visitan
+
+#+REVEAL: split
+
+Hay un trabajo muy grande implícito que tiene poco que ver con el
+desarrollo software, pero que es fundamental de cara al éxito de un
+proyecto
+
+La calidad es un requisito fundamental, pero no lo es todo
+
+#+REVEAL: split
+
+** [[https://es.wikipedia.org/wiki/Release_early,_release_often][Release early, release often]]
+:PROPERTIES:
+:CUSTOM_ID: release-early-release-often
+:END:
+
+#+REVEAL: split
+
+Los ciclos tan rápidos, la necesidad de ofrecer algo novedoso y las
+características abiertas invitan a publicar pronto y muy a menudo
+
+El código no va a estar escondido, lo que cobra valor es la idea
+
+Por tanto, la idea tiene que estar muy pronto fuera, y constantemente
+depurada
+
+** El código abierto lo puede ver cualquiera
+:PROPERTIES:
+:CUSTOM_ID: el-código-abierto-lo-puede-ver-cualquiera
+:END:
+
+#+REVEAL: split
+
+La idea de que la implementación tiene valor en sí misma es cada vez
+menos importante
+
+Hoy en día, grandes proyectos de videojuegos han dado el salto al código
+abierto con muchísimo éxito
+
+#+REVEAL: split
+
+** Desarrollo en cliente y servidor
+:PROPERTIES:
+:CUSTOM_ID: desarrollo-en-cliente-y-servidor
+:END:
+
+#+REVEAL: split
+
+A pesar de que hemos trabajado principalmente con código en cliente, es
+muy común tener una parte del desarrollo en el servidor
+
+#+REVEAL: split
+
+Esto no sólo se centra en el /servidor de juego/, sino también en:
+
+- El servidor web
+- La página web
+- Las conexiones con servicios externos
+- El alojamiento de nuestro código
+- Información de usuarios y clientes
+- Publicación de código
+
+#+REVEAL: split
+
+Esto quiere decir que un juego en Internet que corra en el navegador
+tienen muchos más aspectos que el código
+
+#+REVEAL: split
+
+** No olvidemos las pruebas
+:PROPERTIES:
+:CUSTOM_ID: no-olvidemos-las-pruebas
+:END:
+
+#+REVEAL: split
+
+Probad el juego antes de publicarlo
+
+#+REVEAL: split
+
+Las pruebas tienen que ser estrictas, aburridas, mecánicas, exhaustivas
+y destinadas a hacer que algo se rompa
+
+#+REVEAL: split
+
+Cada versión preparada para el lanzamiento tiene que tener su propio set
+de pruebas
+
+#+REVEAL: split
+
+** Mantenimiento
+:PROPERTIES:
+:CUSTOM_ID: mantenimiento
+:END:
+
+#+REVEAL: split
+
+Cualquier proyecto tiene que estar mantenido
+
+No es suficiente (ni de lejos) publicar la primera versión y dejar que
+el juego genere beneficios por sí mismo
+
+#+REVEAL: split
+
+- Corrección de errores
+- Añadido de características demandadas
+- Ajuste de parámetros
+- Adaptación de precios
+
+* Cómo *aprovechar* las particularidades
+:PROPERTIES:
+:CUSTOM_ID: cómo-aprovechar-las-particularidades
+:END:
+
+#+REVEAL: split
+
+No todo son malas noticias
+
+#+REVEAL: split
+
+La razón por lo que los juegos en el navegador tienen tanto éxito (y
+bastante futuro a priori) es que ofrecen muchas oportunidades
+
+#+REVEAL: split
+
+** "No hay despliegue en cliente"
+:PROPERTIES:
+:CUSTOM_ID: no-hay-despliegue-en-cliente
+:END:
+
+#+REVEAL: split
+
+Aunque esto no es necesariamente cierto (pensad en los problemas del
+navegador, cookies...)
+
+#+REVEAL: split
+
+El cliente *no* tiene que:
+
+- Instalar software
+- Ir a la tienda
+- Descargar (activamente) nada
+
+#+REVEAL: split
+
+** Es crucial recibir realimentación
+:PROPERTIES:
+:CUSTOM_ID: es-crucial-recibir-realimentación
+:END:
+
+#+REVEAL: split
+
+Uno de los principios básicos de cualquier proyecto es saber /cuál es el
+impacto que está teniendo/
+
+#+REVEAL: split
+
+La realimentación es fundamental
+
+Ayuda a ver los problemas que surgen
+
+#+REVEAL: split
+
+Estos pueden ser errores de programación, pero también defectos de
+interfaz, de jugabilidad (en el caso de juegos), de modificación de
+requisitos...
+
+Es muy posible, por ejemplo, que el jugador evolucione y que pida
+características nuevas en vuestro juego
+
+#+REVEAL: split
+
+Para todo esto, un buen proyecto debe /habilitar formas de comunicación
+con sus jugadores/
+
+Cuanto más accesibles y sencillas sean, más fácil es encontrar respuesta
+(nadie quiere pasarse media hora para poner una reclamación)
+
+#+REVEAL: split
+
+** Aplicar la realimentación, probar y volver a desplegar ha de ser rápido
+:PROPERTIES:
+:CUSTOM_ID: aplicar-la-realimentación-probar-y-volver-a-desplegar-ha-de-ser-rápido
+:END:
+
+#+REVEAL: split
+
+Si hay algo que un proyecto que no convence al jugador y no se arregla,
+el jugador desaparecerá
+
+#+REVEAL: split
+
+En un marco tan competitivo, cualquier otro juego aprovechará las
+debilidades relativas de vuestro juego para su beneficio
+
+#+REVEAL: split
+
+Con el [[https://en.wikipedia.org/wiki/Free-to-play][F2P]] y la
+accesibilidad en Internet de casi todos juegos, la calidad, la respuesta
+rápida y la adaptación constante son fundamentales
+
+#+REVEAL: split
+
+** Monetización
+:PROPERTIES:
+:CUSTOM_ID: monetización
+:END:
+Monetizar: convertir vuestro juego en dinero
+
+La monetización es uno de los temas más críticos de los videojuegos
+
+#+REVEAL: split
+
+No es difícil (más o menos) crear un juego aceptable al que mucha gente
+juegue, lo complicado es vivir de ello
+
+- Vender el juego (la licencia) a un /publisher/
+- Publicidad
+- Vender capacidad de hacer juegos
+- Fundraising (de muchos tipos)
+
+#+REVEAL: split
+
+Se pueden terminar vendiendo en un marketplace (Steam, App Store, Google
+Play...)
+
+- Wrappers ([[https://nwjs.io/][NW.js]],
+  [[https://cordova.apache.org/][Apache Cordova]]... ) para distribuir
+  tu juego en estos marketplace
+- Tu juego en HTML5 se distribuye y ejecuta como una aplicación nativa
+
+#+REVEAL: split
+
+En [[https://www.truevalhalla.com/blog][esta página]] podéis ver un
+ejemplo (¡con mucho detalle!) de un modelo de monetización exitoso
+
+El autor hasta ha publicado
+[[https://www.truevalhalla.com/blog/ebook][un libro]]

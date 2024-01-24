@@ -1,0 +1,317 @@
+#+title: Módulos en JavaScript
+#+setupfile: setup.org
+
+
+* ¿Qué son los módulos?
+:PROPERTIES:
+:CUSTOM_ID: qué-son-los-módulos
+:END:
+
+#+REVEAL: split
+
+Un mecanismo para dividir un programa grande en elementos más pequeños
+que podamos ir importando solo cuando lo necesitemos.
+
+* ¿Por qué usar módulos?
+:PROPERTIES:
+:CUSTOM_ID: por-qué-usar-módulos
+:END:
+
+
+** Mantenibilidad
+:PROPERTIES:
+:CUSTOM_ID: mantenibilidad
+:END:
+Un buen módulo nos permite concentrarnos en su uso y su lógica, y
+"olvidarnos" del resto del sistema
+
+
+** Espacios de nombres
+:PROPERTIES:
+:CUSTOM_ID: espacios-de-nombres
+:END:
+Un módulo mantiene un conjunto de nombres privado, con lo que no tenemos
+que preocuparnos de crear muchos nombres de variables y funciones
+diferentes para no colisionar
+
+
+** Reusabilidad
+:PROPERTIES:
+:CUSTOM_ID: reusabilidad
+:END:
+Un módulo puede ser reusado en varias aplicaciones, posiblemente sin
+necesidad de trabajo extra
+
+* La historia de los módulos
+:PROPERTIES:
+:CUSTOM_ID: la-historia-de-los-módulos
+:END:
+
+#+REVEAL: split
+
+JavaScript, originalmente, no tenía módulos (no estaba pensado para
+grandes sistemas)
+
+#+REVEAL: split
+
+Cuando la programación web empezó a ser relevante, se hizo necesario
+crear un sistema de módulos
+
+#+REVEAL: split
+
+=node.js= tiene un sistema de módulos por defecto, pero (hasta hace
+poco) los navegadores no lo tenían
+
+Era necesario usar =node.js= para transformar archivos con módulos *en
+un solo archivo* JavaScript
+
+
+** [[https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript][Patrón Módulo]]
+:PROPERTIES:
+:CUSTOM_ID: patrón-módulo
+:END:
+Era la forma en la que se implementaban inicialmente los módulos
+
+Hacen uso de los cierres (/closures/) para decidir qué publica el módulo
+
+#+REVEAL: split
+
+Observa que la función se ejecuta inmediatamente
+([[https://developer.mozilla.org/es/docs/Glossary/IIFE][IIFE]])
+
+#+begin_src js
+var testModule = (function () {
+  var counter = 0; 
+  return { 
+    incrementCounter: function () {
+      return counter++;
+    }, 
+    resetCounter: function () {
+      console.log( "counter value prior to reset: " + counter );
+      counter = 0;
+    }
+  }; 
+})();
+
+testModule.incrementCounter();
+#+end_src
+
+** CommonJS
+:PROPERTIES:
+:CUSTOM_ID: commonjs
+:END:
+#+begin_src js
+// archivo modulo.js
+function funcion() {
+  console.log("función");
+}
+module.exports = funcion;
+#+end_src
+
+#+begin_src js
+// archivo usuario_modulo.js
+const funcionImportada = require('./modulo')
+
+funcionImportada();
+#+end_src
+
+#+REVEAL: split
+
+Hay muchos sistemas de módulos es JavaScript, nosotros usaremos sólo el
+del ES6
+
+* Módulos ES6
+:PROPERTIES:
+:CUSTOM_ID: módulos-es6
+:END:
+
+#+REVEAL: split
+
+ECMAScript 6 añade sintaxis y funcionalidad nativa de módulos, tanto
+para exportar como para importar
+
+#+REVEAL: split
+
+Lo primero que podemos hacer es exportar, dentro de un archivo concreto
+=.js=, elementos declarados:
+
+#+begin_src js
+// pi.js
+export const pi = 3.141592;
+
+export function sumaPi(x) { return pi + x; }
+#+end_src
+
+#+REVEAL: split
+
+Después, en otro archivo, importamos las definiciones:
+
+#+begin_src js
+// matematica.js
+import {pi, sumaPi} from './pi.js'
+
+console.log(sumaPi(5));
+#+end_src
+
+#+REVEAL: split
+
+Podemos importar /todo lo exportado de un módulo/, como un objeto:
+
+#+begin_src js
+import * as p from './pi.js'
+
+console.log(p.pi)
+#+end_src
+
+
+** =export default=
+:PROPERTIES:
+:CUSTOM_ID: export-default
+:END:
+Es posible elegir uno de los valores exportados y hacer que sea el valor
+por defecto, así:
+
+#+begin_src js
+const PI  = 3.141592;
+export default PI;
+
+// También se podría haber hecho:
+export { PI as default };
+#+end_src
+
+#+REVEAL: split
+
+De esta forma, importarlo se simplifica:
+
+#+begin_src js
+// pi_default.js
+import PI_Importado from './pi_default.js';
+import { default as Pi_Importado } from './pi_default.js'  // esto es equivalente
+#+end_src
+
+Notemos que, aquí, el nombre de la importación puede cambiar, aunque no
+es necesario
+
+
+** Mezclar =default= y exportación normal
+:PROPERTIES:
+:CUSTOM_ID: mezclar-default-y-exportación-normal
+:END:
+#+begin_src js
+// pi.js
+const PI  = 3.141592;
+export default PI;
+export function sumaPi(x) { return pi + x; }
+#+end_src
+
+#+begin_src js
+// usuario.js
+import PI, {sumaPi} from './pi.js' 
+#+end_src
+
+
+** Clases
+:PROPERTIES:
+:CUSTOM_ID: clases
+:END:
+Así, podemos importar/exportar clases ES6:
+
+#+begin_src js
+// personaje.js
+export default class Personaje {}
+#+end_src
+
+#+begin_src js
+// juego.js
+import Personaje from './personaje.js'
+
+let link = new Personaje();
+#+end_src
+
+#+REVEAL: split
+
+Tanto =node= como el navegador soportan módulos, pero para que funcionen
+en =node=, hay que:
+
+1. Guardar el archivo con la extensión =.mjs=
+2. Ejecutar =node= con el parámetro =--experimental-modules=
+
+Esto va cambiando versión a versión, mirad la documentación de node.js
+
+#+REVEAL: split
+
+#+begin_src js
+// archivo modulo.mjs
+const Objeto = {x: 1, y: 2};
+
+export default Objeto;
+#+end_src
+
+#+begin_src js
+// archivo usar.mjs
+import Objeto from './modulo.mjs'
+
+console.log(Objeto);
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+node --experimental-modules usar.mjs
+#+end_src
+
+* Usando librerías cargadas
+:PROPERTIES:
+:CUSTOM_ID: usando-librerías-cargadas
+:END:
+
+#+REVEAL: split
+
+Si cargamos librerías en la página web (por ejemplo, en el =<head>= de
+=index.html=):
+
+#+begin_src html
+<!-- index.html -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.18.1/phaser.min.js"></script>
+#+end_src
+
+No tendremos que hacer =import=, ya estarán dentro del espacio de
+nombres:
+
+#+begin_src js
+// entity.js
+export default class Entity extends Phaser.GameObjects.Sprite { }
+#+end_src
+
+* Usando módulos ES6 en el navegador
+:PROPERTIES:
+:CUSTOM_ID: usando-módulos-es6-en-el-navegador
+:END:
+
+#+REVEAL: split
+
+Cuando se usan módulos ES6 en HTML, hace falta añadir el atributo
+=type="module"= a la etiqueta =<script>=:
+
+#+begin_src html
+<script type="module">
+  import Game from './game.js';
+  document.game = new Game();
+</script>
+#+end_src
+
+ó
+
+#+begin_src html
+<script type="module" src="myGame.js"></script> 
+<!--  Si myGame.js hace uso de los import y export-->
+#+end_src
+
+#+REVEAL: split
+
+Los módulos se diferencian de un "script" normal, además (y entre otras
+cosas), en:
+
+- Las variables son locales al módulo
+- Usan ="strict"= por defecto
+- Se cargan de forma /asíncrona/ (¡más velocidad!)

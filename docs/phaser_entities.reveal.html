@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Entidades en Phaser</title><meta name="author" content="Carlos León"><style>.underline{text-decoration:underline}</style><link rel="stylesheet" href="tooling.reveal.e38fa0d8.css"><link rel="stylesheet" href="tooling.reveal.a866bf8d.css" id="theme"><link rel="stylesheet" href="tooling.reveal.c1a625de.css"><link rel="stylesheet" href="tooling.reveal.fdb16a0d.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></head><body> <div class="reveal"> <div class="slides"> <section id="sec-title-slide"> <h1 class="title">Entidades en Phaser</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2> </section> <section> <section id="slide-gameobject"> <h2 id="gameobject"><code>GameObject</code></h2> </section> <section> <p> <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.GameObject"><code>GameObject</code></a> es la entidad básica de Phaser. </p> </section> <section> <p> Tienen una referencia a la escena a la que pertenece (<code>scene</code>) </p> <p> Tienen un método para activar/desactivar los gameobject (<code>setActive(value)</code>) </p> <p> Tienen métodos para suscribirnos (<code>on()</code>) y desengancharnos de eventos (<code>off()</code>) </p> <p> Pueden convertirse en objetos interactuables (<code>setInteractive(value)</code>) </p> <p> (&#x2026; y otros muchos métodos) </p> </section> <section> <p> No crearemos objetos de este tipo pero muchas de las entidades de Phaser heredan de <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.GameObject"><code>GameObject</code></a> </p> <p> A continuación veremos algunas de las entidades más importantes de Phaser </p> </section> </section> <section> <section id="slide-entidades-image"> <h2 id="entidades-image">Entidades <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Image"><code>Image</code></a></h2> </section> <section> <p> Las imágenes son las entidades visibles más simples de Phaser. Las entidades son instancias de la clase <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Image"><code>Image</code></a> </p> </section> <section> <p> Su simplicidad las hace ligeras y eficientes en términos de memoria </p> <p> Utilizamos imágenes cuando no necesitamos comportamientos complejos como físicas o animaciones por <i>keyframes</i> </p> </section> <section> <p> Aun así, las imágenes se pueden mover, rotar, escalar, invertir (<i>flip</i>) o recortar </p> <p> Esto las hace ideales para, por ejemplo, logos, imágenes de fondo, barras de carga, elementos de interfaz&#x2026; </p> </section> <section> <p> Una imagen se crea a través del método factoría <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.GameObjectFactory"><code>add.image</code></a> del objeto <code>Scene</code> </p> <p> Por ejemplo, como parte de la creación de una escena en el método <code>create</code> </p> </section> <section> </section> <section id="slide-atributos-relevantes-de-las-imágenes"> <h3 id="atributos-relevantes-de-las-imágenes">Atributos relevantes de las imágenes</h3> </section> <section> <p> En Phaser, el origen de coordenadas (0,0) está en la esquina superior izquierda </p> <p> Las imágenes tienen por defecto el punto de origen (o pivote) en el centro de la imagen </p> </section> <section> <p> Las imágenes renderizan texturas de acuerdo a su posición (x,y) y pivote. </p> <p> Podemos cambiar su posición con <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Image#setPosition"><code>setPosition</code></a> </p> <p> Podemos cambiar el pivote de la imagen con <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Image#setOrigin"><code>setOrigin</code></a> (en [0,1]) </p> </section> <section> <p> También se puede elegir el <i>blending</i> con <code>blendMode</code> </p> <p> Se puede cambiar su transparencia con <code>alpha</code> </p> <p> Se puede cambiar su profundidad o <i>z-index</i> con <code>depth</code> </p> <p> (¡mirad el API!) </p> </section> <section> </section> <section id="slide-métodos-relevantes-de-las-imágenes"> <h3 id="métodos-relevantes-de-las-imágenes">Métodos relevantes de las imágenes</h3> </section> <section> <p> Una imagen puede ser "recortada" con <code>setCrop</code>, de forma que sólo se vea un trozo de la misma </p> <div class="org-src-container"> <pre><code class="js">// this es una Scene
+this.image = this.add.image(0, 0, 'phaser');
+this.image.setCrop(0, 0, 10, 10);
+</code></pre> </div> </section> <section> <p> Cuando la imagen se recorta, realmente no se pierde información </p> <p> De hecho, el recorte se puede cambiar dinámicamente: </p> <div class="org-src-container"> <pre><code class="js">// this es una Scene
+function update() {
+    this.v += 0.1;
+    this.image.setCrop(0, 0, this.v, this.v);
+}
+</code></pre> </div> </section> <section> <ul> <li>Podemos invertir las imágenes con los métodos <code>setFlip</code>, <code>setFlipX</code>, <code>Set FlipY</code></li> <li>Podemos cambiar el orden de dibujado con <code>setDepth</code></li> <li>&#x2026;</li> </ul> <p> (Nuevamente, mirad la API) </p> </section> </section> <section> <section id="slide-la-escena-scene"> <h2 id="la-escena-scene">La escena (<a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Scene"><code>Scene</code></a>)</h2> </section> <section> <p> Podemos crear nuestras propias escenas heredando de la clase <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Scene"><code>Scene</code></a>: </p> <div class="org-src-container"> <pre><code class="js">export default class Menu extends Phaser.Scene {
+
+  constructor() {
+    // Nombre de la escena para el SceneManager
+    super({ key: 'menu-principal' }); 
+  }
+
+  // Métodos init, preload, create, update
+
+}  
+</code></pre> </div> </section> <section> </section> <section id="slide-añadir-entidades-a-la-escena"> <h3 id="añadir-entidades-a-la-escena">Añadir entidades a la escena</h3> <p> En Phaser, la factoría de objetos se llama añadir (<code>add</code>) por una razón: <b>porque añadimos las nuevas entidades a la escena</b> </p> <p> Para Phaser, la escena, representado por la clase <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Scene"><code>Scene</code></a>, es la <b>abstracción del lugar (un plano bidimensional) donde habitan las entidades</b> </p> </section> <section> </section> <section id="slide-cámara"> <h3 id="cámara">Cámara</h3> <p> la cámara <img src="world.6d59116f.svg" alt="world.svg" class="org-svg"> </p> </section> <section> <p> Miramos al mundo a través de <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Cameras.Scene2D.Camera">cámaras</a> </p> </section> <section> <p> cámara <img src="world-and-camera.8d0095fd.svg" alt="world-and-camera.svg" class="org-svg"> </p> </section> <section> <p> Al iniciar, se crea una cámara, a la que podemos acceder a través del atributo <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Scene#cameras"><code>cameras.main</code></a> de la escena: </p> <div class="org-src-container"> <pre><code class="js">// en el método create, donde this es una Scene
+let card = this.add.sprite(200, 200, 'card');
+this.cameras.main.startFollow(card);
+</code></pre> </div> </section> <section> <p> Podemos cambiar el <i>viewport</i> de la cámara con <code>setViewport</code>: </p> <div class="org-src-container"> <pre><code class="js">// this es una Scene
+this.cameras.main.setViewport(200, 150, 400, 300);
+</code></pre> </div> </section> <section> <p> Las cámaras tienen otros muchos métodos y funciones <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Cameras.Scene2D.Camera">que se pueden consultar en su API</a>. </p> </section> <section> </section> <section id="slide-cambio-de-escenas"> <h3 id="cambio-de-escenas">Cambio de escenas</h3> <p> Para cambiar entre escenas utilizamos el <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Scenes.ScenePlugin"><code>SceneManager</code></a>, accesible desde el atributo <code>scene</code>: </p> <ul> <li>Con <code>this.scene.start('siguiente_escena')</code> cambiamos de escena.</li> <li><code>sleep</code> pone en pausa (y no renderiza) una escena</li> <li><code>restart</code> reinicia una escena</li> <li>&#x2026;</li> </ul> </section> <section id="slide-pasar-contenido-entre-escenas"> <h3 id="pasar-contenido-entre-escenas">Pasar contenido entre escenas</h3> <p> Es posible (y normal) querer pasar contenido de una escena a otra (variables "globales" del juego, estado del jugador&#x2026;) </p> </section> <section> <p> Para eso, podemos pasarle un objeto JavaScript a la escena que iniciamos: </p> <div class="org-src-container"> <pre><code class="js">this.scene.start('siguiente_escena', { monedas: 9 })
+</code></pre> </div> </section> <section> <p> Este objeto le llegará a la siguiente escena a través del método <code>init</code>, al que Phaser llama automáticamente antes de los métodos <code>preload</code> y <code>create</code>: </p> <div class="org-src-container"> <pre><code class="js">class SiguienteEscena extends Phaser.Scene {
+  init(datos) {
+    this.monedas = datos.monedas
+  }
+
+  create() {
+    this.player = new Player(this, this.monedas)
+  }
+}
+</code></pre> </div> </section> </section> <section> <section id="slide-entidades-sprite"> <h2 id="entidades-sprite">Entidades <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Sprite"><code>Sprite</code></a></h2> </section> <section> <p> La mayoría de las entidades visibles de un juego incorporan alguna animación y comportamiento </p> <p> La clase <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Sprite"><code>Sprite</code></a> representa estas "entidades animadas" y es el componente principal de los juegos con Phaser </p> </section> <section> <p> Aunque podamos añadir <i>sprites</i> al mundo utilizando el método factoría <code>add.sprite</code>, el sprite por defecto es tan simple que no se suele utilizar salvo en ocasiones donde no se requiere un comportamiento complejo </p> <div class="org-src-container"> <pre><code class="js">// En el método create, this es una Scene
+create() {
+  let sprite = this.add.sprite(0, 0, 'phaser');
+}
+</code></pre> </div> </section> <section> <p> Este ejemplo es equivalente a añadir un <i>sprite</i> con <code>add.sprite</code>: </p> <div class="org-src-container"> <pre><code class="js">// En el método create, this es una Scene
+create() {
+  let sprite = new Phaser.GameObjects.Sprite(this, 0, 0, 'phaser');
+  this.add.existing(sprite);
+}
+</code></pre> </div> </section> <section> <p> En la mayoría de los casos los <i>sprites</i> tendrán un comportamiento avanzado: reaccionarán a los controles, ejecutarán algoritmos de IA, necesitarán métodos auxiliares, etc </p> <p> Por ello, en lugar de usar instancias de las clase <code>Sprite</code>, es mejor que creemos clases adaptadas a nuestras necesidades y añadir instancias de estas clases </p> </section> <section> <p> Para ello, nuestras clases <i>sprite</i> deben heredar de <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Sprite"><code>Phaser.GameObjects.Sprite</code></a> </p> </section> <section> <p> Por ejemplo, considera el <i>sprite</i> de un personaje que aparece aleatoriamente y cae </p> <div class="org-src-container"> <pre><code class="js">class FallingMartian extends Phaser.GameObjects.Sprite {
+  constructor(scene) {
+    let x = Math.random() * 400;
+    let y = Math.random() * 400;
+    super(scene, x, y, 'phaser');
+  }
+}
+</code></pre> </div> </section> <section> <p> Ahora podemos personalizar su comportamiento durante la fase de actualización de Phaser. Por ejemplo: </p> <div class="org-src-container"> <pre><code class="js">class FallingMartian extends Phaser.GameObjects.Sprite {
+  // en las entidades no es update, sino preUpdate()
+  preUpdate () {
+    this.y += 2;
+  }
+}
+</code></pre> </div> </section> <section> <p> Es <b>muy importante</b>, para varias cosas, que el <code>preUpdate</code> de la clase hija llame al <code>preUpdate</code> de la clase padre (para que <code>Phaser.GameObjects.Sprite</code> sepa que hay que actualizarse): </p> <div class="org-src-container"> <pre><code class="js">class FallingMartian extends Phaser.GameObjects.Sprite {
+  preUpdate (t, dt) {
+    super.preUpdate(t, dt)
+    // la lógica particular de `FallingMartian`, aquí
+    this.y += 2 * dt / 1000; // 2 unidades por segundo
+  }
+}
+</code></pre> </div> </section> <section> <p> Usando el ejemplo anterior para añadir un <i>sprite</i>, podemos añadir el personaje que cae: </p> <div class="org-src-container"> <pre><code class="js">class MiEscena extends Phaser.Scene {
+  create() {
+    for (let i = 0; i &lt; 10; i++) {
+      let sprite = new FallingMartian(this, 0, 0);
+      this.add.existing(sprite);
+    }
+  }
+}
+</code></pre> </div> </section> <section> </section> <section id="slide-atributos-y-métodos-relevantes-de-los-sprites"> <h3 id="atributos-y-métodos-relevantes-de-los-sprites">Atributos y métodos relevantes de los sprites</h3> <p> Todos los <code>Sprite</code> son también <code>Image</code>. Por tanto, tienen todos los atributos y métodos de <code>Image</code> </p> <p> Más adelante veremos más atributos de los <code>Sprite</code>, como <code>anims</code> o <code>body</code> (para físicas) </p> </section> </section> <section> <section id="slide-transformaciones"> <h2 id="transformaciones">Transformaciones</h2> </section> <section> <p> Los objetos del juegos pueden alterar su posición, rotación y factor de escala </p> </section> <section> <p> Se llama transformación a la <b>alteración de los atributos que controlan la posición, la rotación o el factor de escala de una entidad</b> </p> <p> Recuerda que las transformaciones se ven afectadas por la posición del pivote <a href="https://codepen.io/gjimenezucm/pen/zYwZpqK">como puedes ver en este ejemplo</a>. </p> </section> <section> </section> <section id="slide-posicionamiento"> <h3 id="posicionamiento">Posicionamiento</h3> <p> Para alterar la posición de una entidad, recurrimos a los atributos <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Sprite"><code>x</code> e <code>y</code></a> </p> </section> <section> <p> En el caso de <code>Sprite</code>, es conveniente mover al elemento habiendo creado una clase que herede de <code>Sprite</code> y modificar <code>x</code> e <code>y</code> dentro de su <code>preUpdate</code>: </p> <div class="org-src-container"> <pre><code class="js">class Martian extends Phaser.GameObjects.Sprite {
+  constructor(scene, x, y, speed) {
+    super(this, x, y, 'martian');
+    this.speed = speed;
+    scene.add.existing(this);
+  }
+  preUpdate(t, dt) {
+    this.x += this.speed*dt / 1000; 
+    this.y += this.speed*dt / 1000;
+  }
+}
+</code></pre> </div> </section> <section> </section> <section id="slide-rotación"> <h3 id="rotación">Rotación</h3> <p> <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Sprite#angle"><code>angle</code></a> controla la rotación de un <code>Sprite</code>, en grados (\([-180...180]\)) </p> <p> También existe <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Sprite#rotation"><code>rotation</code></a>, para hacer la rotación de radianes y es ligeramente más rápido </p> </section> <section> <p> 0º es derecha, 90º es abajo&#x2026; </p> <p> Valores negativos del ángulo son rotación antihoraria, y valores positivos, horaria </p> </section> <section> <p> Cualquier valor \(>360\) equivale a restar \(360\) al ángulo (<code>angle = 450</code> es igual que <code>angle = 90</code>) </p> <div class="org-src-container"> <pre><code class="js">preUpdate (t, dt) {
+    // El marciano da vueltas sin parar
+    this.angle+=this.angularVelocity*dt / 1000;
+};
+</code></pre> </div> </section> <section> </section> <section id="slide-escalado"> <h3 id="escalado">Escalado</h3> <p> <code>width</code> y <code>height</code> controlan la anchura y altura, respectivamente </p> <p> Con ellos se pueden escalar objetos </p> <div class="org-src-container"> <pre><code class="js">resizeMe () {
+    this.width = 3;
+    this.height = 5;
+};
+</code></pre> </div> </section> <section> <p> Podemos hacer <i>mirroring</i>, con consiste en hacer una versión especular de la imagen, escalando de forma negativa </p> </section> <section> <p> En el siguiente código, el <code>Sprite</code> se encoge tanto que se acaba dando la vuelta </p> <div class="org-src-container"> <pre><code class="js">preUpdate() {
+    this.width--;
+};
+</code></pre> </div> </section> <section> <p> &#x2026; pero generalmente será más útil hacer mirroring con los métodos <code>setFlip</code> </p> </section> </section> <section> <section id="slide-la-jerarquía-con-contenedores"> <h2 id="la-jerarquía-con-contenedores">La jerarquía con contenedores</h2> </section> <section> <p> La escena contiene entidades (<i>game objects</i>) pero además, en Phaser, las entidades pueden contener otras entidades formando así una jerarquía en forma de árbol </p> </section> <section> <p> A veces queremos asociar objetos con una jerarquía, con objetos <i>hijo</i> que dependan de objetos <i>padre</i> </p> <div id="orgf81d921" class="figure"> <p><img src="guerrero.dcf01fe4.png" alt="guerrero.png"> </p> <p><span class="figure-number">Figura 1: </span>La espada y el escudo son <i>hijos</i> del soldado</p> </div> </section> <section> <p> Un "hijo" es otra entidad cuyas propiedades van unidas y son relativas a las del padre </p> </section> <section> <p> En Phaser 3 vamos a usar los <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Container"><code>Container</code></a>, que son <code>GameObjects</code> que pueden contener otros objetos </p> </section> <section> <p> Por ejemplo, si el <code>Container</code> <code>A</code> tiene un hijo <code>B</code> y movemos <code>A</code>, entonces <code>B</code> se moverá junto a <code>A</code> automáticamente: </p> <div class="org-src-container"> <pre><code class="js">// this es una `Scene`
+create() {
+    let a = new Phaser.GameObjects.Container(this, 10, 10); // Martian es un Sprite
+    let b = new Martian('phaser');
+    a.add(b); // hacemos que `b` sea hijo de `a`
+    b.y = 10; // relativo a `a`
+    this.add.existing(a); // lo metemos en la escena
+}
+</code></pre> </div> </section> <section> <p> La relación entre una entidad y sus entidades hijas es la de <b>pertenencia al sistema de coordenadas</b> </p> </section> <section> <p> Es decir, si la entidad <code>Moon</code> se añade a la entidad/container <code>Earth</code>, significa que <code>Moon</code> se encuentra en el sistema de coordenadas de <code>Earth</code> </p> </section> <section> <p> Esto se puede lograr haciendo que <code>Earth</code> sea un <code>Container</code> que tenga una <code>Image</code> o <code>Sprite</code> con su aspecto y, además, tenga otros <i>game objects</i> que serían sus <i>hijos</i>: </p> <div class="org-src-container"> <pre><code class="js">class Earth extends Phaser.GameObjects.Container {
+  constructor(scene, x, y) {
+    let aspecto = scene.add.sprite(0, 0, 'earth');
+    super(scene, x, y, aspecto);
+    scene.add.existing(this);
+  }
+}
+</code></pre> </div> </section> <section> <p> Creamos también la Luna&#x2026; </p> <div class="org-src-container"> <pre><code class="js">class Moon extends Phaser.GameObjects.Sprite {
+  constructor(scene, x, y) {
+    super(scene, x, y, 'moon');
+  }
+}
+</code></pre> </div> </section> <section> <p> &#x2026; y lo añadimos: </p> <div class="org-src-container"> <pre><code class="js">// this es una `Scene`
+create() {
+  this.earth = new Earth(this, 10, 10);
+  let moon = new Moon(this, 10, 10);
+  this.earth.add(this.moon);
+}
+</code></pre> </div> </section> <section> <p> Esto significa que al transformar <code>Earth</code> modificaremos <code>Moon</code> indirectamente </p> </section> <section> <p> También significa que si transformaremos <code>Moon</code>, lo haremos respecto del sistema de coordenadas de <code>Earth</code> y no del mundo </p> </section> <section> <p> Podéis ver un <a href="https://codepen.io/gjimenezucm/pen/jOmybNe">ejemplo en Phaser 3</a> en el que las entidades se agrupan según una jerarquía </p> </section> </section> </div> </div> <script src="tooling.reveal.ffb33b1a.js"></script> <script src="tooling.reveal.f05d24be.js"></script> <script src="tooling.reveal.1feea775.js"></script> <script src="tooling.reveal.d2982244.js"></script> <script>Reveal.initialize({controls:!0,progress:!0,history:!0,center:!0,slideNumber:"c",rollingLinks:!1,keyboard:!0,mouseWheel:!1,fragmentInURL:!1,hashOneBasedIndex:!1,pdfSeparateFragments:!0,overview:!0,transition:"none",transitionSpeed:"default",plugins:[RevealSearch,RevealHighlight,RevealZoom],dependencies:[]});</script> </body></html>

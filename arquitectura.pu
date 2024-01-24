@@ -1,0 +1,30 @@
+@startuml
+class Entity {
+    +tick()
+}
+abstract class Component {
+    +messageQueue
+    +tick()
+}
+
+class Game {
+    +entities
+    +messageQueue
+    +tick()
+}
+Component <|-- Attacker
+Component <|-- Defender
+Game o-- Message
+Entity --> Message
+Entity "1" *-- "*" Component
+Game "1" *-- "*" Entity
+abstract class Message {
+}
+Message <|-- Attack
+Message <|-- Presence
+
+Game --> Presence 
+Attacker --> Presence 
+Attacker --> Attack 
+Defender --> Attack 
+@enduml

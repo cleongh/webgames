@@ -1,0 +1,426 @@
+#+title: Herramientas
+#+setupfile: setup.org
+
+* Las herramientas *son importantes*
+:PROPERTIES:
+:CUSTOM_ID: las-herramientas-son-importantes
+:END:
+** No sólo escribimos
+:PROPERTIES:
+:CUSTOM_ID: no-sólo-escribimos
+:END:
+
+#+REVEAL: split
+
+Escribir código no es todo lo que hacemos cuando programamos
+
+#+REVEAL: split
+
+También:
+
+- gestionamos archivos
+- gestionamos versiones
+- hacemos publicaciones
+- nos comunicamos con el resto del equipo
+- compilamos/cargamos en el intérprete
+- probamos
+- depuramos
+- ...
+
+** Toolset JS
+:PROPERTIES:
+:CUSTOM_ID: toolset-js
+:END:
+Existen entornos de desarrollo integrados (IDEs) que permiten trabajar
+en JavaScript
+
+Nosotros no vamos a trabajar con ellos
+
+#+begin_quote
+El objetivo es aprender cómo funcionan cada una de las piezas
+
+#+end_quote
+
+#+REVEAL: split
+
+El *ecosistema* de herramientas de JS es muy amplio y hay muchas
+opciones
+
+Podéis usar las que queráis, pero *tenéis que hacer las entregas según
+el toolset que se establezca*
+
+** Editor de textos
+:PROPERTIES:
+:CUSTOM_ID: editor-de-textos
+:END:
+En general, la mayor parte del tiempo se interactúa con el editor de
+textos
+
+Esto lo convierte en una de las herramientas fundamentales
+
+#+REVEAL: split
+
+#+caption: VSCode
+[[file:vscode.png]]
+
+** Consola
+:PROPERTIES:
+:CUSTOM_ID: consola
+:END:
+La consola (/emulador de terminal/) es la herramienta a través de la
+cual se interactúa con el sistema operativo mediante comandos textuales
+
+#+REVEAL: split
+
+La consola es menos evidente para el usuario, pero tiene un sinfín de
+posibilidades y ofrece mucha *potencia de uso*
+
+#+REVEAL: split
+
+#+caption: iTerm2
+[[file:iterm.png]]
+
+** Intérprete
+:PROPERTIES:
+:CUSTOM_ID: intérprete
+:END:
+El /intérprete/ es el programa que recibe el código (en forma de archivo
+o de instrucciones separadas) y se encarga de ejecutarlo
+
+** Navegador
+:PROPERTIES:
+:CUSTOM_ID: navegador
+:END:
+
+#+REVEAL: split
+
+Un navegador es un programa capaz de analizar archivos en HTML y
+mostrarlos como una
+[[https://es.wikipedia.org/wiki/P%C3%A1gina_web][página web]].
+
+[[file:firefox.png]]\\
+
+Hoy en día, los navegadores más usados contienen un intérprete de
+JavaScript.
+
+#+REVEAL: split
+
+Además, los navegadores proveen al intérprete con un modelo del
+documento
+([[https://es.wikipedia.org/wiki/Document_Object_Model][DOM-Document
+Object Model]]), que es un API para acceder a una página web
+
+** Servidores web
+:PROPERTIES:
+:CUSTOM_ID: servidores-web
+:END:
+Un /[[https://es.wikipedia.org/wiki/Servidor_web][servidor web]]/ es un
+programa de ordenador que, a través de la red, "escucha" peticiones
+según el protocolo HTTP y envía, como respuesta, páginas web
+
+** Librerías
+:PROPERTIES:
+:CUSTOM_ID: librerías
+:END:
+
+#+REVEAL: split
+
+Crear programas que ya han sido programados por otros es una *pérdida de
+tiempo*
+
+#+REVEAL: split
+
+Las librerías son fragmentos de código que quedan disponibles para el
+programador:
+
+#+begin_src javascript
+// usamos librerías para imprimir contenido
+console.log("hola");
+
+// o para mejorar nuestro estilo de código
+_.map([1, 2, 3], function(num){ return num * 3; });
+
+// o para acceder a frameworks completos
+var gamePh2 = new Phaser.Game(800, 600, 
+                    Phaser.CANVAS, 
+                    'phaser-example',
+                    { create: create });
+#+end_src
+
+** Gestión de versiones
+:PROPERTIES:
+:CUSTOM_ID: gestión-de-versiones
+:END:
+Aparte de los programas muy pequeños, nadie escribe un programa, lo
+termina y no vuelve a tocarlo nunca
+
+#+REVEAL: split
+
+#+begin_quote
+*Siempre* existen versiones de código
+
+#+end_quote
+
+#+REVEAL: split
+
+Las versiones de código, bien usadas, permiten:
+
+- flexibilidad
+- seguridad
+- trabajo en grupo
+- histórico y revisiones
+- análisis de evolución
+- aceptar contribuciones externas
+- libertad de experimentación
+
+* Herramientas para este curso
+:PROPERTIES:
+:CUSTOM_ID: herramientas-para-este-curso
+:END:
+** Herramientas para desarrollar juegos en la web
+:PROPERTIES:
+:CUSTOM_ID: herramientas-para-desarrollar-juegos-en-la-web
+:END:
+Vamos a seguir estas ideas, usando herramientas profesionales
+
+** Editor de textos
+:PROPERTIES:
+:CUSTOM_ID: editor-de-textos-1
+:END:
+
+#+REVEAL: split
+
+Es importante (al menos muy útil) usar un editor profesional:
+
+- [[https://code.visualstudio.com][VSCode]]
+- [[https://atom.io/][Atom]]
+- [[https://www.sublimetext.com/][Sublime]]
+- [[http://www.vim.org/][Vim]]
+- [[https://www.gnu.org/software/emacs/][Emacs]]
+
+#+REVEAL: split
+
+** Características deseables
+:PROPERTIES:
+:CUSTOM_ID: características-deseables
+:END:
+- Coloreado de sintaxis
+- Indentación apropiada
+- Ayudas a la edición:
+  - Completado de paréntesis
+  - Autocompletado de código
+- Autocompletado semántico
+
+** Consola/Shell
+:PROPERTIES:
+:CUSTOM_ID: consolashell
+:END:
+La consola por defecto de Windows es muy pobre
+
+Hay alternativas:
+
+- [[http://cmder.net/][Cmder]]
+- [[https://conemu.github.io/][Conemu]]
+- [[https://www.iterm2.com/][iTerm2]]
+- Casi cualquiera en GNU/Linux
+  ([[https://es.wikipedia.org/wiki/GNOME_Terminal][GNOME Terminal]],
+  [[https://www.kde.org/applications/system/konsole/][Konsole]])
+
+#+REVEAL: split
+
+La /shell/ es el programa que se ejecuta en la terminal (que es la
+ventana)
+
+En *fundamental* diferenciar entre emulador de terminal (la "ventana") y
+el "shell", que es el programa que *se ejecuta dentro de la ventana* y
+que procesa nuestros comandos
+
+** Alternativas típicas para la shell
+:PROPERTIES:
+:CUSTOM_ID: alternativas-típicas-para-la-shell
+:END:
+- [[https://www.cygwin.com/][Cygwin]], o para más comodidad
+  [[https://msys2.github.io/][MSYS2]], permiten correr shell UNIX en
+  Windows
+- [[https://es.wikipedia.org/wiki/Bash][Bash]]
+- [[http://www.zsh.org/][Zsh]]
+
+** Intérprete
+:PROPERTIES:
+:CUSTOM_ID: intérprete-1
+:END:
+Las primeras semanas usaremos =node.js=, con la versión *que haya
+instalada en los laboratorios*
+
+#+caption: Node.js
+[[file:logonode.svg]]
+
+#+REVEAL: split
+
+=Node.js= incluye un /gestor de paquetes/,
+[[https://www.npmjs.com/][=npm=]]
+
+#+caption: =npm=
+[[file:npm.png]]
+
+#+REVEAL: split
+
+Un gestor de paquetes es una herramienta, generalmente con interfaz de
+terminal, que permite instalar librerías, gestionar dependencias entre
+ellas y lanzar aplicaciones con comandos simples
+
+#+REVEAL: split
+
+Así, no hace falta buscar una librería en Internet, encontrar la carpeta
+donde descargarla, probar la versión, ver que falla y tener que buscar
+la dependencia...
+
+#+REVEAL: split
+
+Los paquetes tienen [[http://npm.anvaka.com/][dependencias]]. Por
+ejemplo, [[http://npm.anvaka.com/#/view/2d/brows%20erify][=browserify=]]
+
+#+caption: Ejemplo de dependencias de =browserify=
+[[file:browserify.png]]
+
+#+REVEAL: split
+
+=npm= gestiona las dependencias por nosotros
+
+** Navegador
+:PROPERTIES:
+:CUSTOM_ID: navegador-1
+:END:
+Usaremos Chrome/Chromium, con la versión *que haya instalada en los
+laboratorios*
+
+#+caption: Navegador Chrome
+[[file:chrome.png]]
+
+** Servidores web
+:PROPERTIES:
+:CUSTOM_ID: servidores-web-1
+:END:
+*Es imprescindible que usemos un servidor para esta asignatura*
+
+Usaremos cualquier servidor =http=
+
+Pero podemos no "instalar" ninguno y usar paquetes de Node para lanzar
+el servidor.
+
+Para probar, podéis instalar =http-server=:
+
+#+REVEAL: split
+
+#+begin_src sh
+$ npm install http-server # para instalarlo (no es necesario)
+$ npx http-server  # para ejecutarlo
+#+end_src
+
+#+begin_quote
+=npm install= lo descarga, crea una carpeta para instalarlo y lo instala
+en local junto con sus dependencias
+
+#+end_quote
+
+#+begin_quote
+=npx= lo ejecuta, pero además lo instala si no estaba instalado
+
+#+end_quote
+
+#+REVEAL: split
+
+También está =live-server=, que actualiza automáticamente el navegador
+cuando hay cambios:
+
+#+begin_src sh
+$ npm install live-server # para instalarlo (no es necesario)
+$ npx live-server # para ejecutarlo
+#+end_src
+
+#+REVEAL: split
+
+Estos programas sirven sólo /a partir del directorio en el que se
+ejecutan, *nunca rutas por encima*/
+
+#+begin_src sh
+$ pwd
+/home/usuario/misarchivos
+$ cd docs
+$ npx live-server # `localhost` equivale a `docs/`
+#+end_src
+
+En el caso anterior, no puedo ir a una URL ='../anterior.png'= que esté
+en =misarchivos=
+
+#+REVEAL: split
+
+Si la versión de =npm= es menor que 5.2.0, habrá que instalar =npx= de
+forma manual (hace falta ser administrador):
+
+#+begin_src sh
+$ npm install -g npx
+#+end_src
+
+#+REVEAL: split
+
+También podemos arrancar un servidor web por defecto en Python:
+
+#+begin_src sh
+$ python -m http.server
+Serving HTTP on 0.0.0.0 port 8000 ...
+#+end_src
+
+#+begin_quote
+Es decir, no es necesario =node= para un servidor web
+
+#+end_quote
+
+** Librerías
+:PROPERTIES:
+:CUSTOM_ID: librerías-1
+:END:
+Usaremos muchas, pero en general sólo veremos algunas (la mayoría serán
+dependencias)
+
+Para los juegos usaremos [[http://phaser.io/][Phaser]]
+
+#+REVEAL: split
+
+#+caption: Phaser
+[[file:phaser.png]]
+
+** Gestión de entregas
+:PROPERTIES:
+:CUSTOM_ID: gestión-de-entregas
+:END:
+Las entregas del proyecto estarán disponibles en un repositorio =git=
+
+Para entregar, hay que tener todo en un repositorio, según las
+condiciones de entrega (expuestas en el CV)
+
+** Git
+:PROPERTIES:
+:CUSTOM_ID: git
+:END:
+[[https://git-scm.com/][Git]] es el sistema de control de versiones que
+usaremos para la asignatura
+
+- [[http://rogerdudler.github.io/git-guide/index.es.html][Guía
+  sencilla]]
+- [[https://github.com/delapuente/gitincouples][Git in Couples]]
+
+** Gestión de proyecto
+:PROPERTIES:
+:CUSTOM_ID: gestión-de-proyecto
+:END:
+Trello, GitHub Project, Pivotal...
+
+#+REVEAL: split
+
+Cualquier herramienta vale, pero usaremos alguna variante de Scrum, y
+habrá que marcar:
+
+- /Costes/ de cada tarea/historia de usuario
+- /Responsable/ de cada tarea
+- /Estado/ de cada tarea

@@ -1,0 +1,64 @@
+#+title: Ejercicios arquitectura de videojuegos
+
+* Ejercicio 1
+:PROPERTIES:
+:CUSTOM_ID: ejercicio-1
+:END:
+Basándote en el código de ejemplo de componentes, añade un tipo de
+mensaje llamado =Sleep=, que haga que la entidad que lo reciba no haga
+nada durante su ciclo, pasen los ciclos que pasen, hasta que reciba un
+mensaje =WakeUp= (también tienes que implementar este mensaje).
+
+* Ejercicio 2
+:PROPERTIES:
+:CUSTOM_ID: ejercicio-2
+:END:
+Basándote en el código de ejemplo de componentes, crea un tipo de
+componente que, en cada ciclo, aumente la vida de una entidad. Llámalo
+=Healer=. Ten en cuenta que en el diseño original del código de ejemplo
+de componentes, las entidades no tienen vida. Tendrás que crear, para
+implementar este componente, otro componente que usen las entidades que
+tienen vida.
+
+Piensa en cómo deben comunicarse estas entidades. La idea del ejercicio
+es que el diseño siga siendo orientado a componentes y que sea lo más
+puro posible.
+
+* Ejercicio 3
+:PROPERTIES:
+:CUSTOM_ID: ejercicio-3
+:END:
+Modifica el código original para que la función =tick= de =Game= no se
+envíe el mensaje =Presence=, sino que cada entidad lance el mensaje
+según lo considere oportuno.
+
+(PISTA: las entidades "dormidas" no tienen que anunciar su presencia,
+pero esto no debería modificar mucho el código del
+[[#ejercicio-1][ejercicio 1]]).
+
+* Ejercicio 4
+:PROPERTIES:
+:CUSTOM_ID: ejercicio-4
+:END:
+1. Haz un componente para entidades que se muevan. No te preocupes por
+   la implementación, con que la entidad imprima "me estoy moviendo" en
+   cada ciclo, junto a su nombre, es suficiente.
+2. Haz un componente para entidades que tengan volumen físico (entidades
+   con las que se pueda colisionar). No te preocupes por la
+   implementación, con que la entidad imprima "tengo volumen" en cada
+   ciclo, junto a su nombre, es suficiente.
+3. Crea una entidad que se mueva, pero no tenga volumen físico. Añádela
+   al juego.
+4. Crea una entidad que tenga volumen físico, pero que no se mueva.
+   Añádela al juego.
+5. Crea una entidad que tenga volumen físico y que se mueva. Añádela al
+   juego.
+
+#+REVEAL: split
+
+Ahora, teniendo en cuenta que /tienes que usar herencia/, añade en
+alguna parte de tu código un comentario con una jerarquía de clases que
+te permita implementar los puntos 3, 4 y 5. *No tienes que
+implementarla, sólo pensar en ella y añadir un bloque de comentario en
+el archivo con lo que se te ocurra*. Sé original y piensa en las
+alternativas.

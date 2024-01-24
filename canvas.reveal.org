@@ -1,0 +1,337 @@
+#+title: Canvas
+#+setupfile: setup.org
+
+* El elemento =<canvas>=
+:PROPERTIES:
+:CUSTOM_ID: el-elemento-canvas
+:END:
+
+
+** =<canvas>=
+:PROPERTIES:
+:CUSTOM_ID: canvas
+:END:
+- Introducido en HTML5
+- Nos permite pintar gráficos 2D o 3D usando JavaScript
+
+#+begin_src html
+<canvas width="320" height="200"></canvas>
+#+end_src
+
+
+** Escalado
+:PROPERTIES:
+:CUSTOM_ID: escalado
+:END:
+Las dimensiones del canvas no tienen por qué corresponderse con las
+dimensiones en pantalla
+
+#+begin_src css
+canvas {
+    width: 640px;
+    height: 480px;
+}
+#+end_src
+
+Podemos usar esto a nuestro favor y jugar con los escalados, o adaptar
+nuestro juego a distintos tamaños de pantalla. Ejemplo:
+[[https://belenalbeza.com/retro-crisp-pixel-art-in-html-5-games/][Retro,
+crisp pixel art in HTML5 games]]
+
+
+** Contextos
+:PROPERTIES:
+:CUSTOM_ID: contextos
+:END:
+Para hacer cualquier operación de pintado, necesitamos el *contexto* de
+un =<canvas>=
+
+Lo obtenemos con =getContext=, al que debemos indicar si lo queremos 2D
+o 3D
+
+#+begin_src js
+var c = document.querySelector('canvas').getContext('2d');
+#+end_src
+
+
+** Canvas API
+:PROPERTIES:
+:CUSTOM_ID: canvas-api
+:END:
+- Es la API de dibujo 2D en canvas
+- Permite pintar imágenes, manipular píxeles, dibujar primitivas,
+  curvas, etc
+- [[https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API][Documentación
+  en la MDN]]
+- [[http://joshondesign.com/p/books/canvasdeepdive/toc.html][Canvas Deep
+  Dive]] (libro online conciso, pero bastante completo)
+
+
+** Ejemplo
+:PROPERTIES:
+:CUSTOM_ID: ejemplo
+:END:
+#+begin_src javascript
+var ctx = document.querySelector('canvas').getContext('2d');
+ctx.fillRect(10, 10, 100, 100);
+#+end_src
+
+#+REVEAL: split
+
+#+caption: Screenshot
+[[file:canvas_ex01.png]]
+
+[[https://jsfiddle.net/nea366Lm/][Snippet de código]] online.
+
+
+** Colores, bordes, etc
+:PROPERTIES:
+:CUSTOM_ID: colores-bordes-etc
+:END:
+- Es similar a cómo funciona un programa de dibujo
+- En el *contexto* indicamos los estilos que queremos que las
+  "herramientas" (operaciones) usen
+- ¡Ojo que hay que "deshacer"!
+
+** Ejemplo
+:PROPERTIES:
+:CUSTOM_ID: ejemplo-1
+:END:
+#+begin_src javascript
+// red rectangles
+ctx.fillStyle = '#FF004D';
+ctx.fillRect(10, 10, 100, 100);
+ctx.fillRect(190, 10, 100, 100);
+// blue rect with white border
+ctx.fillStyle = 'rgba(41, 173, 255, 0.8)';
+ctx.fillRect(50, 50, 100, 100);
+ctx.strokeStyle = '#fff';
+ctx.lineWidth = 5;
+ctx.strokeRect(50, 50, 100, 100);
+#+end_src
+
+#+REVEAL: split
+
+#+caption: Screenshot
+[[file:canvas_ex02.png]]
+
+[[https://jsfiddle.net/x8knv6w3/2/][Snippet de código]] online.
+
+
+** Imágenes
+:PROPERTIES:
+:CUSTOM_ID: imágenes
+:END:
+- Las imágenes deben estar *ya cargadas* (por ejemplo con =<img>=) para
+  poder pintarlas
+- Podemos obtener /sources/ de imágenes de otros medios: la webcam del
+  usuario, un =<video>=, otro =<canvas>=, etc
+
+#+REVEAL: split
+
+#+begin_src html
+<img src="kitten.png" alt="A cute kitten" id="kitten">
+<canvas width="300" height="300"></canvas>
+#+end_src
+
+#+begin_src javascript
+var img = document.getElementById('kitten');
+var ctx = document.querySelector('canvas')
+    .getContext('2d');
+
+ctx.drawImage(img, 0, 0);
+#+end_src
+
+#+REVEAL: split
+
+#+caption: Screenshot
+[[file:canvas_ex03.png]]
+
+[[https://jsfiddle.net/j4hbb46h/1/][Snippet de código]] online
+
+** Cargar imágenes al vuelo
+:PROPERTIES:
+:CUSTOM_ID: cargar-imágenes-al-vuelo
+:END:
+Podemos cargar imágenes al vuelo *desde JavaScript*
+
+1. Usamos el constructor *=Image=*
+2. Nos subscribimos al evento de *=load=* (para pintar la imagen cuando
+   se haya producido)
+3. Establecemos el atributo *=src=* de la imagen para iniciar la carga
+
+#+REVEAL: split
+
+#+begin_src javascript
+var img = new Image();
+img.addEventListener('load', function () {
+    ctx.drawImage(img, 0, 0);
+});
+img.src = 'https://placekitten.com/g/300/300';
+#+end_src
+
+[[https://jsfiddle.net/Lm56dcb6/][Snippet de código]] online
+
+
+** Sobre la carga de imágenes
+:PROPERTIES:
+:CUSTOM_ID: sobre-la-carga-de-imágenes
+:END:
+- Las =<img>= con el estilo =display:none= se siguen cargando igualmente
+- =window.onload= se dispara cuando las imágenes creadas con =<img>= se
+  han cargado
+- Para precargar varias imágenes, se suelen utilizar
+  [[https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise][Promesas]],
+  o bien un contador para detectar cuándo se han cargado todas
+
+
+** Qué más se puede hacer con la API
+:PROPERTIES:
+:CUSTOM_ID: qué-más-se-puede-hacer-con-la-api
+:END:
+- Dibujar curvas y paths complejos
+- Pintar gradientes
+- Clipping
+- Transformaciones
+- Manipular píxeles
+- ¡Y más!
+
+
+** WebGL
+:PROPERTIES:
+:CUSTOM_ID: webgl
+:END:
+- Implementación en JavaScript de OpenGL ES 2.0
+- Es una API estándar de gráficos 3D
+- [[https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API][Documentación
+  MDN]]
+- Para pedir un contexto 3D a =<canvas>= debemos especificar *=webgl=*1
+  en =getContext=
+
+1. O =experimental-webgl= en algunos navegadores.
+
+** ¿Gráficos 2D en WebGL?
+:PROPERTIES:
+:CUSTOM_ID: gráficos-2d-en-webgl
+:END:
+- Podemos dibujar gráficos 2D usando una API 3D como WebGL
+- El "truco" es utilizar una proyección ortográfica, que no deforme los
+  objetos con perspectiva
+
+** Recursos
+:PROPERTIES:
+:CUSTOM_ID: recursos
+:END:
+- /Introduction to WebGL/
+  [[https://dev.opera.com/articles/introduction-to-webgl-part-1/][parte
+  1]] y
+  [[https://dev.opera.com/articles/introduction-to-webgl-part-2-porting-3d/][parte
+  2]]
+- [[http://webglfundamentals.org/][WebGL fundamentals]]: tutoriales paso
+  a paso
+
+* Librerías
+:PROPERTIES:
+:CUSTOM_ID: librerías
+:END:
+** 2D: Pixi.js
+:PROPERTIES:
+:CUSTOM_ID: d-pixi.js
+:END:
+- [[http://www.pixijs.com/][www.pixijs.com]]
+- Renderiza gráficos 2D
+- Funciona por defecto con WebGL, pero tiene fallback a Canvas 2D
+- Phaser utiliza Pixi para renderizar gráficos
+
+** 3D: THREE.js
+:PROPERTIES:
+:CUSTOM_ID: d-three.js
+:END:
+- [[https://threejs.org/][THREE.js]]
+- Es la librería de referencia para trabajar con WebGL
+- Hay infinidad de tutoriales, libros, etc
+
+* Animaciones
+:PROPERTIES:
+:CUSTOM_ID: animaciones
+:END:
+** ¿Cómo animar gráficos?
+:PROPERTIES:
+:CUSTOM_ID: cómo-animar-gráficos
+:END:
+- Necesitamos renderizar 60 veces por segundo (idealmente)
+- *=setTimeout=* y =setInterval=
+  [[https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout#Reasons_for_delays_longer_than_specified][/no/
+  nos sirven]]
+- *=requestAnimationFrame=* FTW
+
+** =requestAnimationFrame=
+:PROPERTIES:
+:CUSTOM_ID: requestanimationframe
+:END:
+- Proporcionamos un *callback* con nuestras operaciones de dibujo
+- Se llama automáticamente la siguiente vez que el navegador */pueda/
+  pintar* en pantalla
+- Si llamamos a =requstAnimationFrame= cada vez que acabamos de pintar,
+  establecemos un *bucle*
+
+** Ejemplo
+:PROPERTIES:
+:CUSTOM_ID: ejemplo-2
+:END:
+#+begin_src javascript
+function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(x, 25, 50, 50);
+  x = (x + 1) % canvas.width;
+
+  requestAnimationFrame(render);
+}
+
+requestAnimationFrame(render);
+#+end_src
+
+- [[https://jsfiddle.net/oxx3h8dp/2/][Snippet de código]] con
+  =requestAnimationFrame=
+- [[https://jsfiddle.net/m92kpe4n/2/][Snippet de código]] con
+  =setInterval=
+
+** Tiempo delta
+:PROPERTIES:
+:CUSTOM_ID: tiempo-delta
+:END:
+- =requestAnimationFrame= pasa un *timestamp* como parámetro al callback
+- El timestamp es el tiempo en *milisegundos* desde que se llamó por
+  primera vez
+- El timestamp se obtiene con =Performance.now()= (más eficiente y
+  preciso que construir un =Date=)
+- Con este timestamp podemos calcular el tiempo que ha pasado entre este
+  frame y el anterior (*delta time*)
+
+** Ejemplo
+:PROPERTIES:
+:CUSTOM_ID: ejemplo-3
+:END:
+#+begin_src javascript
+const SPEED = 60; // pixels per second
+var oldTimestamp = 0;
+
+function render(timestamp) {
+  var delta = (timestamp - oldTimestamp) / 1000.0;
+  oldTimestamp = timestamp;
+
+  // ..
+  x = (x + SPEED * delta) % canvas.width;
+  requestAnimationFrame(render);
+}
+#+end_src
+
+[[https://jsfiddle.net/0e11fv91/2/][Snippet de código]] online
+
+** Consideraciones con el tiempo delta
+:PROPERTIES:
+:CUSTOM_ID: consideraciones-con-el-tiempo-delta
+:END:
+- /Siempre/ tenéis que poner una *cota* al valor del tiempo delta (por
+  ejemplo 250ms) para evitar glitches en la lógica del juego
+- A veces es recomendable saltarse el /update/ de nuestro juego un frame

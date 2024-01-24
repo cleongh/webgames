@@ -1,0 +1,176 @@
+#+title: Redes y videojuegos
+#+setupfile: setup.org
+
+* Aviso
+:PROPERTIES:
+:CUSTOM_ID: aviso
+:END:
+
+#+REVEAL: split
+
+- Este tema no es una introducción a las redes
+- Omite casi todo lo importante de su funcionamiento
+- Sólo vale para programar algo rápido y sencillo
+- Muchos gatitos sufrirán si creéis que sabéis de redes
+- Me despedirán si se enteran de que os he contado redes
+
+. . .
+
+*Esto no está ocurriendo en realidad*
+
+* Topologías de red
+:PROPERTIES:
+:CUSTOM_ID: topologías-de-red
+:END:
+
+#+REVEAL: split
+
+Una red son sólo dos o más ordenadores conectados
+
+#+REVEAL: split
+
+Para que esto funcione, los nodos de la red tienen conocer /el protocolo
+de comunicación/
+
+#+REVEAL: split
+
+#+caption: Las redes y los protocolos ocurren según un modelo de capas
+[[file:osi.svg]]
+
+#+REVEAL: split
+
+** TCP y UPD
+:PROPERTIES:
+:CUSTOM_ID: tcp-y-upd
+:END:
+En la capa de transporte, en uno de los estándares (/IP/) hay un par de
+protocolos muy relacionados: /TCP/ y /UDP/
+
+#+REVEAL: split
+
+Son alternativas, con ventajas e inconvenientes, para enviar *paquetes*
+de datos
+
+- UDP tiene menos sobrecarga
+- TCP es más fiable
+
+#+REVEAL: split
+
+En videojuegos se usan ambos (dependiendo de para qué), pero nosotros
+*vamos a usar sólo TCP*
+
+* Redes cliente-servidor
+:PROPERTIES:
+:CUSTOM_ID: redes-cliente-servidor
+:END:
+
+#+REVEAL: split
+
+Una manera usual y típica de hacer una conexión en red (en nuestro caso,
+en Internet), es con un modelo /cliente/-/servidor/
+
+#+REVEAL: split
+
+** El servidor
+:PROPERTIES:
+:CUSTOM_ID: el-servidor
+:END:
+En un *programa* (no una máquina) que está siempre ejecutando, y recibe
+peticiones de conexión de los clientes
+
+Si acepta una conexión, se creará un canal de comunicación bidireccional
+con ese cliente
+
+#+REVEAL: split
+
+El servidor se ejecuta en algún ordenador conectado a una red, y eso le
+da una dirección única: *su dirección IP*
+
+#+REVEAL: split
+
+Hay varias maneras de asignar la dirección IP a un ordenador (interfaz
+de red, en realidad)
+
+Puede ser que te asignen una cada vez que te conectes a un route (IP
+dinámica, puede cambiar en cada reconexión) o que el sistema operativo
+tenga configurada la IP que quiere (IP estática)
+
+#+REVEAL: split
+
+Obviamente, queremos que el servidor tenga una IP estática para que los
+clientes sepan a quién conectarse
+
+#+REVEAL: split
+
+Además, cada programa puede comunicarse, dentro de una misma IP, en un
+*puerto concreto* (que es sólo un número)
+
+#+REVEAL: split
+
+Es decir, en una misma máquina (IP: 147.96.92.63), podríamos tener:
+
+- Un programa que sirva páginas web en el puerto 80 (147.96.92.63:80)
+- Un programa que sirva la lógica de un videojuego en el puerto 3000
+  (147.96.92.63:3000)
+
+#+REVEAL: split
+
+A veces, podemos tener un nombre para ese ordenador
+([[http://www.ucm.es]]), pero estos nombres son sólo un "alias" para la
+dirección IP
+
+#+REVEAL: split
+
+** El cliente
+:PROPERTIES:
+:CUSTOM_ID: el-cliente
+:END:
+Es un programa que:
+
+- Conoce la dirección IP de un servidor (para poder "llamar")
+- Le solicita conectarse
+- Una vez conectado, puede enviar y recibir mensajes /sólo al servidor/
+- En una arquitectura cliente-servidor pura, /los clientes no hablan
+  entre sí/
+
+#+REVEAL: split
+
+#+caption: Arquitectura cliente-servidor
+[[file:clienteservidor.svg]]
+
+* Comunicación simple de nodos
+:PROPERTIES:
+:CUSTOM_ID: comunicación-simple-de-nodos
+:END:
+
+#+REVEAL: split
+
+Un sistema simple (como los que vamos a usar), tendría un protocolo
+como:
+
+1. El servidor está arrancado y /escuchando/ en un puerto concreto
+2. El cliente "llama" a la IP del servidor, a través del puerto concreto
+3. El servidor acepta, y añade al cliente a su lista
+4. El cliente y el servidor se intercambian mensajes
+5. El cliente se desconecta, y el servidor lo saca de su lista
+
+* Más opciones
+:PROPERTIES:
+:CUSTOM_ID: más-opciones
+:END:
+
+#+REVEAL: split
+
+Lo que haremos aquí es una versión muy sencilla y funcional (y
+/didáctica/) de juegos en red
+
+#+REVEAL: split
+
+** Alternativas (entre otras)
+:PROPERTIES:
+:CUSTOM_ID: alternativas-entre-otras
+:END:
+- [[https://geckosio.github.io/][gekos.io]]
+- [[https://docs.colyseus.io/][Colyseus]]
+- Usar [[https://webrtc.org/][WebRTC]], con alguna librería como
+  [[https://peerjs.com/][PeerJS]]

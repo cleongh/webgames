@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Cliente de red</title><meta name="author" content="Carlos León"><style>.underline{text-decoration:underline}</style><link rel="stylesheet" href="tooling.reveal.e38fa0d8.css"><link rel="stylesheet" href="tooling.reveal.a866bf8d.css" id="theme"><link rel="stylesheet" href="tooling.reveal.c1a625de.css"><link rel="stylesheet" href="tooling.reveal.fdb16a0d.css"></head><body> <div class="reveal"> <div class="slides"> <section id="sec-title-slide"> <h1 class="title">Cliente de red</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2> </section> <section> <section id="slide-el-juego-de-verdad"> <h2 id="el-juego-de-verdad">El juego de verdad</h2> </section> <section> <p> El cliente estará en una página (un archivo <code>.html</code>), como siempre </p> </section> <section> <p> Iniciamos una página HTML normal: </p> <div class="org-src-container"> <pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Cliente del juego&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+</code></pre> </div> </section> <section> <p> El servidor que hemos creado no sólo nos sirve la página web, sino también la librería </p> <p> Esto nos asegura no tener diferentes versiones entre cliente y servidor </p> </section> <section> <p> Añadimos esta línea a nuestro <code>&lt;body&gt;</code> </p> <div class="org-src-container"> <pre><code class="html">&lt;script src="/socket.io/socket.io.js"&gt;&lt;/script&gt;
+</code></pre> </div> <p> La ruta la crea automáticamente el servidor con <code>socket.io</code>, no hay que tener el archivo </p> </section> <section> <p> Creamos dos botones y un párrafo para la interfaz, y cogemos sus referencias para manejarlos desde JavaScript: </p> <div class="org-src-container"> <pre><code class="html">&lt;button id="armas"&gt;Pedir precios de armas&lt;/button&gt;
+&lt;button id="comida"&gt;Pedir precios de comida&lt;/button&gt;
+
+&lt;p id="lista"&gt;&lt;/p&gt;
+
+&lt;script&gt;
+  const armas = document.getElementById("armas");
+  const comida = document.getElementById("comida");
+  const muestra = document.getElementById("lista");
+&lt;/script&gt;
+</code></pre> </div> </section> <section> <p> Iniciamos la conexión con la dirección y el puerto (que tiene que ser el mismo que el del servidor) </p> <div class="org-src-container"> <pre><code class="html">&lt;script&gt;
+  const direccion = 'localhost';
+  const puerto = 3000;
+  const socket = io('http://' + direccion + ':' + puerto);
+&lt;/script&gt;
+</code></pre> </div> </section> <section> <p> Es más cómodo definir el puerto <i>sólo en 1 sitio</i> (en vez de poner <code>const port=3000</code> en cliente y servidor), e importar el módulo </p> </section> <section> <p> Cada botón va a enviar un mensaje del mismo tipo (<code>'precios'</code>), con un objeto adicional particular: </p> <div class="org-src-container"> <pre><code class="html">&lt;script&gt;
+  armas.onclick = () =&gt; socket.emit('precios', 'armas');
+  comida.onclick = () =&gt; socket.emit('precios', 'comida');
+&lt;/script&gt;
+</code></pre> </div> </section> <section> <p> Cuando llegue la lista, la mostramos en el párrafo <code>muestra</code>: </p> <div class="org-src-container"> <pre><code class="html">  &lt;script&gt;
+    socket.on('respuesta', lista =&gt; {
+      // `JSON.stringify` convierte un JSON a string para
+      // poder mostrarlo
+      muestra.innerHTML = JSON.stringify(lista)
+    });
+  &lt;/script&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code></pre> </div> </section> </section> </div> </div> <script src="tooling.reveal.ffb33b1a.js"></script> <script src="tooling.reveal.f05d24be.js"></script> <script src="tooling.reveal.1feea775.js"></script> <script src="tooling.reveal.d2982244.js"></script> <script>Reveal.initialize({controls:!0,progress:!0,history:!0,center:!0,slideNumber:"c",rollingLinks:!1,keyboard:!0,mouseWheel:!1,fragmentInURL:!1,hashOneBasedIndex:!1,pdfSeparateFragments:!0,overview:!0,transition:"none",transitionSpeed:"default",plugins:[RevealSearch,RevealHighlight,RevealZoom],dependencies:[]});</script> </body></html>

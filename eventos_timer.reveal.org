@@ -1,0 +1,186 @@
+#+title: Eventos y temporizadores
+#+setupfile: setup.org
+
+* Eventos
+:PROPERTIES:
+:CUSTOM_ID: eventos
+:END:
+
+#+REVEAL: split
+
+Parte de la ejecución de Phaser está dirigida por *eventos*
+
+Un evento es un aviso de que algo ha ocurrido
+
+Creamos *callbacks* o funciones que se ejecutarán en respuesta a estos
+eventos
+
+#+REVEAL: split
+
+** Algunos eventos en Phaser
+:PROPERTIES:
+:CUSTOM_ID: algunos-eventos-en-phaser
+:END:
+- Input: Teclado (='down'=, ='up'=...), ratón (='pointerdown'=,
+  ='wheel'=...)
+- Física en Arcade: ='collider'=, ='overlap'=...
+- Física en Matter: ='collisionstart'=, ='collisionend'=
+- Animaciones de sprites: ='animationrepeat'=, ='animationcomplete'=...
+- Sonido: ='stop'=...
+
+#+REVEAL: split
+
+Pero hay muchos más eventos en Phaser:
+[[https://newdocs.phaser.io/docs/3.55.2/events][Mirar en Events]]
+
+#+REVEAL: split
+
+** Suscripción a eventos
+:PROPERTIES:
+:CUSTOM_ID: suscripción-a-eventos
+:END:
+Para responder a estos eventos nos tenemos que *suscribir* a ellos, es
+decir, debemos indicar qué funciones queremos que se ejecuten cuando se
+produzcan estos eventos.
+
+#+REVEAL: split
+
+En ocasiones, no somos conscientes de esta suscripción:
+
+- =init=, =create=, =update=... son las funciones que se ejecutarán en
+  respuesta a los eventos del mismo nombre en la escena.
+- =add.collider= o =add.overlap= (al usar el motor de física de Arcade)
+  tienen como parámetro el callback que se ejecutará en respuesta a los
+  eventos de =collide= y =overlap=
+
+#+REVEAL: split
+
+En otras ocasiones, nos suscribimos mediante las funciones =on= (y nos
+desenganchamos usando =off=) y =once= (solo escuchamos una vez el
+evento):
+
+#+begin_src js
+// cuando se inicia la colisión
+this.matter.world.on('collisionstart', 
+    (evento, cuerpo1, cuerpo2) => {
+    // hacer algo
+});
+// Suscripción a sonidos
+this.explosion = scene.sound.add("explosion", config);
+this.explosion.once("stop", (music) => {
+    // ...
+});
+#+end_src
+
+#+REVEAL: split
+
+En general, la suscripción se hace *una sola vez*, generalmente en el
+=create= de las escenas o en el constructor de los Gameobjects.
+
+#+begin_quote
+¡Cuidado con suscripciones en el =update= (se añade una función nueva a
+la que llamar en cada tick)!
+
+#+end_quote
+
+#+REVEAL: split
+
+** Eventos propios
+:PROPERTIES:
+:CUSTOM_ID: eventos-propios
+:END:
+Podemos crear nuestros propios eventos y suscribirnos a ellos:
+
+#+begin_src js
+// En el create de Scene 
+this.events.on('playerdead', gameOver);
+...
+// En otro punto de nuestro juego (this es la escena)
+this.events.emit('playerdead');
+
+function gameOver() {
+    // Fin de la partida
+    // Se ejecuta cuando el jugador haya muerto
+}
+#+end_src
+
+#+REVEAL: split
+
+Podemos enviar parámetros al emitir un evento:
+
+#+begin_src js
+
+// enviamos las coordenadas en las que murió el jugador
+this.events.emit('playerdead', this.player.x, this.player.y);
+
+function gameOver(x, y) {
+    // Fin de la partida
+    // Se ejecuta cuando el jugador haya muerto
+    // Recibimos las coordenadas del jugador
+}
+#+end_src
+
+* Temporizadores
+:PROPERTIES:
+:CUSTOM_ID: temporizadores
+:END:
+
+#+REVEAL: split
+
+Para hacer que una acción se produzca pasado un cierto tiempo usamos los
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Time.Clock][temporizadores
+(o relojes) de Phaser]]
+
+Crearemos un evento que se ejecute pasado un tiempo y nos suscribiremos
+a él
+
+#+begin_quote
+¡Cuidado, no usar los métodos del navegador =setTimeout= y
+=setInterval=!
+
+#+end_quote
+
+#+REVEAL: split
+
+Para una acción diferida que se ejecuta una vez:
+
+#+begin_src js
+/// this es Scene
+let timer = this.time.addEvent( {
+        delay: 2000, 
+        callback: onEvent,
+        callbackScope: this 
+});
+
+onEvent() {
+    // ejecuta algo dentro de 2000ms (2s)
+}
+#+end_src
+
+#+REVEAL: split
+
+Para una acción que se repite en el tiempo:
+
+#+begin_src js
+// this es Scene
+let timer = this.time.addEvent( {
+        delay: 2000, 
+        callback: onEvent,
+        callbackScope: this,
+        loop: true
+});
+
+onEvent() {
+    // ejecuta esto cada 2000ms (2s)
+}
+
+// Para dejar de usarlo
+this.time.removeEvent(timer);
+#+end_src
+
+#+REVEAL: split
+
+Los temporizadores se pueden detener, cambiar la escala de tiempo...
+
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Time.Clock][Estudiad su
+API]]

@@ -1,0 +1,396 @@
+#+title: Introducción a Phaser
+#+setupfile: setup.org
+
+
+* Qué es Phaser
+:PROPERTIES:
+:CUSTOM_ID: qué-es-phaser
+:END:
+
+#+REVEAL: split
+
+*Phaser* es un framework que nos permite construir juegos en HTML5 para
+equipos de escritorio y dispositivos móviles
+
+Tiene una apasionada comunidad en el proceso de desarrollo, por lo que
+crece rápidamente
+
+** Game
+:PROPERTIES:
+:CUSTOM_ID: game
+:END:
+El objeto principal de Phaser es un objeto JavaScript llamado =Game=
+
+Dentro de un /juego/ (=Game=) hay /escenas/ (=Scene=), y dentro de
+/escenas/, /objetos/ (=GameObject=), que son los que darán lógica y
+representación al juego
+
+** Escenas en Phaser
+:PROPERTIES:
+:CUSTOM_ID: escenas-en-phaser
+:END:
+Las =Scene=s de Phaser son la unidad mínima que maneja el framework para
+crear una escena de juego
+
+Una =Scene= es un /objeto/ JavaScript, con métodos y atributos
+("propiedades") para su gestión
+
+Phaser incluye un "scene manager" para gestionarlas
+
+#+REVEAL: split
+
+Por ejemplo, puede haber una escena para:
+
+- el menú principal
+- cada uno de los niveles
+- el inventario
+
+En teoría (aunque hay libertad), cada escena representa una lógica de
+interacción concreta
+
+** Puede haber varias escenas activas
+:PROPERTIES:
+:CUSTOM_ID: puede-haber-varias-escenas-activas
+:END:
+Phaser permite varias escenas /activas/ y superpuestas
+
+El orden de las escenas es importante, ya que el /scene manager/ las
+actualiza y pinta en el orden en el que son añadidas
+
+** Métodos básicos de una escena
+:PROPERTIES:
+:CUSTOM_ID: métodos-básicos-de-una-escena
+:END:
+El motor llama a estos métodos automáticamente:
+
+- =init=: se ejecuta cuando se carga la escena. Aquí se pueden pasar
+  datos entre escenas.
+- =preload=: aquí hay que cargar los recursos antes de que sean usados.
+- =create=: una vez que la clase está instanciada y el motor está a
+  punto, se llama a este método para inicializar.
+- =update(time, delta)=: se llama cada ciclo de juego, para modificar el
+  estado.
+
+#+REVEAL: split
+
+Además, Phaser proporciona una serie de propiedades que podemos utilizar
+en nuestro juego. Mayoritariamente, estas propiedades son formas de
+acceder a los subsistemas de Phaser
+
+#+REVEAL: split
+
+** Algunos subsistemas
+:PROPERTIES:
+:CUSTOM_ID: algunos-subsistemas
+:END:
+Accesibles desde el objeto =Scene= con =scene.add=, =scene.load=...:
+
+- =add=: La factoría de GameObject
+- =cameras=: La cámara
+- =input=: La entrada de Phaser
+- =load=: el cargador de recursos
+- =sound=: el sistema de sonido
+- =scene=: el SceneManager
+- =time=: el manager de tiempo
+- =physics=: el sistema de físicas
+
+#+REVEAL: split
+
+** Utilidades matemáticas
+:PROPERTIES:
+:CUSTOM_ID: utilidades-matemáticas
+:END:
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Math][=Phaser.Math=]]
+contiene métodos que ayudan a realizar ciertas operaciones matemáticas
+típicas de un motor de videojuegos
+
+Además, tiene un
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Math.RandomDataGenerator][generador
+de números aleatorios]] muy útil, accesible a través de
+=Phaser.Math.RND=
+
+* Crear un juego en Phaser
+:PROPERTIES:
+:CUSTOM_ID: crear-un-juego-en-phaser
+:END:
+
+#+REVEAL: split
+
+Para crear un juego, hay que crear una instancia de =Phaser.Game=:
+
+#+begin_src js
+new Phaser.Game({
+  type: Phaser.AUTO,
+  width: 800,
+  height: 400,
+  scene: [ClaseEscenaInicial, ClaseEscenaNivel1]
+})
+#+end_src
+
+Esto crea un =<canvas>= al final de la página
+
+En realidad, podemos crearlo
+[[https://codepen.io/gjimenezucm/pen/bGRPRYz][de una manera más
+sencilla]]
+
+#+REVEAL: split
+
+Si queremos usar nuestro propio =<canvas>=:
+
+#+begin_src html
+<canvas id="juego"></canvas>
+<script>
+new Phaser.Game({
+  type: Phaser.CANVAS,
+  canvas: document.getElementById('juego'),
+  width: 800,
+  height: 400,
+  scene: [ClaseEscenaInicial, ClaseEscenaNivel1]
+})
+</script>
+#+end_src
+
+#+REVEAL: split
+
+Si queremos que el =<canvas>= tenga el foco, lo hacemos con
+[[https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus][=focus()=]]:
+
+#+begin_src html
+<script>document.getElementById('juego').focus()</script>
+#+end_src
+
+#+REVEAL: split
+
+#+begin_html
+  <!-- ## Ejemplo básico de un juego con Phaser
+
+
+  <https://cleongh.github.io/phasertemplate/>
+
+  <small>Código en <https://github.com/cleongh/phasertemplate></small>
+
+
+  --- -->
+#+end_html
+
+** Un juego sencillo (y explicado) con Phaser
+:PROPERTIES:
+:CUSTOM_ID: un-juego-sencillo-y-explicado-con-phaser
+:END:
+[[https://gjimenezucm.github.io/simplephasergame/]]
+
+Código en [[https://github.com/gjimenezUCM/simplephasergame]]
+
+
+** Documentación
+:PROPERTIES:
+:CUSTOM_ID: documentación
+:END:
+- [[https://photonstorm.github.io/phaser3-docs/index.html][Documentación
+  de Phaser 3]]: Acceder desde la barra de menú en la parte superior
+- [[https://newdocs.phaser.io/docs/3.55.2/][Nuevo sistema de
+  documentación de Phaser]]: Similar al anterior (en Beta)
+- [[https://phaser.io/examples/v3][Ejemplos de Phaser 3]]
+- [[https://rexrainbow.github.io/phaser3-rex-notes/docs/site/index.html][Notes
+  of Phaser 3]]
+
+* Localización de los recursos
+:PROPERTIES:
+:CUSTOM_ID: localización-de-los-recursos
+:END:
+** Phaser y URLs
+:PROPERTIES:
+:CUSTOM_ID: phaser-y-urls
+:END:
+Por seguridad, los navegadores restringen mucho el acceso al disco
+
+Por tanto, todos los recursos (imágenes y demás) tienen que ser cargados
+a través de la red
+
+Para ello, tenemos que referencias los recursos con URLs
+
+** URLs
+:PROPERTIES:
+:CUSTOM_ID: urls
+:END:
+En Internet (y en más sitios), cada elemento tiene un identificador
+único
+
+#+REVEAL: split
+
+Solemos referirnos a URLs (Uniform Resource Locator)
+
+** URLs absolutas
+:PROPERTIES:
+:CUSTOM_ID: urls-absolutas
+:END:
+- =http://www.ucm.es=
+- =ftp://rediris.com/resourcea=
+- =http://es.wikipedia.org/wiki=
+
+La parte de antes de =:= es el /protocolo/ (=http=, =ftp=...)
+
+** URLs relativas
+:PROPERTIES:
+:CUSTOM_ID: urls-relativas
+:END:
+En una web, =/= es la raíz del sitio
+
+El directorio especial =../= indica el directorio padre al del fichero
+actual.
+
+El directorio =./= indica el directorio del fichero actual
+
+- =./ejemplo/ruta=
+- =../otro_hijo/ruta/musica.ogg=
+- =/hijo_raiz_sitio/archivo.png=
+
+#+REVEAL: split
+
+Cuando servimos con =npx live-server=, se sirve /a partir del directorio
+en el que estamos, *nunca rutas por encima*/
+
+#+begin_src sh
+$ pwd
+/home/usuario/misarchivos
+$ cd docs
+$ npx live-server # `localhost` equivale a `docs/`
+#+end_src
+
+En el caso anterior, no puedo ir a una URL ='../anterior.png'= que esté
+en =misarchivos=
+
+* Carga de recursos en memoria
+:PROPERTIES:
+:CUSTOM_ID: carga-de-recursos-en-memoria
+:END:
+
+
+** Cargar
+:PROPERTIES:
+:CUSTOM_ID: cargar
+:END:
+Se le añade una /key/ (clave o nombre) al recurso para poder
+identificarlo
+
+#+begin_src js
+// this es un objeto Scene
+function preload() {
+    // Para cargar desde el sitio de Phaser
+    this.load.setBaseURL("https://examples.phaser.io/");
+    this.load.image('player', 'assets/sprites/phaser-dude.png');
+    this.load.image('platform', 'assets/sprites/platform.png');
+}
+#+end_src
+
+#+REVEAL: split
+
+Podemos cargar diferentes recursos como: imágenes, archivos JSON, atlas
+de texturas, video, sonido, tilemaps...
+
+Las rutas son /relativas/ al =index.html= (aunque se pueden modificar
+con los métodos
+[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Loader.LoaderPlugin#setPath][=setPath=]]
+y
+[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Loader.LoaderPlugin#setBaseURL][=setBaseUrl=]]
+del subsistema de carga de recursos)
+
+
+** Liberación de recursos
+:PROPERTIES:
+:CUSTOM_ID: liberación-de-recursos
+:END:
+
+#+REVEAL: split
+
+Si cambiamos de escena y la desactivamos, es muy probable que haya
+recursos que ya no utilizaremos nunca
+
+En este caso podemos eliminarlos de la
+[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Game#cache][caché de
+=Game=]]
+
+#+begin_src js
+image1.destroy();
+sound4.destroy();
+#+end_src
+
+#+begin_html
+  <!-- Aqué el contexto es muy relevante puesto que no hemos explicado la caché
+  Hay que indicar que `cache` es una propiedad del objeto juego. -->
+#+end_html
+
+* Sprites en Phaser
+:PROPERTIES:
+:CUSTOM_ID: sprites-en-phaser
+:END:
+
+#+REVEAL: split
+
+Son las imágenes 2D que sirven para visualizar los objetos en un juego
+2D. En Phaser se instancian así:
+
+#+begin_src js
+// this es una Scene
+player = this.add.sprite(100, 200, 'player');
+#+end_src
+
+#+REVEAL: split
+
+#+caption: =player=
+[[https://examples.phaser.io/assets/sprites/phaser-dude.png]]
+
+Hay que usar la clave que se le puso en la carga. El objeto, obviamente,
+/debe estar cargado memoria/ con =scene.load=
+
+* Spritesheet o atlas de sprites
+:PROPERTIES:
+:CUSTOM_ID: spritesheet-o-atlas-de-sprites
+:END:
+
+#+REVEAL: split
+
+#+caption: Spritesheet o atlas de Sprites
+[[file:mario_spritesheet.gif]]
+
+#+REVEAL: split
+
+Sirven para optimizar recursos:
+
+- Reduce el número de accesos al servidor (no es lo mismo traerse una
+  imagen grande con muchas imágenes pequeñas que muchas imágenes
+  pequeñas individuales)
+- Es más eficiente en memoria
+
+#+REVEAL: split
+
+Sirve también para crear animaciones por frames
+
+#+begin_src js
+// this es un objeto scene
+function preload() {
+    // Recordad: solo para cargar desde el sitio de Phaser
+    this.load.setBaseURL("https://examples.phaser.io/");
+    this.load.spritesheet('mummy_spritesheet', 
+                          'assets/sprites/metalslug_mummy37x45.png',
+                          { frameWidth: 37, frameHeight: 45, endFrame: 17 });
+}
+
+function create() {
+    let mummy = this.add.sprite(300, 200, 'mummy_spritesheet');
+
+    this.anims.create({
+      key: 'walking',
+      frames: this.anims.generateFrameNumbers('mummy_spritesheet', { start: 0, end: 16 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    mummy.play('walking');
+}
+#+end_src
+
+#+REVEAL: split
+
+#+caption: Animation
+[[file:mummy.gif]]

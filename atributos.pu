@@ -1,0 +1,5 @@
+@startuml
+class Fruta {
+    int tamaño
+}
+@enduml

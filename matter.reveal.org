@@ -1,0 +1,559 @@
+#+title: Físicas con Matter.js
+#+setupfile: setup.org
+
+
+* Qué es Matter.js
+:PROPERTIES:
+:CUSTOM_ID: qué-es-matter.js
+:END:
+
+#+REVEAL: split
+
+[[http://brm.io/matter-js/][Matter.js]] es un motor físico 2D
+/independiente de Phaser/, para la web
+
+#+REVEAL: split
+
+Para usarlo, simplemente lo habilitamos en la configuración del juego
+añadiendo
+[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Types.Physics.Matter.MatterWorldConfig][la
+configuración de Matter]] la propiedad =physics=:
+
+#+begin_src js
+var config = {
+    physics: {
+        default: 'matter',
+        matter: {
+            // ...
+        }
+    },
+};
+
+
+const game = new Phaser.Game(config);
+#+end_src
+
+#+REVEAL: split
+
+A partir de ese momento, todas las =Scene= tendrán
+[[https://newdocs.phaser.io/docs/3.52.0/Phaser.Physics.Matter.MatterPhysics][una
+propiedad =matter=]] a través de la cual podemos acceder al motor
+físico:
+
+#+begin_src js
+//create
+this.load.image('roca', 'roca.png');
+#+end_src
+
+#+begin_src js
+// update
+this.matter.add.image(100, -100, 'roca');
+#+end_src
+
+#+REVEAL: split
+
+/Matter.js/ es mucho más complejo y potente que /Arcade/, pero también
+tiene bastantes más requisitos de procesador
+
+* Entidades físicas en Matter
+:PROPERTIES:
+:CUSTOM_ID: entidades-físicas-en-matter
+:END:
+
+#+REVEAL: split
+
+Podemos agregar entidades a la física de Matter con:
+
+#+begin_src js
+// No solo se pueden crear imágenes (revisar doc)
+nave = this.matter.add.image(100, 100, 'nave');
+#+end_src
+
+o
+
+#+begin_src js
+// nave ha sido creado aparte, como una imagen, un sprite...
+this.matter.add.gameObject(nave);
+#+end_src
+
+#+REVEAL: split
+
+En este caso, Matter inyecta
+[[https://newdocs.phaser.io/docs/3.52.0/Phaser.Physics.Matter.Sprite][propiedades
+y métodos físicos complejos]] al objeto creado:
+
+#+begin_src js
+nave.setFrictionAir(0.1); //  fricción
+nave.setMass(50);  // masa
+nave.setFixedRotation(); // inercia infinita
+nave.setAngularVelocity(-0.1); // velocidad angular
+nave.thrust(0.1); // empuje
+nave.setVelocity(16, 0); // x e y
+nave.applyForce({15, 24}); // un vector
+#+end_src
+
+#+REVEAL: split
+
+** Aplicando fuerzas
+:PROPERTIES:
+:CUSTOM_ID: aplicando-fuerzas
+:END:
+
+#+REVEAL: split
+
+#+begin_src js
+sprite.applyForce({x: 100, y: 0});
+#+end_src
+
+O con funciones más cómodas, que tienen en cuenta la orientación del
+=GameObject=:
+
+#+begin_src js
+sprite.thrust(19);
+sprite.thrustLeft(14);
+sprite.thrustBack(5);
+#+end_src
+
+#+REVEAL: split
+
+** Aplicando impulsos
+:PROPERTIES:
+:CUSTOM_ID: aplicando-impulsos
+:END:
+Un impulso es una fuerza que se ejerce en un momento puntual pero que
+cesa y su efecto (la aceleración) sólo ocurre un instante
+
+Con /Matter.js/, lo haremos usado =applyForce()= sólo un instante
+
+#+REVEAL: split
+
+** Gravedad
+:PROPERTIES:
+:CUSTOM_ID: gravedad
+:END:
+La gravedad es un tipo de fuerza constante hacia una dirección.
+Normalmente hacia abajo:
+
+#+begin_src js
+new Phaser.Game({
+    physics: {
+        default: 'matter',
+        matter: {
+            gravity: {
+              x: 0,
+              y: 0
+            }
+        }
+    },
+#+end_src
+
+#+REVEAL: split
+
+Los objetos pueden tener /bounding boxes/ más elaboradas y podemos
+cambiarla:
+
+#+begin_src js
+let rect = this.matter.add.image(200, 50, 'blue');
+
+rect.setBody({
+        type: 'rectangle',
+        width: 128,
+        height: 128
+    });
+#+end_src
+
+#+REVEAL: split
+
+** Formas
+:PROPERTIES:
+:CUSTOM_ID: formas
+:END:
+Cada forma tiene
+[[https://newdocs.phaser.io/docs/3.54.0/Phaser.Types.Physics.Matter.MatterSetBodyConfig][sus
+propiedades particulares]] (por ejemplo, ='fromVertices'= tiene una
+cadena =verts="x y x y ... x y"= o un array)
+
+- ='rectangle'=
+- ='circle'=
+- ='trapezoid'=
+- ='polygon'=
+- ='fromVertices'=
+
+* Detección de colisiones
+:PROPERTIES:
+:CUSTOM_ID: detección-de-colisiones
+:END:
+
+#+REVEAL: split
+
+Para detectar colisiones o solapamientos,
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Matter.Events][tenemos
+eventos]]:
+
+#+begin_src js
+// cuando se inicia la colisión
+this.matter.world.on('collisionstart', 
+    (evento, cuerpo1, cuerpo2) => {
+    // hacer algo
+});
+
+// cuando termina la colisión
+this.matter.world.on('collisionend', 
+    (evento, cuerpo1, cuerpo2) => {
+    // hacer algo
+});
+#+end_src
+
+* Restricciones o /constraints/
+:PROPERTIES:
+:CUSTOM_ID: restricciones-o-constraints
+:END:
+
+#+REVEAL: split
+
+Una /constraint/ es una restricción sobre la distancia a la que tienen
+que estar dos objetos
+
+También se les llama /muelles/ (/springs/)
+
+#+REVEAL: split
+
+Los muelles siguen la ley de
+[[https://es.wikipedia.org/wiki/Ley_de_elasticidad_de_Hooke][Hooke]]
+donde la fuerza \(F\):
+
+\[F=-k \times X\]
+
+- \(k\): constante de elasticidad *stiffness*
+- \(X\): longitud
+
+#+REVEAL: split
+
+Derivado de esta ley tenemos el movimiento armónico oscilante
+
+La *amortiguación* es una fuerza que va en dirección contraria al
+movimiento
+
+La resistencia que hace que el movimiento sea oscilante
+
+Cuanto más estirado esté el muelle, más fuerza de amortiguación se
+genera
+
+#+REVEAL: split
+
+Para crear
+[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Physics.Matter.Factory#constraint][una
+unión o muelle]] en /Matter.js/:
+
+#+begin_src js
+scene.matter.add.constraint(obj1,
+                            obj2,
+                            50, // distancia
+                            0.5 // rigidez de la unión
+                            );
+#+end_src
+
+#+REVEAL: split
+
+#+begin_html
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.19.0/phaser.min.js" integrity="sha256-kF1kZP3VeVryJL2hSRtuAu34Fva0NKx/7IfxsD+Hl2Q=" crossorigin="anonymous"></script>
+#+end_html
+
+[[https://codepen.io/gjimenezucm/pen/jOmBPqm][En este ejemplo]],
+haciendo clic, se aplica impulso a una de las bolas
+
+#+begin_html
+  <canvas id="ejemplo1" />
+#+end_html
+
+#+begin_html
+  <script>
+  new Phaser.Game({
+      type: Phaser.WEBGL,
+      // renderType: CONST.CANVAS,
+      width: 800,
+      height: 600,
+      backgroundColor: '#1b1464',
+      // parent: 'phaser-example',
+      canvas: document.getElementById('ejemplo1'),
+      physics: {
+          default: 'matter',
+          matter: {
+              // gravity: {
+              //     x: 0,
+              //     y: 0
+              // }
+          }
+      },
+      scene: {
+          preload: preload,
+          create: create
+      }
+  });
+
+  function preload ()
+  {
+      this.load.setBaseURL('https://labs.phaser.io');
+      this.load.image('block', 'assets/sprites/block.png');
+      this.load.image('ball', 'assets/sprites/shinyball.png');
+  }
+
+  function create ()
+  {
+
+
+      this.matter.world.setBounds();
+      var ballA = this.matter.add.image(420, 100, 'ball', null, { shape: 'circle', friction: 0.005, restitution: 0.6 });
+      var ballB = this.matter.add.image(400, 200, 'ball', null, { shape: 'circle', friction: 0.005, restitution: 0.6 });
+
+      this.matter.add.constraint(ballA, ballB, 200, 0);
+
+      this.input.on('pointerdown', pointer => {
+          ballA.thrust(0.1);
+      });
+  }
+  </script>
+#+end_html
+
+* Sensores
+:PROPERTIES:
+:CUSTOM_ID: sensores
+:END:
+
+#+REVEAL: split
+
+En /Matter.js/, los "sensores" se pueden usar para detectar overlapping
+
+#+REVEAL: split
+
+Son cuerpos que no colisionan, pero que tienen área y forma y que
+desencadenan eventos ='collisionstart'=
+
+#+REVEAL: split
+
+Se activan [[https://brm.io/matter-js/docs/classes/Bodies.html][creando
+formas]] (por ejemplo, =circle=), y poniendo su propiedad =isSensor= a
+=true=:
+
+#+begin_src js
+let Bodies = Phaser.Physics.Matter.Matter.Bodies;
+let sensor = Bodies.circle(100, 100, 24, {isSensor: true});
+#+end_src
+
+* Cuerpos compuestos
+:PROPERTIES:
+:CUSTOM_ID: cuerpos-compuestos
+:END:
+
+#+REVEAL: split
+
+/Matter.js/ ofrece soporte para
+[[https://brm.io/matter-js/docs/classes/Body.html#method_create][cuerpos
+compuestos]], que están formados por varias formas físicas (*con o sin
+colisión*)
+
+#+begin_src js
+// `circle` y `rect` son cuerpos con coordenadas relativas
+// al cuerpo al que los "enganchamos"
+let compuesto = Phaser.Physics.Matter.Matter.Body.create({
+    parts: [ rect, circle ],
+    inertia: Infinity
+});
+#+end_src
+
+#+REVEAL: split
+
+Una vez que tenemos un cuerpo físico, se lo podemos asignar a una
+imagen:
+
+#+begin_src js
+this.player = this.matter.add.image(0, 0, 'imagen');
+// hemos creado `compuesto` antes
+this.player.setExistingBody(compuesto);
+#+end_src
+
+Aquí puedes ver
+[[https://phaser.io/examples/v3/view/physics/matterjs/compound-sensors#][un
+ejemplo de uso de cuerpos compuestos y sensores]]
+
+* Grupos de colisión
+:PROPERTIES:
+:CUSTOM_ID: grupos-de-colisión
+:END:
+
+#+REVEAL: split
+
+Los grupos de colisión permiten que una entidad sólo colisione con
+algunos objetos, mientras que otra entidad colisione con otros
+
+#+REVEAL: split
+
+Para crear una nueva "categoría" o grupo de colisión con /Matter.js/,
+hacemos:
+
+#+begin_src js
+// creamos 2 categorías
+const c1 = this.matter.world.nextCategory();
+const c2 = this.matter.world.nextCategory();
+#+end_src
+
+#+REVEAL: split
+
+Y se las asignamos a los objetos directamente
+
+#+begin_src js
+roca1.setCollisionCategory(c1);
+
+roca2.setCollisionCategory(c2);
+
+// `roca3` no va a colisionar con `roca2` 
+roca3.setCollidesWith([ c1 ]);
+#+end_src
+
+* Cambiar el funcionamiento del motor
+:PROPERTIES:
+:CUSTOM_ID: cambiar-el-funcionamiento-del-motor
+:END:
+** Pausar y continuar las físicas
+:PROPERTIES:
+:CUSTOM_ID: pausar-y-continuar-las-físicas
+:END:
+#+begin_src js
+scene.matter.world.pause();
+scene.matter.world.resume();
+#+end_src
+
+#+REVEAL: split
+
+** Entidades que se duermen
+:PROPERTIES:
+:CUSTOM_ID: entidades-que-se-duermen
+:END:
+Muchos motores físicos permiten "dormir" a las entidades, de forma que
+no consuman recursos
+
+#+REVEAL: split
+
+Bien usado, se puede conseguir una ganancia muy grande en ciertos casos
+
+#+REVEAL: split
+
+Se habilita la funcionalidad al crear el juego:
+
+#+begin_src js
+var config = {
+        physics: {
+            matter: {
+                enableSleeping: true
+            }
+        }
+}
+#+end_src
+
+#+REVEAL: split
+
+Para que los objetos se duerman automáticamente, se puede establecer que
+si pasan \(x\) ciclos sin cambiar prácticamente, se active el modo
+"dormir":
+
+#+begin_src js
+sprite.setSleepThreshold(15);
+#+end_src
+
+#+REVEAL: split
+
+/Matter.js/ también nos permite actuar cuando un objeto se duerma o se
+despierte:
+
+#+begin_src js
+scene.matter.world.on('sleepstart', (event, body) => {
+});
+#+end_src
+
+#+begin_src js
+scene.matter.world.on('sleepend', (event, body) => {
+});
+#+end_src
+
+* Kinematic Bodies
+:PROPERTIES:
+:CUSTOM_ID: kinematic-bodies
+:END:
+
+#+REVEAL: split
+
+** Cuerpos Kinemáticos Vs Cuerpos Físicos
+:PROPERTIES:
+:CUSTOM_ID: cuerpos-kinemáticos-vs-cuerpos-físicos
+:END:
+*Kinematic bodies* son cuerpos que están en la física, pero que queremos
+mover nosotros por código
+
+Típicamente las plataformas de los juegos de plataforma
+
+#+REVEAL: split
+
+En un juego normal, no queremos usar la física para mover un objeto
+controlado por el jugador o por la IA ya que esto puede provocar muchos
+problemas
+
+La física es difícil de controlar y produce errores de redondeo
+
+Lo más razonable para garantizar las mecánicas es moverlo nosotros con
+la lógica del juego
+
+#+REVEAL: split
+
+Para esto, tenemos que activar y desactivar propiedades físicas de los
+objetos, según necesitemos (dependerá del comportamiento que queramos)
+
+* ¿Se pueden mezclar distintos motores?
+:PROPERTIES:
+:CUSTOM_ID: se-pueden-mezclar-distintos-motores
+:END:
+
+#+REVEAL: split
+
+*Sí*, se puede
+
+#+REVEAL: split
+
+Lo primero, los activamos:
+
+#+begin_src js
+const config = {
+    physics: {
+        arcade: {
+            gravity: { y: 200 }
+        },
+        matter: {
+            gravity: { y: 0.5 }
+        }
+    }
+};
+
+const game = new Phaser.Game(config);
+#+end_src
+
+#+REVEAL: split
+
+Y, después, sólo hay que llamar a =scene.physics= o a =scene.matter= de
+forma normal:
+
+#+begin_src js
+//  `this` es un `Scene`
+this.matterImage = this.matter.add.image(400, -100, 'block');
+this.arcadeImage = this.physics.add.image(400, 100, 'fuji');
+#+end_src
+
+#+REVEAL: split
+
+** Pero...
+:PROPERTIES:
+:CUSTOM_ID: pero
+:END:
+Los objetos de /Arcade/ y los de /Matter.js/ corren en dos entornos
+diferentes, no se pueden juntar
+
+Si necesitamos físicas complejas y simples a la vez, usamos /Matter.js/
+y creamos algunos objetos más simples

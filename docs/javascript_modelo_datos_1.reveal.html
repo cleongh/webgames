@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Modelo de datos de JavaScript (I)</title><meta name="author" content="Carlos León"><style>.underline{text-decoration:underline}</style><link rel="stylesheet" href="tooling.reveal.e38fa0d8.css"><link rel="stylesheet" href="tooling.reveal.a866bf8d.css" id="theme"><link rel="stylesheet" href="tooling.reveal.c1a625de.css"><link rel="stylesheet" href="tooling.reveal.fdb16a0d.css"></head><body> <div class="reveal"> <div class="slides"> <section id="sec-title-slide"> <h1 class="title">Modelo de datos de JavaScript (I)</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2> </section> <section> <section id="slide-fundamentos-de-los-lenguajes"> <h2 id="fundamentos-de-los-lenguajes">Fundamentos de los lenguajes</h2> </section> <section> <p> Lenguaje de programación = sintaxis + modelo de datos + modelo de ejecución </p> <p> (+ estilo) </p> </section> <section> <ul> <li>La <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference#Statements">sintaxis</a> es vuestra responsabilidad</li> <li>El modelo de datos es mía</li> <li>El modelo de ejecución también</li> <li>Y la jerga es de ambos</li> </ul> </section> </section> <section> <section id="slide-experimentando-con-javascript"> <h2 id="experimentando-con-javascript">Experimentando con JavaScript</h2> </section> <section> <p> Vamos a experimentar con JavaScript así que necesitamos una forma rápida de inspeccionar expresiones y obtener feedback de lo que estamos haciendo </p> <p> La mejor forma es utilizar la consola de <i>node</i>: </p> <div class="org-src-container"> <pre><code class="sh">$ node --use_strict
+</code></pre> </div> </section> <section> <p> La opción <code>--use_strict</code> activa el modo estricto de JavaScript que simplifica algunos aspectos del lenguaje </p> <p> Recorta algunas características pero los beneficios son mayores que las pérdidas </p> </section> <section> <p> Ahora puedes probar a introducir algunas expresiones: </p> <div class="org-src-container"> <pre><code class="js">&gt; 40 + 2
+42
+&gt; let point = { x: 1, y: 1 };
+undefined
+&gt; point
+{ x: 1, y: 1 }
+&gt; point.x
+1
+</code></pre> </div> </section> <section> <p> Para limpiar la pantalla presiona <code>ctrl+l</code> </p> <p> Para salir de <i>node</i>, presiona <code>ctrl+c</code> dos veces seguidas </p> </section> <section> <p> Si no quieres lidiar con la consola de <i>node</i>, siempre puedes escribir un programa y usar <code>console.log()</code> para mostrar expresiones por pantalla </p> <div class="org-src-container"> <pre><code class="js">// en prueba.js
+console.log(40 + 2);
+let point = { x: 1, y: 1 };
+console.log(point);
+console.log('Coordenada X:', point.x);
+</code></pre> </div> </section> <section> <p> Y ahora ejecutar el programa con node: </p> <div class="org-src-container"> <pre><code class="sh">$ node prueba.js
+42
+{ x: 1, y: 1 }
+Coordenada X: 1
+</code></pre> </div> </section> <section> <p> El tema asume una única sesión de la consola de <i>node</i> a menos que se indique lo contrario </p> <p> Esto es importante porque <i>el estado se guarda entre instrucciones</i> </p> </section> <section> <p> Para la mayoría de los ejemplos, puedes mantener la misma sesión abierta pero si te encuentras con algo inesperado, antes de nada prueba a reiniciar la consola </p> <p> Para reiniciar la consola tienes que <b>salir y volver a entrar</b> </p> <p> Lo mejor es que se tenga la presentación abierta a un lado y la consola <i>node</i> en el otro </p> </section> </section> <section> <section id="slide-peculiaridades-de-la-sintaxis"> <h2 id="peculiaridades-de-la-sintaxis">Peculiaridades de la sintaxis</h2> </section> <section> <p> Las instrucciones acaban en <code>;</code> </p> <p> &#x2026;pero puedes no usarlo </p> <div class="org-src-container"> <pre><code class="js">return     // intérprete añade ; y devuelve undefined
+a + b      // Se hace la suma pero se pierde en el limbo
+
+return     // intérprete añade ; y devuelve undefined
+{ a: 5 }   // Se crea el objeto pero se pierde en el limbo
+
+return {
+  a : 5
+}          // Devuelve el objeto creado
+</code></pre> </div> </section> <section> <p> Vamos a declarar las variables con <code>let</code> o <code>const</code>: </p> <ul> <li><code>let</code>: Declara una variable de bloque</li> <li><code>const</code>: Declara una variable cuyo <i>valor</i> no puede ser cambiado</li> </ul> <div class="org-src-container"> <pre><code class="js">let b = 5;
+b = "Hola";             // Permitido
+const a = {};
+a.nombre = "mi nombre"; // Permitido
+a = {};                 // ERROR: No permitido
+</code></pre> </div> </section> <section> <p> Veréis que también se pueden difinir variables con: </p> <ul> <li><code>var</code>: Variables globales o de función. Realizan <i>hoisting</i></li> <li>Sin ninguna palabra clave delante: variables globales</li> </ul> <blockquote> <p> <b>No las usaremos en este curso (salvo que nos lo justifiquéis adecuadamente)</b> </p> </blockquote> <p> Cuando veamos el modelo de ejecución, veremos por qué </p> </section> <section id="slide-una-letiable-es-un-nombre"> <h3 id="una-letiable-es-un-nombre">Una <b>letiable es un nombre</b></h3> <p> Para el programa, quitando algunas excepciones, los nombres no tienen significado </p> </section> <section id="slide-un-valor-no-es-un-nombre"> <h3 id="un-valor-no-es-un-nombre">Un <b>valor no es un nombre</b></h3> <p> De hecho, sólo las funciones pueden tener nombre para poder implementar recursividad </p> </section> <section> <p> Así que no es lo mismo el nombre <code>uno</code> que el valor <code>1</code>, y por supuesto, no es obligatoria ninguna relación coherente entre el nombre y el valor </p> <div class="org-src-container"> <pre><code class="js">let uno = 2; // para el programa tiene sentido. Puede que para el programador no
+</code></pre> </div> </section> <section> <p> En general, hablando de booleanos, cadenas y números, decimos que los <b>nombres guardan valores</b> </p> <p> Si hablamos de objetos y funciones decimos que los <b>nombres apuntan a objetos o funciones</b> o <b>son referencias a objetos o funciones</b> </p> </section> <section id="slide-cadenas-de-caracteres-string"> <h3 id="cadenas-de-caracteres-string">Cadenas de caracteres (string)</h3> <ul> <li>Cadenas simples entre <code>" "</code> ó <code>' '</code></li> <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals%3E">Cadenas de plantilla</a> entre ` `</li> </ul> <div class="org-src-container"> <pre><code class="js">let s1 = 5;
+let s2 = 10;
+console.log(`La suma de ${s1} y ${s2} es ${s1 + s2}.`);
+
+// La suma de 5 y 10 es 15.
+</code></pre> </div> <p> En C# se conoce como cadenas interpoladas </p> </section> </section> <section> <section id="slide-tipos-primitivos"> <h2 id="tipos-primitivos">Tipos primitivos</h2> </section> <section> <p> Se llama <b>tipos primitivos</b> a aquellos que vienen con el lenguaje y que permiten la creación de nuevos tipos más complejos </p> </section> <section id="slide-tipos-primitivos-1"> <h3 id="tipos-primitivos-1">Tipos primitivos</h3> <ul> <li>booleanos</li> <li>undefined</li> <li>números</li> <li>cadenas</li> <li>enteros grandes</li> <li>símbolos</li> </ul> </section> <section id="slide-objetos-y-null"> <h3 id="objetos-y-null">Objetos y <code>null</code></h3> <p> Los objetos en JS son "no primitivos" </p> <p> Tienen <i>datos</i> y <i>métodos</i> </p> <p> <code>null</code> es un tipo, aunque <code>typeof null ==</code> "object"= </p> </section> <section id="slide-funciones"> <h3 id="funciones">Funciones</h3> <p> Las funciones se representan por su propio tipo, aunque también son <code>object</code> </p> <p> <code>typeof f ==</code> "function"= </p> <p> Tienen la propiedad de ser "llamables" (<i>callable</i>) </p> </section> <section> <div class="org-src-container"> <pre><code class="js">// En los comentarios hay más valores posibles para cada uno de los tipos
+let bool = true; // false
+let number = 1234.5; // 42, -Infinity, +Infinity
+let text = 'I want to be a pirate!'; // "I want to be a pirate"
+let object = {}; // [], null
+let code = function () { return 42; };
+</code></pre> </div> </section> <section> <p> Los puedes reconocer porque responden de manera distinta al operador <code>typeof</code>: </p> <div class="org-src-container"> <pre><code class="js">typeof true;
+typeof 1234.5;
+typeof 'I want to be a pirate!';
+typeof {};
+typeof function () { return 42; };
+</code></pre> </div> </section> <section> <p> En JavaScript podemos declarar una letiable y no asignarle ningún valor. En este caso el tipo de la letiable será <code>undefined</code> </p> <div class="org-src-container"> <pre><code class="js">let x;
+typeof x; // undefined
+x = 5;    // tan pronto como le demos un valor, el tipo dejará de ser undefined
+typeof x; // number
+</code></pre> </div> </section> </section> <section> <section id="slide-objetos-en-javascript"> <h2 id="objetos-en-javascript">Objetos en JavaScript</h2> </section> <section> <p> De entre todos los tipos, vamos a prestar atención a aquel cuyos valores permiten la composición con otros. Es decir, los de tipo <code>'object'</code> </p> </section> <section> <p> En JavaScript, los objetos son colecciones de valores etiquetados </p> <p> Por ejemplo, si queremos representar el punto <code>(10, 15)</code> del plano XY podemos etiquetar el valor en el eje X con la cadena <code>'x'</code> y el valor en el eje Y con la cadena <code>'y'</code> </p> <div class="org-src-container"> <pre><code class="js">let point = { 'x': 10, 'y': 15 };
+</code></pre> </div> </section> <section> <p> Cada par etiqueta y valor se llama <b>propiedad del objeto</b> </p> <p> No es algo estricto, pero cuando se habla de las propiedades de un objeto se suele referir a los valores mientras que para hablar de las etiquetas se suele decir <b>nombre de la propiedad</b> </p> </section> <section> <p> Si los nombres de las propiedades se escriben siguiendo las <a href="https://developer.mozilla.org/en-US/docs/Glossary/Identifier">reglas de formación de identificadores</a> en JavaScript, las comillas no son necesarias </p> <div class="org-src-container"> <pre><code class="js">let point = { x: 10, y: 10 }; // mucho más conveniente
+</code></pre> </div> </section> <section> <p> Este es el caso <b>más normal</b>, <b>el recomendado</b> y el que usaremos a los largo del curso pero conviene saber que por detrás, <b>el nombre de la propiedad es una cadena</b> </p> <p> Para acceder a las propiedades de un objeto usamos los corchetes con el nombre de la propiedad en medio: </p> <div class="org-src-container"> <pre><code class="js">point['x'];
+point['y'];
+</code></pre> </div> </section> <section> <p> De nuevo, si seguimos las reglas de formación de identificadores, podemos usar la notación punto para acceder a la propiedad, mucho más rápida de escribir: </p> <div class="org-src-container"> <pre><code class="js">point.x;
+point.y;
+</code></pre> </div> </section> <section> <p> Para cambiar el valor de una propiedad usamos el operador de asignación: </p> <div class="org-src-container"> <pre><code class="js">point.x = 0;
+point.y = 0;
+point['x'] = 0;
+point['y'] = 0;
+</code></pre> </div> </section> <section> <p> Si accedemos a una <b>propiedad que no existe</b>, obtendremos <code>undefined</code>: </p> <div class="org-src-container"> <pre><code class="js">let label = point.label; // será undefined. Compruébalo con typeof
+</code></pre> </div> </section> <section> <p> También es verdad que en cualquier momento podemos crear propiedades nuevas asignándoles un valor: </p> <div class="org-src-container"> <pre><code class="js">point.label = 'origin';
+point;
+</code></pre> </div> </section> <section> </section> <section id="slide-null"> <h3 id="null"><code>null</code></h3> <p> Existe un último valor muy relacionado con los objetos: <code>null</code> </p> <p> Tiene su propio tipo (<code>null</code> es de tipo <code>null</code>), pero la máquina virtual dice que el <code>object</code>, por motivos históricos: </p> <div class="org-src-container"> <pre><code class="javascript">&gt; typeof null;
+'object' 
+</code></pre> </div> </section> <section> <p> Este valor representa la <b>ausencia de objeto</b> y se suele utilizar para: </p> <ul> <li>En funciones en las que se pregunta por un objeto, indicar que no se ha encontrado</li> <li>En relaciones de composición, indicar que el objeto compuesto ya no necesita al objeto componente</li> </ul> </section> <section> <p> Cuidado con: </p> <p> <code>null =</code> undefined= </p> <p> <code>null ==</code> undefined= </p> </section> <section> <p> Por ejemplo, en un RPG, preguntamos por el siguiente enemigo vivo para comprobar si podemos seguir en batalla: </p> <div class="org-src-container"> <pre><code class="js">function getNextAliveEnemy() {
+  let nextEnemy;
+  if (aliveEnemies.length &gt; 0) {
+    nextEnemy = aliveEnemies[0];
+  }
+  else {
+    nextEnemy = null;
+  }
+  return nextEnemy;
+}
+</code></pre> </div> </section> <section> <p> O bien, supón la ficha de personaje de un héroe: </p> <div class="org-src-container"> <pre><code class="js">let hero = { sword: null, shield: null };
+hero.sword = { attack: 20, magic: 5 }; // coge una espada
+hero.sword = null; // suelta la espada
+</code></pre> </div> </section> </section> <section> <section id="slide-arrays"> <h2 id="arrays">Arrays</h2> </section> <section> <p> Las <b>listas</b> o <b>arrays</b> son colecciones de <b>datos ordenados</b> </p> <p> También son <code>object</code> </p> <p> Tienen una propiedad <code>length</code> y se accede a sus propiedades por índice (número entero) </p> </section> <section> <p> Los arrays en JavaScript no se parecen mucho a los arrays de bajo nivel (C/C++), que son <i>muy eficientes</i> </p> <p> Para representar datos de manera eficiente, usamos <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Vectores_tipados">vectores tipados</a>, que son objetos concretos que provee el API estándar </p> </section> <section> <p> Por ejemplo, la lista de comandos de un menú: </p> <div class="org-src-container"> <pre><code class="js">let menu = ['Attack', 'Defense', 'Inventory'];
+</code></pre> </div> </section> <section> <p> En este tipo de objetos, el orden importa </p> <p> Para acceder a los distintos valores usamos su <b>índice</b> en la lista entre corchetes. Los índices <b>comienzan en 0</b> </p> <div class="org-src-container"> <pre><code class="js">menu[0];
+menu[1];
+menu[2];
+</code></pre> </div> </section> <section> <p> Se puede consultar la longitud de un array, accediendo a la propiedad <code>length</code> </p> <div class="org-src-container"> <pre><code class="js">menu.length;
+</code></pre> </div> </section> <section> <p> Como en el caso de los objetos que no son arrays, podemos cambiar cualquier valor en cualquier momento usando el operador de asignación: </p> <div class="org-src-container"> <pre><code class="js">menu[0] = 'Special'; // reemplaza Wait con Special
+</code></pre> </div> </section> <section> <p> También como en el caso de los objetos, podemos acceder a un valor que no existe y recuperarlo o asignarlo en cualquier momento: </p> <div class="org-src-container"> <pre><code class="js">menu = ['Attack', 'Defense', 'Inventory'];
+menu;
+menu.length;
+let item = menu[10];
+typeof item; // será undefined
+menu[10] = 'Secret';
+menu;
+menu.length;
+</code></pre> </div> </section> <section> <p> Si asignamos a un índice <b>por encima de la longitud actual, extendemos el array hasta ese índice</b> </p> </section> <section> <p> Se puede añadir un elemento al final del array, llamando al método <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/push"><code>push()</code></a>: </p> <div class="org-src-container"> <pre><code class="js">menu.push('Magic');
+</code></pre> </div> </section> <section> <p> También se puede quitar un elemento por el final usando el método <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop"><code>pop()</code></a>: </p> <div class="org-src-container"> <pre><code class="js">menu.pop();
+</code></pre> </div> </section> <section> <p> Se puede alterar una lista (insertar o borrar elementos) en cualquier lugar usando el método <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice"><code>splice()</code></a>: </p> <div class="org-src-container"> <pre><code class="js">// Inspecciona la lista tras cada operación
+menu.splice(2, 0, 'Magic'); // añade Magic antes de Inventory
+menu.splice(2, 2, 'Ench. Inventory'); // reemplaza Magic and Inventory with Ench. Inventory
+menu.splice(0, 0, 'Wait'); // añade Wait al principio de la lista
+</code></pre> </div> </section> <section> <p> Se puede recorrer con un <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of"><code>for...of</code></a> </p> <div class="org-src-container"> <pre><code class="js">for (let item of menu) {
+  console.log(item);
+}
+</code></pre> </div> </section> <section> <p> Se pueden recorrer con un <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"><code>Array.forEach</code></a>: </p> <div class="org-src-container"> <pre><code class="js">menu.forEach( 
+  (item) =&gt; console.log(item)
+);
+
+menu.forEach( 
+  (item, index) =&gt; console.log(`${index}: ${item}`)
+);
+</code></pre> </div> <p> Ya veremos que <code>=&gt;</code> sirve para definir una función </p> </section> <section> <p> Se puede buscar un elemento y su posición en el array con <code>find</code> y <code>findIndex</code> </p> <p> Se puede comprobar si todos los elementos cumplen una condición con <code>every</code> </p> <p> Se puede crear un nuevo array con los elementos que cumplen una condición con <code>filter</code> </p> <p> Se puede crear un nuevo array aplicando una función a cada elemento con <code>map</code> </p> <p> &#x2026; <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">y mucho más</a> </p> </section> </section> <section> <section id="slide-distinguir-entre-objetos-y-arrays"> <h2 id="distinguir-entre-objetos-y-arrays">Distinguir entre objetos y arrays</h2> </section> <section> <p> Arrays y objetos tienen tipo <code>object</code> así que usaremos el método <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray"><code>Array.isArray()</code></a> para distinguirlos </p> <div class="org-src-container"> <pre><code class="js">let obj = {}; // el objeto vacío es tan válido como cualquier otro
+let arr = []; // una lista sin elementos, como te puedes imaginar
+typeof obj; // será object
+typeof arr; // será object
+Array.isArray(obj); // será false
+Array.isArray(arr); // será true
+</code></pre> </div> </section> <section id="slide-composición-de-objetos"> <h3 id="composición-de-objetos">Composición de objetos</h3> <p> Objetos y arrays permiten cualquier composición de objetos. Es decir, sus valores pueden ser otros objetos y arrays, números, cadenas o funciones </p> </section> <section> <p> Ficha de personaje: </p> <div class="org-src-container"> <pre><code class="js">let hero = {
+  name: 'Link',
+  life: 100,
+  weapon: { kind: 'sword', power: 20, magicPower: 5 },
+  defense: { kind: 'shield', power: 5, magicPower: 0 },
+  // Inventario por slots. Dos slots vacios y uno con 5 pociones
+  inventory: [
+    { item: null, count: 0},
+    { item: null, count: 0},
+    { item: { kind: 'potion', power: 15 }, count: 5}
+  ]
+};
+</code></pre> </div> </section> <section> <p> Algunas propiedades: </p> <div class="org-src-container"> <pre><code class="js">hero.name; // el nombre del héroe
+hero.weapon.kind; // el tipo de arma
+hero.inventory[0]; // el primer slot del inventario
+hero.inventory[0].item; // qué hay en el primer slot del inventario
+hero.inventory[2].item.power; // el poder del item del tercer slot del inventario
+</code></pre> </div> </section> </section> <section> <section id="slide-identidad-de-los-objetos"> <h2 id="identidad-de-los-objetos">Identidad de los objetos</h2> </section> <section> <p> En JavaScript, el operador de igualdad estricta o identidad es <code>===</code> (el triple igual) </p> <p> Esto permite comparar dos objetos y decidir si <b>son iguales</b> </p> <p> También existe el operador de desigualdad <code>!==</code> que compara dos objetos y decide si <b>no son iguales</b> </p> </section> <section> <p> Para los tipos <code>bool</code>, <code>string</code>, <code>number</code> y <code>undefined</code>, dos valores son iguales si tienen la <b>misma forma</b>: </p> <div class="org-src-container"> <pre><code class="js">// Todas estas comparaciones son verdaderas
+"Hola" === "Hola";
+"Hola" !== "hola";
+true === true;
+123 === 123.0;
+123 === 122 + 1; // primero se resuelve la expresión, luego se compara
+undefined === undefined;
+</code></pre> </div> </section> <section> <p> Para <code>object</code> y <code>symbol</code>, dos objetos son iguales sólo si se refieren al mismo objeto o símbolo: </p> <div class="org-src-container"> <pre><code class="js">({} !== {}); // da igual la forma, esto son dos objetos distintos
+({} !== []);
+[] !== []; // igual que antes
+[1, 2, 3] !== [1, 2, 3]; // la forma da igual, los objetos son distintos
+null === null; // pero con null funciona porque sólo hay un valor null
+let obj = {};
+let sameObj = obj;
+let another = {};
+sameObj === obj; // funciona porque ambos nombres se refieren al mismo objeto
+sameObj !== another; // insisto, distintos, pese a la forma
+Symbol() === Symbol(); // false
+</code></pre> </div> </section> <section> <p> El operador <code>==</code> es el operador de igualdad abstracta o débil. Es parecido, pero hace <b>peligrosas</b> conversiones de tipo: </p> <div class="org-src-container"> <pre><code class="js">3 === '3'; // false
+3 == '3';  // true
+
+"24" &gt; "120"; // true
+24 &gt; 120;     // false
+</code></pre> </div> <p> En general, usad siempre <code>===</code> </p> </section> <section> <p> <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Equality_comparisons_and_sameness">Comparadores de igualdad en JS</a> </p> </section> <section> <p> <a href="https://www.destroyallsoftware.com/talks/wat">Wat</a> </p> </section> <section> <p> <a href="http://www.jsfuck.com/">JSFuck</a> </p> </section> <section> <div class="org-src-container"> <pre><code class="js">&gt; [10, 10, 10].map(parseInt)
+[ 10, NaN, 2 ]
+</code></pre> </div> <p> (<a href="https://stackoverflow.com/a/14528430">Hay una explicación</a>) </p> </section> </section> <section> <section id="slide-funciones-referencias-a-funciones-y-llamadas-a-funciones"> <h2 id="funciones-referencias-a-funciones-y-llamadas-a-funciones">Funciones, referencias a funciones y llamadas a funciones</h2> </section> <section> <p> Hay dos formas de definir una función. Una es usando la <b>declaración de función</b>: </p> <div class="org-src-container"> <pre><code class="js">// Introduce una letiable factorial que apunta a la función factorial
+function factorial(number) {
+  if (number === 0) {
+    return 1;
+  }
+  return number * factorial(number - 1);
+} // no necesitas un ';' en este caso
+</code></pre> </div> </section> <section> <p> En este caso el nombre de la función (antes de los paréntesis) es obligatorio </p> <p> Esto tiene dos implicaciones: </p> <ul> <li>Permite implementar <b>llamadas recursivas</b> como la del ejemplo</li> <li><b>Crea un nombre</b> <code>factorial</code> para referirnos a esa función</li> </ul> </section> <section> <p> La otra forma es usa una <b>expresión de función</b>. Esta se parece más a como creamos un número o una cadena: </p> <div class="org-src-container"> <pre><code class="js">// Introduce una letiable recursiveFunction que apunta a OTRA funcion factorial
+let recursiveFunction = function factorial(number) {
+  if (number === 0) {
+    return 1;
+  }
+  return number * factorial(number - 1);
+}; // ahora sí necesitas ';' como lo necesitarias con cualquier asignación
+</code></pre> </div> </section> <section> <p> En este último caso, hay dos nombres: </p> <ul> <li>Uno es el nombre de la función <code>factorial</code> que existe para poder referirnos a ella dentro del cuerpo de la función</li> <li>El otro es la letiable <code>recursiveFunction</code> que referencia a la función</li> </ul> </section> <section> <p> Ambos referencian a la misma función (con dos nombres diferentes) y ambos podrían usarse para hacer la llamada recursiva </p> </section> <section> <p> La misma función puede referirse desde múltiples letiables o, dicho de otra manera, tener muchos nombres: </p> <div class="org-src-container"> <pre><code class="js">let a = recursiveFunction;
+let b = recursiveFunction;
+a === b; // es cierto, se refieren a la misma función
+a.name; // el nombre de la función no tiene que ver con el de la letiable
+b.name; // tres cuartos de lo mismo
+recursiveFunction !== factorial; // ¡factorial no está definido!
+</code></pre> </div> </section> <section> <p> Tampoco podemos confundir la referencia a la función <code>factorial</code> y la llamada a la misma función <code>factorial(10)</code> </p> </section> <section> <p> Con la primera forma <b>nos referimos al objeto</b> que encapsula el código que hay que ejecutar </p> <p> No requiere parámetros porque no queremos ejecutar el código sino sólo referirnos a la función </p> </section> <section> <p> Con la segunda estamos <b>pidiendo a la función que se ejecute</b> y por tanto tenemos que aportar todos los parámetros necesarios </p> </section> <section> <p> En realidad, existe una tercera forma de definir una función: la función <i>anónima</i>: </p> <div class="org-src-container"> <pre><code class="js">let f = function( a ) {
+  console.log(a);
+};
+f; 
+f(5);
+</code></pre> </div> </section> <section> <p> Se suelen usar cuando es necesario pasar una función como parámetro: </p> <div class="org-src-container"> <pre><code class="js">menu.forEach( 
+  function (item) {
+    console.log(item);
+  }
+);
+</code></pre> </div> </section> <section> <p> Las <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions"><i>arrow functions</i></a> (<code>=&gt;</code>) son una forma más compacta para definir este tipo de funciones: </p> <div class="org-src-container"> <pre><code class="js">let f = ( a ) =&gt; console.log(a);
+
+menu.forEach( (item) =&gt; console.log(item) );
+</code></pre> </div> <p> Tienen una propiedad muy interesante con respecto al <code>this</code> que veremos más adelante </p> </section> </section> </div> </div> <script src="tooling.reveal.ffb33b1a.js"></script> <script src="tooling.reveal.f05d24be.js"></script> <script src="tooling.reveal.1feea775.js"></script> <script src="tooling.reveal.d2982244.js"></script> <script>Reveal.initialize({controls:!0,progress:!0,history:!0,center:!0,slideNumber:"c",rollingLinks:!1,keyboard:!0,mouseWheel:!1,fragmentInURL:!1,hashOneBasedIndex:!1,pdfSeparateFragments:!0,overview:!0,transition:"none",transitionSpeed:"default",plugins:[RevealSearch,RevealHighlight,RevealZoom],dependencies:[]});</script> </body></html>

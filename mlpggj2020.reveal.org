@@ -1,0 +1,519 @@
+* Contexto
+:PROPERTIES:
+:CUSTOM_ID: contexto
+:END:
+
+#+REVEAL: split
+
+** GameJam 2020
+:PROPERTIES:
+:CUSTOM_ID: gamejam-2020
+:END:
+Del 31 de enero al 2 de febrero de 2020, UCM es sede GameJam 2020 en
+Madrid
+
+#+REVEAL: split
+
+** Medialab Prado
+:PROPERTIES:
+:CUSTOM_ID: medialab-prado
+:END:
+La GGJ UCM se organizó en Medialab Prado
+
+[[https://www.medialab-prado.es]]
+
+#+REVEAL: split
+
+** Pantalla
+:PROPERTIES:
+:CUSTOM_ID: pantalla
+:END:
+Medialab Prado tiene una pantalla en la fachada exterior que se puede
+usar
+
+[[https://www.medialab-prado.es/noticias/fachada-digital-informacion-tecnica-0]]
+
+#+REVEAL: split
+
+** Dimensiones
+:PROPERTIES:
+:CUSTOM_ID: dimensiones
+:END:
+- 15m \(\times\) 10m
+- 192 \(\times\) 157 "píxeles" (enormes)
+
+#+REVEAL: split
+
+#+caption: Diagrama de la pantalla
+[[https://www.medialab-prado.es/sites/default/files/import/ftp_medialab/5/5770/500_0.png]]
+
+#+REVEAL: split
+
+La pantalla sólo se ve bien de noche (está habilitada como de 18:30 a
+23:30)
+
+#+REVEAL: split
+
+El tamaño de la plaza hace que se vea muy cerca, con lo que los píxeles
+inferiores se ven /bastante mayores/ que los superiores
+
+#+REVEAL: split
+
+** Sonido
+:PROPERTIES:
+:CUSTOM_ID: sonido
+:END:
+No hay sonido (está en medio de la calle)
+
+#+REVEAL: split
+
+** Cámaras
+:PROPERTIES:
+:CUSTOM_ID: cámaras
+:END:
+Hay un sistema CCTV que recoge la interacción de la gente en la plaza
+
+/Y un API de alto nivel de reconocimiento de personas/
+
+* Programando la fachada
+:PROPERTIES:
+:CUSTOM_ID: programando-la-fachada
+:END:
+
+#+REVEAL: split
+
+Tienen un PC con salida directa a la fachada, con lo que cualquier trozo
+imagen que quepa en 192 \(\times\) 157, se puede emitir
+
+#+REVEAL: split
+
+Esto requiere bastante gestión (aunque es posible)
+
+#+REVEAL: split
+
+** Processing
+:PROPERTIES:
+:CUSTOM_ID: processing
+:END:
+Medialab Prado ofrece un API de alto nivel para programar la fachada y
+la cámara
+
+Está basado en [[https://processing.org][Processing]]
+
+#+REVEAL: split
+
+#+begin_src java
+int y = 100;
+
+void setup() {
+  size(640, 360); 
+  stroke(255); 
+  frameRate(30);
+}
+void draw() { 
+  background(0); 
+  y = y - 1; 
+  if (y < 0) { 
+    y = height; 
+  } 
+  line(0, y, width, y);  
+} 
+#+end_src
+
+[[https://processing.org/examples/setupdraw.html][Enlace al ejemplo]]
+
+* P5.js y JavaScript
+:PROPERTIES:
+:CUSTOM_ID: p5.js-y-javascript
+:END:
+
+#+REVEAL: split
+
+Dado que /Programa la plaza/ ofrece una plataforma web, se recomienda
+usar [[https://p5js.org][P5.js]], que es /Processing/, pero con
+JavaScript
+
+#+REVEAL: split
+
+#+begin_src js
+let y = 100;
+
+function setup() {
+  createCanvas(720, 400);
+  stroke(255); 
+  frameRate(30);
+}
+function draw() {
+  background(0);
+  y = y - 1;
+  if (y < 0) {
+    y = height;
+  }
+  line(0, y, width, y);
+}
+#+end_src
+
+[[https://p5js.org/examples/structure-setup-and-draw.html][Enlace al
+ejemplo]]
+
+#+REVEAL: split
+
+Hacer con JavaScript y P5.js es mucho más flexible (y está más
+mantenido)
+
+* Plataforma "Programa la plaza"
+:PROPERTIES:
+:CUSTOM_ID: plataforma-programa-la-plaza
+:END:
+
+#+REVEAL: split
+
+Desde [[http://programalaplaza.medialab-prado.es]] se puede crear una
+cuenta y empezar a programar directamente en el navegador
+
+#+REVEAL: split
+
+La plataforma no solo ofrece un editor, también ofrece un API
+
+#+REVEAL: split
+
+** API seguimiento de personas (/tracking/)
+:PROPERTIES:
+:CUSTOM_ID: api-seguimiento-de-personas-tracking
+:END:
+#+begin_src js
+function setup() {
+  api.tracking.connect();
+}
+
+function draw() {
+  var blobs = api.tracking.getBlobs();
+    for (var i = 0; i < blobs.length; i++) {
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+** API de guardado
+:PROPERTIES:
+:CUSTOM_ID: api-de-guardado
+:END:
+Datos que se almacenan durante el tiempo de muestra
+
+#+begin_src js
+api.storage.set('valor', 15);
+// ...
+valor = api.storage.get('valor');
+#+end_src
+
+#+REVEAL: split
+
+** Imágenes
+:PROPERTIES:
+:CUSTOM_ID: imágenes
+:END:
+Para usar imágenes (cualquier tipo soportado por P5.js), se suben a la
+plataforma y luego se referencian por la URL que nos da el sistema
+
+#+REVEAL: split
+
+#+caption: Subir imágenes
+[[file:subirimagen.png]]
+
+* Proxy
+:PROPERTIES:
+:CUSTOM_ID: proxy
+:END:
+
+#+REVEAL: split
+
+"Programa la Plaza" tiene un /API/ para el reconocimiento de personas:
+
+#+begin_src js
+api.tracking.connect()
+api.tracking.getBlobs()
+#+end_src
+
+/Pero no podemos usarlo mientras desarrollamos/
+
+#+REVEAL: split
+
+Para el desarrollo se creó un /proxy/ del API que usa el ratón como
+sustituto de la cámara
+
+#+REVEAL: split
+
+Se crea un /array/ (=api.tracking.blobs=) y, cada vez que se arrastra
+por pantalla (que simula a la cámara), metemos más elementos en el array
+
+Este /array/ simula los "blobs" que nos ofrece el /API/
+
+#+REVEAL: split
+
+Usamos =mouseDragged()= P5.js para recibir la entrada de ratón y cambiar
+al /array/:
+
+#+begin_src js
+function mouseDragged() {
+  if (overBox > released) {
+    const found = api.tracking.blobs.find(blob =>
+      blob.id === overBox)
+    if (found) {
+      found.x = mouseX
+      found.y = mouseY
+    }
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+Después, exportamos nuestro propio objeto =api=
+
+#+begin_src js
+const api = {
+  // ...
+  tracking: {
+    connect: function () { },
+    getBlobs: function () {
+      return JSON.parse(JSON.stringify(api.tracking.blobs))
+    },
+    blobs: []
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+Como hemos llamado igual a nuestro /API/, sólo tenemos que subir el
+código (sin nuestro /API/ proxy), y funcionará
+
+* El juego
+:PROPERTIES:
+:CUSTOM_ID: el-juego
+:END:
+
+#+REVEAL: split
+
+#+caption: El juego
+[[file:juego.gif]]
+
+#+REVEAL: split
+
+En el juego, los jugadores sólo se mueven por la plaza (es la única
+entrada)
+
+La cámara los reconoce, y nos ofrece posiciones de cada jugador
+\((x, y)\), a esto le llama /blob/
+
+#+REVEAL: split
+
+Cuando un /blob/ cambia, primero vemos si es alguno que ya estaba o es
+nuevo (porque la /API/ sólo nos dice el =id= del /blob/)
+
+Se probó con =id= y con =posicion=, y por =id= funcionaba mejor
+
+#+REVEAL: split
+
+Con la posición, generamos enemigos (fantasmas), puertas y palancas
+
+Las puertas se abren según el tipo de habitación:
+
+- Solas (están abiertas)
+- Cuando se derrota a todos los enemigos
+- Cuando se activa una palanca
+
+#+REVEAL: split
+
+Hay 2 tipos de personajes:
+
+- Guerreros (atacan "cuerpo a cuerpo")
+- Magos (disparan bolas de fuego)
+
+Como no hay más entrada que la posición, disparan solos cada cierto
+tiempo
+
+#+REVEAL: split
+
+Los personajes no mueren, no hay desafío real
+
+Pero no es necesario, ya que la gente juega porque está en la calle, y
+por el avance en el juego
+
+
+** Generación de habitaciones
+:PROPERTIES:
+:CUSTOM_ID: generación-de-habitaciones
+:END:
+La generación de habitaciones es aleatoria
+
+Para no tener que llevar el control del mapa, evitamos que se vuelva a
+atrás, /no hay puertas ni hacia abajo ni por donde hemos venido/
+
+
+** El dragón
+:PROPERTIES:
+:CUSTOM_ID: el-dragón
+:END:
+A partir de cierto número de habitaciones, hay probabilidad de que
+aparezca el dragón
+
+Cuando el dragón muere (necesita varios golpes)
+
+
+** Desafíos de programación
+:PROPERTIES:
+:CUSTOM_ID: desafíos-de-programación
+:END:
+El juego se hizo en P5.js, que es mucho menos potente que Phaser
+
+
+*** Animaciones
+:PROPERTIES:
+:CUSTOM_ID: animaciones
+:END:
+#+begin_src js
+actualizar() {
+  super.actualizar()
+
+  this.tiempoAnimacion += delta()
+  if (this.tiempoAnimacion >= this.animacion.periodo) {
+    this.tiempoAnimacion = 0
+    const l = this.animacion.fotogramas.length
+
+    if (this.fotograma === l - 1) {
+      if (this.animacion.terminada && !this.terminadaLlamada) {
+        this.animacion.terminada(this)
+        this.terminadaLlamada = true
+      }
+      if (this.animacion.vuelta) {
+        this.establecerFotograma()
+      }
+    } else {
+      this.establecerFotograma(this.fotograma + 1)
+    }
+  }
+}
+#+end_src
+
+
+*** Colisiones
+:PROPERTIES:
+:CUSTOM_ID: colisiones
+:END:
+#+begin_src js
+// `input` puede ser un objeto, o la `x`
+solapa(input, y = undefined, w = undefined, h = undefined) {
+  const other = typeof input === 'number' ? { x: input, y, w, h } : input
+  return this.x < other.x + other.w &&
+    this.x + this.w > other.x &&
+    this.y < other.y + other.h &&
+    this.h + this.y > other.y
+}
+#+end_src
+
+
+*** Movimiento a un punto
+:PROPERTIES:
+:CUSTOM_ID: movimiento-a-un-punto
+:END:
+#+begin_src js
+actualizar() {
+  super.actualizar()
+  if (this.vivo) {
+    if (dist(this.x, this.y, this.destino.x, this.destino.y) < Fantasma.tamano) {
+      this.nuevoDestino()
+    }
+    const v = Fantasma.velocidad / delta()
+    const angulo = atan2(this.destino.y - this.y, this.destino.x - this.x)
+    this.x += v * cos(angulo)
+    this.y += v * sin(angulo)
+  }
+}
+#+end_src
+
+* Arte
+:PROPERTIES:
+:CUSTOM_ID: arte
+:END:
+
+#+REVEAL: split
+
+Todo el juego se dibujó con arte píxel porque la pantalla tiene muy
+pocos puntos, y muy grandes
+
+Se animó frame a frame
+
+#+REVEAL: split
+
+El arte es original, pero basado en buena medida en otros recursos
+encontrados en Internet
+
+Algunas imágenes se calcaron con cierta libertad y luego se pasaron a
+arte píxel
+
+#+REVEAL: split
+
+¡Gracias al prof. Guillermo Jiménez por los logos de la UCM y la Game
+Jam!
+
+#+REVEAL: split
+
+#+caption: Logo UCM
+[[file:ggj_ucm.png]]
+
+#+REVEAL: split
+
+#+caption: Dragón
+[[file:ggj_dragon.png]]
+
+#+REVEAL: split
+
+#+caption: Logo GGJ
+[[file:ggj_ggj.png]]
+
+#+REVEAL: split
+
+#+caption: Guerrero
+[[file:ggj_guerrero.png]]
+
+#+REVEAL: split
+
+#+caption: Magia
+[[file:ggj_magia.png]]
+
+#+REVEAL: split
+
+#+caption: Mago
+[[file:ggj_mago.png]]
+
+#+REVEAL: split
+
+#+caption: Palanca
+[[file:ggj_palanca.png]]
+
+#+REVEAL: split
+
+#+caption: Puerta
+[[file:ggj_puerta.png]]
+
+#+REVEAL: split
+
+#+caption: Los enemigos mueren "desvaneciéndose", para informar al
+jugador
+[[file:fantasma.gif]]
+
+* El juego
+:PROPERTIES:
+:CUSTOM_ID: el-juego-1
+:END:
+
+#+REVEAL: split
+
+Todo está [[https://github.com/cleongh/majemag][accesible en GitHub]]
+
+#+REVEAL: split
+
+#+caption: Pantalla MLP con el juego
+[[file:pantalla_mlp.jpg]]

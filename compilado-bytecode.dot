@@ -1,0 +1,17 @@
+
+digraph {
+  bgcolor=transparent
+  rankdir=LR
+  // node [fontcolor=white color=white]
+  // edge [fontcolor=white color=white]
+  {processor vm rank=same}
+  processor [label="procesador" shape=box]
+  compile [label="bytecode" shape=ellipse]
+  vm [label="máquina virtual" shape=box]
+  source [label="código fuente"]
+  source -> compile [label="compilado en"]
+  compile -> vm [label="ejecutado en"]
+  //source -> vm [label="interpretado por"]
+  vm -> processor [label="ejecuta programa en"]
+
+}

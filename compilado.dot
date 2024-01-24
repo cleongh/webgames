@@ -1,0 +1,11 @@
+digraph {
+   bgcolor=transparent
+ rankdir=LR
+  compilador [label="compilador"]
+  processor [label="procesador"]
+  program [shape=record label="{<f1>A|B|C|...}"]
+  program -> compilador [label="(1) todo el programa se envía"]
+  compilador -> compilador [label="(2) todo se transforma en código máquina"]
+  compilador -> processor [label="(3) todo se envía al procesador"]
+  processor -> processor [label="(4) el procesador ejecuta todo"]
+}

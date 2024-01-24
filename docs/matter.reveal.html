@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Físicas con Matter.js</title><meta name="author" content="Carlos León"><style>.underline{text-decoration:underline}</style><link rel="stylesheet" href="tooling.reveal.e38fa0d8.css"><link rel="stylesheet" href="tooling.reveal.a866bf8d.css" id="theme"><link rel="stylesheet" href="tooling.reveal.c1a625de.css"><link rel="stylesheet" href="tooling.reveal.fdb16a0d.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></head><body> <div class="reveal"> <div class="slides"> <section id="sec-title-slide"> <h1 class="title">Físicas con Matter.js</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2> </section> <section> <section id="slide-qué-es-matter.js"> <h2 id="qué-es-matter.js">Qué es Matter.js</h2> </section> <section> <p> <a href="http://brm.io/matter-js/">Matter.js</a> es un motor físico 2D <i>independiente de Phaser</i>, para la web </p> </section> <section> <p> Para usarlo, simplemente lo habilitamos en la configuración del juego añadiendo <a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Types.Physics.Matter.MatterWorldConfig">la configuración de Matter</a> la propiedad <code>physics</code>: </p> <div class="org-src-container"> <pre><code class="js">var config = {
+    physics: {
+        default: 'matter',
+        matter: {
+            // ...
+        }
+    },
+};
+
+
+const game = new Phaser.Game(config);
+</code></pre> </div> </section> <section> <p> A partir de ese momento, todas las <code>Scene</code> tendrán <a href="https://newdocs.phaser.io/docs/3.52.0/Phaser.Physics.Matter.MatterPhysics">una propiedad <code>matter</code></a> a través de la cual podemos acceder al motor físico: </p> <div class="org-src-container"> <pre><code class="js">//create
+this.load.image('roca', 'roca.png');
+</code></pre> </div> <div class="org-src-container"> <pre><code class="js">// update
+this.matter.add.image(100, -100, 'roca');
+</code></pre> </div> </section> <section> <p> <i>Matter.js</i> es mucho más complejo y potente que <i>Arcade</i>, pero también tiene bastantes más requisitos de procesador </p> </section> </section> <section> <section id="slide-entidades-físicas-en-matter"> <h2 id="entidades-físicas-en-matter">Entidades físicas en Matter</h2> </section> <section> <p> Podemos agregar entidades a la física de Matter con: </p> <div class="org-src-container"> <pre><code class="js">// No solo se pueden crear imágenes (revisar doc)
+nave = this.matter.add.image(100, 100, 'nave');
+</code></pre> </div> <p> o </p> <div class="org-src-container"> <pre><code class="js">// nave ha sido creado aparte, como una imagen, un sprite...
+this.matter.add.gameObject(nave);
+</code></pre> </div> </section> <section> <p> En este caso, Matter inyecta <a href="https://newdocs.phaser.io/docs/3.52.0/Phaser.Physics.Matter.Sprite">propiedades y métodos físicos complejos</a> al objeto creado: </p> <div class="org-src-container"> <pre><code class="js">nave.setFrictionAir(0.1); //  fricción
+nave.setMass(50);  // masa
+nave.setFixedRotation(); // inercia infinita
+nave.setAngularVelocity(-0.1); // velocidad angular
+nave.thrust(0.1); // empuje
+nave.setVelocity(16, 0); // x e y
+nave.applyForce({15, 24}); // un vector
+</code></pre> </div> </section> <section> </section> <section id="slide-aplicando-fuerzas"> <h3 id="aplicando-fuerzas">Aplicando fuerzas</h3> </section> <section> <div class="org-src-container"> <pre><code class="js">sprite.applyForce({x: 100, y: 0});
+</code></pre> </div> <p> O con funciones más cómodas, que tienen en cuenta la orientación del <code>GameObject</code>: </p> <div class="org-src-container"> <pre><code class="js">sprite.thrust(19);
+sprite.thrustLeft(14);
+sprite.thrustBack(5);
+</code></pre> </div> </section> <section> </section> <section id="slide-aplicando-impulsos"> <h3 id="aplicando-impulsos">Aplicando impulsos</h3> <p> Un impulso es una fuerza que se ejerce en un momento puntual pero que cesa y su efecto (la aceleración) sólo ocurre un instante </p> <p> Con <i>Matter.js</i>, lo haremos usado <code>applyForce()</code> sólo un instante </p> </section> <section> </section> <section id="slide-gravedad"> <h3 id="gravedad">Gravedad</h3> <p> La gravedad es un tipo de fuerza constante hacia una dirección. Normalmente hacia abajo: </p> <div class="org-src-container"> <pre><code class="js">new Phaser.Game({
+    physics: {
+        default: 'matter',
+        matter: {
+            gravity: {
+              x: 0,
+              y: 0
+            }
+        }
+    },
+</code></pre> </div> </section> <section> <p> Los objetos pueden tener <i>bounding boxes</i> más elaboradas y podemos cambiarla: </p> <div class="org-src-container"> <pre><code class="js">let rect = this.matter.add.image(200, 50, 'blue');
+
+rect.setBody({
+        type: 'rectangle',
+        width: 128,
+        height: 128
+    });
+</code></pre> </div> </section> <section> </section> <section id="slide-formas"> <h3 id="formas">Formas</h3> <p> Cada forma tiene <a href="https://newdocs.phaser.io/docs/3.54.0/Phaser.Types.Physics.Matter.MatterSetBodyConfig">sus propiedades particulares</a> (por ejemplo, <code>'fromVertices'</code> tiene una cadena <code>verts</code>"x y x y &#x2026; x y"= o un array) </p> <ul> <li><code>'rectangle'</code></li> <li><code>'circle'</code></li> <li><code>'trapezoid'</code></li> <li><code>'polygon'</code></li> <li><code>'fromVertices'</code></li> </ul> </section> </section> <section> <section id="slide-detección-de-colisiones"> <h2 id="detección-de-colisiones">Detección de colisiones</h2> </section> <section> <p> Para detectar colisiones o solapamientos, <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Matter.Events">tenemos eventos</a>: </p> <div class="org-src-container"> <pre><code class="js">// cuando se inicia la colisión
+this.matter.world.on('collisionstart', 
+    (evento, cuerpo1, cuerpo2) =&gt; {
+    // hacer algo
+});
+
+// cuando termina la colisión
+this.matter.world.on('collisionend', 
+    (evento, cuerpo1, cuerpo2) =&gt; {
+    // hacer algo
+});
+</code></pre> </div> </section> </section> <section> <section id="slide-restricciones-o-constraints"> <h2 id="restricciones-o-constraints">Restricciones o <i>constraints</i></h2> </section> <section> <p> Una <i>constraint</i> es una restricción sobre la distancia a la que tienen que estar dos objetos </p> <p> También se les llama <i>muelles</i> (<i>springs</i>) </p> </section> <section> <p> Los muelles siguen la ley de <a href="https://es.wikipedia.org/wiki/Ley_de_elasticidad_de_Hooke">Hooke</a> donde la fuerza \(F\): </p> <p> \[F=-k \times X\] </p> <ul> <li>\(k\): constante de elasticidad <b>stiffness</b></li> <li>\(X\): longitud</li> </ul> </section> <section> <p> Derivado de esta ley tenemos el movimiento armónico oscilante </p> <p> La <b>amortiguación</b> es una fuerza que va en dirección contraria al movimiento </p> <p> La resistencia que hace que el movimiento sea oscilante </p> <p> Cuanto más estirado esté el muelle, más fuerza de amortiguación se genera </p> </section> <section> <p> Para crear <a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Physics.Matter.Factory#constraint">una unión o muelle</a> en <i>Matter.js</i>: </p> <div class="org-src-container"> <pre><code class="js">scene.matter.add.constraint(obj1,
+                            obj2,
+                            50, // distancia
+                            0.5 // rigidez de la unión
+                            );
+</code></pre> </div> </section> <section> <div class="html" id="org0f65f4d"> <p> &lt;script src="<a href="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.19.0/phaser.min.js">https://cdnjs.cloudflare.com/ajax/libs/phaser/3.19.0/phaser.min.js</a>" integrity="sha256-kF1kZP3VeVryJL2hSRtuAu34Fva0NKx/7IfxsD+Hl2Q=" crossorigin="anonymous"&gt;&lt;/script&gt; </p> </div> <p> <a href="https://codepen.io/gjimenezucm/pen/jOmBPqm">En este ejemplo</a>, haciendo clic, se aplica impulso a una de las bolas </p> <div class="html" id="org17f50b3"> <p> &lt;canvas id="ejemplo1" /&gt; </p> </div> <div class="html" id="org36717b1"> <p> &lt;script&gt; new Phaser.Game({ type: Phaser.WEBGL, <i>/ renderType: CONST.CANVAS, width: 800, height: 600, backgroundColor: '#1b1464', /</i> parent: 'phaser-example', canvas: document.getElementById('ejemplo1'), physics: { default: 'matter', matter: { <i>/ gravity: { /</i> x: 0, <i>/ y: 0 /</i> } } }, scene: { preload: preload, create: create } }); </p> <p> function preload () { this.load.setBaseURL('https://labs.phaser.io'); this.load.image('block', 'assets/sprites/block.png'); this.load.image('ball', 'assets/sprites/shinyball.png'); } </p> <p> function create () { </p> <p> this.matter.world.setBounds(); var ballA = this.matter.add.image(420, 100, 'ball', null, { shape: 'circle', friction: 0.005, restitution: 0.6 }); var ballB = this.matter.add.image(400, 200, 'ball', null, { shape: 'circle', friction: 0.005, restitution: 0.6 }); </p> <p> this.matter.add.constraint(ballA, ballB, 200, 0); </p> <p> this.input.on('pointerdown', pointer =&gt; { ballA.thrust(0.1); }); } &lt;/script&gt; </p> </div> </section> </section> <section> <section id="slide-sensores"> <h2 id="sensores">Sensores</h2> </section> <section> <p> En <i>Matter.js</i>, los "sensores" se pueden usar para detectar overlapping </p> </section> <section> <p> Son cuerpos que no colisionan, pero que tienen área y forma y que desencadenan eventos <code>'collisionstart'</code> </p> </section> <section> <p> Se activan <a href="https://brm.io/matter-js/docs/classes/Bodies.html">creando formas</a> (por ejemplo, <code>circle</code>), y poniendo su propiedad <code>isSensor</code> a <code>true</code>: </p> <div class="org-src-container"> <pre><code class="js">let Bodies = Phaser.Physics.Matter.Matter.Bodies;
+let sensor = Bodies.circle(100, 100, 24, {isSensor: true});
+</code></pre> </div> </section> </section> <section> <section id="slide-cuerpos-compuestos"> <h2 id="cuerpos-compuestos">Cuerpos compuestos</h2> </section> <section> <p> <i>Matter.js</i> ofrece soporte para <a href="https://brm.io/matter-js/docs/classes/Body.html#method_create">cuerpos compuestos</a>, que están formados por varias formas físicas (<b>con o sin colisión</b>) </p> <div class="org-src-container"> <pre><code class="js">// `circle` y `rect` son cuerpos con coordenadas relativas
+// al cuerpo al que los "enganchamos"
+let compuesto = Phaser.Physics.Matter.Matter.Body.create({
+    parts: [ rect, circle ],
+    inertia: Infinity
+});
+</code></pre> </div> </section> <section> <p> Una vez que tenemos un cuerpo físico, se lo podemos asignar a una imagen: </p> <div class="org-src-container"> <pre><code class="js">this.player = this.matter.add.image(0, 0, 'imagen');
+// hemos creado `compuesto` antes
+this.player.setExistingBody(compuesto);
+</code></pre> </div> <p> Aquí puedes ver <a href="https://phaser.io/examples/v3/view/physics/matterjs/compound-sensors#">un ejemplo de uso de cuerpos compuestos y sensores</a> </p> </section> </section> <section> <section id="slide-grupos-de-colisión"> <h2 id="grupos-de-colisión">Grupos de colisión</h2> </section> <section> <p> Los grupos de colisión permiten que una entidad sólo colisione con algunos objetos, mientras que otra entidad colisione con otros </p> </section> <section> <p> Para crear una nueva "categoría" o grupo de colisión con <i>Matter.js</i>, hacemos: </p> <div class="org-src-container"> <pre><code class="js">// creamos 2 categorías
+const c1 = this.matter.world.nextCategory();
+const c2 = this.matter.world.nextCategory();
+</code></pre> </div> </section> <section> <p> Y se las asignamos a los objetos directamente </p> <div class="org-src-container"> <pre><code class="js">roca1.setCollisionCategory(c1);
+
+roca2.setCollisionCategory(c2);
+
+// `roca3` no va a colisionar con `roca2` 
+roca3.setCollidesWith([ c1 ]);
+</code></pre> </div> </section> </section> <section> <section id="slide-cambiar-el-funcionamiento-del-motor"> <h2 id="cambiar-el-funcionamiento-del-motor">Cambiar el funcionamiento del motor</h2> </section> <section id="slide-pausar-y-continuar-las-físicas"> <h3 id="pausar-y-continuar-las-físicas">Pausar y continuar las físicas</h3> <div class="org-src-container"> <pre><code class="js">scene.matter.world.pause();
+scene.matter.world.resume();
+</code></pre> </div> </section> <section> </section> <section id="slide-entidades-que-se-duermen"> <h3 id="entidades-que-se-duermen">Entidades que se duermen</h3> <p> Muchos motores físicos permiten "dormir" a las entidades, de forma que no consuman recursos </p> </section> <section> <p> Bien usado, se puede conseguir una ganancia muy grande en ciertos casos </p> </section> <section> <p> Se habilita la funcionalidad al crear el juego: </p> <div class="org-src-container"> <pre><code class="js">var config = {
+        physics: {
+            matter: {
+                enableSleeping: true
+            }
+        }
+}
+</code></pre> </div> </section> <section> <p> Para que los objetos se duerman automáticamente, se puede establecer que si pasan \(x\) ciclos sin cambiar prácticamente, se active el modo "dormir": </p> <div class="org-src-container"> <pre><code class="js">sprite.setSleepThreshold(15);
+</code></pre> </div> </section> <section> <p> <i>Matter.js</i> también nos permite actuar cuando un objeto se duerma o se despierte: </p> <div class="org-src-container"> <pre><code class="js">scene.matter.world.on('sleepstart', (event, body) =&gt; {
+});
+</code></pre> </div> <div class="org-src-container"> <pre><code class="js">scene.matter.world.on('sleepend', (event, body) =&gt; {
+});
+</code></pre> </div> </section> </section> <section> <section id="slide-kinematic-bodies"> <h2 id="kinematic-bodies">Kinematic Bodies</h2> </section> <section> </section> <section id="slide-cuerpos-kinemáticos-vs-cuerpos-físicos"> <h3 id="cuerpos-kinemáticos-vs-cuerpos-físicos">Cuerpos Kinemáticos Vs Cuerpos Físicos</h3> <p> <b>Kinematic bodies</b> son cuerpos que están en la física, pero que queremos mover nosotros por código </p> <p> Típicamente las plataformas de los juegos de plataforma </p> </section> <section> <p> En un juego normal, no queremos usar la física para mover un objeto controlado por el jugador o por la IA ya que esto puede provocar muchos problemas </p> <p> La física es difícil de controlar y produce errores de redondeo </p> <p> Lo más razonable para garantizar las mecánicas es moverlo nosotros con la lógica del juego </p> </section> <section> <p> Para esto, tenemos que activar y desactivar propiedades físicas de los objetos, según necesitemos (dependerá del comportamiento que queramos) </p> </section> </section> <section> <section id="slide-se-pueden-mezclar-distintos-motores"> <h2 id="se-pueden-mezclar-distintos-motores">¿Se pueden mezclar distintos motores?</h2> </section> <section> <p> <b>Sí</b>, se puede </p> </section> <section> <p> Lo primero, los activamos: </p> <div class="org-src-container"> <pre><code class="js">const config = {
+    physics: {
+        arcade: {
+            gravity: { y: 200 }
+        },
+        matter: {
+            gravity: { y: 0.5 }
+        }
+    }
+};
+
+const game = new Phaser.Game(config);
+</code></pre> </div> </section> <section> <p> Y, después, sólo hay que llamar a <code>scene.physics</code> o a <code>scene.matter</code> de forma normal: </p> <div class="org-src-container"> <pre><code class="js">//  `this` es un `Scene`
+this.matterImage = this.matter.add.image(400, -100, 'block');
+this.arcadeImage = this.physics.add.image(400, 100, 'fuji');
+</code></pre> </div> </section> <section> </section> <section id="slide-pero"> <h3 id="pero">Pero&#x2026;</h3> <p> Los objetos de <i>Arcade</i> y los de <i>Matter.js</i> corren en dos entornos diferentes, no se pueden juntar </p> <p> Si necesitamos físicas complejas y simples a la vez, usamos <i>Matter.js</i> y creamos algunos objetos más simples </p> </section> </section> </div> </div> <script src="tooling.reveal.ffb33b1a.js"></script> <script src="tooling.reveal.f05d24be.js"></script> <script src="tooling.reveal.1feea775.js"></script> <script src="tooling.reveal.d2982244.js"></script> <script>Reveal.initialize({controls:!0,progress:!0,history:!0,center:!0,slideNumber:"c",rollingLinks:!1,keyboard:!0,mouseWheel:!1,fragmentInURL:!1,hashOneBasedIndex:!1,pdfSeparateFragments:!0,overview:!0,transition:"none",transitionSpeed:"default",plugins:[RevealSearch,RevealHighlight,RevealZoom],dependencies:[]});</script> </body></html>

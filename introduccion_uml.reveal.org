@@ -1,0 +1,210 @@
+#+title: Introducción a UML
+#+setupfile: setup.org
+
+
+* Sistemas complejos
+:PROPERTIES:
+:CUSTOM_ID: sistemas-complejos
+:END:
+
+#+REVEAL: split
+
+Un sistema software puede tener muchos, muchos módulos
+
+#+REVEAL: split
+
+Trabajar con todas las piezas a la vez puede ser inviable
+
+#+REVEAL: split
+
+Dividir, encapsular y ordenar las piezas es fundamental
+
+#+REVEAL: split
+
+Además, es importante *recordar* y *comunicar* la estructura software
+que estamos utilizando
+
+* UML
+:PROPERTIES:
+:CUSTOM_ID: uml
+:END:
+
+#+REVEAL: split
+
+UML (/Unified Modeling Languge/) es un lenguaje *visual* que sirve para
+representar un diseño software
+
+#+REVEAL: split
+
+UML se usa como el "plano" software
+
+Todos los miembros del equipo deberían seguir este plano
+
+#+REVEAL: split
+
+Se usa para dar una visión abstracta de una arquitectura software, en
+particular, de arquitecturas /orientadas a objetos/
+
+#+REVEAL: split
+
+#+begin_quote
+UML no es un lenguaje de programación, es un lenguaje de modelado
+
+#+end_quote
+
+* Tipos de diagramas UML
+:PROPERTIES:
+:CUSTOM_ID: tipos-de-diagramas-uml
+:END:
+
+#+REVEAL: split
+
+No hay un diagrama UML, hay muchos (secuencia, casos de uso, de
+actividades...)
+
+#+REVEAL: split
+
+Nosotros vamos a centrarnos en uno de los tipos más comunes: /el
+diagrama de clases UML/
+
+* Diagramas de clase UML
+:PROPERTIES:
+:CUSTOM_ID: diagramas-de-clase-uml
+:END:
+
+#+REVEAL: split
+
+Una clase se representa con una caja, con su nombre en la primera
+sección:
+
+#+caption: Ejemplo de clases
+[[file:frutas.pu]]
+
+#+REVEAL: split
+
+Las clases pueden tener atributos, que se representan en la segunda
+sección:
+
+#+caption: Atributos
+[[file:atributos.pu]]
+
+#+REVEAL: split
+
+También pueden representarse los métodos, en la tercera sección:
+
+#+caption: Métodos
+[[file:metodos.pu]]
+
+#+REVEAL: split
+
+La idea, en un diagrama, es que se vean representadas todas las clases
+relevantes:
+
+#+caption: Varias clases UML
+[[file:muchos.pu]]
+
+* Relaciones
+:PROPERTIES:
+:CUSTOM_ID: relaciones
+:END:
+
+
+** Herencia
+:PROPERTIES:
+:CUSTOM_ID: herencia
+:END:
+Una de las relaciones más usadas en la programación orientada a objetos
+es la herencia
+
+En UML, la herencia se representa con una flecha /hueca/, *desde el hijo
+hasta el padre*
+
+#+REVEAL: split
+
+#+caption: Herencia
+[[file:herenciafrutas.pu]]
+
+** Implementación
+:PROPERTIES:
+:CUSTOM_ID: implementación
+:END:
+Se puede reflejar la idea de implementación de una interfaz
+
+Una interfaz es un conjunto de funciones no implementadas que
+representan un comportamiento que puede ser especificado en cada clase
+
+#+REVEAL: split
+
+#+caption: Interfaces
+[[file:interface.pu]]
+
+** Agregación
+:PROPERTIES:
+:CUSTOM_ID: agregación
+:END:
+La agregación es un tipo de relación en la que hay un contenedor y un
+contenido
+
+#+REVEAL: split
+
+#+caption: Agregación
+[[file:agregacionuml.pu]]
+
+** Composición
+:PROPERTIES:
+:CUSTOM_ID: composición
+:END:
+La composición es más "fuerte" que la agregación
+
+#+REVEAL: split
+
+En la composición, el todo y las partes tienen el mismo ciclo de vida
+
+Es decir, no hay todo sin las partes
+
+#+REVEAL: split
+
+#+caption: Composición
+[[file:composicionuml.pu]]
+
+** Asociación
+:PROPERTIES:
+:CUSTOM_ID: asociación
+:END:
+Es una relación estructural que describe una conexión entre objetos de
+esas clases
+
+#+REVEAL: split
+
+- Pueden ser bidireccionales o unidireccionales
+- En este último caso, una flecha indica qué clase hace uso de la otra
+
+#+REVEAL: split
+
+#+caption: Asociación
+[[file:asociacion.pu]]
+
+* Más...
+:PROPERTIES:
+:CUSTOM_ID: más
+:END:
+
+#+REVEAL: split
+
+UML es mucho, mucho más complejo, y se puede usar para representar mucho
+más que una estructura de clases
+
+Hay
+[[https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/][muchos
+recursos en Internet]] a través de los cuales podéis aprender más
+detalles
+
+#+REVEAL: split
+
+También os recomendamos que useis aplicaciones que facilitan el
+desarrollo de los diagramas UML:
+
+- [[https://app.diagrams.net/][draw.io]]
+- [[https://online.visual-paradigm.com/diagrams.jsp][Visual Paradigm
+  online]]
+- [[https://yuml.me/diagram/scruffy/class/draw][Yuml]]

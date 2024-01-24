@@ -1,0 +1,555 @@
+#+title: Interfaces avanzadas en HTML
+#+setupfile: setup.org
+
+* Librerías para interfaz web
+:PROPERTIES:
+:CUSTOM_ID: librerías-para-interfaz-web
+:END:
+
+#+REVEAL: split
+
+Modificar el DOM directamente es tedioso
+
+#+REVEAL: split
+
+Hay modelos de ingeniería software que han demostrado ser muy útiles
+para gestionar interfaces
+
+El API del DOM no es, precisamente, uno de ellos
+
+#+REVEAL: split
+
+Por eso, y gracias a la evolución de los navegadores, la máquina virtual
+JS y el lenguaje en sí, existen librerías que nos permiten hacer
+interfaces
+
+#+REVEAL: split
+
+** Alternativas para interfaces web
+:PROPERTIES:
+:CUSTOM_ID: alternativas-para-interfaces-web
+:END:
+[[https://angular.io/][=Angular=]] (de Google),
+[[https://reactjs.org/][=React=]] (de Facebook) y
+[[https://vuejs.org/][=Vue.js=]] son algunas de las más usadas
+
+#+REVEAL: split
+
+Vamos a ver una introducción a los principios básicos de una versión
+ligera de =React= (=Preact=)
+
+* React
+:PROPERTIES:
+:CUSTOM_ID: react
+:END:
+
+#+REVEAL: split
+
+React es una librería creada por Facebook en 2013, y mantenida desde
+entonces por Facebook y la comunidad (se publica como código abierto)
+
+#+REVEAL: split
+
+El desarrollo está muy activo, y es uno de los proyecto más usados para
+crear interfaces
+
+En particular, [[https://facebook.com]] usa React
+
+#+REVEAL: split
+
+** DOM Virtual
+:PROPERTIES:
+:CUSTOM_ID: dom-virtual
+:END:
+Veremos que React construye un árbol DOM cuando creamos componentes
+
+Sin embargo, React hace uso del /DOM virtual/
+
+#+REVEAL: split
+
+El DOM virtual es una representación interna de la librería en la que se
+almacena el estado actual del DOM (la estructura de la página),
+independientemente de cómo lo almacene el navegador
+
+#+REVEAL: split
+
+Esto permite mucha /flexibilidad/ en la librería, y una mejora del
+/rendimiento/
+
+Aunque aparentemente modifiquemos mucha parte del DOM en nuestros
+componentes, React sólo aplicará las diferencias entre el estado
+anterior y el nuevo
+
+#+REVEAL: split
+
+** JSX
+:PROPERTIES:
+:CUSTOM_ID: jsx
+:END:
+Para representar los cambios en el DOM que modifican los componentes de
+la página, podemos usar llamadas al API
+
+Pero también podemos usar algo muy parecido a HTML
+
+#+REVEAL: split
+
+JSX es una extensión sintáctica de JavaScript, que permite poner
+etiquetas HTML dentro del mismo código:
+
+#+begin_src jsx
+const parrafo = <p>Esto es un párrafo de verdad</p>
+#+end_src
+
+#+REVEAL: split
+
+JSX permite interpolar contenido de JavaScript dentro de las etiquetas:
+
+#+begin_src jsx
+const nombre = 'Juan'
+const parrafo = <p>Creo que el señor se llamaba {nombre}</p>
+#+end_src
+
+#+REVEAL: split
+
+Pero la máquina virtual de los navegadores no entiende JSX
+
+Necesitamos un proceso que transforme un archivo con extensión =.jsx= a
+otro =.js=, y que transforme las etiquetas HTML a código JavaScript
+normal
+
+#+REVEAL: split
+
+** Babel
+:PROPERTIES:
+:CUSTOM_ID: babel
+:END:
+[[https://babeljs.io/][Babel]] es una herramienta que procesa JavaScript
+y lo transforma (lo que se llama, en la jerga, un "transpilador")
+
+#+REVEAL: split
+
+En particular (y con algo de configuración), Babel puede transformar JSX
+en JS
+
+Y hacer muchas cosas más, como transformar JavaScript moderno en
+JavaScript más antiguo, para que funcione en navegadores sin
+compatibilidad
+
+* =Preact=
+:PROPERTIES:
+:CUSTOM_ID: preact
+:END:
+
+#+REVEAL: split
+
+Usar JSX con Babel y React funciona muy bien (y tiene buen apoyo de
+editores como VSCode), pero requiere desplegar bastante "tooling"
+
+#+REVEAL: split
+
+Vamos a usar Preact (una alternativa ligera a React, con un API muy
+parecido), y vamos a usar una alternativa a JSX que no necesita Babel
+
+#+REVEAL: split
+
+Para empezar, sólo necesitamos un =index.html= normal y corriente, que
+tenga un =<script>=
+
+#+begin_src html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Preact</title>
+</head>
+<body>
+  <script src="gui.js" type="module"></script>
+</body>
+</html>
+#+end_src
+
+#+REVEAL: split
+
+En nuestro =gui.js=, tenemos que importar la librería:
+
+#+begin_src js
+import { html, render, Component } 
+   from 'https://unpkg.com/htm/preact/standalone.module.js'
+#+end_src
+
+#+REVEAL: split
+
+Estamos usando [[https://unpkg.com/][=unpkg=]]
+
+=unpkg= es un proyecto que sirve paquetes de =npm= para que se puedan
+usar directamente desde JavaScript en una web (¡sin necesidad de
+herramientas!)
+
+#+REVEAL: split
+
+Con el =import= anterior, estamos usando directamente Preact y =htm=,
+una librería que nos permite usar etiquetas HTML en el código
+
+#+REVEAL: split
+
+Después, sólo tenemos que crear llamar a =render=, que sustituirá un
+nodo del DOM (en este caso =document.body=, la raíz):
+
+#+begin_src js
+render(html`<p>Esto es un párrafo</p>`, document.body)
+#+end_src
+
+Ahora veremos lo de =html`...`=
+
+#+REVEAL: split
+
+** Componentes
+:PROPERTIES:
+:CUSTOM_ID: componentes
+:END:
+Esto no tendría mucho uso por sí mismo, pero Preact nos permite definir
+*componentes*
+
+#+REVEAL: split
+
+Un /componente/ es un objeto JavaScript que representa un nodo complejo
+en el DOM:
+
+#+begin_src js
+class Parrafo extends Component {
+  render() {
+    return html`<p>Esto sigue siendo un párrafo</p>`
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+Así, tendríamos una manera un poco más potente de crear interfaces de
+usuario:
+
+#+begin_src js
+render(html`<${Parrafo} />`, document.body)
+#+end_src
+
+#+REVEAL: split
+
+Pero, antes, veamos cómo estamos construyendo el HTML dentro de
+JavaScript
+
+* htm
+:PROPERTIES:
+:CUSTOM_ID: htm
+:END:
+
+#+REVEAL: split
+
+[[https://github.com/developit/htm][=htm=]] es una librería que procesa
+cadenas JavaScript (=string=) y las usa como llamadas a funciones de
+construir el DOM
+
+Como lo que hace Babel, pero sólo desde código, sin herramienta
+adicional
+
+#+REVEAL: split
+
+** Plantillas de cadena de texto
+:PROPERTIES:
+:CUSTOM_ID: plantillas-de-cadena-de-texto
+:END:
+=htm= usa "plantillas de cadena de texto" para conseguir esto
+([[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals]["template
+literals"]])
+
+Estas cadenas son especiales, y se denotan con =`...`=
+
+#+REVEAL: split
+
+*** Cadenas multilínea
+:PROPERTIES:
+:CUSTOM_ID: cadenas-multilínea
+:END:
+#+begin_src js
+`hola
+qué
+tal
+estamos`
+#+end_src
+
+#+REVEAL: split
+
+*** Interpolar código
+:PROPERTIES:
+:CUSTOM_ID: interpolar-código
+:END:
+Antes:
+
+#+begin_src js
+const a = 5
+console.log('"a" vale', a) // "a" vale 5
+#+end_src
+
+Después:
+
+#+begin_src js
+const a = 5
+console.log(`"a" vale ${a}`) // "a" vale 5
+#+end_src
+
+#+REVEAL: split
+
+*** Postprocesado de cadenas
+:PROPERTIES:
+:CUSTOM_ID: postprocesado-de-cadenas
+:END:
+#+begin_src js
+html`Cadena JS` // === html('Cadena JS')---más o menos
+#+end_src
+
+#+REVEAL: split
+
+Esto quiere decir que hay una función =html= que transforma la cadena en
+algo más interesante
+
+#+REVEAL: split
+
+Es lo que hace la librería =htm=
+
+Define una función especial, =html()=, que transforma nuestro string con
+HTML a una estructura que se usará en el DOM virtual
+
+#+REVEAL: split
+
+En VSCode, por ejemplo, si instalamos la extensión
+[[https://marketplace.visualstudio.com/items?itemName=bierner.lit-html][=lit-html=]],
+veremos los templates que empiezan con =html`...`= con resaltado de
+sintaxis HTML
+
+#+REVEAL: split
+
+Con esto, podemos usar =Preact= y =htm= para hacer nuestra interfaz web
+
+* Componentes Preact (o React...)
+:PROPERTIES:
+:CUSTOM_ID: componentes-preact-o-react
+:END:
+
+#+REVEAL: split
+
+Los componentes son las unidades en Preact
+
+Crearemos componentes que representes nuestros objetos de interfaz
+
+#+REVEAL: split
+
+Empezamos (como antes) importando =Preact= y =htm=:
+
+#+begin_src js
+import { html, render, Component } from 'https://unpkg.com/htm/preact/standalone.module.js'
+#+end_src
+
+#+REVEAL: split
+
+Para crear un componente, podemos extender la clase =Component= de
+=Preact=:
+
+#+begin_src js
+class Aviso extends Component {
+  render() {
+    return html`<b>¡Hola!</b>`
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+El componente =Aviso= corresponderá a lo que devuelva la función
+=render()=, que en este caso es sólo una cadena en negrita
+
+#+REVEAL: split
+
+Para que se vea en la página, usamos plantillas de cadena con el nombre
+de la clase:
+
+#+begin_src js
+render(html`<${Aviso} />`, document.body)
+#+end_src
+
+#+REVEAL: split
+
+** Estado en las clases
+:PROPERTIES:
+:CUSTOM_ID: estado-en-las-clases
+:END:
+También podemos usar la clase para guardar el estado de un componente:
+
+#+begin_src js
+class Aviso extends Component {
+  constructor(props) {
+    super(props)
+    this.valor = props.valor
+  }
+  render() {
+    return html`<b>¡mi valor es ${this.valor}!</b>`
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+Es fundamental llamar al costructor padre de =Component= con =props=,
+para que funcione:
+
+#+begin_src js
+ constructor(props) {
+  super(props)
+}
+#+end_src
+
+#+REVEAL: split
+
+Si queremos pasarle argumentos propios al constructor, seguimos usando
+HTML:
+
+#+begin_src js
+class Aviso extends Component {
+  constructor(props) {
+    super(props)
+    // ¡props.tamano viene del HTML!
+    this.tamano = props.tamano
+  }
+}
+
+render(html`<${Aviso} tamano=6 />`, document.body)
+#+end_src
+
+#+REVEAL: split
+
+La función =render()= puede devolver diferentes =html`...`=, según el
+estado de la clase
+
+Con esto, podemos cambiar lo que se muestra por pantalla en nuestra
+interfaz de usuario
+
+#+REVEAL: split
+
+** Combinar componentes
+:PROPERTIES:
+:CUSTOM_ID: combinar-componentes
+:END:
+Para combinar componentes, simplemente los usamos como HTML
+
+#+REVEAL: split
+
+Componente base:
+
+#+begin_src js
+class Aviso extends Component {
+  constructor(props) {
+    super(props)
+    this.valor = props.valor
+  }
+  render() {
+    return html`<b>¡mi valor es ${this.valor}!</b>`
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+Componente que usa =Aviso=:
+
+#+begin_src js
+class Parrafo extends Component {
+  render() {
+    return html`<p>Un componente con 
+       un aviso (<${Aviso} valor=15 />) </p>`
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+** Componentes como funciones
+:PROPERTIES:
+:CUSTOM_ID: componentes-como-funciones
+:END:
+Si el componente es sencillo y no tiene que gestionar estado, puede ser
+una función y no una clase entera:
+
+#+begin_src js
+function Nota(props) {
+  return html`<em>frase con énfasis</em>`
+}
+#+end_src
+
+#+REVEAL: split
+
+** Eventos
+:PROPERTIES:
+:CUSTOM_ID: eventos
+:END:
+También tenemos que programar la funcionalidad de responder a eventos
+
+#+REVEAL: split
+
+Para esto, en el "HTML", vamos a registrar eventos JavaScript, igual que
+lo haríamos en etiquetas en un archivo =.html=
+
+Usaremos interpolación de cadenas para poner nuestro código JavaScript
+
+#+REVEAL: split
+
+#+begin_src js
+function Nota(props) {
+  return html`<em onclick=${(e) => {
+    e.stopPropagation()
+    console.log('Este evento no se progaga')
+  }}>¡Pincha aquí para ver lo que imprimo!</em>`
+}
+#+end_src
+
+#+REVEAL: split
+
+** Métodos para callbacks
+:PROPERTIES:
+:CUSTOM_ID: métodos-para-callbacks
+:END:
+Es posible que queramos, en un componente descrito como clase, usar
+métodos para los callbacks
+
+#+REVEAL: split
+
+Para ello, tenemos que usar =bind=, para que cuando se llame al método,
+=this= apunte a la instancia del objeto
+
+#+REVEAL: split
+
+#+begin_src js
+class ComponenteMetodoCallback extends Component {
+  render() {
+    return html`<p 
+      onclick=${this.handleClick.bind(this)}>Prueba</p>`
+  }
+
+  handleClick(e) {
+    // `this` funciona si hemos hecho `bind`
+    e.preventDefault()
+    console.log('Se ha hecho clic.')
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+** Mucho más
+:PROPERTIES:
+:CUSTOM_ID: mucho-más
+:END:
+React/Preact y todas estas librerías hacen /muchas más cosas/
+
+Podéis mirar la
+[[https://preactjs.com/guide/v10/getting-started][documentación de
+Preact]], pero con estos pasos ya se puede montar una funcionalidad
+básica

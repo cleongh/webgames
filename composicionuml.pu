@@ -1,0 +1,6 @@
+@startuml
+
+Fruta *-- Tallo
+Fruta *-- Piel
+
+@enduml

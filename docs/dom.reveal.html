@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Document Object Model (DOM)</title><meta name="author" content="Carlos León"><style>.underline{text-decoration:underline}</style><link rel="stylesheet" href="tooling.reveal.e38fa0d8.css"><link rel="stylesheet" href="tooling.reveal.a866bf8d.css" id="theme"><link rel="stylesheet" href="tooling.reveal.c1a625de.css"><link rel="stylesheet" href="tooling.reveal.fdb16a0d.css"></head><body> <div class="reveal"> <div class="slides"> <section id="sec-title-slide"> <h1 class="title">Document Object Model (DOM)</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2> </section> <section> <section id="slide-javascript-puede-interactuar-con-la-página-web"> <h2 id="javascript-puede-interactuar-con-la-página-web">JavaScript puede interactuar con la página web</h2> </section> <section id="slide-document-object-model"> <h3 id="document-object-model">Document Object Model</h3> <ul> <li>Los documentos HTML presentan una estructura de árbol</li> <li>Los navegadores nos dan una <b>interfaz para interactuar</b> con esta estructura: el <b>DOM</b></li> <li>El punto de entrada para acceder al DOM es el objeto <b>global <code>document</code></b></li> </ul> </section> <section id="slide-ejemplo-de-una-sección-del-dom"> <h3 id="ejemplo-de-una-sección-del-dom">Ejemplo de una sección del DOM</h3> <div class="org-src-container"> <pre><code class="html">&lt;article&gt;
+  &lt;header&gt;
+    &lt;h1&gt;Un título molón&lt;/h1&gt;
+  &lt;/header&gt;
+  &lt;p&gt;Bla bla bla.&lt;/p&gt;
+  &lt;p&gt;
+    Más bla, bla, bla y
+    &lt;a href="http://wikipedia.org"&gt;aquí un enlace&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/article&gt;
+</code></pre> </div> </section> <section> <div id="org4a03677" class="figure"> <p><img src="dom_section.e4923a96.png" alt="dom_section.png"> </p> <p><span class="figure-number">Figura 1: </span>Sección del DOM</p> </div> </section> <section id="slide-qué-podemos-hacer-con-el-dom"> <h3 id="qué-podemos-hacer-con-el-dom">¿Qué podemos hacer con el DOM?</h3> <ul> <li>Leer/escribir las propiedades de los elementos, y usar sus métodos</li> <li>Eliminar elementos del DOM</li> <li>Insertar nuevos elementos en el DOM</li> </ul> </section> </section> <section> <section id="slide-acceder-a-elementos-del-dom"> <h2 id="acceder-a-elementos-del-dom">Acceder a elementos del DOM</h2> </section> <section id="slide-acceder-a-elementos-por-id"> <h3 id="acceder-a-elementos-por-id">Acceder a elementos por ID</h3> <p> Sólo selecciona un elemento (las ID's deben ser únicas) </p> <div class="org-src-container"> <pre><code class="html">&lt;button id="show-fullscreen"&gt;Fullscreen&lt;/button&gt;
+</code></pre> </div> <div class="org-src-container"> <pre><code class="javascript">const button = document.getElementById('show-fullscreen');
+</code></pre> </div> </section> <section id="slide-acceder-a-elementos-por-selector"> <h3 id="acceder-a-elementos-por-selector">Acceder a elementos por selector</h3> <p> Esto usa la sintaxis de los selectores CSS para localizar uno (o varios) elementos </p> <div class="org-src-container"> <pre><code class="javascript">// selecciona el primer párrafo que encuentra
+const paragraph = document.querySelector('p');
+// selecciona el primer elemento con clase .warning
+const label = document.querySelector('.warning');
+// selecciona TODOS los párrafos
+const allPars = document.querySelectorAll('p');
+</code></pre> </div> <p> Más info sobre selectores para usar con <code>querySelector</code> en <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_Started/Selectors">la MDN</a> </p> </section> <section id="slide-iterar-sobre-una-lista-de-elementos"> <h3 id="iterar-sobre-una-lista-de-elementos">Iterar sobre una lista de elementos</h3> <ul> <li><code>querySelectorAll</code> <i>no</i> devuelve un array, sino una <a href="https://developer.mozilla.org/en/docs/Web/API/NodeList">NodeList</a></li> <li>No podemos utilizar métodos de <code>Array</code> sobre ella. Pero tiene la propiedad <code>length</code> y el operador <code>[]</code>, así que podemos acceder en un bucle:</li> </ul> <div class="org-src-container"> <pre><code class="javascript">const buttons = document.querySelectorAll('button');
+for (const i = 0; i &lt; buttons.length; i++) {
+    buttons[i].style = "display: none"; // hide buttons
+}
+</code></pre> </div> </section> <section> <p> También podemos iterar con <code>Array.forEach</code> o con <code>for=/=of</code>: </p> <div class="org-src-container"> <pre><code class="js">for (const b of buttons) {
+    b.style = "display: none";
+}
+
+buttons.forEach(b =&gt; {
+    b.style = "display: none";
+})
+</code></pre> </div> </section> <section id="slide-navegar-en-el-dom"> <h3 id="navegar-en-el-dom">Navegar en el DOM</h3> <ul> <li>Se accede al <b>padre</b> de un elemento con la propiedad <code>parentNode</code></li> <li>Se accede a la lista de <b>hijos</b> de un elemento con <code>childNodes</code></li> <li>Se accede al <b>hermano</b> anterior o siguiente con <code>previousSibling</code> y <code>nextSibling</code></li> </ul> <p> Con esto podemos recorrer todo el DOM en cualquier dirección </p> </section> </section> <section> <section id="slide-propiedades-interesantes-de-elementos-del-dom"> <h2 id="propiedades-interesantes-de-elementos-del-dom">Propiedades interesantes de elementos del DOM</h2> </section> <section id="slide-innerhtml"> <h3 id="innerhtml"><code>innerHTML</code></h3> <ul> <li>El <i>interior</i> (o contenido) del elemento</li> <li>Podemos escribir HTML dentro, creando al vuelo nuevos elementos del DOM</li> </ul> <div class="org-src-container"> <pre><code class="javascript">button.innerHTML = 'Aceptar';
+p.innerHTML = 'Párrafo con &lt;b&gt;negrita&lt;/b&gt;';
+</code></pre> </div> </section> <section id="slide-style"> <h3 id="style"><code>style</code></h3> <ul> <li>Nos permite aplicar <b>estilos CSS inline</b> (tienen la máxima prioridad)</li> <li>Muy útiles para ocultar/mostrar elementos</li> <li>También podemos <i>leer</i> la propiedad CSS</li> </ul> <div class="org-src-container"> <pre><code class="javascript">const previousDisplay = button.style.display;
+button.style="display:none"; // oculta cualquier elemento
+button.style="display:inline-block;" // muestra el botón
+</code></pre> </div> <p> Nota: <code>display:none</code> es universal, pero para mostrar un elemento debéis elegir entre varios valores, los más comunes son <code>inline</code>, <code>inline-block</code> y <code>block</code>, pero hay muchos otros. </p> </section> <section id="slide-classlist"> <h3 id="classlist"><code>classList</code></h3> <ul> <li>Nos permite acceder a las <b>clases CSS</b> de un elemento</li> <li>Útil para cambiar el aspecto de la UI en función de las interacciones</li> </ul> <div class="org-src-container"> <pre><code class="javascript">button.classList.add('loading');
+button.classList.remove('loading');
+button.classList.contains('loading'); // query
+button.classList.toggle('loading'); // doesn't work on IE
+</code></pre> </div> <p> <a href="https://developer.mozilla.org/en/docs/Web/API/Element/classList">Snippet de código</a> online </p> </section> </section> <section> <section id="slide-manipular-el-dom"> <h2 id="manipular-el-dom">Manipular el DOM</h2> </section> <section id="slide-insertar-elementos"> <h3 id="insertar-elementos">Insertar elementos</h3> <ul> <li>Podemos insertar elementos nuevos con <code>innerHTML</code></li> <li>También se pueden crear desde cero</li> </ul> <div class="org-src-container"> <pre><code class="javascript">const button = document.createElement('button');
+button.innerHTML = 'Start';
+button.setAttribute('type', 'button');
+
+// &lt;button type="button"&gt;Start&lt;/button&gt;
+</code></pre> </div> </section> <section> <ul> <li>Cuando creamos un elemento con <code>createElement</code> está <b>huérfano</b> y no lo veremos renderizado en la página</li> <li>Hay que añadirlo como "familiar" de algún otro elemento con <code>appendChild</code>, <code>insertBefore</code>&#x2026;</li> </ul> <div class="org-src-container"> <pre><code class="javascript">document.body.appendChild(button);
+</code></pre> </div> <p> <a href="https://jsfiddle.net/mpsjmz11/1/">Snippet de código</a> online </p> </section> <section id="slide-eliminar-elementos"> <h3 id="eliminar-elementos">Eliminar elementos</h3> <ul> <li>Podemos reemplazar un elemento por otro con <code>replaceChild</code></li> <li>Podemos <b>eliminar</b> un elemento con <code>removeChild</code></li> </ul> <div class="org-src-container"> <pre><code class="javascript">const button = document.getElementById('start');
+button.parentNode.removeChild(button);
+</code></pre> </div> </section> </section> <section> <section id="slide-eventos"> <h2 id="eventos">Eventos</h2> </section> <section id="slide-eventos-en-el-dom"> <h3 id="eventos-en-el-dom">Eventos en el DOM</h3> <ul> <li>Los elementos del DOM disparan eventos a los que podemos subscribirnos (click en un botón, cambio del texto de un <code>&lt;input&gt;</code>, cuando seleccionamos una checkbox, etcétera)</li> <li><code>window</code> también dispara eventos: <code>load</code>, <code>resize</code>&#x2026;</li> </ul> </section> <section id="slide-escuchar-eventos"> <h3 id="escuchar-eventos">Escuchar eventos</h3> <ul> <li>Hay dos maneras de escuchar eventos disparados por un elemento: <ul> <li>Usando el método <code>Event.addEventListener</code></li> <li>Usando los <i>on-event handlers</i> (p.ej <code>onclick</code>, <code>onfocus</code>&#x2026;)</li> </ul></li> </ul> </section> <section id="slide-on-event-handlers"> <h3 id="on-event-handlers">On-event handlers</h3> <ul> <li>¡*Sólo hay un handler* por evento!</li> <li>Registramos y desregistramos el handler con una <b>asignación</b></li> </ul> <div class="org-src-container"> <pre><code class="javascript">// subscripción
+button.onclick = function (evt) { /* ... */ };
+// cancelar la subscripción
+button.onclick = null;
+</code></pre> </div> <p> Documentación <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Event_handlers">en la MDN</a> </p> </section> <section id="slide-event-listeners"> <h3 id="event-listeners">Event listeners</h3> <ul> <li>Podemos subscribirnos <b>múltiples veces</b> al mismo evento</li> <li>Es la manera recomendada y más segura</li> </ul> <div class="org-src-container"> <pre><code class="javascript">const sayHi = function () { /* */ };
+// subscripción
+button.addEventListener('click', sayHi);
+// cancelar la subscripción
+button.removeEventListener('click', sayHi);
+</code></pre> </div> <p> Documentación <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">en la MDN</a> </p> </section> <section id="slide-bubbling"> <h3 id="bubbling">Bubbling</h3> <ul> <li>El <b>bubbling</b> es la metáfora con la que explicamos cómo se comportan los eventos del DOM</li> <li>Cuando un elemento dispara un evento, <b>se propaga</b> hacia arriba en el árbol del DOM</li> </ul> </section> <section> <div class="org-src-container"> <pre><code class="html">&lt;section&gt;
+    &lt;button&gt;Click me&lt;/button&gt;
+&lt;/section&gt;
+</code></pre> </div> <div class="org-src-container"> <pre><code class="javascript">const section = document.querySelector('section')
+section.addEventListener('click', function () {
+    console.log('Clicked…');
+});
+</code></pre> </div> <p> <a href="https://jsfiddle.net/mcx0hkou/1/">Snippet de código</a> online </p> </section> <section id="slide-interrumpir-el-bubbling"> <h3 id="interrumpir-el-bubbling">Interrumpir el bubbling</h3> <ul> <li>Los callbacks de los eventos pueden recibir <b>un argumento</b> con información sobre el evento</li> <li>El argumento es un objeto de tipo <code>Event</code> y tiene métodos para interrumpir el bubbling</li> </ul> <div class="org-src-container"> <pre><code class="javascript">button.addEventListener('click', function (evt) {
+    console.log(evt);
+});
+</code></pre> </div> </section> <section> <p> Podemos evitar el bubbling con <b><code>Event.stopPropagation</code></b> </p> <div class="org-src-container"> <pre><code class="javascript">button.addEventListener('click', function (e) {
+    e.stopPropagation();
+});
+</code></pre> </div> </section> <section id="slide-cancelar-el-evento"> <h3 id="cancelar-el-evento">Cancelar el evento</h3> <ul> <li>¡Esto <b><i>no</i> es interrumpir el bubbling</b>!</li> <li>Es cancelar el evento y evitar <i>acciones por defecto</i> asociadas a él. Es útil para interceptar formularios, o cambiar el comportamiento de un menú</li> <li>Usamos <b><code>Event.preventDefault</code></b></li> </ul> </section> <section> <div class="org-src-container"> <pre><code class="html">&lt;a href="file.zip" download&gt;Download zip&lt;/a&gt;
+</code></pre> </div> <div class="org-src-container"> <pre><code class="javascript">const link = document.querySelector('a');
+link.addEventListener('click', function (evt) {
+    // the browser won't detect the link has been clicked
+    evt.preventDefault();
+});
+</code></pre> </div> </section> <section id="slide-toda-la-documentación-de-esto-está-en-la-mdn"> <h3 id="toda-la-documentación-de-esto-está-en-la-mdn">Toda la documentación de esto está en la MDN</h3> <p> <a href="http://developer.mozilla.org">http://developer.mozilla.org</a> </p> <p> Truco: añadir <code>mdn</code> a cualquier búsqueda </p> <div id="orgf911bd7" class="figure"> <p><img src="search.6aab503f.png" alt="search.png"> </p> <p><span class="figure-number">Figura 2: </span>Buscador</p> </div> </section> </section> </div> </div> <script src="tooling.reveal.ffb33b1a.js"></script> <script src="tooling.reveal.f05d24be.js"></script> <script src="tooling.reveal.1feea775.js"></script> <script src="tooling.reveal.d2982244.js"></script> <script>Reveal.initialize({controls:!0,progress:!0,history:!0,center:!0,slideNumber:"c",rollingLinks:!1,keyboard:!0,mouseWheel:!1,fragmentInURL:!1,hashOneBasedIndex:!1,pdfSeparateFragments:!0,overview:!0,transition:"none",transitionSpeed:"default",plugins:[RevealSearch,RevealHighlight,RevealZoom],dependencies:[]});</script> </body></html>

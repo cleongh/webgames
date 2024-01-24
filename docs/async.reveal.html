@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Programación asíncrona y eventos</title><meta name="author" content="Carlos León"><style>.underline{text-decoration:underline}</style><link rel="stylesheet" href="tooling.reveal.e38fa0d8.css"><link rel="stylesheet" href="tooling.reveal.a866bf8d.css" id="theme"><link rel="stylesheet" href="tooling.reveal.c1a625de.css"><link rel="stylesheet" href="tooling.reveal.fdb16a0d.css"></head><body> <div class="reveal"> <div class="slides"> <section id="sec-title-slide"> <h1 class="title">Programación asíncrona y eventos</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2> </section> <section> <section id="slide-programación-asíncrona-y-eventos"> <h2 id="programación-asíncrona-y-eventos">Programación asíncrona y eventos</h2> </section> <section> <p> Prueba el siguiente ejemplo (copia, pega y espera 5 segundos): </p> <div class="org-src-container"> <pre><code class="js">var fiveSeconds = 5 * 1000; // en milisegundos
+
+// Esto ocurre ahora
+console.log('T: ', new Date());
+
+setTimeout(function () {
+  // Esto ocurre pasados 5 segundos
+  console.log('T + 5 segundos: ', new Date());
+}, fiveSeconds);
+
+// Esto ocurre inmediatamente después
+console.log('T + delta: ', new Date());
+</code></pre> </div> </section> <section> <p> Como puedes comprobar, el mensaje se completa pasados 5 segundos porque lo que hace <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout"><code>setTimeout</code></a> es llamar a la función tan pronto como pasen el número de milisegundos indicados </p> <p> Decimos que una función es una <b><i>callback</i></b> si se llama en algún momento futuro, es decir, <b>asíncronamente</b>, para informar de algún resultado </p> <p> En el ejemplo de <code>setTimeout</code> el resultado es que ha pasado la cantidad de tiempo especificada </p> </section> </section> <section> <section id="slide-eventos"> <h2 id="eventos">Eventos</h2> <p> Esta sección presenta el módulo <code>readline</code> que es específico de node </p> <p> La programación asíncrona en JavaScript y otros lenguajes se usa para <b>modelar eventos</b>, principalmente <b>esperas por entrada y salida</b> </p> </section> <section> <p> En otras palabras: hitos que ocurren pero que <b>no sabemos cuándo ocurren</b> </p> <p> La entrada y salida, a partir de ahora IO (del inglés <i>input / output</i>), no solo supone lectura de ficheros o peticiones a la red, también incluye esperar por una acción del usuario </p> </section> <section> <p> Vamos a implementar una consola de diálogo por líneas. Usaremos el módulo <a href="https://nodejs.org/api/readline.html"><code>readline</code></a> que es parte de la funcionalidad que vienen con node: </p> <div class="org-src-container"> <pre><code class="js">// En conversational.js
+"use strict";
+
+var readline = require('readline');
+
+var cmd = readline.createInterface({
+  input: process.stdin,  // así referenciamos la consola como entrada
+  output: process.stdout, // y así, como salida
+  prompt: '(╯°□°）╯ ' // lo que aparece para esperar la entrada del usuario
+});
+</code></pre> </div> </section> <section> <p> Lanza ese programa con node y verás que no hace nada <b>pero tampoco termina</b> Esto es típico de los programas asíncronos. El programa queda esperando a que pase algo </p> <p> Pulsa <code>ctrl+c</code> para terminar el programa </p> </section> <section> <p> Ahora prueba: </p> <div class="org-src-container"> <pre><code class="js">// Añade al final de conversational.js
+console.log('Escribe algo y pulsa enter');
+cmd.prompt(); // pide que el usuario escriba algo
+
+cmd.on('line', function (input) {
+  console.log('Has dicho "' + input  + '"');
+  cmd.prompt(); // pide que el usuario escriba algo
+});
+</code></pre> </div> </section> <section> <p> Lo que has conseguido es <b>escuchar por el evento <code>line</code></b> que se produce <a href="https://nodejs.org/api/readline.html#readline_event_line">cada vez que en la entrada se recibe un caracter de cambio de línea</a> </p> </section> <section> <p> Hablando de eventos, la función que se ejecuta asíncronamente recibe el nombre de <b><i>listener</i></b> pero tampoco es raro que se la llame <b><i>callback</i></b> </p> </section> <section> <p> Se habla de <b>registrar un listener para un evento</b> o <b>escuchar por ese evento</b> a utilizar el mecanismo que permite asociar la ejecución de una función con dicho evento </p> </section> <section> <p> Con todo, aun no puedes salir del programa. Necesitas algunos cambios más: </p> <div class="org-src-container"> <pre><code class="js">// Añade a conversational.js
+cmd.on('line', function (input) {
+  if (input === 'salir') {
+    cmd.close();
+  }
+});
+
+cmd.on('close', function () {
+  console.log('¡Nos vemos!');
+  process.exit(0); // sale de node
+});
+</code></pre> </div> </section> <section> <p> Has añadido un segundo lístener al evento <code>line</code> y <b>ambos se ejecutarán</b> </p> <p> El primero gestiona el funcionamiento por defecto (que es repetir lo que has puesto) y el segundo trata específicamente el comando <code>salir</code> </p> <p> Si la línea es exactamente <code>salir</code>, cerraremos la interfaz de línea de comandos </p> <p> Esto produce un evento <code>close</code> y cuando lo recibamos, utilizaremos el <i>listener</i> de ese evento para terminar el programa </p> </section> <section> <p> El método <code>on()</code> es un segundo nombre para <a href="https://nodejs.org/api/events.html#events_emitter_addlistener_eventname_listener"><code>addListener()</code></a> </p> </section> <section> <p> Igual que puedes añadir un lístener, también puedes eliminarlo con <a href="https://nodejs.org/api/events.html#events_emitter_removelistener_eventname_listener"><code>removeListener()</code></a> y quitarlos todos con <a href="https://nodejs.org/api/events.html#events_emitter_removealllisteners_eventname"><code>removeAllListeners()</code></a> </p> </section> <section> <p> Puedes escuchar por un evento <b>sólo una vez</b> con <a href="https://nodejs.org/api/events.html#events_emitter_once_eventname_listener"><code>once()</code></a> </p> </section> </section> <section> <section id="slide-emisores-de-eventos"> <h2 id="emisores-de-eventos">Emisores de eventos</h2> <p> Esta sección presenta la clase <code>EventEmitter</code> que es específica de node </p> <p> Los eventos <b>no son un mecanismo estándar</b> de JavaScript. Son una forma conveniente de modelar determinados tipos de problema pero un objeto JavaScript, por sí solo, <b>no tiene API para emitir eventos</b> </p> </section> <section> <p> <b>En <code>node</code></b>, para que nuestros objetos emitan eventos, tenemos varias alternativas: </p> <ul> <li>Implementar nuestra propia API de eventos</li> <li>Hacer que nuestros objetos <b>usen</b> una instancia de <code>EventEmitter</code></li> <li>Hacer que nuestros objetos <b>sean instancias</b> de <code>EventEmitter</code></li> </ul> </section> <section> <p> La primera supone crear nuestro propio método <code>on()</code> y los mecanismos para emitir eventos. El segundo y el tercero usan la clase <a href="https://nodejs.org/api/events.html#events_class_eventemitter"><code>EventEmitter</code></a> que ya implementa esta API </p> </section> <section> <p> Implementaremos la opción 3 para practicar la herencia: </p> <div class="org-src-container"> <pre><code class="js">var events = require('events');
+var EventEmitter = events.EventEmitter;
+
+function Nave() {
+  EventEmitter.apply(this);
+  this._ammunition = 'laser charges';
+}
+Nave.prototype = Object.create(EventEmitter.prototype);
+Nave.prototype.constructor = Nave;
+
+var nave = new Nave();
+nave.on; // ¡existe!
+</code></pre> </div> </section> <section> <p> Ahora que nuestra nave puede emitir eventos, vamos a hacer que dispare y que emita un evento: </p> <div class="org-src-container"> <pre><code class="js">Nave.prototype.shoot = function () {
+  console.log('PICHIUM!');
+  this.emit('shoot', this._ammunition); // parte de la API de EventEmitter
+};
+
+nave.on('shoot', function (ammunition) {
+  console.log('CENTRO DE MANDO. La nave ha disparado:', ammunition);
+});
+
+nave.shoot();
+</code></pre> </div> </section> <section> <p> Emitir un evento consiste en llamar al método <a href="https://nodejs.org/api/events.html#events_emitter_emit_eventname_arg1_arg2"><code>emit()</code></a> que hará que se ejecuten los <i>listeners</i> escuchando por tal evento </p> <p> Los eventos son increíblemente útiles para modelar interfaces de usuario de forma genérica </p> </section> <section> <p> Para ello, los <b>modelos deben publicar qué les ocurre</b>: cómo cambian, qué hacen&#x2026; Todo <b>a base de eventos</b>. Las <b>interfaces de usuario se suscribirán</b> a estos eventos y proporcionarán la información visual adecuada </p> </section> <section> <p> Este modelo permite además que varias interfaces de usuario funcionen al mismo tiempo, todas escuchando por los mismos eventos aunque también permite partir la interfaz en otras especializadas, cada una escuchando por un determinado conjunto de eventos </p> </section> </section> </div> </div> <script src="tooling.reveal.ffb33b1a.js"></script> <script src="tooling.reveal.f05d24be.js"></script> <script src="tooling.reveal.1feea775.js"></script> <script src="tooling.reveal.d2982244.js"></script> <script>Reveal.initialize({controls:!0,progress:!0,history:!0,center:!0,slideNumber:"c",rollingLinks:!1,keyboard:!0,mouseWheel:!1,fragmentInURL:!1,hashOneBasedIndex:!1,pdfSeparateFragments:!0,overview:!0,transition:"none",transitionSpeed:"default",plugins:[RevealSearch,RevealHighlight,RevealZoom],dependencies:[]});</script> </body></html>

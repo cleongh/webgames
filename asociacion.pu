@@ -1,0 +1,10 @@
+@startuml
+class Enemy {
+    -Player objective
+}
+class Player {
+    -Weapon objective
+}
+Player --> Weapon : uso
+Enemy --> Player : uso
+@enduml

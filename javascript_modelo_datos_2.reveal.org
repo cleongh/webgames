@@ -1,0 +1,1016 @@
+#+title: Modelo de datos de JavaScript (II)
+#+setupfile: setup.org
+
+
+* Objetos y paso de mensajes
+:PROPERTIES:
+:CUSTOM_ID: objetos-y-paso-de-mensajes
+:END:
+
+#+REVEAL: split
+
+Los objetos de JavaScript y el poder usar código como un valor más
+permite codificar los conceptos de objeto y paso de mensajes de la
+programación orientada a objetos
+
+** Codificando el estado
+:PROPERTIES:
+:CUSTOM_ID: codificando-el-estado
+:END:
+Con lo que se ha visto hasta ahora se tiene suficiente conocimiento para
+codificar el estado
+
+El *conjunto de atributos* del objeto del modelado orientado a objetos
+se traduce al *conjunto de propiedades* de los objetos JavaScript
+
+#+REVEAL: split
+
+En el ejemplo de Space Invaders, el estado de los enemigos formado por:
+
+#+attr_html: :height 400
+#+caption: Estado del enemigo en el modelado de Space Invaders
+[[file:space-invaders-enemy-state.svg]]
+
+#+REVEAL: split
+
+Se puede codificar mediante:
+
+#+begin_src js
+let enemy = {
+  graphic: 'specie01.png',
+  currentDirection: 'right',
+  position: { x: 10, y: 10 },
+  score: 40
+};
+#+end_src
+
+#+REVEAL: split
+
+La primera limitación en JavaScript es que *no se puede restringir el
+acceso a las propiedades de un objeto*
+
+Así, nada nos impide poder modificar la posición directamente
+
+#+begin_src js
+enemy.position.x = 100; // perfectamente válido
+#+end_src
+
+#+REVEAL: split
+
+Lo único que podemos hacer es desaconsejar al usuario que utilice las
+propiedades que determinemos como atributos
+
+Una práctica muy común es añadir un guíon bajo =_= a los atributos como
+indicando que son *privados*
+
+#+begin_src js
+let enemy = {
+  _graphic: 'specie01.png',
+  _currentDirection: 'right',
+  _position: { x: 10, y: 10 },
+  _score: 40
+};
+#+end_src
+
+#+REVEAL: split
+
+Pero esto es un convenio, y podemos seguir accediendo a los atributos
+
+#+begin_src js
+enemy._position.x = 100; // perfectamente válido también
+#+end_src
+
+** Codificando la API
+:PROPERTIES:
+:CUSTOM_ID: codificando-la-api
+:END:
+Los *métodos* pueden implementarse como *funciones* en propiedades de un
+objeto:
+
+#+caption: API del enemigo en el modelado de Space Invaders
+[[file:space-invaders-enemy-state.svg]]
+
+#+REVEAL: split
+
+#+begin_src js
+let enemy = {
+  _graphic: 'specie01.png',
+  _currentDirection: 'right',
+  _position: { x: 10, y: 10 },
+  _score: 40,
+
+  moveLeft: function () { console.log('Going left!'); },
+  moveRight: function () { console.log('Going right!'); },
+  advance: function () { console.log('Marching forward!'); },
+  shoot: function () { console.log('PICHIUM!'); } // (es un láser)
+};
+#+end_src
+
+#+REVEAL: split
+
+Enviar un mensaje a un objeto consiste sencillamente *acceder a una
+función propiedad del destinatario y llamarla*
+
+#+begin_src js
+enemy.shoot(); // primero accedemos con punto, luego llamamos con ()
+enemy.moveLeft();
+enemy.moveLeft();
+enemy.advance();
+enemy['shoot'](); // es lo mismo, acceder con corchetes y llamar con ()
+#+end_src
+
+#+REVEAL: split
+
+Cualquier función puede actuar como método. Y como cualquier propiedad
+de un objeto, podemos cambiarla en cualquier momento:
+
+#+begin_src js
+enemy.shoot(); // PICHIUM!
+enemy.shoot = function () { console.log('PAÑUM!'); };
+enemy.shoot(); // PAÑUM!
+#+end_src
+
+#+REVEAL: split
+
+Ahora bien, observa el siguiente comportamiento:
+
+#+begin_src js
+enemy; // fíjate en la posición
+enemy.moveLeft();
+enemy; // fíjate en la posición otra vez
+#+end_src
+
+#+REVEAL: split
+
+Obviamente, echando un vistazo a lo que hace =moveLeft()= no podríamos
+decir que cambia el estado del objeto destinatario del mensaje
+
+#+REVEAL: split
+
+Como cualquier función puede actuar como método, necesitamos una forma
+de *referirnos al destinatario del mensaje*, si existe
+
+Este se guarda en la letiable *=this=*
+
+Ojo con =this=... =)
+
+* =this=
+:PROPERTIES:
+:CUSTOM_ID: this
+:END:
+
+#+REVEAL: split
+
+Con =this=, vamos a implementar los métodos de movimiento:
+
+#+begin_src js
+enemy.moveLeft = function () { this._position.x -= 2; };
+enemy.moveRight = function () { this._position.x += 2; };
+enemy.advance = function () { this._position.y += 2; };
+#+end_src
+
+#+REVEAL: split
+
+Ahora puedes probar el mismo experimento de antes y ver cómo
+efectivamente alteramos el estado del objeto:
+
+#+begin_src js
+enemy; // fíjate en la posición
+enemy.moveLeft();
+enemy; // fíjate en la posición otra vez
+#+end_src
+
+** El valor de =this=
+:PROPERTIES:
+:CUSTOM_ID: el-valor-de-this
+:END:
+El valor de =this= es uno de los aspectos más controvertidos de
+JavaScript
+
+En otros lenguajes métodos y funciones son cosas distintas y un método
+*siempre* tiene asociado un y sólo un objeto así que =this= nunca cambia
+
+#+REVEAL: split
+
+Pero en JavaScript, =this= depende de cómo llamemos a la función, si la
+llamamos como si fuera una función o si la llamamos como si fuera un
+método
+
+Considera la siguiente función:
+
+#+begin_src js
+function inspect() {
+  // sólo inspecciona this
+  console.log('Tipo:', typeof this);
+  console.log('Valor:', this);
+}
+#+end_src
+
+#+REVEAL: split
+
+Y prueba lo siguiente:
+
+#+begin_src js
+// Piensa qué puede valer this antes de probar cada ejemplo
+let ship1 = { name: 'T-Fighter', method: inspect };
+let ship2 = { name: 'X-Wing', method: inspect };
+ship1.method();
+ship2.method();
+inspect();
+#+end_src
+
+#+REVEAL: split
+
+En el último caso, el valor de =this= es *el objeto global* porque la
+función no se está usando como un método por lo que no hay destinatario
+
+En JavaScript podemos hacer que cualquier objeto sea =this= en cualquier
+función
+
+#+REVEAL: split
+
+Para ello usaremos
+[[https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Function/apply][=apply()=]]
+en una función:
+
+#+begin_src js
+let onlyNameShip = { name: 'Death Star' };
+inspect.apply(onlyNameShip); // hace que this valga onlyNameShip en inspect
+#+end_src
+
+A
+[[http://dmitrysoshnikov.com/ecmascript/javascript-the-core/#this-value][=this=]]
+se le conoce también como *objeto de contexto* y utilizaremos este
+término de cuando en cuando
+
+* Tipos y constructores de objetos
+:PROPERTIES:
+:CUSTOM_ID: tipos-y-constructores-de-objetos
+:END:
+
+#+REVEAL: split
+
+Javascript permite modelar *prototipos de objetos*
+
+JavaScript no permite modelar tipos nuevos y tendremos que dar un rodeo
+
+Esta es una de las principales diferencias con otros lenguajes
+orientados a objetos
+
+#+REVEAL: split
+
+Lo que vamos a hacer es saltarnos el concepto de tipo para abordar
+directamente el de constructor
+
+#+attr_html: :height 400
+#+caption: Constructores de objetos
+[[file:space-invaders-constructor-example.svg]]
+
+#+REVEAL: split
+
+Vamos a crear dos funciones constructoras, una para puntos y otra para
+disparos:
+
+#+begin_src js
+function newPoint(x, y) {
+  let obj = {};
+  obj.x = x;
+  obj.y = y;
+  return obj;
+}
+
+function newShot(position, velocity) {
+  let obj = {};
+  obj._position = position;
+  obj._velocity = velocity;
+  obj.advance = function () {
+    this._position.y += this._velocity;
+  };
+  return obj;
+}
+#+end_src
+
+#+REVEAL: split
+
+La forma de las funciones constructoras es muy similar: crear un objeto
+vacío, establecer las propiedades del objeto y devolver el nuevo objeto
+
+#+REVEAL: split
+
+Ahora podemos crear un nuevo disparo con algo así:
+
+#+begin_src js
+// Velocidad positiva para que se mueva hacia abajo
+let enemyShot = newShot(newPoint(15, 15), 2);
+
+// Velocidad negativa para que se mueva hacia arriba
+let allyShot = newShot(newPoint(15, 585), -2);
+
+enemyShot !== allyShot;
+#+end_src
+
+** Reaprovechando funcionalidad
+:PROPERTIES:
+:CUSTOM_ID: reaprovechando-funcionalidad
+:END:
+El problema con esta aproximación es que estamos creando funciones
+distintas para comportamientos idénticos. Una función por objeto
+
+#+begin_src js
+let s1 = newShot(newPoint(15, 15), 2);
+let s2 = newShot(newPoint(15, 15), 2);
+let s3 = newShot(newPoint(15, 15), 2);
+s1.advance !== s2.advance;
+s2.advance !== s3.advance;
+s3.advance !== s1.advance;
+#+end_src
+
+#+REVEAL: split
+
+Esto es altamente ineficiente dado que cada función ocupa un espacio
+distinto en memoria
+
+No necesitamos distintas funciones sino una solamente actuando sobre
+distintos objetos
+
+#+REVEAL: split
+
+Así que vamos a *crear un objeto que contenga sólamente la API*:
+
+#+begin_src js
+let shotAPI = {
+  advance: function () {
+    this._position.y += this._velocity;
+  }
+};
+#+end_src
+
+#+REVEAL: split
+
+Y a usarlo en la creación del objeto para referenciar la API:
+
+#+begin_src js
+function newShot(position, velocity) {
+  let obj = {};
+  obj._position = position;
+  obj._velocity = velocity;
+  obj.advance = shotAPI.advance;
+  return obj;
+}
+#+end_src
+
+#+REVEAL: split
+
+Ahora todas las instancias comparten la misma función pero cada función
+actúa sobre el objeto correspondiente gracias al uso de =this=:
+
+#+begin_src js
+let s1 = newShot(newPoint(15, 15), 2);
+let s2 = newShot(newPoint(15, 15), 2);
+let s3 = newShot(newPoint(15, 15), 2);
+s1.advance === s2.advance; // ahora SÍ son iguales
+s2.advance === s3.advance;
+s3.advance === s1.advance;
+#+end_src
+
+#+REVEAL: split
+
+Para hacer todavía más fuerte la asociación entre el constructor y la
+API, modificamos el *objeto con la API como una propiedad de la función
+constructora*
+
+#+begin_src js
+function newShot(position, velocity) {
+  let obj = {};
+  obj._position = position;
+  obj._velocity = velocity;
+  obj.advance = newShot.api.advance;
+  return obj;
+}
+
+// Recuerda, una función es un objeto, así que le podemos añadir una propiedad
+newShot.api = {
+  advance: function () {
+    this._position.y += this._velocity;
+  }
+};
+#+end_src
+
+* La cadena de prototipos
+:PROPERTIES:
+:CUSTOM_ID: la-cadena-de-prototipos
+:END:
+
+#+REVEAL: split
+
+JavaScript posee una característica muy representativa y única del
+lenguaje: *la cadena de prototipos*
+
+Puedes experimentar con ella en
+[[http://www.objectplayground.com/][Object Playground]], una excelente
+herramienta que te ayudará a visualizarla
+
+#+REVEAL: split
+
+La idea no es complicada. La cadena de prototipos *es una lista de
+búsqueda para las propiedades*
+
+Cada elemento de la cadena es *prototipo* del objeto anterior
+
+#+REVEAL: split
+
+Cuando accedemos a la propiedad de un objeto, esta propiedad se busca en
+el objeto y si no se encuentra, se busca en el prototipo del objeto, y
+así sucesivamente hasta alcanzar la propiedad o el final de esta cadena
+
+#+REVEAL: split
+
+Por ejemplo:
+
+#+begin_example
+obj1                    obj2               obj3
+{ a: 1, b: 2, c: 3} --> { d: 4, e: 5 } --> { f: 6 }
+obj1.c -------↑           ↑                  ↑
+obj1.d -------------------|                  |
+obj1.f --------------------------------------|
+obj1.z -----------------------------------------------X
+#+end_example
+
+#+REVEAL: split
+
+Crear esta jerarquía en JavaScript requiere el uso de
+[[https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Object/create][=Object.create()=]]:
+
+#+begin_src js
+// La cadena se monta de atrás hacia adelante
+let obj3 = { f: 6 };
+// Encadenamos obj2 a obj3
+let obj2 = Object.create(obj3);
+obj2.d = 4;
+obj2.e = 5;
+// Encadenamos obj1 a obj2
+let obj1 = Object.create(obj2);
+obj1.a = 1;
+obj1.b = 2;
+obj1.c = 3;
+
+obj1.c;
+obj1.d;
+obj1.f;
+obj1.z; // undefined
+#+end_src
+
+#+REVEAL: split
+
+El método =Object.create()= crea un nuevo objeto vacío (como ={}=) cuyo
+prototipo es el objeto pasado como parámetro
+
+#+REVEAL: split
+
+Se puede usar el método
+[[https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty][=hasOwnProperty()=]]
+para determinar si una propiedad pertenece a un objeto sin atravesar la
+cadena de prototipos:
+
+#+begin_src js
+obj1.hasOwnProperty('c');
+obj1.hasOwnProperty('d');
+obj1.hasOwnProperty('f');
+obj1.hasOwnProperty('z');
+
+obj2.hasOwnProperty('c');
+obj2.hasOwnProperty('d');
+obj2.hasOwnProperty('f');
+obj2.hasOwnProperty('z');
+
+obj3.hasOwnProperty('c');
+obj3.hasOwnProperty('d');
+obj3.hasOwnProperty('f');
+obj3.hasOwnProperty('z');
+#+end_src
+
+#+REVEAL: split
+
+Se puede usar el método
+[[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf][=Object.getPrototypeOf=]]
+para obtener el prototipo de un objeto:
+
+#+begin_src js
+Object.getPrototypeOf(obj1) === obj2;
+Object.getPrototypeOf(obj2) === obj3;
+Object.getPrototypeOf(obj3) === Object.prototype;
+Object.getPrototypeOf(Object.prototype) === null;
+#+end_src
+
+* Constructores y cadenas de prototipos
+:PROPERTIES:
+:CUSTOM_ID: constructores-y-cadenas-de-prototipos
+:END:
+
+#+REVEAL: split
+
+Los prototipos se prestan a ser el lugar ideal para contener la API que
+es el comportamiento común de todos los objetos de un tipo
+
+#+begin_example
+let obj = newShot()                   newShot.api
+{_position: {x: 10...}...} --> {advance: function...};
+
+obj._position.y ----↑                       ↑
+obj.advance #+REVEAL: split#+REVEAL: split----|
+obj.goBack #+REVEAL: split#+REVEAL: split#+REVEAL: split----X
+#+end_example
+
+#+REVEAL: split
+
+Para crear este enlace modificaremos el constructor:
+
+#+begin_src js
+function newShot(position, velocity) {
+  // Con esto la API es el prototipo del objeto
+  let obj = Object.create(newShot.api);
+  obj._position = position;
+  obj._velocity = velocity;
+  return obj;
+}
+
+newShot.api = {
+  advance: function () {
+    this._position.y += this._velocity;
+  }
+};
+#+end_src
+
+#+REVEAL: split
+
+Y ahora probamos a crear un nuevo disparo:
+
+#+begin_src js
+let shot = newShot(newPoint(0,0), 2);
+shot; // al inspeccionar shot sólo se muestran las propiedades del objeto
+shot.advance; // pero advance existe en su prototipo
+shot.hasOwnProperty('advance');
+Object.getPrototypeOf(shot).hasOwnProperty('advance');
+#+end_src
+
+#+REVEAL: split
+
+Si hiciéramos esto con todos los constructores, cláramente
+encontraríamos un patrón:
+
+1. Crea un objeto para contener la API
+2. Implementa la API como propiedades de este objeto
+3. En el constructor haz que este objeto sea el prototipo de un nuevo
+   objeto
+4. Establece las propiedades del nuevo objeto con el estado
+5. Devuelve el nuevo objeto
+
+#+REVEAL: split
+
+Sólo los pasos 2 y 4 involucran diferencias de un constructor a otro.
+Todo lo demás es exactamente igual. Tanto es así que JavaScript lo tiene
+en cuenta y viene con los mecanismos para automatizar los pasos 1, 3 y 5
+
+#+REVEAL: split
+
+Primero, JavaScript permite que cualquier función pueda usarse como
+constructor
+
+#+REVEAL: split
+
+Cada vez que escribimos una función, JavaScript *crea una propiedad de
+la función llamada =prototype=* que es un objeto con una única propiedad
+=constructor= que apunta a la función
+
+#+begin_src js
+function anyFunction() {}
+anyFunction.prototype;
+anyFunction.prototype.constructor === anyFunction;
+#+end_src
+
+#+REVEAL: split
+
+Esto automatiza el paso 1. Ya no es necesario el objeto =api= que
+preparábamos nosotros manualmente
+
+#+REVEAL: split
+
+Ahora, al llamar a la función con el operador =new= delante, se crea un
+*nuevo objeto cuyo prototipo es precisamente la propiedad =prototype=*
+de la función:
+
+#+begin_src js
+let obj = new anyFunction();
+let anotherObj = new anyFunction();
+
+// Los objetos son distintos
+obj !== anotherObj;
+
+// Pero sus prototipos son iguales
+Object.getPrototypeOf(obj) === Object.getPrototypeOf(anotherObj);
+
+// Y además son la propiedad prototype de la función
+Object.getPrototypeOf(obj) === anyFunction.prototype;
+#+end_src
+
+#+REVEAL: split
+
+Con esto automatizamos el paso 3. Ya no es necesario llamar a
+=Object.create()= para establecer la cadena de prototipos entre objeto y
+API
+
+#+REVEAL: split
+
+Finalmente, cuando se llama con =new=, la *función recibe como objeto de
+contexto (recuerda, el =this=) el elemento que está siendo creado* lo
+que nos permite establecer sus atributos
+
+#+begin_src js
+function Hero(name) {
+  this.name = name;
+  this.sword = null;
+  this.shield = null;
+}
+
+let hero = new Hero('Link');
+hero;
+#+end_src
+
+#+REVEAL: split
+
+Si la *función devuelve nada*, el resultado del operador =new= será el
+nuevo objeto. Esto automatiza el paso 5 puesto que no es necesario
+devolver el nuevo objeto, esta devolución se hace implícita
+
+Veamos como queda el constructor de punto:
+
+#+begin_src js
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+#+end_src
+
+#+REVEAL: split
+
+Y el del disparo:
+
+#+begin_src js
+function Shot(position, velocity) {
+  this._position = position;
+  this._velocity = velocity;
+}
+
+// El prototipo ya existe, pero le añadimos el método advance()
+Shot.prototype.advance = function () {
+  this._position.y += this._velocity;
+};
+#+end_src
+
+#+REVEAL: split
+
+Ahora crear los objetos será cuestión de usar =new=:
+
+#+begin_src js
+let enemyShot = new Shot(new Point(15, 15), 2);
+let allyShot = new Shot(new Point(15, 585), -2);
+enemyShot !== allyShot;
+#+end_src
+
+* Herencia
+:PROPERTIES:
+:CUSTOM_ID: herencia
+:END:
+
+#+REVEAL: split
+
+Sabemos como crear objetos con atributos y métodos y sabemos como
+hacerlo eficazmente usando constructores y la cadena de prototipos
+
+#+attr_html: :height 400
+#+caption: Relación de herencia entre nave y los enemigos y la nave aliada
+[[file:space-invaders-hierarchy.svg]]
+
+#+REVEAL: split
+
+Falta explicar cómo podemos crear una *relación de herencia*
+
+Usemos el ejemplo de los enemigos y la nave protagonista de la lección
+anterior
+
+#+REVEAL: split
+
+Necesitaremos pues nuestros constructores de puntos y disparos:
+
+#+begin_src js
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+
+function Shot(position, velocity) {
+  this._position = position;
+  this._velocity = velocity;
+}
+
+Shot.prototype.advance = function () {
+  this._position.y += this._velocity;
+};
+#+end_src
+
+#+REVEAL: split
+
+El constructor del enemigo podría ser:
+
+#+begin_src js
+function Enemy(graphic, position, score) {
+  this._graphic = graphic;
+  this._currentDirection = 'right';
+  this._position = position;
+  this._score = score;
+}
+
+Enemy.prototype.moveLeft = function () { this._position.x -= 2; };
+Enemy.prototype.moveRight = function () { this._position.x += 2; };
+Enemy.prototype.advance = function () { this._position.y += 2; };
+Enemy.prototype.shoot = function () {
+  let firePosition = new Position(this._position.x, this._position.y + 10);
+  let shot = new Shot(firePosition, 2);
+  return shot;
+};
+#+end_src
+
+#+REVEAL: split
+
+Y el de la nave aliada:
+
+#+begin_src js
+function Ally(position) {
+  this._graphic = 'ally.png';
+  this._position = position;
+}
+
+Ally.prototype.moveLeft = function () { this._position.x -= 2; };
+Ally.prototype.moveRight = function () { this._position.x += 2; };
+Ally.prototype.shoot = function () {
+  let firePosition = new Position(this._position.x, this._position.y - 10);
+  let shot = new Shot(firePosition, -2);
+  return shot;
+};
+#+end_src
+
+#+REVEAL: split
+
+Podemos pensar en un constructor que capture las propiedades comunes de
+ambos tipos:
+
+#+begin_src js
+function Ship(graphic, position) {
+  this._graphic = graphic;
+  this._position = position;
+}
+
+Ship.prototype.moveLeft = function () { this._position.x -= 2; };
+Ship.prototype.moveRight = function () { this._position.x += 2; };
+#+end_src
+
+#+REVEAL: split
+
+No incluimos disparar porque unos disparan hacia arriba y otros hacia
+abajo
+
+#+REVEAL: split
+
+Recordemos que ahora los constructores de la nave aliada y los enemigos
+pedirán primero al constructor de nave una nave y luego la
+personalizarán
+
+#+attr_html: :height 400
+#+caption: Jerarquía de constructores
+[[file:space-invaders-hierarchy-constructor.svg]]
+
+#+REVEAL: split
+
+#+begin_src js
+function Enemy(graphic, position, score) {
+  Ship.apply(this, [graphic, position]);
+  this._currentDirection = 'right';
+  this._score = score;
+}
+
+function Ally(position) {
+  Ship.apply(this, ['ally.png', position]);
+}
+#+end_src
+
+Con
+[[https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Function/apply][=apply()=]]
+se puede ejecutar una función indicando cuál será su objeto de contexto
+y sus parámetros
+
+#+REVEAL: split
+
+Con la configuración anterior, las nuevas instancias de enemigos y
+aliados pasarán primero por el constructor de =Ship= que establecerá los
+*atributos comunes* y luego serán modificados cada uno por el
+constructor pertinente para convertirse en enemigos o aliados
+concretamente
+
+#+REVEAL: split
+
+En cuanto a la API, lo ideal sería contar con una cadena de prototipos
+de esta forma:
+
+#+begin_example
+  new Enemy()          Enemy.prototype      Ship.prototype
+{ _position: ...} --> { advance: ... } --> { moveLeft: ... }
+enemy._score ---↑            ↑                   ↑
+enemy.advance #+REVEAL: split-|                   |
+enemy.moveLeft #+REVEAL: split#+REVEAL: split------|
+#+end_example
+
+#+REVEAL: split
+
+De forma que los atributos del enemigo estén en la instancia, la API
+específica en la propiedad =prototype= del constructor =Enemy= y la API
+común en la propiedad =prototype= del constructor =Ship=
+
+#+REVEAL: split
+
+Como ocurría con el ejemplo en la sección anterior, tendremos que crear
+la cadena de atrás hacia adelante. El enlace entre las instancias y los
+constructores nos lo proporciona JavaScript al utilizar =new= pero el
+enlace entre la propiedad =prototype= de =Enemy= y de =Ship= *tenemos
+que establecerlo manualmente*
+
+** Herencia en el tipo =Enemy=
+:PROPERTIES:
+:CUSTOM_ID: herencia-en-el-tipo-enemy
+:END:
+#+begin_src js
+// Inspecciona la propiedad prototype
+Enemy.prototype;
+
+// Enlaza ambas propiedades prototype
+Enemy.prototype = Object.create(Ship.prototype);
+
+// Inspecciona la propiedad prototype otra vez y busca diferencias
+Enemy.prototype;
+
+// Corrige la propiedad constructor
+Enemy.prototype.constructor = Enemy;
+
+// Añade el método específico del tipo Enemy
+Enemy.prototype.advance = function () {
+  this._position.y += 2;
+};
+
+// Otro método específico
+Enemy.prototype.shoot = function () {
+  let firePosition = new Point(this._position.x, this._position.y + 10);
+  let shot = new Shot(firePosition, 2);
+  return shot;
+};
+#+end_src
+
+#+REVEAL: split
+
+** Herencia en el tipo =Ally=
+:PROPERTIES:
+:CUSTOM_ID: herencia-en-el-tipo-ally
+:END:
+#+begin_src js
+// Lo mismo para el aliado
+Ally.prototype = Object.create(Ship.prototype);
+Ally.prototype.constructor = Ally
+
+Ally.prototype.shoot = function () {
+  let firePosition = new Point(this._position.x, this._position.y - 10);
+  let shot = new Shot(firePosition, -2);
+  return shot;
+};
+#+end_src
+
+#+REVEAL: split
+
+Ahora sí, podemos crear un enemigo y un aliado usando sus constructores:
+
+#+begin_src js
+let enemy = new Enemy('enemy1.png', new Point(10, 10), 40);
+let ally = new Ally(new Point(10, 590));
+
+Object.getPrototypeOf(ally) === Ally.prototype;
+Object.getPrototypeOf(enemy) === Enemy.prototype;
+Ally.prototype !== Enemy.prototype;
+Object.getPrototypeOf(Ally.prototype) === Object.getPrototypeOf(Enemy.prototype);
+Object.getPrototypeOf(Ally.prototype) === Ship.prototype;
+#+end_src
+
+#+REVEAL: split
+
+Y comprobar dónde está cada propiedad
+
+#+begin_src js
+enemy.hasOwnProperty('_score');
+enemy.hasOwnProperty('advance');
+enemy.hasOwnProperty('moveLeft');
+
+Enemy.prototype.hasOwnProperty('_score');
+Enemy.prototype.hasOwnProperty('advance');
+Enemy.prototype.hasOwnProperty('moveLeft');
+
+Ship.prototype.hasOwnProperty('_score');
+Ship.prototype.hasOwnProperty('advance');
+Ship.prototype.hasOwnProperty('moveLeft');
+#+end_src
+
+* Polimorfismo
+:PROPERTIES:
+:CUSTOM_ID: polimorfismo
+:END:
+
+#+REVEAL: split
+
+Las relaciones de herencia que acabamos de establecer nos permiten decir
+que un enemigo es una instancia del tipo =Enemy= pero también lo es del
+tipo =Ship=
+
+Una misma instancia *tiene múltiples formas* gracias a la herencia En
+programación orientada a objetos a esto se lo llama *polimorfismo*
+
+#+REVEAL: split
+
+Alternativamente podemos decir que un enemigo es una instancia de
+=Enemy= porque tiene la API de =Enemy= o que es una instancia de =Ship=
+porque tiene la API de =Ship=
+
+Esto es equivalente a decir que las propiedades =prototype= de =Enemy= y
+=Ship= están en la cadena de prototipos del objeto
+
+#+REVEAL: split
+
+El operador =instanceof= devuelve verdadero si la propiedad =prototype=
+de la función de la derecha está en la cadena de prototipos del objeto
+de la izquierda
+
+#+begin_src js
+enemy instanceof Enemy;  // el primer eslabón
+enemy instanceof Ship;   // el segundo
+enemy instanceof Object; // el tercero
+
+enemy instanceof Ally;
+#+end_src
+
+#+REVEAL: split
+
+En lo referente al estado, resulta conveniente saber qué constructor ha
+construido el objeto. Esto es como determinar cuál es el *primer
+eslabón* de la cadena de prototipos
+
+#+REVEAL: split
+
+Como todos los prototipos tienen una propiedad =constructor= que
+referencia al constructor que los tiene, proporcionar esta propiedad
+siempre recaerá sobre el primer prototipo
+
+#+begin_src js
+enemy.constructor;
+enemy.constructor === Enemy; // fue construido por Enemy, no por Ship
+enemy.constructor !== Ship; // es cierto que Ship fue utilizado pero nada más
+#+end_src
+
+#+REVEAL: split
+
+** Duck typing
+:PROPERTIES:
+:CUSTOM_ID: duck-typing
+:END:
+
+#+begin_quote
+In other words, don't check whether it IS-a duck: check whether it
+QUACKS-like-a duck, WALKS-like-a duck, etc, etc, depending on exactly
+what subset of duck-like behaviour you need to play your language-games
+with
+
+#+end_quote
+
+[[https://groups.google.com/forum/?hl=en#!msg/comp.lang.python/CCs2oJdyuzc/NYjla5HKMOIJ][Alex
+Martelli sobre polimorfismo]]
+
+#+REVEAL: split
+
+La frase se refiere a que más que comprobar si algo es una instancia de
+un tipo, deberíamos comprobar si tiene la funcionalidad que necesitamos
+
+#+REVEAL: split
+
+JavaScript es tan dinámico que el operador =instanceof= y la propiedad
+=constructor= sólo tienen sentido si seguimos los convenios aprendidos
+en la lección
+
+#+REVEAL: split
+
+Nada nos impide borrar la propiedad =constructor= de un prototipo o
+sobreescribirla en un objeto determinado. En las nuevas versiones de
+JavaScript, el prototipo de un objeto puede cambiar después de haber
+sido construido

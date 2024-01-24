@@ -1,0 +1,11 @@
+digraph {
+         bgcolor=transparent
+ rankdir=LR
+  interpreter [label="intérprete"]
+  processor [label="procesador"]
+  program [shape=record label="{<f1>A|<f2>B|C|...}"]
+  program -> interpreter [tailport=f1 label="(1) A se envía"]
+  program -> interpreter [tailport=f2 label="(4) B se envía..."]
+  interpreter -> interpreter [label="(2) A se transforma en M"]
+  interpreter -> processor [label="(3) M se envía al procesador"]
+}

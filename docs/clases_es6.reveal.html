@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>ES6</title><meta name="author" content="Carlos León"><style>.underline{text-decoration:underline}</style><link rel="stylesheet" href="tooling.reveal.e38fa0d8.css"><link rel="stylesheet" href="tooling.reveal.a866bf8d.css" id="theme"><link rel="stylesheet" href="tooling.reveal.c1a625de.css"><link rel="stylesheet" href="tooling.reveal.fdb16a0d.css"></head><body> <div class="reveal"> <div class="slides"> <section id="sec-title-slide"> <h1 class="title">ES6</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2> </section> <section> <section id="slide-estándares-es"> <h2 id="estándares-es">Estándares ES</h2> </section> <section> <p> JavaScript es un lenguaje relativamente antiguo y ha sufrido muchas modificaciones </p> <p> Cada modificación oficial establece un nuevo estándar <a href="https://es.wikipedia.org/wiki/ECMAScript">ECMAScript</a> </p> </section> </section> <section> <section id="slide-nueva-sintaxis-para-clases"> <h2 id="nueva-sintaxis-para-clases">Nueva sintaxis para clases</h2> </section> <section> <p> ES6 es uno de los estándares que más ha cambiado la sintaxis en los últimos años </p> <p> Uno de las cambios más notables es la nueva sintaxis para <b>clases</b> </p> </section> <section id="slide-nuevas-clases"> <h3 id="nuevas-clases">Nuevas clases</h3> <div class="org-src-container"> <pre><code class="js">class Enemigo {
+  constructor(nombre) { // `constructor` es una palabra reservada para el constructor
+    this._nombre = nombre;
+  }  
+
+  mostrarNombre() {
+    console.log (`Mi nombre es ${this._nombre}`);
+  }
+}
+</code></pre> </div> </section> <section> <p> Equivale a: </p> <div class="org-src-container"> <pre><code class="js">function Enemigo(nombre) {
+    this._nombre = nombre;
+}
+
+Enemigo.prototype.mostrarNombre() {
+  console.log (`Mi nombre es ${this._nombre}`);
+}
+</code></pre> </div> </section> <section> <p> En este punto no es una revolución muy notable, pero en cuanto empezamos a usar funcionalidad avanzada, la nueva sintaxis ayuda mucho </p> </section> <section> <p> Como en la herencia: </p> <div class="org-src-container"> <pre><code class="js">class Enemigo extends Entidad{
+  constructor(nombre) {
+    this.nombre = nombre; // este código da un error
+  }  
+}
+</code></pre> </div> <p> Equivale a: </p> <div class="org-src-container"> <pre><code class="js">function Enemigo(nombre) {
+    this.nombre = nombre;
+}
+
+Enemigo.prototype = Object.create(Entidad.prototype);
+Enemigo.prototype.constructor = Enemigo;
+</code></pre> </div> </section> <section> <p> También para llamar a un método de la clase padre: </p> <div class="org-src-container"> <pre><code class="js">class Enemigo extends Entidad{ // ES6
+  constructor(name) { super(name); }
+
+  atacar(enemigo) { super.atacar(enemigo); }  
+}
+</code></pre> </div> <div class="org-src-container"> <pre><code class="js">function Enemigo(nombre) { Entidad.call(this, nombre); } // ES5
+
+Enemigo.prototype = Object.create(Entidad.prototype);
+Enemigo.prototype.constructor = Enemigo;
+
+Enemigo.prototype.atacar = function (enemigo) {
+  Entidad.prototype.atacar.apply(this, [enemigo]);
+}
+</code></pre> </div> </section> <section> <p> La sintaxis de clases de ES6 es sólo <a href="https://es.wikipedia.org/wiki/Az%C3%BAcar_sint%C3%A1ctico">azúcar sintáctico</a>, por detrás, ambas son exactamente lo mismo </p> <p> Para instanciarlas, se usa <code>new</code> de la misma forma que hemos visto, y el acceso a métodos y propiedades es igual </p> </section> <section> <p> También podemos hacer, igual que con la sintaxis ES6, <i>getters</i> y <i>setters</i> </p> <div class="org-src-container"> <pre><code class="js">class Personaje {
+  constructor() {
+    this._fuerza = 0;
+  }
+
+  get fuerza() {
+    return this._fuerza;
+  }
+
+  set fuerza(f) {
+    this._fuerza = f;
+  }
+}
+</code></pre> </div> </section> <section> <div class="org-src-container"> <pre><code class="js">let hero = new Personaje();
+hero.fuerza;
+hero.fuerza = 5;
+hero.fuerza;
+</code></pre> </div> </section> <section id="slide-hoisting"> <h3 id="hoisting">Hoisting</h3> <p> JavaScript no hace <i>hoisting</i> con la declaración de clases </p> </section> </section> </div> </div> <script src="tooling.reveal.ffb33b1a.js"></script> <script src="tooling.reveal.f05d24be.js"></script> <script src="tooling.reveal.1feea775.js"></script> <script src="tooling.reveal.d2982244.js"></script> <script>Reveal.initialize({controls:!0,progress:!0,history:!0,center:!0,slideNumber:"c",rollingLinks:!1,keyboard:!0,mouseWheel:!1,fragmentInURL:!1,hashOneBasedIndex:!1,pdfSeparateFragments:!0,overview:!0,transition:"none",transitionSpeed:"default",plugins:[RevealSearch,RevealHighlight,RevealZoom],dependencies:[]});</script> </body></html>

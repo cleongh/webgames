@@ -1,0 +1,23 @@
+@startuml
+
+Entity <|-- Movable
+/' Entity <|-- Weapon '/
+/' abstract Movable <|-- Player '/
+Movable <|-- Enemy
+/' Game "1" *-- "*" Entity '/
+/' Player o-- Weapon : aggregation '/
+/' hide members '/
+abstract class Entity {
+    {abstract} +tick()
+    -id
+}
+abstract class Movable {
+    -vx
+    -vy
+    -x
+    -y
+}
+abstract class Enemy {
+    -objective
+}
+@enduml

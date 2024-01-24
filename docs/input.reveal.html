@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Entrada en Phaser</title><meta name="author" content="Carlos León"><style>.underline{text-decoration:underline}</style><link rel="stylesheet" href="tooling.reveal.e38fa0d8.css"><link rel="stylesheet" href="tooling.reveal.a866bf8d.css" id="theme"><link rel="stylesheet" href="tooling.reveal.c1a625de.css"><link rel="stylesheet" href="tooling.reveal.fdb16a0d.css"></head><body> <div class="reveal"> <div class="slides"> <section id="sec-title-slide"> <h1 class="title">Entrada en Phaser</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2> </section> <section> <section id="slide-teclado"> <h2 id="teclado">Teclado</h2> </section> <section> <p> La gestión del teclado se hace a través de <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.InputPlugin"><code>scene.input</code></a> </p> </section> <section> <p> Para "registrar" una tecla, y poder usarla después: </p> <div class="org-src-container"> <pre><code class="js">// Si this es un sprite...
+this.w = this.scene.input.keyboard.addKey('W');
+</code></pre> </div> </section> <section> <p> Una vez que existe la tecla (<code>this.w</code>), podemos hacerle preguntas activamente en el <code>update</code>: </p> <div class="org-src-container"> <pre><code class="js">// En el preUpdate...
+if(this.w.isDown) {};
+if(this.w.isUp) {};
+</code></pre> </div> </section> <section> <p> O, en vez de preguntar, registramos un <i>callback</i>: </p> <div class="org-src-container"> <pre><code class="js">// Solo una vez (no en el update)
+this.w.on('down', event =&gt; { ... });
+this.w.on('up', event =&gt; { ... });
+</code></pre> </div> </section> <section> <p> Una tecla que esté pulsándose siempre (es decir, que no se suelte), dirá que <code>isDown</code> es <code>true</code> en cada ciclo </p> </section> <section> <p> Para evitar esto, si sólo queremos reaccionar ante un clic: </p> <div class="org-src-container"> <pre><code class="js">if (Phaser.Input.Keyboard.JustDown(this.w)) {}
+</code></pre> </div> </section> <section> <p> Hay más maneras de usar las teclas, <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Keyboard">mirad la API</a> </p> </section> </section> <section> <section id="slide-cursores"> <h2 id="cursores">Cursores</h2> </section> <section> <p> Usar los <i>arriba</i>, <i>abajo</i>, <i>izquierda</i> y <i>derecha</i> es tan común, que existe: </p> <div class="org-src-container"> <pre><code class="js">// this es una scene
+this.cursors = this.input.keyboard.createCursorKeys();
+</code></pre> </div> </section> <section> <p> Con esto, se nos define un objeto con las 4 direcciones (más <code>space</code> y <code>shift</code>): </p> <div class="org-src-container"> <pre><code class="js">// En el update de scene
+if (this.cursors.up.isDown &amp;&amp; this.body.onFloor()) {
+  this.body.setVelocityY(this.jumpSpeed);
+}
+if (this.cursors.left.isDown) {
+  this.body.setVelocityX(-this.speed);
+}
+else if (this.cursors.right.isDown) {
+  this.body.setVelocityX(this.speed);
+}
+else {
+  this.body.setVelocityX(0);
+}
+if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+  // Shoot once on keydown
+} 
+</code></pre> </div> </section> <section> <p> Si quiero usar otros cursores, es cuestión de devolver un objeto con las mismas propiedades: </p> <div class="org-src-container"> <pre><code class="js">this.cursorsZXSpectrum = this.scene.input.keyboard.addKeys({
+    up: Phaser.Input.Keyboard.KeyCodes.Q,
+    down: Phaser.Input.Keyboard.KeyCodes.A,
+    left: Phaser.Input.Keyboard.KeyCodes.O,
+    right: Phaser.Input.Keyboard.KeyCodes.P,
+    fire: Phaser.Input.Keyboard.KeyCodes.SPACE,
+  });
+</code></pre> </div> </section> <section> <p> Y, como habréis imaginado, los identificadores de las teclas están en <a href="https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.KeyCodes.html"><code>Phaser.Input.Keyboard.KeyCodes</code></a> </p> </section> </section> <section> <section id="slide-gamepads"> <h2 id="gamepads">Gamepads</h2> </section> <section> <p> Usar gamepads es igual de fácil que usar el teclado, pero ya hay muchas dependencias y diferencias </p> <p> <b>No todo va a funcionar tan bien y es posible que haya errores de detección</b> </p> </section> <section> <p> Primero, lo activamos en la configuración del juego: </p> <div class="org-src-container"> <pre><code class="js">const config = {
+    input: {
+        gamepad: true
+    },
+};
+
+const game = new Phaser.Game(config);
+</code></pre> </div> </section> <section> <p> Después, sólo tenemos que leer los datos, como en el teclado: </p> <div class="org-src-container"> <pre><code class="js">// this es un GameObject
+let pad = this.scene.input.gamepad.getPad(0);
+let ejexIzda = pad.leftStick.x; // ¡número real!
+let cruzDerecha = pad.right;
+let botonA = pad.A;
+</code></pre> </div> </section> <section> <p> Para saber si hay un pad conectado, sólo tenemos que ver si <code>gamepad.getPad(0);</code> devuelve algo apropiado (con <code>axis.length &gt; 0</code>): </p> <div class="org-src-container"> <pre><code class="js">let pad = this.scene.input.gamepad.getPad(0);
+if(pad &amp;&amp; pad.axis.length) {
+  console.log("hay algo conectado");
+}
+</code></pre> </div> </section> <section> <p> Pero podemos hacerlo más fácil: </p> <div class="org-src-container"> <pre><code class="js">let padExiste = pad &amp;&amp; pad.axis.length
+let ejexIzda = padExiste &amp;&amp; pad.leftStick.x;
+</code></pre> </div> <p> Si no hay pad, no dará excepción </p> </section> <section> </section> <section id="slide-reaccionar-a-varias-entradas"> <h3 id="reaccionar-a-varias-entradas">Reaccionar a varias entradas</h3> <p> Es muy posible que queramos que nuestro juego funcione tanto con pad como con teclado </p> </section> <section> <p> Para no complicarnos mucho, simplemente hacemos: </p> <div class="org-src-container"> <pre><code class="js">let pad = this.scene.input.gamepad.getPad(0);
+let padExiste = pad &amp;&amp; pad.axes.length;
+let leftPad = padExiste &amp;&amp; (pad.leftStick.x &lt; 0 || pad.left);
+
+// esta variable es `true` si alguna opción es `true`
+let goLeft = leftPad 
+           || this.cursors.left.isDown 
+           || this.cursorsZXSpectrum.left.isDown
+           || this.cursorsArrows.left.isDown;
+
+if (goLeft) { this.goLeft(); }
+</code></pre> </div> </section> </section> <section> <section id="slide-ratón"> <h2 id="ratón">Ratón</h2> </section> <section> <p> Phaser nos permite usar el cursor del ratón para entrada de forma sencilla </p> </section> <section> <p> Podemos saber la posición <code>x</code> es <code>y</code> del puntero en todo momento: </p> <div class="org-src-container"> <pre><code class="js">// this es una scene
+let pointer = this.input.activePointer;
+
+console.log("Coordenada X", pointer.worldX);
+console.log("Coordenada Y", pointer.worldY);
+console.log("Está pulsado:", pointer.isDown);
+</code></pre> </div> </section> <section> <p> Para reacciones ante un evento del ratón: </p> <div class="org-src-container"> <pre><code class="js">this.input.on('pointerup', pointer =&gt; {
+  if (pointer.leftButtonReleased()) {
+    // se ha soltado el botón izquierdo
+  }
+);
+</code></pre> </div> <p> También hay <code>'pointerdown'</code>, <code>'wheel'</code>, <code>'gameobjectover'</code> y <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events">otros muchos eventos a los que suscribirnos</a> </p> </section> <section> <p> Los <code>Sprite=s que se marcan con =setInteractive()</code> pueden recibir eventos del ratón: </p> <div class="org-src-container"> <pre><code class="js">// en el preload
+this.load.image('rock', 'rock.png');
+
+// en el create
+this.sprite = this.add.sprite(400, 300, 'rock').setInteractive();
+</code></pre> </div> </section> <section> <p> Una vez que un <code>Sprite</code> es interactivo, registramos con <i>callbacks</i> el comportamiento cuando se hace clic sobre ellos: </p> <div class="org-src-container"> <pre><code class="js">this.sprite.on('pointerdown', pointer =&gt; {
+    // hacer algo
+});
+</code></pre> </div> </section> <section> <p> Para hacer que el menú contextual de la página web no se muestre con el botón derecho: </p> <div class="org-src-container"> <pre><code class="js">scene.input.mouse.disableContextMenu();
+</code></pre> </div> </section> <section> <p> Para que el ratón no salga del área de juego: </p> <div class="org-src-container"> <pre><code class="js">this.input.on('pointerdown', pointer =&gt; {
+    this.input.mouse.requestPointerLock();
+}, this);
+</code></pre> </div> <p> <code>requestPointerLock()</code> sólo funciona si se le llama como resultado a un evento lanzado por el usuario, por protección de los navegadores </p> </section> </section> </div> </div> <script src="tooling.reveal.ffb33b1a.js"></script> <script src="tooling.reveal.f05d24be.js"></script> <script src="tooling.reveal.1feea775.js"></script> <script src="tooling.reveal.d2982244.js"></script> <script>Reveal.initialize({controls:!0,progress:!0,history:!0,center:!0,slideNumber:"c",rollingLinks:!1,keyboard:!0,mouseWheel:!1,fragmentInURL:!1,hashOneBasedIndex:!1,pdfSeparateFragments:!0,overview:!0,transition:"none",transitionSpeed:"default",plugins:[RevealSearch,RevealHighlight,RevealZoom],dependencies:[]});</script> </body></html>

@@ -1,0 +1,784 @@
+#+title: Ejercicios JavaScript
+
+* Objetivos
+:PROPERTIES:
+:CUSTOM_ID: objetivos
+:END:
+Probad estos ejemplos y tratad de responder a las preguntas. Si os
+atascáis con lo que hace una función, buscad en Internet la función
+acompañado de "mdn".
+
+* Valores booleanos en JavaScript
+:PROPERTIES:
+:CUSTOM_ID: valores-booleanos-en-javascript
+:END:
+En JavaScript cualquier valor puede considerarse verdadero o falso según
+el contexto. Por ejemplo, el =0= es considerado =false= y cualquier
+número distinto de =0= es =true=:
+
+#+begin_src js
+const v = 0; // después de esta prueba, cambia el valor de v por otro número.
+!!v; // la doble negación al comienzo lo convierte en booleano.
+#+end_src
+
+Descubre qué valores son ciertos y cuales falsos para todos los tipos:
+números, cadenas, objetos, funciones y undefined.
+
+* Expresiones booleanas en JavaScript
+:PROPERTIES:
+:CUSTOM_ID: expresiones-booleanas-en-javascript
+:END:
+En JavaScript, las expresiones booleanas son /vagas/, esto significa que
+en cuanto sabemos lo que va a valer la expresión, dejamos de evaluar.
+Por ejemplo, ¿qué crees que le pasará a la siguiente expressión?
+
+#+begin_src js
+const hero = { name: 'Link', weapon: null };
+console.log('Hero weapon power is:', hero.weapon.power);
+#+end_src
+
+Pero, ¿y ahora?
+
+#+begin_src js
+const hero = { name: 'Link', weapon: null };
+if (hero.weapon && hero.weapon.power) {
+  console.log('Hero weapon power is:', hero.weapon.power);
+} else {
+  console.log('The hero has no weapon.');
+}
+#+end_src
+
+En caso de expresiones =&&= (/and/ o /y/), la evaluación termina tan
+pronto como encontramos un término falso.
+
+En caso de expresiones =||= (/or/ u /o/), la evaluación termina tan
+pronto como encontramos un término verdadero.
+
+* El resultado de las expresiones booleanas
+:PROPERTIES:
+:CUSTOM_ID: el-resultado-de-las-expresiones-booleanas
+:END:
+Contra el sentido común, el resultado de una expresión booleana no es un
+booleano sino el último término evaluado. Recuerda que la evaluación es
+/vaga/ y dejamos de evaluar tan pronto como podemos determinar el
+resultado de la expresión. Con esto en cuenta, trata de predecir el
+resultado de las siguientes expresiones:
+
+#+begin_src js
+let v;
+function noop() { return; };
+
+1 && true && { name: 'Link' };
+[] && null && "Spam!";
+null || v || noop || true;
+null || v || void "Eggs!" || 0;
+#+end_src
+
+* Parámetros por defecto
+:PROPERTIES:
+:CUSTOM_ID: parámetros-por-defecto
+:END:
+Puedes ver una aplicación real de lo anterior en esta función para
+rellenar números. En JavaScript, los
+parámetros omitidos tienen el valor especial =undefined= que es falso (por ejemplo, un ~if~ lo considera un valor ~false~).
+
+#+begin_src js
+function pad(target, targetLengthIn, fillIn) {
+  let result = target.toString();
+  const targetLength = targetLengthIn || result.length + 1;
+  const fill = fillIn || '0';
+  while (result.length < targetLength) {
+    result = fill + result;
+  }
+  return result;
+}
+
+// intenta predecir el resultado de las siguientes llamadas
+pad(3);
+pad(2, 5);
+pad(2, 5, '*');
+#+end_src
+
+Sin embargo, si no necesitamos una lógica muy compleja, también se pueden usar parámetros por defecto. Es posible incluir expresiones en los parámetros:
+
+#+begin_src js
+function pad(target, targetLength = target.toString().length + 1, fill = '0') {
+  let result = target.toString();
+  
+  while (result.length < targetLength) {
+    result = fill + result;
+  }
+  return result;
+}
+
+console.log(pad(5));
+console.log(pad(2, 5));
+console.log(pad(2, 5, '*'));
+#+end_src
+
+
+# * Buenas prácticas en el diseño de APIs
+# :PROPERTIES:
+# :CUSTOM_ID: buenas-prácticas-en-el-diseño-de-apis
+# :END:
+# Hemos dicho muchas veces que el estado no se debería exponer pero
+# siempre acabamos enseñando este tipo de modelado para los puntos:
+
+# #+begin_src js
+# const p = { x: 5, y: 5 };
+
+# function scale(point, factor) {
+#   point.x = point.x * factor;
+#   point.y = point.y * factor;
+#   return p;
+# }
+
+# scale(p, 10);
+# #+end_src
+
+# La implementación correcta sería:
+
+# #+begin_src js
+# const p = {
+#   _x: 5,
+#   _y: 5,
+#   getX: function () {
+#     return this._x;
+#   },
+#   getY: function () {
+#     return this._y;
+#   },
+#   setX: function (v) {
+#     this._x = v;
+#   },
+#   setY: function (v) {
+#     this._y = v;
+#   }
+# };
+
+# function scale(point, factor) {
+#   point.setX(point.getX() * factor);
+#   point.setY(point.getY() * factor);
+#   return p;
+# }
+
+# scale(p, 10);
+# #+end_src
+
+# Pero reconozcámoslo, escribir esto es un rollo soberano.
+
+* Propiedades computadas al rescate
+:PROPERTIES:
+:CUSTOM_ID: propiedades-computadas-al-rescate
+:END:
+JavaScript permite definir un tipo especial de propiedades llamadas
+normalmente /propiedades computadas/ de esta guisa:
+
+#+begin_src js
+const p = {
+  _x: 5,
+  _y: 5,
+  get x() {
+    return this._x;
+  },
+  get y() {
+    return this._y;
+  },
+  set x(v) {
+    this._x = v;
+  },
+  set y(v) {
+    this._y = v;
+  }
+};
+
+function scale(point, factor) {
+  point.x = point.x * factor;
+  point.y = point.y * factor;
+  return p;
+}
+
+scale(p, 10);
+#+end_src
+
+Escribirlo sigue siendo tedioso, pero utilizarlo es mucho más claro. Así, si ahora
+decides que sería mejor exponer el nombre de los ejes en mayúscula,
+puedes hacer:
+
+#+begin_src js
+const p = {
+  _x: 5,
+  _y: 5,
+  get X() {
+    return this._x;
+  },
+  get Y() {
+    return this._y;
+  },
+  set X(v) {
+    this._x = v;
+  },
+  set Y(v) {
+    this._y = v;
+  }
+};
+
+function scale(point, factor) {
+  point.X = point.X * factor;
+  point.Y = point.Y * factor;
+  return p;
+}
+
+scale(p, 10);
+#+end_src
+
+Esta sintaxis funciona para objetos, pero también para clases:
+
+#+begin_src js
+class P {
+    constructor(){
+        this.x = 5
+        this.y = 5
+    }
+    get x() {
+        return this._x;
+    }
+    get y() {
+        return this._y;
+    }
+    set x(v) {
+        this._x = v;
+    }
+    set y(v) {
+        this._y = v;
+    }
+}
+
+const p1 = new P()
+console.log(p1.x)
+#+end_src
+
+
+-------------------
+
+¿Se te ocurre la manera de hacer que una propiedad pueda ser de solo
+lectura? Es decir, que su valor no pueda cambiarse (asumiendo que el
+usuario no accederá a las propiedades que comiencen por '_').
+
+Si quisieras añadir una propiedad a un objeto ya existente tendrías que
+utilizar
+[[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty][=Object.defineProperty()=]]:
+
+#+begin_src js
+const point = {};
+Object.defineProperty(point, '_x', { value: 5 });
+Object.defineProperty(point, '_y', { value: 5 });
+Object.defineProperty(point, 'x', {
+  get: function () {
+    return this._x;
+  },
+  set: function (v) {
+    this._x = v;
+  }
+});
+Object.defineProperty(point, 'y', {
+  get: function () {
+    return this._y;
+  },
+  set: function (v) {
+    this._y = v;
+  }
+});
+point; // no se observan propiedades...
+point.x; // ...pero aquí están.
+point.y;
+#+end_src
+
+¿Te atreves a decir por qué cuando inspeccionamos el objeto no aparecen
+sus propiedades? ¿Cómo podrías arreglarlo? ¿Cómo harías para que sólo se
+vieran las propiedades que son parte de la API?
+
+No te lances a usar =Object.defineProperty()= si no tienes *muy claro*
+qué significan los términos *configurable*, *enumerable* y *writable*.
+
+* Usando funciones como si fueran métodos
+:PROPERTIES:
+:CUSTOM_ID: usando-funciones-como-si-fueran-métodos
+:END:
+Hemos visto que cualquier función puede usarse como un método si se
+referencia como una propiedad de un objeto y entonces se llama. Pero lo
+cierto es que también podemos hacer que una función cualquiera, sin
+estar referenciada desde una propiedad, pueda ser usada como el método
+de un objeto si indicamos explícitamente cual es el objeto destinatario.
+Esto puede hacerse con
+[[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply][=.apply()=]]
+y con
+[[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call][=.call()=]].
+
+#+begin_src js
+const ship = { name: 'Death Star' };
+
+function fire(shot) {
+  console.log(this.name + ' is firing: ' + shot.toUpperCase() + '!!!');
+}
+
+ship.fire; // ¿qué crees que será esto?
+fire.apply(ship, ['pichium']);
+fire.call(ship, 'pañum');
+#+end_src
+
+¿Cuál es la diferencia entre =.apply()= y =.call()=?
+
+* Propiedades dinámicas
+:PROPERTIES:
+:CUSTOM_ID: propiedades-dinámicas
+:END:
+La notación corchete para acceder a las propiedades de un objeto es
+especialmente útil para acceder a propiedades de manera genérica. Por
+ejemplo, imagina el siguiente código:
+
+#+begin_src js
+const hero = {
+  name: 'Link',
+  hp: 10,
+  stamina: 10,
+  weapon: { name: 'sword', effect: { hp: -2 } }
+};
+const enemy = {
+  name: 'Ganondorf',
+  hp: 20,
+  stamina: 5,
+  weapon: { name: 'wand', effect: { hp: -1, stamina: -5 } }
+};
+
+function attack(character, target) {
+  if (character.stamina > 0) {
+    console.log(character.name + ' uses ' + character.weapon.name + '!');
+    applyEffect(character.weapon.effect, target);
+    character.stamina--;
+  } else {
+    console.log(character.name + ' is too tired to attack!');
+  }
+}
+
+function applyEffect(effect, target) {
+  // Obtiene los nombres de las propiedades del objeto. Búscalo en la MDN.
+  const propertyNames = Object.keys(effect);
+  for (let i = 0; i < propertyNames.length; i++) {
+    const name = propertyNames[i];
+    target[name] += effect[name];
+  }
+}
+
+attack(hero, enemy);
+attack(enemy, hero);
+attack(hero, enemy);
+attack(enemy, hero);
+attack(hero, enemy);
+#+end_src
+
+¿Podrías modificar el efecto del arma del héroe para incapacitar al
+enemigo pero no matarlo ni dañarlo? Intenta hacerlo sin reescribir el
+ejemplo entero.
+
+* Objetos como algo más que objetos
+:PROPERTIES:
+:CUSTOM_ID: objetos-como-algo-más-que-objetos
+:END:
+Los objetos de JavaScript no solo sirven para modelar los objetos de la
+programación orientada a objetos sino que permiten realizar
+clasificaciones por nombre. Un histograma, es decir un conteo de un
+conjunto con repeticiones, es un ejemplo clásico de la utilidad de un
+objeto JavaScript:
+
+#+begin_src js
+function wordHistogram(text) {
+  const wordList = text.split(' ');
+  const histogram = {};
+  for (let i = 0; i < wordList.length; i++) {
+    const word = wordList[i];
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  }
+  return histogram;
+}
+#+end_src
+
+Prueba a usar la función por ti mismo.
+
+Lo que JavaScript llama objetos se conoce en otros lenguajes de
+programación como mapas, hashmaps o diccionarios y a los nombres de las
+propiedades se los llama /claves/.
+
+¿Puedes pensar en al menos una aplicacion más?
+
+* Funciones como parámetros
+:PROPERTIES:
+:CUSTOM_ID: funciones-como-parámetros
+:END:
+Las listas de JavaScript tiene algunos métodos que aceptan funciones
+como parámetros, por ejemplo
+[[https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/forEach][=.forEach()=]].
+De hecho es común encontrar =.forEach()= cuando se tiene la certeza de
+que se van a recorrer *todos* los elementos de una lista.
+
+#+begin_src js
+function wordHistogram(text) {
+  const wordList = text.split(' ');
+  const histogram = {};
+  wordList.forEach(function (word) {
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  });
+  return histogram;
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+#+end_src
+
+El resultado no es correcto porque al separar las palabras por los
+espacios estamos dejando caracteres que no son palabras como parte de
+ellas. Podemos arreglarlo si en vez de partir el texto por los espacios
+usamos una
+[[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions][expresión
+regular]] para partir el texto por los límites de las palabras:
+
+#+begin_src js
+function wordHistogram(text) {
+  const wordList = text.split(/\b/); // Eso entre / / es una expresión regular.
+  const histogram = {};
+  wordList.forEach(function (word) {
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  });
+  return histogram;
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+#+end_src
+
+Pero ahora tenemos cosas que no son palabras (como espacios y comas).
+Podemos filtrar una lista con
+[[https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/filter][=.filter()=]]:
+
+#+begin_src js
+function isEven(n) { return n % 2 === 0; }
+[1, 2, 3, 4, 5, 6].filter(isEven);
+#+end_src
+
+Y así quitar lo que no sean palabras:
+
+#+begin_src js
+function isWord(candidate) {
+  return /\w+/.test(candidate);
+}
+
+function wordHistogram(text) {
+  let wordList = text.split(/\b/);
+  wordList = wordList.filter(isWord);
+  const histogram = {};
+
+  wordList.forEach(function (word) {
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  });
+  return histogram;
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+#+end_src
+
+También deberíamos normalizar las palabras (pasarlas a minúsculas por
+ejemplo) para no encontrarnos con entradas distintas en el histograma
+para la misma palabra. Para transformar una lista en otra lista de los
+mismos elementos, usamos
+[[https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/map][=.map()=]].
+
+#+begin_src js
+function isWord(candidate) {
+  return /\w+/.test(candidate);
+}
+
+function toLowerCase(word) {
+  return word.toLowerCase();
+}
+
+function wordHistogram(text) {
+  let wordList = text.split(/\b/);
+  wordList = wordList.filter(isWord);
+  wordList = wordList.map(toLowerCase);
+  const histogram = {};
+
+  wordList.forEach(function (word) {
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  });
+  return histogram;
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+#+end_src
+
+Una última función nos permite transformar una lista en un sólo valor.
+Esto es precisamente el histograma, una clasificación de todos los
+valores de la lista. Esta transformación se consigue mediante
+[[https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/reduce][=.reduce()=]]:
+
+#+begin_src js
+function isWord(candidate) {
+  return /\w+/.test(candidate);
+}
+
+function toLowerCase(word) {
+  return word.toLowerCase();
+}
+
+function buildHistogram(inProgressHistogram, word) {
+  if (!inProgressHistogram.hasOwnProperty(word)) {
+    inProgressHistogram[word] = 0;
+  }
+  inProgressHistogram[word]++;
+  return inProgressHistogram;
+}
+
+function wordHistogram(text) {
+  const emptyHistogram = {};
+  return text.split(/\b/)
+             .filter(isWord)
+             .map(toLowerCase)
+             .reduce(buildHistogram, emptyHistogram);
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+#+end_src
+
+* Número variables de parámetros
+:PROPERTIES:
+:CUSTOM_ID: número-variables-de-parámetros
+:END:
+Fíjate en esto:
+
+#+begin_src js
+console.log('I\'m', 'Ziltoid');
+console.log('I\'m', 'Ziltoid,', 'the', 'Omniscient');
+Math.max(1);
+Math.max(1, 2);
+Math.max(1, 2, 3);
+#+end_src
+
+Como puedes ver, la función acepta un número cualquiera de variables.
+Podemos hacer los mismo gracias a la variable implícita =arguments=.
+
+#+begin_src js
+function f() {
+  console.log('Número de argumentos pasados:', arguments.length);
+  console.log('Argumentos:', arguments);
+}
+f();
+f(1);
+f('a', {});
+f(function () {}, [], undefined);
+#+end_src
+
+También es posible usar "parámetros rest":
+
+#+begin_src js
+function f(...args) {
+  console.log('Argumentos:', args);
+}
+#+end_src
+
+Busca la información sobre argumentos variables en la [[https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Functions/rest_parameters][MDN]]. ¡Te hará falta!
+
+* Decoradores
+:PROPERTIES:
+:CUSTOM_ID: decoradores
+:END:
+Aparte de devolverse como parámetros, las funciones pueden ser devueltas
+desde otras funciones. Considera el siguiente ejemplo:
+
+#+begin_src js
+function newLog(label) {
+  return function(value) {
+    console.log(label + ':', value);
+  }
+}
+#+end_src
+
+Esta función crea funciones que llamarán a =console.log()= pero con una
+etiqueta delante. Podríamos crear métodos =_log()= por clase, cada uno
+con un prefijo y así distinguir unos logs de otros.
+
+Sin embargo, advierte el siguiente comportamiento:
+
+#+begin_src js
+const log1 = newLog('Default');
+const log2 = newLog('Ziltoid');
+
+const p = { x: 1, y: 10 };
+log1(p);
+log2(p);
+log1('Greetings', 'humans!');
+#+end_src
+
+¿Cual es el problema? ¿Por qué no funciona el último ejemplo?
+
+Para hacer que funcione, tendríamos que llamar a =console.log()= con un
+número de parámetros que no sabemos a priori. Podemos usar =arguments=,
+no obstante:
+
+#+begin_src js
+function newLog(label) {
+  return function() {
+    // ¿Por qué tenemos que hacer esto?
+    const args = Array.prototype.slice.call(arguments);
+    args.splice(0, 0, label + ':');
+    console.log.apply(console, args);
+  }
+}
+
+const log1 = newLog('Default');
+const log2 = newLog('Ziltoid');
+
+const p = { x: 1, y: 10 };
+log1(p);
+log2(p);
+log1('Greetings', 'humans!');
+#+end_src
+
+¿Podrías decir qué hace cada línea en la función =newLog()=?
+
+* Asincronía y closures
+:PROPERTIES:
+:CUSTOM_ID: asincronía-y-closures
+:END:
+Carga el siguiente código:
+
+#+begin_src js
+function scheduleTasks(count) {
+  for(let i = 1; i <= count; i++) {
+    setTimeout(function () {
+      console.log('Executing task', i);
+    }, i * 1000);
+  }
+}
+#+end_src
+
+Trata de predecir qué pasará al ejecutar el siguiente código:
+
+#+begin_src js
+scheduleTasks(5);
+#+end_src
+
+¿Hace lo que esperabas? Si no es así, ¿por qué? ¿cómo lo arreglarías?
+Pista: necesitas la función
+[[https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_objects/Function/bind][=.bind()=]].
+
+* Eventos y métodos
+:PROPERTIES:
+:CUSTOM_ID: eventos-y-métodos
+:END:
+Hay veces en las que debemos llamar a un método de un objeto cuando
+ocurra algo. Por ejemplo, supón que el método avanzar de un supuesto
+objeto debe llamarse en un intervalo de tiempo. Pongamos cada segundo:
+
+#+begin_src js
+const obj = {
+  x: 10,
+  y: 2,
+  advance: function () {
+    this.y += 2;
+    console.log('Ahora Y vale', this.y);
+  }
+};
+
+const id = setInterval(obj.advance, 1 * 1000);
+#+end_src
+
+Este ejemplo falla porque en la última línea *no estamos llamando* a la
+función sino solo pasándola como parámetro. La función =setInterval()=
+no tiene idea del destinatario del mensaje y por tanto no puede llamar a
+la función como si fuera un método.
+
+Podemos arreglarlo con =bind()= pero antes para el intervalo con:
+
+#+begin_src js
+clearInterval(id);
+#+end_src
+
+Ahora podemos solucionarlo con:
+
+#+begin_src js
+const id = setInterval(obj.advance.bind(obj), 1 * 1000);
+#+end_src
+
+* La función =bind()=
+:PROPERTIES:
+:CUSTOM_ID: la-función-bind
+:END:
+A estas alturas ya deberías saber cómo funciona =bind()= o qué hace. Si
+aun no lo tienes claro, búscalo en la MDN.
+
+La tarea es la siguiente: crea una función =bind()= que simule el
+comportamiento del método de las funciones =.bind()=. Como se pide una
+función y no un método, el primer parámetro será la función. Así pues,
+en vez de usarse así:
+
+#+begin_src js
+function die(sides) {
+  const result = Math.floor(Math.random() * sides) + 1;
+  this.history.push(result);
+  return result;
+}
+const obj = { history: [] };
+const d20 = die.bind(obj, 20);
+d20();
+#+end_src
+
+La usaremos de esta otra forma:
+
+#+begin_src js
+function die(sides) {
+  const result = Math.floor(Math.random() * sides) + 1;
+  this.history.push(result);
+  return result;
+}
+const obj = { history: [] };
+const d20 = bind(die, obj, 20); // fíjate en que ahora die es el primer parámetro
+d20();
+#+end_src

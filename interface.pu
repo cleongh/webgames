@@ -1,0 +1,14 @@
+@startuml
+class EsComible {
+    void comer()
+}
+
+Fruta <|-- Manzana
+Fruta <|-- Pera
+
+EsComible <|.. Fruta
+
+
+Manzana <|-- Golden
+Manzana <|-- PinkLady
+@enduml

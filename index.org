@@ -1,0 +1,82 @@
+#+title: Juegos web
+#+author: Carlos León
+#+language: es
+
+# 1. Programación de aplicaciones y juegos en HTML5.
+# 2. JavaScript.
+# 3. Arquitectura de un motor de juegos en JavaScript: componentes y eventos.
+# 4. Carga de recursos. Gestión de imágenes.
+# 5. Gestión de entidades. Creación de recursos y exportación con editores de mapas.
+# 6. Audio.
+# 7. Motores de física.
+# 8. Animaciones basadas en sprites.
+# 9. Despliegue de proyectos en la web.
+
+* Introducción a los juegos web
+- [[file:tooling.reveal.org]]
+- [[file:dom.reveal.org]]
+- [[file:async.reveal.org]]
+- [[file:creacion_paginas_web.reveal.org]] 
+- [[file:canvas.reveal.org]]
+- [[file:showcase.reveal.org]]
+- [[file:mlpggj2020.reveal.org]]
+  
+* JavaScript
+
+- [[file:javascript_modelo_datos_1.reveal.org]]
+- [[file:javascript_modelo_datos_2.reveal.org]]
+- [[file:javascript_modelo_ejecucion.reveal.org]]
+- [[file:clases_es6.reveal.org]]
+- [[file:modulos.reveal.org]]
+- [[file:ejercicios_js.org]]
+
+  
+* Arquitectura
+
+- [[file:poo.reveal.org]]
+- [[file:ejemplo_componentes_completo.reveal.org]]
+- [[file:introduccion_uml.reveal.org]]
+- [[file:introduccion_arquitectura_videojuegos.reveal.org]]
+- [[file:ejercicios_arquitectura.org]]
+
+* Phaser
+
+- [[file:introduccion_phaser.reveal.org]]
+- [[file:phaser_entities.reveal.org]]
+- [[file:input.reveal.org]]  
+- [[file:texto_en_phaser.reveal.org]]
+- [[file:groups_and_pooling.reveal.org]]
+- [[file:eventos_timer.reveal.org]]
+- [[file:tiles.reveal.org]]
+
+* Audio
+  
+- [[file:webaudio.reveal.org]]
+- [[file:audio_phaser.reveal.org]]
+
+* Físicas
+
+- [[file:arcade.reveal.org]]
+- [[file:matter.reveal.org]]
+
+* Animación
+
+- [[file:animacion_con_sprites.reveal.org]]
+- [[file:tweens.reveal.org]]
+
+* Juegos en red
+
+- [[file:redes.reveal.org]]
+- [[file:server.reveal.org]]
+- [[file:cliente.reveal.org]]
+  
+* Web
+
+- [[file:interfaces_avanzadas.reveal.org]]
+- [[file:pwa.reveal.org]]
+
+
+* Despliegue
+
+- [[file:proyectos.reveal.org]]
+- [[file:colgar_proyecto.reveal.org]]

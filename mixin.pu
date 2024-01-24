@@ -1,0 +1,10 @@
+@startuml
+
+Object <|-- Sword
+class Takeable <<mixin>> {
+    +putInInventory()
+}
+Sword -- Takeable : assign
+hide empty members
+
+@enduml

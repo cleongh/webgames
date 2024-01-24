@@ -1,0 +1,495 @@
+#+title: Rendimiento y pooling de entidades
+#+setupfile: setup.org
+
+* Rendimiento
+:PROPERTIES:
+:CUSTOM_ID: rendimiento
+:END:
+
+#+REVEAL: split
+
+** El efecto de los objetos sobre el rendimiento
+:PROPERTIES:
+:CUSTOM_ID: el-efecto-de-los-objetos-sobre-el-rendimiento
+:END:
+En general, cuantas más entidades gestione un juego, más deterioro del
+rendimiento
+
+No es difícil degradar el rendimiento de un juego simplemente arrojando
+nuevas entidades a la escena. No es necesario ni modificarlas
+
+[[https://phaser.io/sandbox/dlqdIWMn]]
+
+#+REVEAL: split
+
+El único factor que afecta al rendimiento es el *tiempo de procesamiento
+entre frames*
+
+El problema es que el tiempo de procesamiento puede incrementarse de un
+sinfín de formas
+
+#+REVEAL: split
+
+La creación de entidades, su destrucción y el pintado de las mismas
+afecta al rendimiento porque crear, destruir y recorrer la lista de
+entidades a pintar *toma tiempo*
+
+#+REVEAL: split
+
+Si el tiempo entre frame y frame excede los 16.6 ms, el
+[[https://en.wikipedia.org/wiki/Frame_rate][/frame rate/]] disminuirá
+por debajo de 60 fps
+
+#+REVEAL: split
+
+En la pestaña "Rendering", podemos activar la opción "Frame Rendering
+Stats" en Chrome
+
+#+caption: Si está oculta la pestaña, la podemos mostrar
+[[file:mostrar_rendering.png]]
+
+#+REVEAL: split
+
+Además, en la pestaña "Performance", podemos guardar una ejecución del
+programa y veremos qué funciones se ejecutan y cuánto tiempo tardan en
+hacerlo
+
+Hacer /profiling/ es fundamental para ver cuál es el impacto *real* (y
+no sólo en teoría) de las partes de nuestro código
+
+#+REVEAL: split
+
+** El recolector de basura
+:PROPERTIES:
+:CUSTOM_ID: el-recolector-de-basura
+:END:
+En JavaScript apenas nos preocupamos por la vida de un objeto
+
+Creamos el objeto con =new= y cuando no lo necesitamos más,
+sencillamente dejamos de usarlo
+
+#+REVEAL: split
+
+¿Qué pasa con los objetos que ya no se usan? La respuesta es que son
+recogidos por el
+[[https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)][recolector
+de basura]] y destruidos de forma que la memoria que ocupan queda
+disponible de nuevo
+
+#+REVEAL: split
+
+Para ver cómo funciona, activamos las opciones de desarrollo (en este
+caso, en Chrome), y en la pestaña "Performance" grabamos mientras
+ejecutamos un juego, activando la opción de "Memory"
+
+#+REVEAL: split
+
+#+caption: Ventana de resultados de /profiling/ en Chrome
+[[file:profiling.png]]
+
+#+REVEAL: split
+
+El recolector de basura es conveniente porque nos evita tener que
+liberar la memoria manualmente, previniendo que un objeto sea destruido
+accidentalmente cuando aún tenemos que usarlo
+
+Sin embargo, introduce un problema de impredecibilidad, dado que no
+sabemos *ni cuándo sucederá ni cuánto tardará*
+
+#+REVEAL: split
+
+Una recolección de basura especialmente larga puede tirar el rendimiento
+y nada garantiza que la siguiente recolección no haga lo mismo y suceda
+en menor tiempo del deseado
+
+* Pooling
+:PROPERTIES:
+:CUSTOM_ID: pooling
+:END:
+
+#+REVEAL: split
+
+** Controlar el impacto de crear y destruir objetos
+:PROPERTIES:
+:CUSTOM_ID: controlar-el-impacto-de-crear-y-destruir-objetos
+:END:
+Una forma de controlar el efecto de la creación de objetos y evitar la
+recolección de basura es mediante el uso del
+*[[https://en.wikipedia.org/wiki/Object_pool_pattern][patrón /Object
+Pool/]]* o depósito de objetos
+
+#+REVEAL: split
+
+La idea es sencilla: primero crearemos un /pool/ (depósito) de objetos
+estimando los que vayamos a utilizar durante el programa
+
+#+caption: Pool de objetos
+[[file:pool.svg]]
+
+#+REVEAL: split
+
+Cuando necesitemos un objeto, *en lugar de crearlo, se lo pediremos al
+/pool/* y luego lo usaremos normalmente
+
+#+caption: Coger un objeto del pool
+[[file:takepool.svg]]
+
+#+REVEAL: split
+
+Una vez terminemos de usar el objeto, *cuando ya no lo necesitemos, lo
+devolveremos al /pool/*
+
+#+caption: Devolver el objeto al pool
+[[file:storepool.svg]]
+
+#+REVEAL: split
+
+Cuando necesitemos otro, volveremos a pedirlo al /pool/ de objetos
+
+A lo largo de la ejecución del programa, los depósitos de objetos pueden
+permanecer fijos o redimensionarse de acuerdo a las necesidades del
+mismo
+
+* El ciclo de vida de las entidades
+:PROPERTIES:
+:CUSTOM_ID: el-ciclo-de-vida-de-las-entidades
+:END:
+
+#+REVEAL: split
+
+** Reemplazar la creación constante con un /pool/
+:PROPERTIES:
+:CUSTOM_ID: reemplazar-la-creación-constante-con-un-pool
+:END:
+Si creamos una entidad con =new=, como hacíamos con los /sprites/, el
+objeto morirá cuando lo hace cualquier otro objeto de JavaScript, es
+decir, cuando nada hace referencia a él
+
+En general, al salir del /scope/
+
+#+REVEAL: split
+
+Pero si añadimos la entidad al juego, bien explícitamente o a través de
+los métodos factoría de =add=, esta se mantendrá viva mientras dure el
+juego
+
+#+REVEAL: split
+
+La manera en que podemos destruir una entidad, es decir, eliminar todas
+sus referencias de forma que el recolector de basura pueda llevársela es
+mediante el método
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.GameObject#destroy][=destroy()=]]
+de la entidad
+
+#+REVEAL: split
+
+Por ejemplo, [[https://codepen.io/gjimenezucm/pen/MWmJder][el siguiente
+ejemplo]] muestra un máximo de 10 sprites en pantalla destruyendo la
+entidad más vieja cuando excedemos el máximo
+
+#+begin_src js
+function preload ()
+{
+    this.load.setBaseURL('https://labs.phaser.io/assets/');
+    this.load.image('phaser', 'sprites/phaser-dude.png');
+}
+
+update(time, delta) {    
+    let x = Math.random() * 300;
+    let y = Math.random() * 300;
+    this.add.sprite(x, y, 'phaser');
+
+    if (this.children.length > 10) {
+        this.children.getChildren()[0].destroy();
+        console.log('World children count:',
+           this.children.length);
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+Como veremos en breve, a veces nos interesará no destruir la entidad
+pero sí *dejarla inerte*, de forma que no se actualice, ni se pinte, ni
+interactúe con nada hasta que vuelva a interesarnos
+
+#+REVEAL: split
+
+Phaser considera que una entidad "muerta"/"killed" ha dejado de existir
+y pone su atributo =active= a =false=
+
+#+REVEAL: split
+
+Aunque la nomenclatura resulte confusa, que una entidad "no esté activa"
+no significa que haya sido destruida
+
+Significa que, para Phaser, esta entidad no participará en las fases de
+actualización y pintado
+
+#+REVEAL: split
+
+Para devolver una entidad a la existencia, según Phaser, usamos
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.GameObject#setActive][=setActive(true)=
+y =setVisible(true)=]]
+
+* Grupos en Phaser
+:PROPERTIES:
+:CUSTOM_ID: grupos-en-phaser
+:END:
+
+#+REVEAL: split
+
+Como ocurre con todas las entidades de Phaser, un
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Group][grupo]]
+*puede albergar otras entidades* pero además, los grupos exponen una API
+especialmente diseñada para la *búsqueda, ordenamiento y manipulación en
+grupo* de las entidades que contiene
+
+#+REVEAL: split
+
+** API de búsqueda
+:PROPERTIES:
+:CUSTOM_ID: api-de-búsqueda
+:END:
+Un grupo es parecido a un contenedor: creamos entidades y las añadimos
+al grupo
+
+#+begin_src js
+let martian = new Martian(); // 'Martian' es un 'Sprite'
+let enemies = scene.add.group();
+enemies.add(martian);
+#+end_src
+
+#+REVEAL: split
+
+#+begin_quote
+Aquí comentamos algunas funciones ilustrativas. Podéis usar, del API,
+las que más sentido tengan, sean éstas o no
+
+#+end_quote
+
+#+REVEAL: split
+
+Phaser nos da acceso a todas las entidades de un grupo:
+
+#+begin_src js
+update() {
+    // Recorremos un grupo 
+    this.enemies.children.iterate(item => {
+      item.x ++;
+    });
+}
+#+end_src
+
+#+REVEAL: split
+
+Además, nos permite preguntar al grupo ciertas cosas:
+
+#+begin_src js
+let e = new Martian("m");
+let enemies = scene.add.group();
+enemies.add(e);
+
+let yesNo = enemies.contains(e); // si el grupo contiene una entidad
+let d = enemies.countActive(false); // el número de "muertos"
+enemies.remove(e); // quitamos un elemento del grupo
+#+end_src
+
+#+REVEAL: split
+
+En los
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Group][/grupos/
+(Group)]] podemos /matar/ una entidad usando el método
+=kill(gameObject)= o =killAndHide(gameObject)=
+
+Al crear un grupo podemos utilizar el método =getFirstAlive()= que es
+propio de los grupos y devuelve la primera entidad cuya propiedad
+=active= sea =true=
+
+#+REVEAL: split
+
+[[https://codepen.io/gjimenezucm/pen/jOmyomL][Este otro ejemplo]] mata
+los sprites más viejos pero no los destruye
+
+El efecto es parecido, pero no igual, puesto que los objetos siguen
+existiendo y la cantidad de memoria consumida se mantiene en aumento
+
+#+REVEAL: split
+
+#+begin_src js
+create() {
+  this.group = this.add.group();
+}
+update(time, delta) {    
+  let x = Math.random() * 400;
+  let y = Math.random() * 400;
+  this.group.add(this.add.sprite(x, y, 'phaser'));
+  
+  if (this.children.length > 10) {
+      let ch = this.group.getFirstAlive();
+      this.group.killAndHide(ch);
+      // también con: ch.setActive(false); ch.setVisible(false);
+      console.log('World children count:', this.children.length);
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+Si observamos la consola:
+
+- En el primer ejemplo visto anteriormente, el conteo de entidades en la
+  escena *se mantiene constante*
+- En el segundo ejemplo, el número de entidades *no para de crecer*
+
+#+begin_html
+  <!-- 
+  ## API de ordenamiento
+
+
+  Generalmente, los grupos tienen un propósito y hay una buena razón para agrupar las entidades
+
+
+  Por ejemplo, si queremos crear un subconjunto de entidades que hacen o reciben algo concreto
+
+
+  Muchas veces, las entidades dentro del grupo tienen que estar ordenadas (o viene bien, por eficiencia, que lo estén)
+
+  ```js
+  // ordenamos los elementos por su atributo "y"
+  // es muy parecida al 'sort' normal de listas en JavaScript
+  g.customSort(function(a, b) {
+      return a.y - b.y;
+  });
+
+  // Como es muy normal ordenar por parámetro, tenemos en el API también esta
+  // función
+  // Ordenamos según el parámetro 'x' de cada entidad
+  g.sort('x', Phaser.Group.SORT_ASCENDING);
+  ```
+   -->
+#+end_html
+
+#+begin_html
+  <!-- 
+  ## API de manipulación en grupo
+
+
+  Otra de las cosas que podemos hacer con los grupos es tratarlos como una sola entidad
+
+
+  Por ejemplo, podríamos querer eliminar todos los bloques de hielo en un nivel, o hacer que todos los enemigos avancen más rápido
+
+  ```js
+
+  let g = scene.add.group();
+
+  // También existe 'forAllAlive', que sólo itera sobre los que están vivos
+  g.iterate(function(item) {
+      item.speed += 2;
+  });
+
+  g.callAll('kill'); // llama a 'kill' en todas las entidades del grupo
+  g.callAllExists('kill'); // lo mismo, pero sólo las que existen (exists -> es actualizado)
+  ``` -->
+#+end_html
+
+* Implementación de pooling con grupos de Phaser
+:PROPERTIES:
+:CUSTOM_ID: implementación-de-pooling-con-grupos-de-phaser
+:END:
+
+#+REVEAL: split
+
+Phaser no incluye pools directamente pero podemos utilizar nuestra
+propia clase =Pool= que utilice grupos internamente para ello
+
+#+REVEAL: split
+
+** Creación del pool
+:PROPERTIES:
+:CUSTOM_ID: creación-del-pool
+:END:
+El constructor de /Pool/ recibe el juego en =scene=, *añade un grupo al
+juego* con =add.group()= y guarda ese grupo internamente
+
+También recibe la lista de entidades que se van a reciclar:
+
+#+REVEAL: split
+
+#+begin_src js
+// En la pestaña create, antes de la función create()
+class Pool {
+    constructor (scene, entities) {
+       this._group = scene.add.group();
+       this._group.addMultiple(entities);
+       this._group.children.iterate(c => {
+            c.setActive(false);
+            c.setVisible(false);
+        });
+}
+#+end_src
+
+#+REVEAL: split
+
+** Recuperación de una entidad
+:PROPERTIES:
+:CUSTOM_ID: recuperación-de-una-entidad
+:END:
+Recuperamos una entidad del /pool/ utilizando el método =spawn()= que
+recibe las nuevas coordenadas del sprite =x= e =y=,
+
+#+begin_src js
+// A continuación del constructor
+spawn (x, y) {
+    let entity = this._group.getFirstDead();
+    if (entity) {
+      entity.x = x;
+      entity.y = y;
+      entity.setActive(true);
+      entity.setVisible(true);
+    }
+    return entity;
+}
+#+end_src
+
+#+REVEAL: split
+
+*** Devolución de una entidad
+:PROPERTIES:
+:CUSTOM_ID: devolución-de-una-entidad
+:END:
+Devolver una entidad requiere llamar a los método =setActive(false)= y
+=setVisible(false)= sobre esa entidad
+
+#+begin_src js
+// Estamos en la escena
+let c = this.pool.spawn(x,y);
+// ...
+// Supón que no necesitamos más c
+c.setActive(false);
+c.setVisible(false);
+#+end_src
+
+#+REVEAL: split
+
+O podemos añadir un método para pedir al pool que libere una entidad
+
+#+begin_src js
+// A continuación del spawn
+release (entity) {
+    this._group.killAndHide(entity);
+}
+#+end_src
+
+#+REVEAL: split
+
+Podéis encontrar un ejemplo completo que usa /pooling/ en el siguiente
+enlace:
+
+[[https://codepen.io/gjimenezucm/pen/OJmWYGg]]
+
+#+begin_html
+  <!-- Sería interesante añadir redimensión automática como lo hace Belén en
+  https://github.com/belen-albeza/ldjam-32/blob/master/app/js/utils.js#L23 -->
+#+end_html

@@ -1,0 +1,849 @@
+#+title: Tiles y Tiled
+#+setupfile: setup.org
+
+* Tiles
+:PROPERTIES:
+:CUSTOM_ID: tiles
+:END:
+
+#+REVEAL: split
+
+** Qué es un tile
+:PROPERTIES:
+:CUSTOM_ID: qué-es-un-tile
+:END:
+Un /tile/ (o baldosa) es un imagen, generalmente cuadrada y,
+generalmente, de tamaño fijo, que se usa para dibujar un elemento en un
+videojuego
+
+#+REVEAL: split
+
+Los tiles simplifican el desarrollo, ya que hacen que el mundo se
+considere *una matriz discreta*
+
+#+REVEAL: split
+
+Los tiles pueden ser usados para dibujar (por ejemplo, el mapa o el
+fondo) y también /para la lógica del juego/ (como en los
+[[https://es.wikipedia.org/wiki/Roguelike][roguelikes]])
+
+#+REVEAL: split
+
+#+caption: Dungeon Crawl
+[[https://upload.wikimedia.org/wikipedia/commons/2/29/Dungeon_crawl_stone_soup.png]]
+
+#+REVEAL: split
+
+Cada /tile/ es una imagen particular, independiente... ¡O no!
+
+* Tile maps
+:PROPERTIES:
+:CUSTOM_ID: tile-maps
+:END:
+** Qué es un tile map
+:PROPERTIES:
+:CUSTOM_ID: qué-es-un-tile-map
+:END:
+Un *tile map* es una simplificación de un mundo en 2D en la que dicho
+mundo es dividido en una cuadrícula de tamaño fijo (una matriz 2D)
+
+#+REVEAL: split
+
+En cada "celda" se pinta un tile, generalmente extraído de un /tile set/
+
+#+begin_html
+  <!-- Cada una de los rectángulos que forman la cuadrícula, en realidad representa un -->
+#+end_html
+
+#+begin_html
+  <!-- fragmento o *frame* de un *spritesheet*. -->
+#+end_html
+
+** Partes de un mapa de tiles
+:PROPERTIES:
+:CUSTOM_ID: partes-de-un-mapa-de-tiles
+:END:
+Normalmente está compuesto por:
+
+- un fichero de datos con la definición del tile map
+  - su tamaño (ancho y alto)
+  - el tamaño de las casillas (tiles)
+  - qué tile o imagen va en cada casilla
+- una hoja de sprites con todos los tiles disponibles juntos
+
+** Ejemplo de tile map
+:PROPERTIES:
+:CUSTOM_ID: ejemplo-de-tile-map
+:END:
+#+caption: Tilemap de "The Legend of Zelda"
+[[file:tilemap_zelda.png]]
+
+* Tile sets
+:PROPERTIES:
+:CUSTOM_ID: tile-sets
+:END:
+
+#+REVEAL: split
+
+Un tile set se suele implementar como un archivo de imagen en el que
+cada celda representa un tile
+
+#+REVEAL: split
+
+** Ejemplo de tile set
+:PROPERTIES:
+:CUSTOM_ID: ejemplo-de-tile-set
+:END:
+#+caption: Tileset de "The Legend of Zelda"
+[[file:tileset_zelda.png]]
+
+#+REVEAL: split
+
+Cada celda del tile set representa una imagen /independiente/
+
+Esto funciona bien para cosas aisladas: monedas, árboles, cajas...
+
+#+REVEAL: split
+
+Pero no funciona bien en *la playa*
+
+#+REVEAL: split
+
+** La playa
+:PROPERTIES:
+:CUSTOM_ID: la-playa
+:END:
+#+caption: [[http://opengameart.org/content/happyland-tileset][Tile set
+de "playa"]]
+[[http://opengameart.org/sites/default/files/styles/medium/public/preview_128.png]]
+
+#+REVEAL: split
+
+Para evitar los "cortes", los tiles normalmente están creados para
+repetirse en la escena sin que se vean costuras, de forma que se pueden
+construir escenas muy complejas
+
+#+REVEAL: split
+
+Se ocupa *mucha menos memoria* que dibujando la escena en una imagen (se
+carga una, se usa muchas veces)
+
+#+REVEAL: split
+
+** ¿Por qué es más eficiente?
+:PROPERTIES:
+:CUSTOM_ID: por-qué-es-más-eficiente
+:END:
+- Mapa de 4096 \(\times\) 1024 con tiles de 64 \(\times\) 64:
+  - Sin tile map: 4096 \(\times\) 1024 \(\times\) 4B de color = *16.7
+    MB*
+
+  - Con tile map: tile map de 64 \(\times\) 16 tiles y tile set de 1024
+    \(\times\) 1024 con 256 tiles (16 \(\times\) 16)
+
+    - Tamaño del tile map = 1024 \(\times\) 1B
+    - Tamaño del tile set = 1024 \(\times\) 1024 \(\times\) 4B de color
+      = 4 MB
+    - Tamaño total = *4.01 MB*
+
+#+REVEAL: split
+
+** Otras ventajas:
+:PROPERTIES:
+:CUSTOM_ID: otras-ventajas
+:END:
+- Al tener todos los tiles en la misma hoja de sprites sólo necesitamos
+  una llamada a pintado para pintar todo el escenario
+- Cuando cargamos desde Internet, es fundamental reducir los tiempos de
+  carga
+- Dibujar la escena es más sencillo, sobre todo con un editor de tiles
+- Podemos reutilizar tiles en diferentes escenarios.
+
+#+REVEAL: split
+
+La desventaja es que los gráficos del escenario *están repetidos*
+
+#+REVEAL: split
+
+(Pero periódicamente se pone de moda)
+
+* Editores de tiles
+:PROPERTIES:
+:CUSTOM_ID: editores-de-tiles
+:END:
+** ¿Por qué usarlos?
+:PROPERTIES:
+:CUSTOM_ID: por-qué-usarlos
+:END:
+Nos simplifican la edición del tile map enormemente
+
+#+REVEAL: split
+
+Crear el tile map a mano es mucho mas complejo y propenso a errores
+
+#+REVEAL: split
+
+** Tiled
+:PROPERTIES:
+:CUSTOM_ID: tiled
+:END:
+[[http://www.mapeditor.org/][Tiled]] es un editor de niveles 2D que
+ayuda a desarrollar escenarios para juegos
+
+#+REVEAL: split
+
+Puede exportar a diferentes formatos, entre ellos el formato JSON que
+usa Phaser
+
+#+REVEAL: split
+
+Tiene soporte para diferentes capas (*layers*) e incluso para añadir una
+capa especial de objetos con la ubicación de los objetos en el mapa
+
+#+REVEAL: split
+
+#+caption: La interfaz de Tiled
+[[file:tiled.png]]
+
+#+REVEAL: split
+
+** Partes de la interfaz de Tiled
+:PROPERTIES:
+:CUSTOM_ID: partes-de-la-interfaz-de-tiled
+:END:
+- Menu contextual (izquierda)
+- Tilesets (derecha abajo)
+- Layers (derecha arriba)
+- Herramientas (parte superior)
+- Zona de edición (centro)
+
+#+REVEAL: split
+
+** Crear un nuevo proyecto
+:PROPERTIES:
+:CUSTOM_ID: crear-un-nuevo-proyecto
+:END:
+Creamos un nuevo proyecto en =Archivo= \(\rightarrow\) =Nuevo= y
+aparecerá la ventana de creación del tile map
+
+#+REVEAL: split
+
+#+caption: Nuevo proyecto
+[[file:tiled_nuevo_proyecto.png]]
+
+#+REVEAL: split
+
+Aquí establecemos:
+
+- El tamaño del patrón (tile) y el número de patrones que tendrá el
+  nivel
+- Si queremos vista ortogonal o isométrica
+- El formato de la capa de patrones para Phaser ha de ser /Base64
+  (uncompressed)/ sin comprimir
+- /No/ creamos un mapa infinito
+
+#+REVEAL: split
+
+** Proyecciones ortogonal e isométrica
+:PROPERTIES:
+:CUSTOM_ID: proyecciones-ortogonal-e-isométrica
+:END:
+
+#+REVEAL: split
+
+- Base ortogonal es la tradicional en los juegos 2D (visto "desde
+  arriba" o "lateral")
+- Base isométrica es una vista ortogonal especial que simula el 3D sin
+  corrección de perspectiva
+  - Todos los ejes forman un ángulo de 120º. El dibujo se gira 45º para
+    poner la esquina del escenario frente al espectador
+  - La cámara se situaría en la esquina superior
+
+#+REVEAL: split
+
+#+caption: Perspectiva isométrica
+[[file:isometrica.png]]
+
+#+REVEAL: split
+
+#+caption: Perspectiva isométrica en Tiled
+[[file:isometrica_tiled.png]]
+
+#+REVEAL: split
+
+#+caption: Perspectiva ortogonal en Tiled
+[[file:ortogonal_tiled.png]]
+
+#+REVEAL: split
+
+** Usar tilesets
+:PROPERTIES:
+:CUSTOM_ID: usar-tilesets
+:END:
+
+#+REVEAL: split
+
+#+caption: Añadir un tileset
+[[file:add_tileset.png]]
+
+#+REVEAL: split
+
+** Importante
+:PROPERTIES:
+:CUSTOM_ID: importante
+:END:
+*El nombre que le demos al tile set* se usará posteriormente para cargar
+el spritesheet con los tiles en Phaser
+
+#+REVEAL: split
+
+** Añadir una capa
+:PROPERTIES:
+:CUSTOM_ID: añadir-una-capa
+:END:
+Podemos añadir nuevas capas
+
+Las capas son importantes para diferenciar los objetos del fondo con los
+objetos del suelo
+
+#+REVEAL: split
+
+#+caption: Añadir capas
+[[file:nueva_capa.png]]
+
+#+REVEAL: split
+
+** Exportar
+:PROPERTIES:
+:CUSTOM_ID: exportar
+:END:
+Los mapas se guardan con la extensión =.tmx=
+
+Para usar el mapa que hemos creado, /lo tenemos que exportar a JSON/
+(=.json=)
+
+Hay más formatos, pero lo mejor opción es JSON
+
+#+REVEAL: split
+
+#+caption: Para que la exportación no dé problemas con Phaser, lo ideal
+es activar =Embed tilesets= y =Resolve object types and properties= en
+*las propiedades de Tiled*
+[[file:export_tiled.png]]
+
+#+REVEAL: split
+
+#+caption: =Archivo= \(\rightarrow\) =Exportar como...=
+[[file:exportar_tiled.png]]
+
+* Tile maps en Phaser
+:PROPERTIES:
+:CUSTOM_ID: tile-maps-en-phaser
+:END:
+
+#+REVEAL: split
+
+** Phaser 3.50
+:PROPERTIES:
+:CUSTOM_ID: phaser-3.50
+:END:
+A partir de Phaser 3.50.0
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Tilemaps.Tilemap][cambia
+la API de los mapas]], y se hace algo mejor (y más potente)
+
+Tened cuidado con las versiones en la documentación disponible
+
+#+REVEAL: split
+
+** TileMaps en Phaser
+:PROPERTIES:
+:CUSTOM_ID: tilemaps-en-phaser
+:END:
+1. Carga de archivos de datos e imágenes
+2. Creación del tilemap
+3. Asignamos las texturas a los tilesets
+4. Creación de las capas
+
+#+REVEAL: split
+
+** 1. Carga de archivos de datos e imágenes
+:PROPERTIES:
+:CUSTOM_ID: carga-de-archivos-de-datos-e-imágenes
+:END:
+Para cargar el fichero de descripción del tile map, usamos
+=tilemapTiledJSON()= en =preload()=
+
+#+begin_src js
+this.load.tilemapTiledJSON('tilemap', 'tilemap.json');
+#+end_src
+
+#+REVEAL: split
+
+- El primer parámetro es el nombre del recurso en la cache
+- El segundo es el fichero JSON que contiene la descripción del mapa
+
+#+REVEAL: split
+
+Esto sólo carga el archivo del tilemap, no /crea/ un tilemap en el juego
+
+#+REVEAL: split
+
+Para cargar el atlas de patrones usaremos la carga de imagenes normal:
+=load.image=
+
+#+begin_src js
+this.load.image('patronesTilemap', 'images/patrones.png');
+#+end_src
+
+#+REVEAL: split
+
+** 2. Creación del tilemap
+:PROPERTIES:
+:CUSTOM_ID: creación-del-tilemap
+:END:
+Para crear un tilemap usamos
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.GameObjectCreator#tilemap][el
+subsistema =make.tilemap=]] y el recurso cargado en la cache como
+/tilemap/, en el método =create()= (*no en =preload()=*)
+
+#+begin_src js
+this.map = this.make.tilemap({ 
+  key: 'tilemap', 
+  tileWidth: 64, 
+  tileHeight: 64 
+});
+#+end_src
+
+#+REVEAL: split
+
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Tilemaps.Tilemap][Este
+objeto]] tiene propiedades importantes como el ancho y el alto (en tiles
+y en píxels) que son útiles para establecer los límites (/bounds/) del
+mundo y de la cámara
+
+Así mismo, tiene métodos para convertir coordenadas del mundo en tiles y
+viceversa o para acceder a información de los tiles o de las capas.
+
+#+REVEAL: split
+
+** 3. Texturas de los tilesets
+:PROPERTIES:
+:CUSTOM_ID: texturas-de-los-tilesets
+:END:
+Posteriormente creamos los tilesets, asignando las imágenes cargadas a
+los tileset usados en el tilemap:
+
+#+begin_src js
+const tileset1 = this.map.addTilesetImage('nombreTilemap', 'claveTextura');
+#+end_src
+
+#+REVEAL: split
+
+La textura debe estar previamente cargada y el nombre de la textura en
+el mapa de tiles es conocido (está en el JSON exportado desde Tiled)
+
+#+REVEAL: split
+
+Un mapa de tiles puede tener más de una textura asociada, por lo que hay
+que asignar el nombre usado en el editor al asignar al tileset al nombre
+de la textura cargada en la cache (está en el JSON exportado desde
+Tiled)
+
+#+REVEAL: split
+
+Por ejemplo, ='patrones'= y ='patronesFondo'= son nombres de tilesets en
+Tiled---los que están en las pestañas:
+
+#+begin_src js
+const tileset1 = this.map.addTilesetImage('patrones', 'idImagen');
+const tileset2 = this.map.addTilesetImage('patronesFondo', 'idImagen2');
+#+end_src
+
+#+REVEAL: split
+
+** 4. Creación de las capas
+:PROPERTIES:
+:CUSTOM_ID: creación-de-las-capas
+:END:
+Por último, es necesario crear las capas para que el mapa se visualice.
+
+Como hemos visto, en el editor de tiles podemos crear diferentes capas o
+/layers/
+
+#+REVEAL: split
+
+Las capas tienen entidad única y se pueden manejar independientemente
+(por ejemplo, para colisiones)
+
+Una capa permite diferenciar los objetos del fondo con los objetos de
+frente o tener diferentes fondos
+
+#+REVEAL: split
+
+Si hay capas creadas en el editor, podemos asignar estas capas
+(/layers/) en Phaser:
+
+#+begin_src js
+// tileset1, tileset2 han sido creados con `addTilesetImage`
+this.backgroundLayer = 
+  this.map.createLayer('BackgroundLayer', 
+                             [tileset1, tileset2]);
+// funciona con y sin array
+this.groundLayer = 
+  this.map.createLayer('GroundLayer'
+                             , tileset1);
+this.foreground = 
+  this.map.createLayer('Foreground'
+                             , [tileset1, tileset2]);
+#+end_src
+
+* Colisiones con mapas
+:PROPERTIES:
+:CUSTOM_ID: colisiones-con-mapas
+:END:
+
+#+REVEAL: split
+
+Una parte importante, una vez que tenemos el mapa, es que los tiles
+tengan /propiedades físicas/
+
+#+REVEAL: split
+
+** Colisión por propiedades
+:PROPERTIES:
+:CUSTOM_ID: colisión-por-propiedades
+:END:
+Por ejemplo, dada una capa (=layer=), podemos hacer que todos aquellos
+tiles que tengan cierta propiedad, colisionen:
+
+#+begin_src js
+layer.setCollisionByProperty({ colisiona: true });
+#+end_src
+
+#+REVEAL: split
+
+** Colisión por inclusión
+:PROPERTIES:
+:CUSTOM_ID: colisión-por-inclusión
+:END:
+O podemos hacer que los tiles con /id/ en un rango concreto, colisionen:
+
+#+begin_src js
+// así colisionarán todos los tiles de la capa 
+// asumiendo que no hay id > 999
+layer.setCollisionBetween(0, 999);
+#+end_src
+
+En efecto, cada tipo de tile tiene un /id/
+
+#+REVEAL: split
+
+** Colisión por exclusión
+:PROPERTIES:
+:CUSTOM_ID: colisión-por-exclusión
+:END:
+#+begin_src js
+// `true` es que activa la colisión
+layer.setCollisionByExclusion([93, 94, 95, 96], true);
+#+end_src
+
+#+REVEAL: split
+
+** Colisiones de Sprites con capas
+:PROPERTIES:
+:CUSTOM_ID: colisiones-de-sprites-con-capas
+:END:
+Aunque hayamos activado las colisiones para los tiles, /tenemos que
+activar =colliders= para cada entidad que lo necesite/:
+
+#+begin_src js
+this.physics.add.collider(player, layer);
+#+end_src
+
+#+REVEAL: split
+
+También podemos eliminar un =collider= antes creado
+
+Por ejemplo, para hacer que se puedan cruzar zonas que antes no se
+podía:
+
+#+begin_src js
+this.collider = this.physics.add.collider(
+                  this.player,
+                  room.foreground);
+// y, después
+this.collider.destroy();
+#+end_src
+
+#+REVEAL: split
+
+Los ejemplos anteriores son para /Arcade/
+
+Para que funcione la colisión con /Matter.js/, hay que poner *también*:
+
+#+begin_src js
+this.matter.world.convertTilemapLayer(suelo);
+#+end_src
+
+* Capas de objetos
+:PROPERTIES:
+:CUSTOM_ID: capas-de-objetos
+:END:
+
+#+REVEAL: split
+
+Además de los tiles que forman el escenario, también podemos poner a
+nuestros personajes en Tiled
+
+#+REVEAL: split
+
+#+caption: Estos personajes debemos ponerlos en capas de /objetos/
+[[file:crear_capa_objetos.png]]
+
+#+REVEAL: split
+
+Después, desde Phaser, *no* crearemos layers de Phaser desde las capas
+de objetos de Tiled, sino que crearemos =Sprite=s a partir de los
+objetos de la capa
+
+#+REVEAL: split
+
+Lo haremos con
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Tilemaps.Tilemap#createFromObjects][=createFromObjects=]]:
+
+#+begin_src js
+// con el GID de objeto
+conId1 = map.createFromObjects('nombreDeCapaObjetosEnTiled', {gid: 1})
+
+// o con el nombre del objeto (`name` en Tiled)
+players = map.createFromObjects('nombreDeCapaObjetosEnTiled', {name: 'player'})
+
+// players es un array por lo que podemos aplicar funciones sobre sus elementos
+// como esta que cambia la vida
+players.map(p => p.vida = 10)
+#+end_src
+
+#+REVEAL: split
+
+Si no quiero =Sprite=s, podemos decirle el tipo (que tiene que heredar
+de =GameObject=):
+
+#+begin_src js
+createFromObjects(layerName, {
+  name: 'heart-container',
+  classType: HeartContainer
+})
+#+end_src
+
+#+REVEAL: split
+
+Phaser colocará estos =Sprite=s en el lugar apropiado
+
+Cualquier propiedad de GameObject añadida en Tiled será copiada en el
+GameObject creado (por ejemplo, =alpha=)
+
+Cualquier otra propiedad será añadida al
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Data.DataManager][=data=]]
+del GameObject (acceso a propiedades con =getData(key)= y
+=setData(key, value)=)
+
+#+REVEAL: split
+
+** Crear los objetos analizando el mapa
+:PROPERTIES:
+:CUSTOM_ID: crear-los-objetos-analizando-el-mapa
+:END:
+Para no usar =createFromObjects()=, también podemos examinar la capa a
+mano y crear los objetos directamente
+
+*Este código se creó para Phaser < 3.50, no suele ser necesario con las
+últimas versiones*
+
+#+REVEAL: split
+
+Los objetos de una capa de /objetos/ los podemos encontrar en:
+
+#+begin_src js
+this.mapa.getObjectLayer('capaObjetos').objects
+#+end_src
+
+#+REVEAL: split
+
+Así, podemos iterar sobre ellos:
+
+#+begin_src js
+// En Tiled tiene que haber una capa de objetos llamada `capaObjetos`
+for (const objeto of scene.mapa.getObjectLayer('capaObjetos').objects) {
+    // `objeto.name` u `objeto.type` nos llegan de las propiedades del
+    // objeto en Tiled
+    if (objeto.type === 'player') {
+      new Player(scene, objeto.x, objeto.y)
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+Además, podemos examinar las propiedades que hayamos añadido al objeto
+en Tiled:
+
+#+begin_src js
+for (const objeto of scene.mapa.getObjectLayer('capaObjetos').objects) {
+    if (objeto.name === 'player') {
+      const jugador = new Player(scene, objeto.x, objeto.y)
+      for (const { name, value } of objeto.properties) {
+        jugador[name] = value 
+      }
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+Una función para cargar:
+
+#+begin_src js
+function cargar(mapa, capa, tipo, callback) {
+  const objetos = mapa.getObjectLayer(capa).objects.filter(x => x.type === tipo)
+  for (const objeto of objetos) {
+    const props = {}
+    if (objeto.properties) {
+      for (const { name, value } of objeto.properties) {
+        props[name] = value
+      }
+    }
+    callback({ x: objeto.x, y: objeto.y, props })
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+Y, para usarla:
+
+#+begin_src js
+cargar(this.mapa, 'objetos', 'player', ({ x, y, props }) => {
+  this.player = new Player(this, x, y)
+  this.player.vida = props.vida
+})
+#+end_src
+
+* Escala
+:PROPERTIES:
+:CUSTOM_ID: escala
+:END:
+
+#+REVEAL: split
+
+Escalar un mapa, o cualquier otra cosa, es posible, pero es mucho más
+fácil diseñar todo a una escala dada
+
+#+REVEAL: split
+
+Es decir, que los assets estén /dibujados/ con escalas relativas, sin
+que haya que redimensionar algunos elementos para que encaje
+
+#+REVEAL: split
+
+Sin embargo, el tamaño de página, dispositivo y pantalla en el que se
+ejecutará el juego puede cambiar, por lo que reescalar puede ser
+necesario
+
+#+REVEAL: split
+
+Phaser 3 lo pone muy fácil con la
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Types.Core.ScaleConfig][propiedad
+=scale=]] de la configuración:
+
+#+begin_src js
+const config = {
+    width: 1024,
+    height: 768,
+    scale: {
+      mode: Phaser.Scale.FIT,
+      // mode: Phaser.Scale.SMOOTH,
+      autoCenter: Phaser.Scale.CENTER_BOTH
+    }
+}
+#+end_src
+
+Cambiando =width= y =height= y el tamaño del canvas, se ajusta el tamaño
+del juego
+
+#+REVEAL: split
+
+Pero este escalado hará que los bordes de los píxeles pequeños, al
+agrandar, se vean difuminados (por el algoritmo de escalado)
+
+#+REVEAL: split
+
+#+caption: Filtro de escalado con difuminado
+[[file:blur.png]]
+
+#+REVEAL: split
+
+Afortunadamente, Phaser sabe que adoramos el pixelart:
+
+#+begin_src js
+const config = {
+  pixelArt: true
+}
+#+end_src
+
+#+REVEAL: split
+
+#+caption: Filtro de escalado para pixelart
+[[file:pixel.png]]
+
+* Tiles que no son cuadrados
+:PROPERTIES:
+:CUSTOM_ID: tiles-que-no-son-cuadrados
+:END:
+
+#+REVEAL: split
+
+Hasta ahora hemos asumido que los tiles tienen que ser cuadrados
+
+#+REVEAL: split
+
+Pero con /Matter.js/ es posible conseguir que las físicas de un tile
+tenga otra forma
+
+#+REVEAL: split
+
+#+caption: Tile con forma de cuesta que debería tener una colisión no
+cuadrada
+[[file:slope.png]]
+
+#+REVEAL: split
+
+#+caption: Primero, tenemos un tileset cargado
+[[file:slope_tileset.png]]
+
+#+REVEAL: split
+
+Vamos a las propiedades del tileset [[file:iconopropiedades.png]], y
+luego a editar las colisiones [[file:editarcolision.png]]
+
+#+REVEAL: split
+
+#+caption: Y, en Tiled, dibujamos la forma de colisión que deseemos
+[[file:slopecolision.png]]
+
+#+REVEAL: split
+
+Cuando hagáis esto, es recomendable que se lo pongáis fácil a
+/Matter.js/ haciendo los polígonos *convexos*
+
+Si el polígono es cóncavo, tendrá que subdividir el polígono en varios
+convexos, o usar una malla que tenga más coste (casco convexo)
+
+#+REVEAL: split
+
+Tenéis
+[[https://phaser.io/examples/v3/view/tilemap/collision/matter#][varios
+ejemplos]] del uso de
+[[https://phaser.io/examples/v3/view/tilemap/collision/matter-detect-collision-with-tile][Tilemaps
+con Matter]] en
+[[https://phaser.io/examples/v3/view/tilemap/collision/matter-platformer-modify-map][la
+página de Phaser]]

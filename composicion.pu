@@ -1,0 +1,5 @@
+@startuml
+Weapon *-- AttackPower : parte de
+Weapon *-- DefensePower : parte de
+hide members
+@enduml

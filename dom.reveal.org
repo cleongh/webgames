@@ -1,0 +1,366 @@
+#+title: Document Object Model (DOM)
+#+setupfile: setup.org
+
+* JavaScript puede interactuar con la página web
+:PROPERTIES:
+:CUSTOM_ID: javascript-puede-interactuar-con-la-página-web
+:END:
+** Document Object Model
+:PROPERTIES:
+:CUSTOM_ID: document-object-model
+:END:
+- Los documentos HTML presentan una estructura de árbol
+- Los navegadores nos dan una *interfaz para interactuar* con esta
+  estructura: el *DOM*
+- El punto de entrada para acceder al DOM es el objeto *global
+  =document=*
+
+** Ejemplo de una sección del DOM
+:PROPERTIES:
+:CUSTOM_ID: ejemplo-de-una-sección-del-dom
+:END:
+#+begin_src html
+<article>
+  <header>
+    <h1>Un título molón</h1>
+  </header>
+  <p>Bla bla bla.</p>
+  <p>
+    Más bla, bla, bla y
+    <a href="http://wikipedia.org">aquí un enlace</a>
+  </p>
+</article>
+#+end_src
+
+#+REVEAL: split
+
+#+caption: Sección del DOM
+[[file:dom_section.png]]
+
+** ¿Qué podemos hacer con el DOM?
+:PROPERTIES:
+:CUSTOM_ID: qué-podemos-hacer-con-el-dom
+:END:
+- Leer/escribir las propiedades de los elementos, y usar sus métodos
+- Eliminar elementos del DOM
+- Insertar nuevos elementos en el DOM
+
+* Acceder a elementos del DOM
+:PROPERTIES:
+:CUSTOM_ID: acceder-a-elementos-del-dom
+:END:
+** Acceder a elementos por ID
+:PROPERTIES:
+:CUSTOM_ID: acceder-a-elementos-por-id
+:END:
+Sólo selecciona un elemento (las ID's deben ser únicas)
+
+#+begin_src html
+<button id="show-fullscreen">Fullscreen</button>
+#+end_src
+
+#+begin_src javascript
+const button = document.getElementById('show-fullscreen');
+#+end_src
+
+** Acceder a elementos por selector
+:PROPERTIES:
+:CUSTOM_ID: acceder-a-elementos-por-selector
+:END:
+Esto usa la sintaxis de los selectores CSS para localizar uno (o varios)
+elementos
+
+#+begin_src javascript
+// selecciona el primer párrafo que encuentra
+const paragraph = document.querySelector('p');
+// selecciona el primer elemento con clase .warning
+const label = document.querySelector('.warning');
+// selecciona TODOS los párrafos
+const allPars = document.querySelectorAll('p');
+#+end_src
+
+Más info sobre selectores para usar con =querySelector= en
+[[https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_Started/Selectors][la
+MDN]]
+
+** Iterar sobre una lista de elementos
+:PROPERTIES:
+:CUSTOM_ID: iterar-sobre-una-lista-de-elementos
+:END:
+- =querySelectorAll= /no/ devuelve un array, sino una
+  [[https://developer.mozilla.org/en/docs/Web/API/NodeList][NodeList]]
+- No podemos utilizar métodos de =Array= sobre ella. Pero tiene la
+  propiedad =length= y el operador =[]=, así que podemos acceder en un
+  bucle:
+
+#+begin_src javascript
+const buttons = document.querySelectorAll('button');
+for (const i = 0; i < buttons.length; i++) {
+    buttons[i].style = "display: none"; // hide buttons
+}
+#+end_src
+
+#+REVEAL: split
+
+También podemos iterar con =Array.forEach= o con =for=/=of=:
+
+#+begin_src js
+for (const b of buttons) {
+    b.style = "display: none";
+}
+
+buttons.forEach(b => {
+    b.style = "display: none";
+})
+#+end_src
+
+** Navegar en el DOM
+:PROPERTIES:
+:CUSTOM_ID: navegar-en-el-dom
+:END:
+- Se accede al *padre* de un elemento con la propiedad =parentNode=
+- Se accede a la lista de *hijos* de un elemento con =childNodes=
+- Se accede al *hermano* anterior o siguiente con =previousSibling= y
+  =nextSibling=
+
+Con esto podemos recorrer todo el DOM en cualquier dirección
+
+* Propiedades interesantes de elementos del DOM
+:PROPERTIES:
+:CUSTOM_ID: propiedades-interesantes-de-elementos-del-dom
+:END:
+** =innerHTML=
+:PROPERTIES:
+:CUSTOM_ID: innerhtml
+:END:
+- El /interior/ (o contenido) del elemento
+- Podemos escribir HTML dentro, creando al vuelo nuevos elementos del
+  DOM
+
+#+begin_src javascript
+button.innerHTML = 'Aceptar';
+p.innerHTML = 'Párrafo con <b>negrita</b>';
+#+end_src
+
+** =style=
+:PROPERTIES:
+:CUSTOM_ID: style
+:END:
+- Nos permite aplicar *estilos CSS inline* (tienen la máxima prioridad)
+- Muy útiles para ocultar/mostrar elementos
+- También podemos /leer/ la propiedad CSS
+
+#+begin_src javascript
+const previousDisplay = button.style.display;
+button.style="display:none"; // oculta cualquier elemento
+button.style="display:inline-block;" // muestra el botón
+#+end_src
+
+Nota: =display:none= es universal, pero para mostrar un elemento debéis
+elegir entre varios valores, los más comunes son =inline=,
+=inline-block= y =block=, pero hay muchos otros.
+
+** =classList=
+:PROPERTIES:
+:CUSTOM_ID: classlist
+:END:
+- Nos permite acceder a las *clases CSS* de un elemento
+- Útil para cambiar el aspecto de la UI en función de las interacciones
+
+#+begin_src javascript
+button.classList.add('loading');
+button.classList.remove('loading');
+button.classList.contains('loading'); // query
+button.classList.toggle('loading'); // doesn't work on IE
+#+end_src
+
+[[https://developer.mozilla.org/en/docs/Web/API/Element/classList][Snippet
+de código]] online
+
+* Manipular el DOM
+:PROPERTIES:
+:CUSTOM_ID: manipular-el-dom
+:END:
+** Insertar elementos
+:PROPERTIES:
+:CUSTOM_ID: insertar-elementos
+:END:
+- Podemos insertar elementos nuevos con =innerHTML=
+- También se pueden crear desde cero
+
+#+begin_src javascript
+const button = document.createElement('button');
+button.innerHTML = 'Start';
+button.setAttribute('type', 'button');
+
+// <button type="button">Start</button>
+#+end_src
+
+#+REVEAL: split
+
+- Cuando creamos un elemento con =createElement= está *huérfano* y no lo
+  veremos renderizado en la página
+- Hay que añadirlo como "familiar" de algún otro elemento con
+  =appendChild=, =insertBefore=...
+
+#+begin_src javascript
+document.body.appendChild(button);
+#+end_src
+
+[[https://jsfiddle.net/mpsjmz11/1/][Snippet de código]] online
+
+** Eliminar elementos
+:PROPERTIES:
+:CUSTOM_ID: eliminar-elementos
+:END:
+- Podemos reemplazar un elemento por otro con =replaceChild=
+- Podemos *eliminar* un elemento con =removeChild=
+
+#+begin_src javascript
+const button = document.getElementById('start');
+button.parentNode.removeChild(button);
+#+end_src
+
+* Eventos
+:PROPERTIES:
+:CUSTOM_ID: eventos
+:END:
+** Eventos en el DOM
+:PROPERTIES:
+:CUSTOM_ID: eventos-en-el-dom
+:END:
+- Los elementos del DOM disparan eventos a los que podemos subscribirnos
+  (click en un botón, cambio del texto de un =<input>=, cuando
+  seleccionamos una checkbox, etcétera)
+- =window= también dispara eventos: =load=, =resize=...
+
+** Escuchar eventos
+:PROPERTIES:
+:CUSTOM_ID: escuchar-eventos
+:END:
+- Hay dos maneras de escuchar eventos disparados por un elemento:
+  - Usando el método =Event.addEventListener=
+  - Usando los /on-event handlers/ (p.ej =onclick=, =onfocus=...)
+
+** On-event handlers
+:PROPERTIES:
+:CUSTOM_ID: on-event-handlers
+:END:
+- ¡*Sólo hay un handler* por evento!
+- Registramos y desregistramos el handler con una *asignación*
+
+#+begin_src javascript
+// subscripción
+button.onclick = function (evt) { /* ... */ };
+// cancelar la subscripción
+button.onclick = null;
+#+end_src
+
+Documentación
+[[https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Event_handlers][en
+la MDN]]
+
+** Event listeners
+:PROPERTIES:
+:CUSTOM_ID: event-listeners
+:END:
+- Podemos subscribirnos *múltiples veces* al mismo evento
+- Es la manera recomendada y más segura
+
+#+begin_src javascript
+const sayHi = function () { /* */ };
+// subscripción
+button.addEventListener('click', sayHi);
+// cancelar la subscripción
+button.removeEventListener('click', sayHi);
+#+end_src
+
+Documentación
+[[https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener][en
+la MDN]]
+
+** Bubbling
+:PROPERTIES:
+:CUSTOM_ID: bubbling
+:END:
+- El *bubbling* es la metáfora con la que explicamos cómo se comportan
+  los eventos del DOM
+- Cuando un elemento dispara un evento, *se propaga* hacia arriba en el
+  árbol del DOM
+
+#+REVEAL: split
+
+#+begin_src html
+<section>
+    <button>Click me</button>
+</section>
+#+end_src
+
+#+begin_src javascript
+const section = document.querySelector('section')
+section.addEventListener('click', function () {
+    console.log('Clicked…');
+});
+#+end_src
+
+[[https://jsfiddle.net/mcx0hkou/1/][Snippet de código]] online
+
+** Interrumpir el bubbling
+:PROPERTIES:
+:CUSTOM_ID: interrumpir-el-bubbling
+:END:
+- Los callbacks de los eventos pueden recibir *un argumento* con
+  información sobre el evento
+- El argumento es un objeto de tipo =Event= y tiene métodos para
+  interrumpir el bubbling
+
+#+begin_src javascript
+button.addEventListener('click', function (evt) {
+    console.log(evt);
+});
+#+end_src
+
+#+REVEAL: split
+
+Podemos evitar el bubbling con *=Event.stopPropagation=*
+
+#+begin_src javascript
+button.addEventListener('click', function (e) {
+    e.stopPropagation();
+});
+#+end_src
+
+** Cancelar el evento
+:PROPERTIES:
+:CUSTOM_ID: cancelar-el-evento
+:END:
+- ¡Esto */no/ es interrumpir el bubbling*!
+- Es cancelar el evento y evitar /acciones por defecto/ asociadas a él.
+  Es útil para interceptar formularios, o cambiar el comportamiento de
+  un menú
+- Usamos *=Event.preventDefault=*
+
+#+REVEAL: split
+
+#+begin_src html
+<a href="file.zip" download>Download zip</a>
+#+end_src
+
+#+begin_src javascript
+const link = document.querySelector('a');
+link.addEventListener('click', function (evt) {
+    // the browser won't detect the link has been clicked
+    evt.preventDefault();
+});
+#+end_src
+
+** Toda la documentación de esto está en la MDN
+:PROPERTIES:
+:CUSTOM_ID: toda-la-documentación-de-esto-está-en-la-mdn
+:END:
+[[http://developer.mozilla.org]]
+
+Truco: añadir =mdn= a cualquier búsqueda
+
+#+caption: Buscador
+[[file:search.png]]

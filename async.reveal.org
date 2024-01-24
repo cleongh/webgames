@@ -1,0 +1,252 @@
+#+title: Programación asíncrona y eventos
+#+setupfile: setup.org
+
+* Programación asíncrona y eventos
+:PROPERTIES:
+:CUSTOM_ID: programación-asíncrona-y-eventos
+:END:
+
+#+REVEAL: split
+
+Prueba el siguiente ejemplo (copia, pega y espera 5 segundos):
+
+#+begin_src js
+var fiveSeconds = 5 * 1000; // en milisegundos
+
+// Esto ocurre ahora
+console.log('T: ', new Date());
+
+setTimeout(function () {
+  // Esto ocurre pasados 5 segundos
+  console.log('T + 5 segundos: ', new Date());
+}, fiveSeconds);
+
+// Esto ocurre inmediatamente después
+console.log('T + delta: ', new Date());
+#+end_src
+
+#+REVEAL: split
+
+Como puedes comprobar, el mensaje se completa pasados 5 segundos porque
+lo que hace
+[[https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout][=setTimeout=]]
+es llamar a la función tan pronto como pasen el número de milisegundos
+indicados
+
+Decimos que una función es una */callback/* si se llama en algún momento
+futuro, es decir, *asíncronamente*, para informar de algún resultado
+
+En el ejemplo de =setTimeout= el resultado es que ha pasado la cantidad
+de tiempo especificada
+
+* Eventos
+:PROPERTIES:
+:CUSTOM_ID: eventos
+:END:
+Esta sección presenta el módulo =readline= que es específico de node
+
+La programación asíncrona en JavaScript y otros lenguajes se usa para
+*modelar eventos*, principalmente *esperas por entrada y salida*
+
+#+REVEAL: split
+
+En otras palabras: hitos que ocurren pero que *no sabemos cuándo
+ocurren*
+
+La entrada y salida, a partir de ahora IO (del inglés /input / output/),
+no solo supone lectura de ficheros o peticiones a la red, también
+incluye esperar por una acción del usuario
+
+#+REVEAL: split
+
+Vamos a implementar una consola de diálogo por líneas. Usaremos el
+módulo [[https://nodejs.org/api/readline.html][=readline=]] que es parte
+de la funcionalidad que vienen con node:
+
+#+begin_src js
+// En conversational.js
+"use strict";
+
+var readline = require('readline');
+
+var cmd = readline.createInterface({
+  input: process.stdin,  // así referenciamos la consola como entrada
+  output: process.stdout, // y así, como salida
+  prompt: '(╯°□°）╯ ' // lo que aparece para esperar la entrada del usuario
+});
+#+end_src
+
+#+REVEAL: split
+
+Lanza ese programa con node y verás que no hace nada *pero tampoco
+termina* Esto es típico de los programas asíncronos. El programa queda
+esperando a que pase algo
+
+Pulsa =ctrl+c= para terminar el programa
+
+#+REVEAL: split
+
+Ahora prueba:
+
+#+begin_src js
+// Añade al final de conversational.js
+console.log('Escribe algo y pulsa enter');
+cmd.prompt(); // pide que el usuario escriba algo
+
+cmd.on('line', function (input) {
+  console.log('Has dicho "' + input  + '"');
+  cmd.prompt(); // pide que el usuario escriba algo
+});
+#+end_src
+
+#+REVEAL: split
+
+Lo que has conseguido es *escuchar por el evento =line=* que se produce
+[[https://nodejs.org/api/readline.html#readline_event_line][cada vez que
+en la entrada se recibe un caracter de cambio de línea]]
+
+#+REVEAL: split
+
+Hablando de eventos, la función que se ejecuta asíncronamente recibe el
+nombre de */listener/* pero tampoco es raro que se la llame */callback/*
+
+#+REVEAL: split
+
+Se habla de *registrar un listener para un evento* o *escuchar por ese
+evento* a utilizar el mecanismo que permite asociar la ejecución de una
+función con dicho evento
+
+#+REVEAL: split
+
+Con todo, aun no puedes salir del programa. Necesitas algunos cambios
+más:
+
+#+begin_src js
+// Añade a conversational.js
+cmd.on('line', function (input) {
+  if (input === 'salir') {
+    cmd.close();
+  }
+});
+
+cmd.on('close', function () {
+  console.log('¡Nos vemos!');
+  process.exit(0); // sale de node
+});
+#+end_src
+
+#+REVEAL: split
+
+Has añadido un segundo lístener al evento =line= y *ambos se ejecutarán*
+
+El primero gestiona el funcionamiento por defecto (que es repetir lo que
+has puesto) y el segundo trata específicamente el comando =salir=
+
+Si la línea es exactamente =salir=, cerraremos la interfaz de línea de
+comandos
+
+Esto produce un evento =close= y cuando lo recibamos, utilizaremos el
+/listener/ de ese evento para terminar el programa
+
+#+REVEAL: split
+
+El método =on()= es un segundo nombre para
+[[https://nodejs.org/api/events.html#events_emitter_addlistener_eventname_listener][=addListener()=]]
+
+#+REVEAL: split
+
+Igual que puedes añadir un lístener, también puedes eliminarlo con
+[[https://nodejs.org/api/events.html#events_emitter_removelistener_eventname_listener][=removeListener()=]]
+y quitarlos todos con
+[[https://nodejs.org/api/events.html#events_emitter_removealllisteners_eventname][=removeAllListeners()=]]
+
+#+REVEAL: split
+
+Puedes escuchar por un evento *sólo una vez* con
+[[https://nodejs.org/api/events.html#events_emitter_once_eventname_listener][=once()=]]
+
+* Emisores de eventos
+:PROPERTIES:
+:CUSTOM_ID: emisores-de-eventos
+:END:
+Esta sección presenta la clase =EventEmitter= que es específica de node
+
+Los eventos *no son un mecanismo estándar* de JavaScript. Son una forma
+conveniente de modelar determinados tipos de problema pero un objeto
+JavaScript, por sí solo, *no tiene API para emitir eventos*
+
+#+REVEAL: split
+
+*En =node=*, para que nuestros objetos emitan eventos, tenemos varias
+alternativas:
+
+- Implementar nuestra propia API de eventos
+- Hacer que nuestros objetos *usen* una instancia de =EventEmitter=
+- Hacer que nuestros objetos *sean instancias* de =EventEmitter=
+
+#+REVEAL: split
+
+La primera supone crear nuestro propio método =on()= y los mecanismos
+para emitir eventos. El segundo y el tercero usan la clase
+[[https://nodejs.org/api/events.html#events_class_eventemitter][=EventEmitter=]]
+que ya implementa esta API
+
+#+REVEAL: split
+
+Implementaremos la opción 3 para practicar la herencia:
+
+#+begin_src js
+var events = require('events');
+var EventEmitter = events.EventEmitter;
+
+function Nave() {
+  EventEmitter.apply(this);
+  this._ammunition = 'laser charges';
+}
+Nave.prototype = Object.create(EventEmitter.prototype);
+Nave.prototype.constructor = Nave;
+
+var nave = new Nave();
+nave.on; // ¡existe!
+#+end_src
+
+#+REVEAL: split
+
+Ahora que nuestra nave puede emitir eventos, vamos a hacer que dispare y
+que emita un evento:
+
+#+begin_src js
+Nave.prototype.shoot = function () {
+  console.log('PICHIUM!');
+  this.emit('shoot', this._ammunition); // parte de la API de EventEmitter
+};
+
+nave.on('shoot', function (ammunition) {
+  console.log('CENTRO DE MANDO. La nave ha disparado:', ammunition);
+});
+
+nave.shoot();
+#+end_src
+
+#+REVEAL: split
+
+Emitir un evento consiste en llamar al método
+[[https://nodejs.org/api/events.html#events_emitter_emit_eventname_arg1_arg2][=emit()=]]
+que hará que se ejecuten los /listeners/ escuchando por tal evento
+
+Los eventos son increíblemente útiles para modelar interfaces de usuario
+de forma genérica
+
+#+REVEAL: split
+
+Para ello, los *modelos deben publicar qué les ocurre*: cómo cambian,
+qué hacen... Todo *a base de eventos*. Las *interfaces de usuario se
+suscribirán* a estos eventos y proporcionarán la información visual
+adecuada
+
+#+REVEAL: split
+
+Este modelo permite además que varias interfaces de usuario funcionen al
+mismo tiempo, todas escuchando por los mismos eventos aunque también
+permite partir la interfaz en otras especializadas, cada una escuchando
+por un determinado conjunto de eventos

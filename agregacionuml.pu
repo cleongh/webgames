@@ -1,0 +1,4 @@
+@startuml
+Frutero "1" o-- "*" Fruta
+hide members
+@enduml

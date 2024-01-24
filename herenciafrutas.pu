@@ -1,0 +1,12 @@
+@startuml
+class Fruta {
+    int tamaño
+    void comer()
+}
+
+Fruta <|-- Manzana
+Fruta <|-- Pera
+
+Manzana <|-- Golden
+Manzana <|-- PinkLady
+@enduml

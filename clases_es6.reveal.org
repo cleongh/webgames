@@ -1,0 +1,154 @@
+#+title: ES6
+#+setupfile: setup.org
+
+* Estándares ES
+:PROPERTIES:
+:CUSTOM_ID: estándares-es
+:END:
+
+#+REVEAL: split
+
+JavaScript es un lenguaje relativamente antiguo y ha sufrido muchas
+modificaciones
+
+Cada modificación oficial establece un nuevo estándar
+[[https://es.wikipedia.org/wiki/ECMAScript][ECMAScript]]
+
+* Nueva sintaxis para clases
+:PROPERTIES:
+:CUSTOM_ID: nueva-sintaxis-para-clases
+:END:
+
+#+REVEAL: split
+
+ES6 es uno de los estándares que más ha cambiado la sintaxis en los
+últimos años
+
+Uno de las cambios más notables es la nueva sintaxis para *clases*
+
+** Nuevas clases
+:PROPERTIES:
+:CUSTOM_ID: nuevas-clases
+:END:
+#+begin_src js
+class Enemigo {
+  constructor(nombre) { // `constructor` es una palabra reservada para el constructor
+    this._nombre = nombre;
+  }  
+
+  mostrarNombre() {
+    console.log (`Mi nombre es ${this._nombre}`);
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+Equivale a:
+
+#+begin_src js
+function Enemigo(nombre) {
+    this._nombre = nombre;
+}
+
+Enemigo.prototype.mostrarNombre() {
+  console.log (`Mi nombre es ${this._nombre}`);
+}
+#+end_src
+
+#+REVEAL: split
+
+En este punto no es una revolución muy notable, pero en cuanto empezamos
+a usar funcionalidad avanzada, la nueva sintaxis ayuda mucho
+
+#+REVEAL: split
+
+Como en la herencia:
+
+#+begin_src js
+class Enemigo extends Entidad{
+  constructor(nombre) {
+    this.nombre = nombre; // este código da un error
+  }  
+}
+#+end_src
+
+Equivale a:
+
+#+begin_src js
+function Enemigo(nombre) {
+    this.nombre = nombre;
+}
+
+Enemigo.prototype = Object.create(Entidad.prototype);
+Enemigo.prototype.constructor = Enemigo;
+#+end_src
+
+#+REVEAL: split
+
+También para llamar a un método de la clase padre:
+
+#+begin_src js
+class Enemigo extends Entidad{ // ES6
+  constructor(name) { super(name); }
+
+  atacar(enemigo) { super.atacar(enemigo); }  
+}
+#+end_src
+
+#+begin_src js
+function Enemigo(nombre) { Entidad.call(this, nombre); } // ES5
+
+Enemigo.prototype = Object.create(Entidad.prototype);
+Enemigo.prototype.constructor = Enemigo;
+
+Enemigo.prototype.atacar = function (enemigo) {
+  Entidad.prototype.atacar.apply(this, [enemigo]);
+}
+#+end_src
+
+#+REVEAL: split
+
+La sintaxis de clases de ES6 es sólo
+[[https://es.wikipedia.org/wiki/Azúcar_sintáctico][azúcar sintáctico]],
+por detrás, ambas son exactamente lo mismo
+
+Para instanciarlas, se usa =new= de la misma forma que hemos visto, y el
+acceso a métodos y propiedades es igual
+
+#+REVEAL: split
+
+También podemos hacer, igual que con la sintaxis ES6, /getters/ y
+/setters/
+
+#+begin_src js
+class Personaje {
+  constructor() {
+    this._fuerza = 0;
+  }
+
+  get fuerza() {
+    return this._fuerza;
+  }
+
+  set fuerza(f) {
+    this._fuerza = f;
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src js
+let hero = new Personaje();
+hero.fuerza;
+hero.fuerza = 5;
+hero.fuerza;
+#+end_src
+
+
+** Hoisting
+:PROPERTIES:
+:CUSTOM_ID: hoisting
+:END:
+JavaScript no hace /hoisting/ con la declaración de clases

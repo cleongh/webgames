@@ -1,0 +1,256 @@
+#+title: Audio en Phaser
+#+setupfile: setup.org
+
+* Motores de audio
+:PROPERTIES:
+:CUSTOM_ID: motores-de-audio
+:END:
+
+#+REVEAL: split
+
+El sonido, a bajo nivel, es un aspecto complejo y requiere de
+conocimiento amplio de física y procesamiento de señal
+
+#+REVEAL: split
+
+En general, cuando estamos haciendo videojuegos, queremos una /capa de
+abstracción/ sobre la gestión de sonido
+
+#+REVEAL: split
+
+Es muy normal asumir que el sonido en un videojuego consiste en un
+conjunto de archivos (sonidos y música) que queremos reproducir (al
+lanzarse eventos, o de fondo)
+
+#+REVEAL: split
+
+Aunque, desde luego, esto no sea necesariamente así en todos los juegos,
+es como vamos a tratarlo en este curso
+
+* Formatos
+:PROPERTIES:
+:CUSTOM_ID: formatos
+:END:
+
+#+REVEAL: split
+
+Los sonidos se almacenan en digital de dos formas:
+
+- Guardando la onda (análogo a un mapa de bits)
+- Guardando las notas musicales, su duración, etc. (análogo a una imagen
+  vectorial): [[https://es.wikipedia.org/wiki/MIDI][MIDI]]
+
+#+REVEAL: split
+
+Nosotros trabajaremos sólo con audio de onda (no MIDI)
+
+* Audio en Phaser
+:PROPERTIES:
+:CUSTOM_ID: audio-en-phaser
+:END:
+
+#+REVEAL: split
+
+Phaser provee, entre otros módulo, uno de gestión de audio de /muy alto
+nivel/
+
+#+REVEAL: split
+
+Esto quiere decir que, para gestionar audio, sólo tenemos que
+preocuparnos de:
+
+1. tener los archivos
+2. cargarlos
+3. (asegurarnos de que están bien cargados)
+4. reproducirlos --de fondo, como eventos, en loop...--
+5. enterarnos de cuándo han acabado de reproducirse (si queremos)
+
+* Carga de sonidos
+:PROPERTIES:
+:CUSTOM_ID: carga-de-sonidos
+:END:
+
+#+REVEAL: split
+
+Cargar el sonido =explosion.mp3= y asignarle un nombre:
+
+#+begin_src js
+scene.load.audio("explosion", "assets/audio/SoundEffects/explosion.mp3");
+#+end_src
+
+#+REVEAL: split
+
+También podemos hacer una "lista de prioridad" de carga. El navegador
+intentará cargar estos archivos (por orden), sólo se quedará con uno
+
+En =preload= de nuestra escena:
+
+#+begin_src js
+scene.load.audio("boden", [
+  "assets/audio/bodenstaendig_2000_in_rock_4bit.mp3",
+  "assets/audio/bodenstaendig_2000_in_rock_4bit.ogg",
+]);
+#+end_src
+
+(Por ejemplo, Firefox elegirá el OGG)
+
+#+REVEAL: split
+
+Añadimos el audio al juego
+[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Types.Sound.SoundConfig][con
+una configuración inicial]] (opcional):
+
+#+begin_src js
+const config = {
+  mute: false,
+  volume: 1,
+  rate: 1,
+  detune: 0,
+  seek: 0,
+  loop: false,
+  delay: 0,
+}; // config es opcional
+this.explosion = scene.sound.add("explosion", config);
+#+end_src
+
+#+REVEAL: split
+
+Y, finalmente, reproducimos el sonido:
+
+#+begin_src js
+explosion.play();
+#+end_src
+
+#+REVEAL: split
+
+Si queremos parar la reproducción
+
+#+begin_src js
+music.stop();
+#+end_src
+
+#+REVEAL: split
+
+Hacer que un sonido se repita
+
+#+begin_src js
+// hace que `explosion` se vuelva a reproducir cuando acabe
+// (muy útil para música)
+explosion.setLoop(true);
+#+end_src
+
+#+REVEAL: split
+
+Si queremos borrarlo en algún momento, destruimos la entidad (con
+=destroy()=) y el recurso (con =remove=)
+
+#+begin_src js
+explosion.destroy();
+scene.sound.remove("explosion");
+#+end_src
+
+* Comenzar el sonido
+:PROPERTIES:
+:CUSTOM_ID: comenzar-el-sonido
+:END:
+
+#+REVEAL: split
+
+Los navegadores no nos permiten empezar a reproducir audio *si no es por
+un evento lanzado por el usuario*
+
+#+REVEAL: split
+
+Así que antes de poder reproducir, tendremos que haber hecho clic (por
+ejemplo) en un botón de nuestro juego
+
+#+REVEAL: split
+
+Esto se suele conseguir con un botón de /Jugar/, o algo similar
+
+¡Sed creativos!
+
+* Eventos de sonido en Phaser
+:PROPERTIES:
+:CUSTOM_ID: eventos-de-sonido-en-phaser
+:END:
+
+#+REVEAL: split
+
+No solemos saber (o no es cómodo saber) cuánto dura un sonido
+
+Así que lo que hacemos es /decirle a Phaser que haga algo cuando el
+sonido termine de reproducirse/
+
+#+REVEAL: split
+
+** Evento cuando el sonido termina de reproducirse
+:PROPERTIES:
+:CUSTOM_ID: evento-cuando-el-sonido-termina-de-reproducirse
+:END:
+#+begin_src js
+function create() {
+  explosion.once("stop", (music) => {
+    // ...
+  });
+}
+#+end_src
+
+#+REVEAL: split
+
+No es el único evento pero sí suele ser el más comúnmente usado
+
+Phaser proporciona otros muchos
+[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Sound.Events][eventos
+relacionados con la reproducción de sonido]]
+
+* Audio sprites
+:PROPERTIES:
+:CUSTOM_ID: audio-sprites
+:END:
+
+#+REVEAL: split
+
+Antes de las tecnologías de audio HTML modernas, los navegadores tenían
+muchas restricciones y problemas para cargar varios archivos de audio
+
+#+REVEAL: split
+
+Los
+[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Sound.BaseSoundManager#addAudioSprite][/audio
+sprites/]] son un sistema en el que un solo archivo de audio contiene
+varios sonidos grabados (uno detrás de otro)
+
+Se acompañan de un archivo con información de dónde empieza y acaba cada
+uno (JSON)
+
+#+REVEAL: split
+
+Es decir, algo muy similar a un /atlas de texturas/
+
+#+REVEAL: split
+
+En general, no son necesarios hoy en día (aunque pueden hacer más
+eficiente la carga)
+
+[[https://phaser.io/examples/v3/view/audio/html5-audio/audiosprite#][Aquí
+hay un ejemplo de este tipo de audio]]
+
+* Recursos de audio
+:PROPERTIES:
+:CUSTOM_ID: recursos-de-audio
+:END:
+
+#+REVEAL: split
+
+- Recursos de audio de Phaser (los *assets*)
+- [[https://www.freesound.org/][Free sound]]
+- [[https://soundbible.com/][SoundBible]]
+- [[https://www.newgrounds.com/audio][Newgrounds Audio]]
+- [[https://freemusicarchive.org/home][Free Music Archive]]
+- Generadores
+  - [[https://sfxr.me/][jsfxr]]
+  - [[https://sfbgames.itch.io/chiptone][Chiptone]]
+  - [[https://keithclark.github.io/ZzFXM/][ZzFXM]]
+  - [[https://pernyblom.github.io/abundant-music/index.html][Abundant-music]]
+- /Cualquier DAW (Digital Audio Workstation) con un buen sinte/

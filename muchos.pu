@@ -1,0 +1,9 @@
+@startuml
+class Fruta {
+    int tamaño
+    void comer()
+}
+
+class Manzana
+class Pera
+@enduml

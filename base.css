@@ -1,0 +1,108 @@
+/* .reveal p { */
+/*   font-size: px; */
+/* } */
+
+.reveal {
+    font-size: 30px;
+}
+
+/* .reveal p { */
+
+/* } */
+
+.reveal h1 {
+  font-size: 50px;
+}
+
+.reveal h2 {
+  font-size: 40px;
+}
+
+
+.reveal h3 {
+  font-size: 30px;
+}
+
+
+.reveal h4 {
+  font-size: 25px;
+}
+
+
+.references {
+  font-size: 15px;
+}
+
+.reveal section img {
+  border: none;
+  box-shadow: none;
+}
+
+.figure-number {
+    display: none;
+}
+
+.reveal .author {
+    text-transform: none;
+}
+
+.reveal .email {
+    text-transform: none;
+}
+
+.reveal .date {
+    text-transform: none;
+}
+
+.reveal .title {
+    text-transform: none;
+    text-shadow: none;
+}
+
+.reveal section img { 
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.65) 
+}
+
+
+.papers {
+    font-size: smaller;
+}
+
+body {
+    margin: 0;
+}
+.reveal .figure>p {
+font-size: smaller;
+    text-align: center;
+  /*     margin-left: auto; */
+  /* margin-right: auto; */
+  /* display: block; */
+}
+
+.reveal img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
+}
+
+
+.paired-left {
+    float:left !important;
+    max-width:45% !important;
+   
+}
+
+
+.paired-right {
+    float:right !important;
+    max-width:45% !important;
+   
+}
+
+#text-table-of-contents>ul {
+  list-style-type: none;
+ }
+
+.reveal pre {
+   font-size: 25px;   
+}

@@ -1,0 +1,12 @@
+
+digraph {
+  bgcolor=transparent
+  rankdir=LR
+  // node [fontcolor=white color=white]
+  // edge [fontcolor=white color=white]
+  processor [label="procesador" shape=box]
+  compile [label="código objeto" shape=ellipse]
+  source [label="código fuente"]
+  source -> compile [label="compilado en"]
+  compile -> processor [label="ejecutado en"]
+}

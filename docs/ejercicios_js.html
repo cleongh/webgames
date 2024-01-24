@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ejercicios JavaScript</title><meta name="author" content="Carlos León"><meta name="generator" content="Org Mode"><style>#content{max-width:60em;margin:auto}.title{text-align:center;margin-bottom:.2em}.subtitle{text-align:center;margin-top:0;font-size:medium;font-weight:700}.todo{color:red;font-family:monospace}.done{color:green;font-family:monospace}.priority{color:orange;font-family:monospace}.tag{background-color:#eee;padding:2px;font-family:monospace;font-size:80%;font-weight:400}.timestamp{color:#bebebe}.timestamp-kwd{color:#5f9ea0}.org-right{text-align:right;margin-left:auto;margin-right:0}.org-left{text-align:left;margin-left:0;margin-right:auto}.org-center{text-align:center;margin-left:auto;margin-right:auto}.underline{text-decoration:underline}#postamble p,#preamble p{margin:.2em;font-size:90%}p.verse{margin-left:3%}pre{background-color:#f2f2f2;border:1px solid #e6e6e6;border-radius:3px;margin:1.2em;padding:8pt;font-family:monospace;overflow:auto}pre.src{position:relative;overflow:auto}pre.src:before{color:#555;background-color:#f2f2f299;padding:3px;display:none;position:absolute;top:-8px;right:12px}pre.src:hover:before{margin-top:14px;display:inline}pre.src-asymptote:before{content:"Asymptote"}pre.src-awk:before{content:"Awk"}pre.src-authinfo:before{content:"Authinfo"}pre.src-C:before{content:"C"}pre.src-clojure:before{content:"Clojure"}pre.src-css:before{content:"CSS"}pre.src-D:before{content:"D"}pre.src-ditaa:before{content:"ditaa"}pre.src-dot:before{content:"Graphviz"}pre.src-calc:before{content:"Emacs Calc"}pre.src-emacs-lisp:before{content:"Emacs Lisp"}pre.src-fortran:before{content:"Fortran"}pre.src-gnuplot:before{content:"gnuplot"}pre.src-haskell:before{content:"Haskell"}pre.src-hledger:before{content:"hledger"}pre.src-java:before{content:"Java"}pre.src-js:before{content:"Javascript"}pre.src-latex:before{content:"LaTeX"}pre.src-ledger:before{content:"Ledger"}pre.src-lisp:before{content:"Lisp"}pre.src-lilypond:before{content:"Lilypond"}pre.src-lua:before{content:"Lua"}pre.src-matlab:before{content:"MATLAB"}pre.src-mscgen:before{content:"Mscgen"}pre.src-ocaml:before{content:"Objective Caml"}pre.src-octave:before{content:"Octave"}pre.src-org:before{content:"Org mode"}pre.src-oz:before{content:"OZ"}pre.src-plantuml:before{content:"Plantuml"}pre.src-processing:before{content:"Processing.js"}pre.src-python:before{content:"Python"}pre.src-R:before{content:"R"}pre.src-ruby:before{content:"Ruby"}pre.src-sass:before{content:"Sass"}pre.src-scheme:before{content:"Scheme"}pre.src-screen:before{content:"Gnu Screen"}pre.src-sed:before{content:"Sed"}pre.src-sh:before{content:"shell"}pre.src-sql:before{content:"SQL"}pre.src-sqlite:before{content:"SQLite"}pre.src-forth:before{content:"Forth"}pre.src-io:before{content:"IO"}pre.src-J:before{content:"J"}pre.src-makefile:before{content:"Makefile"}pre.src-maxima:before{content:"Maxima"}pre.src-perl:before{content:"Perl"}pre.src-picolisp:before{content:"Pico Lisp"}pre.src-scala:before{content:"Scala"}pre.src-shell:before{content:"Shell Script"}pre.src-ebnf2ps:before{content:"ebfn2ps"}pre.src-cpp:before{content:"C++"}pre.src-abc:before{content:"ABC"}pre.src-coq:before{content:"Coq"}pre.src-groovy:before{content:"Groovy"}pre.src-bash:before{content:"bash"}pre.src-csh:before{content:"csh"}pre.src-ash:before{content:"ash"}pre.src-dash:before{content:"dash"}pre.src-ksh:before{content:"ksh"}pre.src-mksh:before{content:"mksh"}pre.src-posh:before{content:"posh"}pre.src-ada:before{content:"Ada"}pre.src-asm:before{content:"Assembler"}pre.src-caml:before{content:"Caml"}pre.src-delphi:before{content:"Delphi"}pre.src-html:before{content:"HTML"}pre.src-idl:before{content:"IDL"}pre.src-mercury:before{content:"Mercury"}pre.src-metapost:before{content:"MetaPost"}pre.src-modula-2:before{content:"Modula-2"}pre.src-pascal:before{content:"Pascal"}pre.src-ps:before{content:"PostScript"}pre.src-prolog:before{content:"Prolog"}pre.src-simula:before{content:"Simula"}pre.src-tcl:before{content:"tcl"}pre.src-tex:before{content:"TeX"}pre.src-plain-tex:before{content:"Plain TeX"}pre.src-verilog:before{content:"Verilog"}pre.src-vhdl:before{content:"VHDL"}pre.src-xml:before,pre.src-nxml:before{content:"XML"}pre.src-conf:before{content:"Configuration File"}table{border-collapse:collapse}caption.t-above{caption-side:top}caption.t-bottom{caption-side:bottom}td,th{vertical-align:top}th.org-right,th.org-left,th.org-center{text-align:center}td.org-right{text-align:right}td.org-left{text-align:left}td.org-center{text-align:center}dt{font-weight:700}.footpara{display:inline}.footdef{margin-bottom:1em}.figure{padding:1em}.figure p{text-align:center}.equation-container{text-align:center;width:100%;display:table}.equation{vertical-align:middle}.equation-label{text-align:right;vertical-align:middle;display:table-cell}.inlinetask{background:#ffc;border:2px solid gray;margin:10px;padding:10px}#org-div-home-and-up{text-align:right;white-space:nowrap;font-size:70%}textarea{overflow-x:auto}.linenr{font-size:smaller}.code-highlighted{background-color:#ff0}.org-info-js_info-navigation{border-style:none}#org-info-js_console-label{white-space:nowrap;font-size:10px;font-weight:700}.org-info-js_search-highlight{color:#000;background-color:#ff0;font-weight:700}</style></head><body> <div id="content" class="content"> <h1 class="title">Ejercicios JavaScript</h1> <div id="outline-container-objetivos" class="outline-2"> <h2 id="objetivos"><span class="section-number-2">1.</span> Objetivos</h2> <div class="outline-text-2" id="text-objetivos"> <p> Probad estos ejemplos y tratad de responder a las preguntas. Si os atascáis con lo que hace una función, buscad en Internet la función acompañado de "mdn". </p> </div> </div> <div id="outline-container-valores-booleanos-en-javascript" class="outline-2"> <h2 id="valores-booleanos-en-javascript"><span class="section-number-2">2.</span> Valores booleanos en JavaScript</h2> <div class="outline-text-2" id="text-valores-booleanos-en-javascript"> <p> En JavaScript cualquier valor puede considerarse verdadero o falso según el contexto. Por ejemplo, el <code>0</code> es considerado <code>false</code> y cualquier número distinto de <code>0</code> es <code>true</code>: </p> <div class="org-src-container"> <pre class="src src-js">const v = 0; // después de esta prueba, cambia el valor de v por otro número.
+!!v; // la doble negación al comienzo lo convierte en booleano.
+</pre> </div> <p> Descubre qué valores son ciertos y cuales falsos para todos los tipos: números, cadenas, objetos, funciones y undefined. </p> </div> </div> <div id="outline-container-expresiones-booleanas-en-javascript" class="outline-2"> <h2 id="expresiones-booleanas-en-javascript"><span class="section-number-2">3.</span> Expresiones booleanas en JavaScript</h2> <div class="outline-text-2" id="text-expresiones-booleanas-en-javascript"> <p> En JavaScript, las expresiones booleanas son <i>vagas</i>, esto significa que en cuanto sabemos lo que va a valer la expresión, dejamos de evaluar. Por ejemplo, ¿qué crees que le pasará a la siguiente expressión? </p> <div class="org-src-container"> <pre class="src src-js">const hero = { name: 'Link', weapon: null };
+console.log('Hero weapon power is:', hero.weapon.power);
+</pre> </div> <p> Pero, ¿y ahora? </p> <div class="org-src-container"> <pre class="src src-js">const hero = { name: 'Link', weapon: null };
+if (hero.weapon &amp;&amp; hero.weapon.power) {
+  console.log('Hero weapon power is:', hero.weapon.power);
+} else {
+  console.log('The hero has no weapon.');
+}
+</pre> </div> <p> En caso de expresiones <code>&amp;&amp;</code> (<i>and</i> o <i>y</i>), la evaluación termina tan pronto como encontramos un término falso. </p> <p> En caso de expresiones <code>||</code> (<i>or</i> u <i>o</i>), la evaluación termina tan pronto como encontramos un término verdadero. </p> </div> </div> <div id="outline-container-el-resultado-de-las-expresiones-booleanas" class="outline-2"> <h2 id="el-resultado-de-las-expresiones-booleanas"><span class="section-number-2">4.</span> El resultado de las expresiones booleanas</h2> <div class="outline-text-2" id="text-el-resultado-de-las-expresiones-booleanas"> <p> Contra el sentido común, el resultado de una expresión booleana no es un booleano sino el último término evaluado. Recuerda que la evaluación es <i>vaga</i> y dejamos de evaluar tan pronto como podemos determinar el resultado de la expresión. Con esto en cuenta, trata de predecir el resultado de las siguientes expresiones: </p> <div class="org-src-container"> <pre class="src src-js">let v;
+function noop() { return; };
+
+1 &amp;&amp; true &amp;&amp; { name: 'Link' };
+[] &amp;&amp; null &amp;&amp; "Spam!";
+null || v || noop || true;
+null || v || void "Eggs!" || 0;
+</pre> </div> </div> </div> <div id="outline-container-parámetros-por-defecto" class="outline-2"> <h2 id="parámetros-por-defecto"><span class="section-number-2">5.</span> Parámetros por defecto</h2> <div class="outline-text-2" id="text-parámetros-por-defecto"> <p> Puedes ver una aplicación real de lo anterior en esta función para rellenar números. En JavaScript, los parámetros omitidos tienen el valor especial <code>undefined</code> que es falso (por ejemplo, un <code>if</code> lo considera un valor <code>false</code>). </p> <div class="org-src-container"> <pre class="src src-js">function pad(target, targetLengthIn, fillIn) {
+  let result = target.toString();
+  const targetLength = targetLengthIn || result.length + 1;
+  const fill = fillIn || '0';
+  while (result.length &lt; targetLength) {
+    result = fill + result;
+  }
+  return result;
+}
+
+// intenta predecir el resultado de las siguientes llamadas
+pad(3);
+pad(2, 5);
+pad(2, 5, '*');
+</pre> </div> <p> Sin embargo, si no necesitamos una lógica muy compleja, también se pueden usar parámetros por defecto. Es posible incluir expresiones en los parámetros: </p> <div class="org-src-container"> <pre class="src src-js">function pad(target, targetLength = target.toString().length + 1, fill = '0') {
+  let result = target.toString();
+
+  while (result.length &lt; targetLength) {
+    result = fill + result;
+  }
+  return result;
+}
+
+console.log(pad(5));
+console.log(pad(2, 5));
+console.log(pad(2, 5, '*'));
+</pre> </div> </div> </div> <div id="outline-container-propiedades-computadas-al-rescate" class="outline-2"> <h2 id="propiedades-computadas-al-rescate"><span class="section-number-2">6.</span> Propiedades computadas al rescate</h2> <div class="outline-text-2" id="text-propiedades-computadas-al-rescate"> <p> JavaScript permite definir un tipo especial de propiedades llamadas normalmente <i>propiedades computadas</i> de esta guisa: </p> <div class="org-src-container"> <pre class="src src-js">const p = {
+  _x: 5,
+  _y: 5,
+  get x() {
+    return this._x;
+  },
+  get y() {
+    return this._y;
+  },
+  set x(v) {
+    this._x = v;
+  },
+  set y(v) {
+    this._y = v;
+  }
+};
+
+function scale(point, factor) {
+  point.x = point.x * factor;
+  point.y = point.y * factor;
+  return p;
+}
+
+scale(p, 10);
+</pre> </div> <p> Escribirlo sigue siendo tedioso, pero utilizarlo es mucho más claro. Así, si ahora decides que sería mejor exponer el nombre de los ejes en mayúscula, puedes hacer: </p> <div class="org-src-container"> <pre class="src src-js">const p = {
+  _x: 5,
+  _y: 5,
+  get X() {
+    return this._x;
+  },
+  get Y() {
+    return this._y;
+  },
+  set X(v) {
+    this._x = v;
+  },
+  set Y(v) {
+    this._y = v;
+  }
+};
+
+function scale(point, factor) {
+  point.X = point.X * factor;
+  point.Y = point.Y * factor;
+  return p;
+}
+
+scale(p, 10);
+</pre> </div> <p> Esta sintaxis funciona para objetos, pero también para clases: </p> <div class="org-src-container"> <pre class="src src-js">class P {
+    constructor(){
+        this.x = 5
+        this.y = 5
+    }
+    get x() {
+        return this._x;
+    }
+    get y() {
+        return this._y;
+    }
+    set x(v) {
+        this._x = v;
+    }
+    set y(v) {
+        this._y = v;
+    }
+}
+
+const p1 = new P()
+console.log(p1.x)
+</pre> </div> <hr> <p> ¿Se te ocurre la manera de hacer que una propiedad pueda ser de solo lectura? Es decir, que su valor no pueda cambiarse (asumiendo que el usuario no accederá a las propiedades que comiencen por '_'). </p> <p> Si quisieras añadir una propiedad a un objeto ya existente tendrías que utilizar <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty"><code>Object.defineProperty()</code></a>: </p> <div class="org-src-container"> <pre class="src src-js">const point = {};
+Object.defineProperty(point, '_x', { value: 5 });
+Object.defineProperty(point, '_y', { value: 5 });
+Object.defineProperty(point, 'x', {
+  get: function () {
+    return this._x;
+  },
+  set: function (v) {
+    this._x = v;
+  }
+});
+Object.defineProperty(point, 'y', {
+  get: function () {
+    return this._y;
+  },
+  set: function (v) {
+    this._y = v;
+  }
+});
+point; // no se observan propiedades...
+point.x; // ...pero aquí están.
+point.y;
+</pre> </div> <p> ¿Te atreves a decir por qué cuando inspeccionamos el objeto no aparecen sus propiedades? ¿Cómo podrías arreglarlo? ¿Cómo harías para que sólo se vieran las propiedades que son parte de la API? </p> <p> No te lances a usar <code>Object.defineProperty()</code> si no tienes <b>muy claro</b> qué significan los términos <b>configurable</b>, <b>enumerable</b> y <b>writable</b>. </p> </div> </div> <div id="outline-container-usando-funciones-como-si-fueran-métodos" class="outline-2"> <h2 id="usando-funciones-como-si-fueran-métodos"><span class="section-number-2">7.</span> Usando funciones como si fueran métodos</h2> <div class="outline-text-2" id="text-usando-funciones-como-si-fueran-métodos"> <p> Hemos visto que cualquier función puede usarse como un método si se referencia como una propiedad de un objeto y entonces se llama. Pero lo cierto es que también podemos hacer que una función cualquiera, sin estar referenciada desde una propiedad, pueda ser usada como el método de un objeto si indicamos explícitamente cual es el objeto destinatario. Esto puede hacerse con <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply"><code>.apply()</code></a> y con <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call"><code>.call()</code></a>. </p> <div class="org-src-container"> <pre class="src src-js">const ship = { name: 'Death Star' };
+
+function fire(shot) {
+  console.log(this.name + ' is firing: ' + shot.toUpperCase() + '!!!');
+}
+
+ship.fire; // ¿qué crees que será esto?
+fire.apply(ship, ['pichium']);
+fire.call(ship, 'pañum');
+</pre> </div> <p> ¿Cuál es la diferencia entre <code>.apply()</code> y <code>.call()</code>? </p> </div> </div> <div id="outline-container-propiedades-dinámicas" class="outline-2"> <h2 id="propiedades-dinámicas"><span class="section-number-2">8.</span> Propiedades dinámicas</h2> <div class="outline-text-2" id="text-propiedades-dinámicas"> <p> La notación corchete para acceder a las propiedades de un objeto es especialmente útil para acceder a propiedades de manera genérica. Por ejemplo, imagina el siguiente código: </p> <div class="org-src-container"> <pre class="src src-js">const hero = {
+  name: 'Link',
+  hp: 10,
+  stamina: 10,
+  weapon: { name: 'sword', effect: { hp: -2 } }
+};
+const enemy = {
+  name: 'Ganondorf',
+  hp: 20,
+  stamina: 5,
+  weapon: { name: 'wand', effect: { hp: -1, stamina: -5 } }
+};
+
+function attack(character, target) {
+  if (character.stamina &gt; 0) {
+    console.log(character.name + ' uses ' + character.weapon.name + '!');
+    applyEffect(character.weapon.effect, target);
+    character.stamina--;
+  } else {
+    console.log(character.name + ' is too tired to attack!');
+  }
+}
+
+function applyEffect(effect, target) {
+  // Obtiene los nombres de las propiedades del objeto. Búscalo en la MDN.
+  const propertyNames = Object.keys(effect);
+  for (let i = 0; i &lt; propertyNames.length; i++) {
+    const name = propertyNames[i];
+    target[name] += effect[name];
+  }
+}
+
+attack(hero, enemy);
+attack(enemy, hero);
+attack(hero, enemy);
+attack(enemy, hero);
+attack(hero, enemy);
+</pre> </div> <p> ¿Podrías modificar el efecto del arma del héroe para incapacitar al enemigo pero no matarlo ni dañarlo? Intenta hacerlo sin reescribir el ejemplo entero. </p> </div> </div> <div id="outline-container-objetos-como-algo-más-que-objetos" class="outline-2"> <h2 id="objetos-como-algo-más-que-objetos"><span class="section-number-2">9.</span> Objetos como algo más que objetos</h2> <div class="outline-text-2" id="text-objetos-como-algo-más-que-objetos"> <p> Los objetos de JavaScript no solo sirven para modelar los objetos de la programación orientada a objetos sino que permiten realizar clasificaciones por nombre. Un histograma, es decir un conteo de un conjunto con repeticiones, es un ejemplo clásico de la utilidad de un objeto JavaScript: </p> <div class="org-src-container"> <pre class="src src-js">function wordHistogram(text) {
+  const wordList = text.split(' ');
+  const histogram = {};
+  for (let i = 0; i &lt; wordList.length; i++) {
+    const word = wordList[i];
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  }
+  return histogram;
+}
+</pre> </div> <p> Prueba a usar la función por ti mismo. </p> <p> Lo que JavaScript llama objetos se conoce en otros lenguajes de programación como mapas, hashmaps o diccionarios y a los nombres de las propiedades se los llama <i>claves</i>. </p> <p> ¿Puedes pensar en al menos una aplicacion más? </p> </div> </div> <div id="outline-container-funciones-como-parámetros" class="outline-2"> <h2 id="funciones-como-parámetros"><span class="section-number-2">10.</span> Funciones como parámetros</h2> <div class="outline-text-2" id="text-funciones-como-parámetros"> <p> Las listas de JavaScript tiene algunos métodos que aceptan funciones como parámetros, por ejemplo <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/forEach"><code>.forEach()</code></a>. De hecho es común encontrar <code>.forEach()</code> cuando se tiene la certeza de que se van a recorrer <b>todos</b> los elementos de una lista. </p> <div class="org-src-container"> <pre class="src src-js">function wordHistogram(text) {
+  const wordList = text.split(' ');
+  const histogram = {};
+  wordList.forEach(function (word) {
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  });
+  return histogram;
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+</pre> </div> <p> El resultado no es correcto porque al separar las palabras por los espacios estamos dejando caracteres que no son palabras como parte de ellas. Podemos arreglarlo si en vez de partir el texto por los espacios usamos una <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">expresión regular</a> para partir el texto por los límites de las palabras: </p> <div class="org-src-container"> <pre class="src src-js">function wordHistogram(text) {
+  const wordList = text.split(/\b/); // Eso entre / / es una expresión regular.
+  const histogram = {};
+  wordList.forEach(function (word) {
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  });
+  return histogram;
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+</pre> </div> <p> Pero ahora tenemos cosas que no son palabras (como espacios y comas). Podemos filtrar una lista con <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/filter"><code>.filter()</code></a>: </p> <div class="org-src-container"> <pre class="src src-js">function isEven(n) { return n % 2 === 0; }
+[1, 2, 3, 4, 5, 6].filter(isEven);
+</pre> </div> <p> Y así quitar lo que no sean palabras: </p> <div class="org-src-container"> <pre class="src src-js">function isWord(candidate) {
+  return /\w+/.test(candidate);
+}
+
+function wordHistogram(text) {
+  let wordList = text.split(/\b/);
+  wordList = wordList.filter(isWord);
+  const histogram = {};
+
+  wordList.forEach(function (word) {
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  });
+  return histogram;
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+</pre> </div> <p> También deberíamos normalizar las palabras (pasarlas a minúsculas por ejemplo) para no encontrarnos con entradas distintas en el histograma para la misma palabra. Para transformar una lista en otra lista de los mismos elementos, usamos <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/map"><code>.map()</code></a>. </p> <div class="org-src-container"> <pre class="src src-js">function isWord(candidate) {
+  return /\w+/.test(candidate);
+}
+
+function toLowerCase(word) {
+  return word.toLowerCase();
+}
+
+function wordHistogram(text) {
+  let wordList = text.split(/\b/);
+  wordList = wordList.filter(isWord);
+  wordList = wordList.map(toLowerCase);
+  const histogram = {};
+
+  wordList.forEach(function (word) {
+    if (!histogram.hasOwnProperty(word)) {
+      histogram[word] = 0;
+    }
+    histogram[word]++;
+  });
+  return histogram;
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+</pre> </div> <p> Una última función nos permite transformar una lista en un sólo valor. Esto es precisamente el histograma, una clasificación de todos los valores de la lista. Esta transformación se consigue mediante <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/reduce"><code>.reduce()</code></a>: </p> <div class="org-src-container"> <pre class="src src-js">function isWord(candidate) {
+  return /\w+/.test(candidate);
+}
+
+function toLowerCase(word) {
+  return word.toLowerCase();
+}
+
+function buildHistogram(inProgressHistogram, word) {
+  if (!inProgressHistogram.hasOwnProperty(word)) {
+    inProgressHistogram[word] = 0;
+  }
+  inProgressHistogram[word]++;
+  return inProgressHistogram;
+}
+
+function wordHistogram(text) {
+  const emptyHistogram = {};
+  return text.split(/\b/)
+             .filter(isWord)
+             .map(toLowerCase)
+             .reduce(buildHistogram, emptyHistogram);
+}
+
+const poem = 'Todo pasa y todo queda, ' +
+           'pero lo nuestro es pasar, ' +
+           'pasar haciendo caminos, ' +
+           'caminos sobre la mar';
+
+wordHistogram(poem);
+</pre> </div> </div> </div> <div id="outline-container-número-variables-de-parámetros" class="outline-2"> <h2 id="número-variables-de-parámetros"><span class="section-number-2">11.</span> Número variables de parámetros</h2> <div class="outline-text-2" id="text-número-variables-de-parámetros"> <p> Fíjate en esto: </p> <div class="org-src-container"> <pre class="src src-js">console.log('I\'m', 'Ziltoid');
+console.log('I\'m', 'Ziltoid,', 'the', 'Omniscient');
+Math.max(1);
+Math.max(1, 2);
+Math.max(1, 2, 3);
+</pre> </div> <p> Como puedes ver, la función acepta un número cualquiera de variables. Podemos hacer los mismo gracias a la variable implícita <code>arguments</code>. </p> <div class="org-src-container"> <pre class="src src-js">function f() {
+  console.log('Número de argumentos pasados:', arguments.length);
+  console.log('Argumentos:', arguments);
+}
+f();
+f(1);
+f('a', {});
+f(function () {}, [], undefined);
+</pre> </div> <p> También es posible usar "parámetros rest": </p> <div class="org-src-container"> <pre class="src src-js">function f(...args) {
+  console.log('Argumentos:', args);
+}
+</pre> </div> <p> Busca la información sobre argumentos variables en la <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Functions/rest_parameters">MDN</a>. ¡Te hará falta! </p> </div> </div> <div id="outline-container-decoradores" class="outline-2"> <h2 id="decoradores"><span class="section-number-2">12.</span> Decoradores</h2> <div class="outline-text-2" id="text-decoradores"> <p> Aparte de devolverse como parámetros, las funciones pueden ser devueltas desde otras funciones. Considera el siguiente ejemplo: </p> <div class="org-src-container"> <pre class="src src-js">function newLog(label) {
+  return function(value) {
+    console.log(label + ':', value);
+  }
+}
+</pre> </div> <p> Esta función crea funciones que llamarán a <code>console.log()</code> pero con una etiqueta delante. Podríamos crear métodos <code>_log()</code> por clase, cada uno con un prefijo y así distinguir unos logs de otros. </p> <p> Sin embargo, advierte el siguiente comportamiento: </p> <div class="org-src-container"> <pre class="src src-js">const log1 = newLog('Default');
+const log2 = newLog('Ziltoid');
+
+const p = { x: 1, y: 10 };
+log1(p);
+log2(p);
+log1('Greetings', 'humans!');
+</pre> </div> <p> ¿Cual es el problema? ¿Por qué no funciona el último ejemplo? </p> <p> Para hacer que funcione, tendríamos que llamar a <code>console.log()</code> con un número de parámetros que no sabemos a priori. Podemos usar <code>arguments</code>, no obstante: </p> <div class="org-src-container"> <pre class="src src-js">function newLog(label) {
+  return function() {
+    // ¿Por qué tenemos que hacer esto?
+    const args = Array.prototype.slice.call(arguments);
+    args.splice(0, 0, label + ':');
+    console.log.apply(console, args);
+  }
+}
+
+const log1 = newLog('Default');
+const log2 = newLog('Ziltoid');
+
+const p = { x: 1, y: 10 };
+log1(p);
+log2(p);
+log1('Greetings', 'humans!');
+</pre> </div> <p> ¿Podrías decir qué hace cada línea en la función <code>newLog()</code>? </p> </div> </div> <div id="outline-container-asincronía-y-closures" class="outline-2"> <h2 id="asincronía-y-closures"><span class="section-number-2">13.</span> Asincronía y closures</h2> <div class="outline-text-2" id="text-asincronía-y-closures"> <p> Carga el siguiente código: </p> <div class="org-src-container"> <pre class="src src-js">function scheduleTasks(count) {
+  for(let i = 1; i &lt;= count; i++) {
+    setTimeout(function () {
+      console.log('Executing task', i);
+    }, i * 1000);
+  }
+}
+</pre> </div> <p> Trata de predecir qué pasará al ejecutar el siguiente código: </p> <div class="org-src-container"> <pre class="src src-js">scheduleTasks(5);
+</pre> </div> <p> ¿Hace lo que esperabas? Si no es así, ¿por qué? ¿cómo lo arreglarías? Pista: necesitas la función <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_objects/Function/bind"><code>.bind()</code></a>. </p> </div> </div> <div id="outline-container-eventos-y-métodos" class="outline-2"> <h2 id="eventos-y-métodos"><span class="section-number-2">14.</span> Eventos y métodos</h2> <div class="outline-text-2" id="text-eventos-y-métodos"> <p> Hay veces en las que debemos llamar a un método de un objeto cuando ocurra algo. Por ejemplo, supón que el método avanzar de un supuesto objeto debe llamarse en un intervalo de tiempo. Pongamos cada segundo: </p> <div class="org-src-container"> <pre class="src src-js">const obj = {
+  x: 10,
+  y: 2,
+  advance: function () {
+    this.y += 2;
+    console.log('Ahora Y vale', this.y);
+  }
+};
+
+const id = setInterval(obj.advance, 1 * 1000);
+</pre> </div> <p> Este ejemplo falla porque en la última línea <b>no estamos llamando</b> a la función sino solo pasándola como parámetro. La función <code>setInterval()</code> no tiene idea del destinatario del mensaje y por tanto no puede llamar a la función como si fuera un método. </p> <p> Podemos arreglarlo con <code>bind()</code> pero antes para el intervalo con: </p> <div class="org-src-container"> <pre class="src src-js">clearInterval(id);
+</pre> </div> <p> Ahora podemos solucionarlo con: </p> <div class="org-src-container"> <pre class="src src-js">const id = setInterval(obj.advance.bind(obj), 1 * 1000);
+</pre> </div> </div> </div> <div id="outline-container-la-función-bind" class="outline-2"> <h2 id="la-función-bind"><span class="section-number-2">15.</span> La función <code>bind()</code></h2> <div class="outline-text-2" id="text-la-función-bind"> <p> A estas alturas ya deberías saber cómo funciona <code>bind()</code> o qué hace. Si aun no lo tienes claro, búscalo en la MDN. </p> <p> La tarea es la siguiente: crea una función <code>bind()</code> que simule el comportamiento del método de las funciones <code>.bind()</code>. Como se pide una función y no un método, el primer parámetro será la función. Así pues, en vez de usarse así: </p> <div class="org-src-container"> <pre class="src src-js">function die(sides) {
+  const result = Math.floor(Math.random() * sides) + 1;
+  this.history.push(result);
+  return result;
+}
+const obj = { history: [] };
+const d20 = die.bind(obj, 20);
+d20();
+</pre> </div> <p> La usaremos de esta otra forma: </p> <div class="org-src-container"> <pre class="src src-js">function die(sides) {
+  const result = Math.floor(Math.random() * sides) + 1;
+  this.history.push(result);
+  return result;
+}
+const obj = { history: [] };
+const d20 = bind(die, obj, 20); // fíjate en que ahora die es el primer parámetro
+d20();
+</pre> </div> </div> </div> </div> <div id="postamble" class="status"> <p class="author">Author: Carlos León</p> <p class="date">Created: 2024-01-24 mié 10:30</p> <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p> </div> </body></html>

@@ -1,0 +1,294 @@
+#+title: Entrada en Phaser
+#+setupfile: setup.org
+
+* Teclado
+:PROPERTIES:
+:CUSTOM_ID: teclado
+:END:
+
+#+REVEAL: split
+
+La gestión del teclado se hace a través de
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.InputPlugin][=scene.input=]]
+
+#+REVEAL: split
+
+Para "registrar" una tecla, y poder usarla después:
+
+#+begin_src js
+// Si this es un sprite...
+this.w = this.scene.input.keyboard.addKey('W');
+#+end_src
+
+#+REVEAL: split
+
+Una vez que existe la tecla (=this.w=), podemos hacerle preguntas
+activamente en el =update=:
+
+#+begin_src js
+// En el preUpdate...
+if(this.w.isDown) {};
+if(this.w.isUp) {};
+#+end_src
+
+#+REVEAL: split
+
+O, en vez de preguntar, registramos un /callback/:
+
+#+begin_src js
+// Solo una vez (no en el update)
+this.w.on('down', event => { ... });
+this.w.on('up', event => { ... });
+#+end_src
+
+#+REVEAL: split
+
+Una tecla que esté pulsándose siempre (es decir, que no se suelte), dirá
+que =isDown= es =true= en cada ciclo
+
+#+REVEAL: split
+
+Para evitar esto, si sólo queremos reaccionar ante un clic:
+
+#+begin_src js
+if (Phaser.Input.Keyboard.JustDown(this.w)) {}
+#+end_src
+
+#+REVEAL: split
+
+Hay más maneras de usar las teclas,
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Keyboard][mirad la
+API]]
+
+* Cursores
+:PROPERTIES:
+:CUSTOM_ID: cursores
+:END:
+
+#+REVEAL: split
+
+Usar los /arriba/, /abajo/, /izquierda/ y /derecha/ es tan común, que
+existe:
+
+#+begin_src js
+// this es una scene
+this.cursors = this.input.keyboard.createCursorKeys();
+#+end_src
+
+#+REVEAL: split
+
+Con esto, se nos define un objeto con las 4 direcciones (más =space= y
+=shift=):
+
+#+begin_src js
+// En el update de scene
+if (this.cursors.up.isDown && this.body.onFloor()) {
+  this.body.setVelocityY(this.jumpSpeed);
+}
+if (this.cursors.left.isDown) {
+  this.body.setVelocityX(-this.speed);
+}
+else if (this.cursors.right.isDown) {
+  this.body.setVelocityX(this.speed);
+}
+else {
+  this.body.setVelocityX(0);
+}
+if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+  // Shoot once on keydown
+} 
+#+end_src
+
+#+REVEAL: split
+
+Si quiero usar otros cursores, es cuestión de devolver un objeto con las
+mismas propiedades:
+
+#+begin_src js
+this.cursorsZXSpectrum = this.scene.input.keyboard.addKeys({
+    up: Phaser.Input.Keyboard.KeyCodes.Q,
+    down: Phaser.Input.Keyboard.KeyCodes.A,
+    left: Phaser.Input.Keyboard.KeyCodes.O,
+    right: Phaser.Input.Keyboard.KeyCodes.P,
+    fire: Phaser.Input.Keyboard.KeyCodes.SPACE,
+  });
+#+end_src
+
+#+REVEAL: split
+
+Y, como habréis imaginado, los identificadores de las teclas están en
+[[https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.KeyCodes.html][=Phaser.Input.Keyboard.KeyCodes=]]
+
+* Gamepads
+:PROPERTIES:
+:CUSTOM_ID: gamepads
+:END:
+
+#+REVEAL: split
+
+Usar gamepads es igual de fácil que usar el teclado, pero ya hay muchas
+dependencias y diferencias
+
+*No todo va a funcionar tan bien y es posible que haya errores de
+detección*
+
+#+REVEAL: split
+
+Primero, lo activamos en la configuración del juego:
+
+#+begin_src js
+const config = {
+    input: {
+        gamepad: true
+    },
+};
+
+const game = new Phaser.Game(config);
+#+end_src
+
+#+REVEAL: split
+
+Después, sólo tenemos que leer los datos, como en el teclado:
+
+#+begin_src js
+// this es un GameObject
+let pad = this.scene.input.gamepad.getPad(0);
+let ejexIzda = pad.leftStick.x; // ¡número real!
+let cruzDerecha = pad.right;
+let botonA = pad.A;
+#+end_src
+
+#+REVEAL: split
+
+Para saber si hay un pad conectado, sólo tenemos que ver si
+=gamepad.getPad(0);= devuelve algo apropiado (con =axis.length > 0=):
+
+#+begin_src js
+let pad = this.scene.input.gamepad.getPad(0);
+if(pad && pad.axis.length) {
+  console.log("hay algo conectado");
+}
+#+end_src
+
+#+REVEAL: split
+
+Pero podemos hacerlo más fácil:
+
+#+begin_src js
+let padExiste = pad && pad.axis.length
+let ejexIzda = padExiste && pad.leftStick.x;
+#+end_src
+
+Si no hay pad, no dará excepción
+
+#+REVEAL: split
+
+** Reaccionar a varias entradas
+:PROPERTIES:
+:CUSTOM_ID: reaccionar-a-varias-entradas
+:END:
+Es muy posible que queramos que nuestro juego funcione tanto con pad
+como con teclado
+
+#+REVEAL: split
+
+Para no complicarnos mucho, simplemente hacemos:
+
+#+begin_src js
+let pad = this.scene.input.gamepad.getPad(0);
+let padExiste = pad && pad.axes.length;
+let leftPad = padExiste && (pad.leftStick.x < 0 || pad.left);
+
+// esta variable es `true` si alguna opción es `true`
+let goLeft = leftPad 
+           || this.cursors.left.isDown 
+           || this.cursorsZXSpectrum.left.isDown
+           || this.cursorsArrows.left.isDown;
+
+if (goLeft) { this.goLeft(); }
+#+end_src
+
+* Ratón
+:PROPERTIES:
+:CUSTOM_ID: ratón
+:END:
+
+#+REVEAL: split
+
+Phaser nos permite usar el cursor del ratón para entrada de forma
+sencilla
+
+#+REVEAL: split
+
+Podemos saber la posición =x= es =y= del puntero en todo momento:
+
+#+begin_src js
+// this es una scene
+let pointer = this.input.activePointer;
+
+console.log("Coordenada X", pointer.worldX);
+console.log("Coordenada Y", pointer.worldY);
+console.log("Está pulsado:", pointer.isDown);
+#+end_src
+
+#+REVEAL: split
+
+Para reacciones ante un evento del ratón:
+
+#+begin_src js
+this.input.on('pointerup', pointer => {
+  if (pointer.leftButtonReleased()) {
+    // se ha soltado el botón izquierdo
+  }
+);
+#+end_src
+
+También hay ='pointerdown'=, ='wheel'=, ='gameobjectover'= y
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events][otros
+muchos eventos a los que suscribirnos]]
+
+#+REVEAL: split
+
+Los =Sprite=s que se marcan con =setInteractive()= pueden recibir
+eventos del ratón:
+
+#+begin_src js
+// en el preload
+this.load.image('rock', 'rock.png');
+
+// en el create
+this.sprite = this.add.sprite(400, 300, 'rock').setInteractive();
+#+end_src
+
+#+REVEAL: split
+
+Una vez que un =Sprite= es interactivo, registramos con /callbacks/ el
+comportamiento cuando se hace clic sobre ellos:
+
+#+begin_src js
+this.sprite.on('pointerdown', pointer => {
+    // hacer algo
+});
+#+end_src
+
+#+REVEAL: split
+
+Para hacer que el menú contextual de la página web no se muestre con el
+botón derecho:
+
+#+begin_src js
+scene.input.mouse.disableContextMenu();
+#+end_src
+
+#+REVEAL: split
+
+Para que el ratón no salga del área de juego:
+
+#+begin_src js
+this.input.on('pointerdown', pointer => {
+    this.input.mouse.requestPointerLock();
+}, this);
+#+end_src
+
+=requestPointerLock()= sólo funciona si se le llama como resultado a un
+evento lanzado por el usuario, por protección de los navegadores

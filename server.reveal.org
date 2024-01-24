@@ -1,0 +1,285 @@
+#+title: Servidor de juego en red
+#+setupfile: setup.org
+
+* Implementación de un servidor para juegos en navegador
+:PROPERTIES:
+:CUSTOM_ID: implementación-de-un-servidor-para-juegos-en-navegador
+:END:
+
+#+REVEAL: split
+
+El servidor será un programa en =node.js= que estará ejecutándose
+siempre
+
+No podrá estar alojado en GitHub, ya que no es una página web, sino un
+programa
+
+#+REVEAL: split
+
+Podemos alojarlo en un ordenador nuestro, o en algún servicio de
+alojamiento ([[https://www.heroku.com/][Heroku]],
+[[https://www.openshift.com/][Red Hat OpenShift]])
+
+#+REVEAL: split
+
+Para probar en local, lo ejecutamos en nuestro ordenador
+
+Podemos detener el servidor *con =Ctrl-C=*
+
+#+REVEAL: split
+
+En la Facultad podemos ver la IP con:
+
+#+begin_example
+ipconfig /all
+#+end_example
+
+Será *147.96.xxx.xxx*
+
+* WebSockets
+:PROPERTIES:
+:CUSTOM_ID: websockets
+:END:
+
+#+REVEAL: split
+
+/WebSockets/ es un estándar de comunicación sobre /TCP/ para navegadores
+
+Aunque puede ser usado por cualquier programa
+
+#+REVEAL: split
+
+No es la única manera de comunicarse con un navegador, hay varias
+
+#+REVEAL: split
+
+Dejaremos que una librería decida cuál es la mejor manera de
+comunicarse...
+
+* =socket.io=
+:PROPERTIES:
+:CUSTOM_ID: socket.io
+:END:
+
+#+REVEAL: split
+
+Usaremos =socket.io=, una librería de JavaScript para red
+
+#+REVEAL: split
+
+Tanto el servidor como el cliente estarán accesibles a través de
+=socket.io=, con lo que no usaremos GitHub para servir la página
+
+#+REVEAL: split
+
+** Servidor HTTP
+:PROPERTIES:
+:CUSTOM_ID: servidor-http
+:END:
+Lo primero que tendremos es un servidor HTTP que nos habilitará el
+protocolo básico
+
+#+REVEAL: split
+
+** Servidor de aplicaciones
+:PROPERTIES:
+:CUSTOM_ID: servidor-de-aplicaciones
+:END:
+También crearemos un servidor de aplicaciones web
+
+Esto no es más que una capa por encima de HTTP para gestionar mejor las
+URLs y lo que devuelven
+
+#+REVEAL: split
+
+** Servidor de conexión
+:PROPERTIES:
+:CUSTOM_ID: servidor-de-conexión
+:END:
+Por último, tendremos el servidor del juego en sí
+
+#+REVEAL: split
+
+Pero todo esto son sólo 3 líneas de código =)
+
+* Desplegando el servidor
+:PROPERTIES:
+:CUSTOM_ID: desplegando-el-servidor
+:END:
+
+#+REVEAL: split
+
+Tenemos que usar =node.js=, y su gestor de paquetes (=npm=), que se
+encargará de instalar todo
+
+#+REVEAL: split
+
+Los proyectos (la información de paquetes y versiones) se guarda en
+=package.json=, que debería estar en el repositorio de versiones
+
+#+REVEAL: split
+
+=npm= gestiona =package.json= por nosotros
+
+#+REVEAL: split
+
+** Iniciar el proyecto
+:PROPERTIES:
+:CUSTOM_ID: iniciar-el-proyecto
+:END:
+#+begin_src sh
+npm init # Pregunta datos y crea `package.json`
+npm install --save express socket.io # Instala las librerías necesarias y lo añade a `package.json`
+#+end_src
+
+=npm install= instala el paquete, y =--save= hace que se guarde la
+información en =package.json=
+
+#+REVEAL: split
+
+En =node.js= importamos los módulos/paquetes con =require= en vez de
+hacerlo con =import=
+
+#+REVEAL: split
+
+El código de nuestro servidor estará en un archivo JavaScript para
+=node.js= (*no para el navegador*)
+
+#+REVEAL: split
+
+En ese archivo (=server.js=, por ejemplo), primero tenemos que usar
+algunos módulos que hemos instalado con =npm=:
+
+#+begin_src js
+const app = require('express')(); // servidor de aplicaciones
+const http = require('http').createServer(app); // servidor HTTP
+const io = require('socket.io')(http); // Importamos `socket.io`
+#+end_src
+
+#+REVEAL: split
+
+Después, creamos un par de variables (esto es opcional):
+
+#+begin_src js
+const port = 3000; // El puerto
+var clients = [];
+#+end_src
+
+#+REVEAL: split
+
+Luego le decimos al servidor que cuando accedan por HTTP, les devuelva
+la página web del cliente:
+
+#+begin_src js
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/client.html');
+});
+#+end_src
+
+Así, al acceder a la IP/URL, veremos directamente el juego
+
+#+REVEAL: split
+
+Con sólo este código, ya podemos centrarnos en la lógica del servidor de
+juego
+
+#+REVEAL: split
+
+** Responder a mensajes
+:PROPERTIES:
+:CUSTOM_ID: responder-a-mensajes
+:END:
+=socket.io= tiene, en el objeto =io=, un método para reaccionar antes
+solicitudes de conexión de un cliente:
+
+#+begin_src js
+io.on('connection', socket => {
+  console.log('a user connected');
+  clients.push(socket); // metemos el socket en el array
+#+end_src
+
+#+REVEAL: split
+
+/Dentro del callback de =on()=/, tenemos ahora la variable =socket= que
+nos ha llegado como parámetro
+
+#+REVEAL: split
+
+Con la variable =socket= vamos a reaccionar a diferentes eventos
+
+#+REVEAL: split
+
+Por ejemplo, cuando un cliente se desconecta:
+
+#+begin_src js
+  socket.on('disconnect', () => {
+    console.log('a user disconnected');
+    clients.splice(clients.indexOf(socket), 1); // lo sacamos del array
+  });
+#+end_src
+
+#+REVEAL: split
+
+O cuando nos envían el mensaje ='precios'=, con los datos en el objeto
+=mensaje=
+
+#+begin_src js
+  socket.on('precios', mensaje => {
+    let lista = 
+        mensaje === 'armas' ?
+           {espada: 400, escudo: 200} :
+           {naranja: 10, limon: 15};
+        
+    // para enviar algo, usamos `emit`
+    // que tiene un nombre de mensaje,
+    // y un objeto
+    socket.emit('respuesta', lista);
+  });
+});
+#+end_src
+
+#+REVEAL: split
+
+Como vemos, para enviar mensajes por un =socket= necesitamos el método
+=emit()=, con 2 parámetros:
+
+- Un =string= con el tipo de mensaje
+- Un objeto JavaScript con todo lo que queramos mandar
+
+#+REVEAL: split
+
+** Arrancando el servidor realmente
+:PROPERTIES:
+:CUSTOM_ID: arrancando-el-servidor-realmente
+:END:
+Ahora, para cerrar el archivo, creamos el servidor web que estará
+escuchando en el puerto que hayamos elegido:
+
+#+begin_src js
+// Creación del servidor en sí (por HTTP)
+http.listen(port, () => {
+  console.log('Servidor escuchando en el puerto', port);
+});
+#+end_src
+
+#+REVEAL: split
+
+** Ejecutar el servidor
+:PROPERTIES:
+:CUSTOM_ID: ejecutar-el-servidor
+:END:
+Y, dentro de la carpeta inicializada con el proyecto y el archivo
+=package.json=:
+
+#+begin_src sh
+node server.js
+#+end_src
+
+#+REVEAL: split
+
+** Servir contenido extra
+:PROPERTIES:
+:CUSTOM_ID: servir-contenido-extra
+:END:
+Para servir archivos que estén en una carpeta (assets, hojas de estilo):
+=app.use(express.static(__dirname + '/public'))=

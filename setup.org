@@ -1,0 +1,14 @@
+# #+AUTHOR: Carlos León
+# #+EMAIL: cleon@ucm.es
+#+department: Department of Software Engineering and Artificial Intelligence
+#+institution: Computer Science Faculty, Universidad Complutense de Madrid
+#+address: Calle Profesor José García Santesmases, 9, 28040 Madrid, Spain
+#+LANGUAGE: es
+#+OPTIONS: toc:nil reveal_history:t timestamp:nil date:nil author:t email:t num:nil reveal_single_file:nil inline:nil reveal_slide_number:c reveal_help:t reveal_keyboard:t
+#+reveal_mousewheel:t
+#+REVEAL_TRANS: none
+#+REVEAL_EXTRA_CSS: base.css
+#+REVEAL_PLUGINS: (search highlight zoom)
+#+addbibresource: ~/articulos/bibliografia.bib
+#+BIBLIOGRAPHY: ~/articulos/bibliografia.bib
+#+language: es

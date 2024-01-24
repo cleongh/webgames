@@ -1,0 +1,9 @@
+@startuml
+Entity <|-- Movable
+Movable<|-- Visible 
+Visible<|-- Player
+Entity <|-- NoMovable
+NoMovable<|-- Player
+Movable <--> NoMovable : ERROR!
+hide members
+@enduml

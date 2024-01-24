@@ -1,0 +1,34 @@
+{
+  "name": "webgames",
+  "version": "1.0.0",
+  "description": "web games",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "start": "npx parcel index.org --open",
+    "build": "npx parcel build index.org --public-url ./ --dist-dir docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cleongh/webgames.git"
+  },
+  "keywords": [
+    "web",
+    "games"
+  ],
+  "author": "cleon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cleongh/webgames/issues"
+  },
+  "homepage": "https://github.com/cleongh/webgames#readme",
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  },
+  "dependencies": {
+    "phaser": "^3.70.0",
+    "reveal.js": "^5.0.2"
+  }
+}

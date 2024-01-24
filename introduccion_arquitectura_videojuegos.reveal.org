@@ -1,0 +1,465 @@
+#+title: Introducción a la arquitectura de videojuegos
+#+setupfile: setup.org
+
+
+* Qué es la arquitectura de un juego
+:PROPERTIES:
+:CUSTOM_ID: qué-es-la-arquitectura-de-un-juego
+:END:
+
+#+REVEAL: split
+
+Los videojuegos son, normalmente, sistemas complejos y grandes
+
+#+REVEAL: split
+
+Tienen muchos subsistemas que, además, gestionan aspectos distintos y
+hasta tecnologías heterogéneas
+
+#+REVEAL: split
+
+La complejidad puede crecer tanto, que carecer de un diseño global
+coherente /puede hacer inmanejable el desarrollo/
+
+#+REVEAL: split
+
+Por eso se usan /arquitecturas/
+
+Un arquitectura, análoga a la de un edificio, es una manera de organizar
+el código para hacer el desarrollo más eficiente
+
+#+REVEAL: split
+
+Pensad en sistemas que hacen muchas cosas, como Unity
+
+¿Podríais implementar Unity?
+
+#+REVEAL: split
+
+Unity es un motor de juego entero
+
+(y, además, un editor)
+
+#+REVEAL: split
+
+Cada parte de un motor de juego como Unity tiene que:
+
+- Ser modificable
+- Ser ampliable
+- Ser independiente
+- Comunicarse con las demás
+- Hacer todo esto de forma que los /programadores/ empleen el mínimo
+  esfuerzo
+
+* Por qué pensar en la arquitectura
+:PROPERTIES:
+:CUSTOM_ID: por-qué-pensar-en-la-arquitectura
+:END:
+
+#+REVEAL: split
+
+La arquitectura software de un videojuego no es para la /máquina/, es
+para el /programador/
+
+Pensad en un juego cuyo código comunique los módulos de varias maneras
+distintas
+
+#+REVEAL: split
+
+Cuando se tienen 6 subsistemas distintos, la organización del código es
+/indispensable/
+
+Además, puede tener impacto en la eficiencia
+
+* Repaso de programación orientada a objetos
+:PROPERTIES:
+:CUSTOM_ID: repaso-de-programación-orientada-a-objetos
+:END:
+
+#+REVEAL: split
+
+Un paradigma de programación muy usado para sistemas software que
+requieren arquitecturas complejas es la /programación orientada a
+objetos/ basada en clases
+
+** Clases
+:PROPERTIES:
+:CUSTOM_ID: clases
+:END:
+
+#+REVEAL: split
+
+Las clases son los tipos, las estructuras de las que se crean instancias
+
+#+caption: Ejemplo de clases
+[[file:umlbasico.pu]]
+
+
+** Instancias
+:PROPERTIES:
+:CUSTOM_ID: instancias
+:END:
+
+#+REVEAL: split
+
+Las instancias son cada uno de los elementos/objetos concretos que
+tienen las propiedades (atributos y métodos) de una clase
+
+#+REVEAL: split
+
+Aquí, =player= y =enemy= son instancias de =Player= y =Enemy=
+respectivamente:
+
+#+begin_src cpp
+Player player("player", 10, 10, 0, 0, 100);
+Enemy enemy("enemy", 15, 15, 0, 0, &player);
+#+end_src
+
+
+** Relaciones
+:PROPERTIES:
+:CUSTOM_ID: relaciones
+:END:
+
+#+REVEAL: split
+
+Las clases, como módulos, se relacionan en un sistema
+
+Hay muchos tipos de relaciones y muchas maneras de usarlas, aquí sólo
+comentamos algunas
+
+
+** Herencia
+:PROPERTIES:
+:CUSTOM_ID: herencia
+:END:
+
+#+REVEAL: split
+
+Las clases pueden /heredarse/, de forma que una clase /hija/ *es-una*
+(=is-a=) clase padre también
+
+#+caption: Clases para estructurar un juego
+[[file:herencia.pu]]
+
+
+** Uso
+:PROPERTIES:
+:CUSTOM_ID: uso
+:END:
+
+#+REVEAL: split
+
+Las clases pueden /usarse/ unas a otras, de forma que se /pasen
+mensajes/
+
+#+caption: Clases que se usan
+[[file:asociacion.pu]]
+
+
+** Composición
+:PROPERTIES:
+:CUSTOM_ID: composición
+:END:
+Las clases pueden /componerse/, de forma que la relación es muy fuerte.
+Así, si desaparece el todo, /desaparecen las partes también/
+
+#+caption: Composición de clases
+[[file:composicion.pu]]
+
+* Arquitecturas basadas en herencia
+:PROPERTIES:
+:CUSTOM_ID: arquitecturas-basadas-en-herencia
+:END:
+
+#+REVEAL: split
+
+La programación orientada a objetos clásica permite una manera de
+modular sistemas
+
+#+REVEAL: split
+
+Entre otros, los videojuegos son razonablemente complejos y manejan dos
+aspectos que hay que gestionar:
+
+- Modelo de datos (orco, espada, mundo...)
+- Modelo de sistemas (gráficos, sonido, entrada...)
+
+#+REVEAL: split
+
+Muchos videojuegos se han modelado con patrones de herencia
+
+¿*Por qué*?
+
+#+REVEAL: split
+
+¿Por qué /no/ seguimos haciéndolo?
+
+(Hay mucha gente que sigue haciéndolo, y en muchos casos no es un
+problema)
+
+
+** El problema de la herencia
+:PROPERTIES:
+:CUSTOM_ID: el-problema-de-la-herencia
+:END:
+La herencia se basa en la relación /es-un/
+
+#+REVEAL: split
+
+Muchas veces:
+
+- todos los =Enemigos= son =Movibles=
+- todos los =Jugadores= son =Personajes=
+- todos los proyectiles son objetos =Físicos=
+
+#+REVEAL: split
+
+Intentémoslo:
+
+=entidad= → =movible= → =visible= → =jugador=
+
+#+REVEAL: split
+
+#+caption: Herencia básica
+[[file:herenciacorrecta.pu]]
+
+#+REVEAL: split
+
+¿Pero qué pasa cuando queremos crear...
+
+- ... un personaje /invisible/?
+- ... un proyectil manejado por la red?
+- ... un enemigo que no se mueve?
+
+#+REVEAL: split
+
+Ahora hagamos un jugador que no se puede mover:
+
+#+caption: Herencia problemática
+[[file:herenciaproblema.pu]]
+
+#+REVEAL: split
+
+A finales de los 90 esto se convirtió en un problema claro, y las
+arquitecturas por componentes de entidad se generalizaron
+
+En general (y mucho en diseño de videojuegos) preferimos
+[[https://en.wikipedia.org/wiki/Composition_over_inheritance][composición
+antes que herencia]]
+
+* Sistemas de componentes
+:PROPERTIES:
+:CUSTOM_ID: sistemas-de-componentes
+:END:
+
+#+REVEAL: split
+
+Para aliviar los problemas relativos de la estructura de herencia (con
+/es-un/), usamos
+[[https://en.wikipedia.org/wiki/Entity_component_system][*componentes*]]
+
+** Qué es un componente
+:PROPERTIES:
+:CUSTOM_ID: qué-es-un-componente
+:END:
+
+#+REVEAL: split
+
+Un componente es un aspecto, una propiedad o característica que tiene
+una /entidad/
+
+#+REVEAL: split
+
+Por ejemplo, podemos tener un componente que sirva para pintar
+
+Este componente se usará /sólo para pintar/, y no sabrá nada del sonido
+
+#+REVEAL: split
+
+También podríamos añadir un componente para modelar un inventario
+
+El componente no sabrá nada de la entidad que lo contiene. Sólo tendrá
+información de cómo guardar objetos
+
+#+REVEAL: split
+
+Puede haber un componente para las entidades que son visibles, y otro
+componente para las entidades que tienen respuesta física al sistema
+(tabla [cite/t:@tbl:componentes])
+
+#+REVEAL: split
+
+| Entidad  | Física | Visible |
+|----------+--------+---------|
+| Nube     | ✗      | ✓       |
+| Orco     | ✓      | ✓       |
+| Trigger  | ✗      | ✗       |
+| Espíritu | ✓      | ✗       |
+#+caption: Entidades y sus componentes correspondientes
+{#tbl:componentes}
+
+#+REVEAL: split
+
+** Entonces, ¿qué es una entidad?
+:PROPERTIES:
+:CUSTOM_ID: entonces-qué-es-una-entidad
+:END:
+
+#+REVEAL: split
+
+Una /entidad/ no es más que un identificador, un elemento vacío que
+/contiene componentes/
+
+La entidad no tiene información de cómo pintarse, ni de cómo moverse
+
+#+REVEAL: split
+
+- Un personaje ("player") será una entidad
+- Un /trigger/, también
+- Un botón
+- Los enemigos
+
+#+REVEAL: split
+
+Es decir, una entidad es algo genérico que /sólo tiene una lista de
+componentes/
+
+#+begin_src js
+var entidad = {
+   id          : 4,
+   componentes : [
+        drawable,
+        sound,
+        movable,
+        physics
+   ]
+}
+#+end_src
+
+#+REVEAL: split
+
+La entidad *delega* en sus componentes todo el comportamiento:
+
+#+begin_src js
+// en cada ciclo (tick), la entidad simplemente 
+// delega en sus componentes
+Entity.prototype.tick = function() {
+    this.components.forEach(function(component) {
+        component.tick();
+    });
+}
+#+end_src
+
+* Sistemas de entidades
+:PROPERTIES:
+:CUSTOM_ID: sistemas-de-entidades
+:END:
+
+#+REVEAL: split
+
+Cada componente tiene información sobre un aspecto del juego
+
+- Física
+- Gráficos
+- Sonido
+- Entrada
+- Colisiones
+- Bandos
+- Inventario
+- ...
+
+** Sistemas
+:PROPERTIES:
+:CUSTOM_ID: sistemas
+:END:
+
+#+REVEAL: split
+
+Tiene sentido, por lo tanto, *dividir* el código en partes (hacer
+módulos) que se encarguen de trabajar los dominios correspondientes
+
+Cada uno de estos módulos suelen llamarse /sistemas/ o /subsistemas/
+
+#+REVEAL: split
+
+Cada sistema suele manejar y tener acceso a los componentes
+correspondientes
+
+Sí, en arquitectura no hay teorías generales. Las cosas "suelen" hacerse
+de una u otra manera
+
+#+REVEAL: split
+
+Por ejemplo, en la parte física no suele influir mucho el sonido:
+
+#+caption: Relación entre sistemas y componentes
+[[file:sistemascomponentes.pu]]
+
+#+REVEAL: split
+
+Así pues, =AudioComponent= sólo se relaciona con =AudioManager= (y,
+probablemente, con =Entity=) pero no sabe nada de =PhysicsManager=
+
+* /Mixins/: una aproximación a los componentes
+:PROPERTIES:
+:CUSTOM_ID: mixins-una-aproximación-a-los-componentes
+:END:
+
+#+REVEAL: split
+
+Un /mixin/ es una clase pensada para contener funcionalidad, pero no ser
+autónoma
+
+#+REVEAL: split
+
+Usar /mixins/ no representa /especialización/ (/es-un/)
+
+#+REVEAL: split
+
+Es como una /interfaz/ (generalmente una clase puede incluir varios
+/mixins/), pero sí que tiene código
+
+#+REVEAL: split
+
+En JavaScript, una funcionalidad aproximada de /mixin/ se puede
+conseguir con =Object.assign()=:
+
+#+begin_src js
+class Sword extends Object {}
+class Takeable { putInInventory() {/*...*/} }
+
+Object.assign(Sword.prototype, Takeable);
+#+end_src
+
+#+REVEAL: split
+
+#+caption: Ejemplo en UML con un /mixin/
+[[file:mixin.pu]]
+
+#+REVEAL: split
+
+=Object.assign()= sólo copia propiedades entre objetos, no hay
+/herencia/
+
+* Hay muchas maneras de hacer arquitecturas
+:PROPERTIES:
+:CUSTOM_ID: hay-muchas-maneras-de-hacer-arquitecturas
+:END:
+
+#+REVEAL: split
+
+En este tema hemos visto (y veremos) /una manera/ de hacer arquitecturas
+por componentes, pero hay muchas
+
+#+REVEAL: split
+
+Paso de mensajes, entidades puras, sistemas independientes o
+acoplados... cada decisión de diseño depende del problema a resolver
+
+#+REVEAL: split
+
+#+begin_quote
+No hay una solución general para todos los problemas
+
+#+end_quote

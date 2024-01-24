@@ -1,0 +1,382 @@
+#+title: WebAudio
+#+setupfile: setup.org
+
+* Sonido en un computador
+:PROPERTIES:
+:CUSTOM_ID: sonido-en-un-computador
+:END:
+
+#+REVEAL: split
+
+** El sonido
+:PROPERTIES:
+:CUSTOM_ID: el-sonido
+:END:
+De Wikipedia:
+
+#+begin_quote
+es cualquier fenómeno que involucre la propagación de ondas mecánicas
+(sean audibles o no), generalmente a través de un fluido (u otro medio
+elástico) que esté generando el movimiento vibratorio de un cuerpo
+
+#+end_quote
+
+#+REVEAL: split
+
+** Características del sonido
+:PROPERTIES:
+:CUSTOM_ID: características-del-sonido
+:END:
+
+#+REVEAL: split
+
+Lo que llamamos sonido es el resultado de:
+
+1. la vibración del aire, que llega a nuestro oreja (esto es una
+   [[https://es.wikipedia.org/wiki/Onda_mec%C3%A1nica][onda mecánica]])
+2. La oreja, gracias a su forma, hace que la onda rebote y se refleje en
+   la dirección del conducto auditivo
+3. Así, la onda llega al tímpano, que vibra
+4. La vibración es transmitida al
+   [[https://es.wikipedia.org/wiki/Nervio_vestibulococlear][nervio
+   auditivo]].
+5. El nervio llega a nuestro cerebro
+6. Ocurren muchas cosas (muchas de las cuáles aún ignoramos)
+7. Percibimos, conscientemente, el *sonido*
+
+** Caracteristicas de una onda
+:PROPERTIES:
+:CUSTOM_ID: caracteristicas-de-una-onda
+:END:
+La longitud de onda (simbolizada por *λ*) es la distancia entre dos
+crestas o valles seguidos.
+
+El periodo *T* es el tiempo requerido para que el movimiento de
+oscilación de la onda describa un ciclo completo
+
+#+REVEAL: split
+
+#+caption: La amplitud de la onda es la altura de la cresta
+[[file:nonsinusoidal_wavelength.jpg]]
+
+#+REVEAL: split
+
+La frecuencia *f* es el número de ciclos completos transcurridos en una
+unidad de tiempo
+
+f = 1 / T
+
+Hercio (Hz) es el número de veces que se repite una onda por segundo
+
+#+begin_quote
+100 kHzs = 100.000 veces por segundo
+
+#+end_quote
+
+#+REVEAL: split
+
+** ¿Cómo producir sonido?
+:PROPERTIES:
+:CUSTOM_ID: cómo-producir-sonido
+:END:
+
+#+REVEAL: split
+
+Para reproducir sonido es necesario generar ondas que se propaguen a
+través de un fluido
+
+#+REVEAL: split
+
+Para hacer esto en un dispositivo moderno, tenemos que *enviar señales a
+un altavoz*
+
+#+REVEAL: split
+
+Para comunicarnos con el altavoz, usamos generalmente un /chip de audio/
+
+#+REVEAL: split
+
+En general:
+
+1. creamos la representación de una onda compleja (muchos números
+   reales)
+2. le mandamos esta representación *digital* al chip
+3. el chip la convierte en una señal electrónica *analógica*
+4. le señal eléctrica hace que el altavoz "mueva" el aire, produciendo
+   el sonido
+
+** ¿Y qué tiene que ver eso con un MP3?
+:PROPERTIES:
+:CUSTOM_ID: y-qué-tiene-que-ver-eso-con-un-mp3
+:END:
+
+#+REVEAL: split
+
+Un archivo de audio en formato de onda (hay otros diferentes, como MIDI)
+tiene esa representación numérica/digital de la onda compleja que define
+el sonido
+
+#+REVEAL: split
+
+El reproductor de audio puede tener que preprocesar el audio que hay en
+el archivo. Por ejemplo, para *descomprimirlo* (como en el caso de MP3)
+
+Después, se comunica con el chip de audio, "entregándole" (a través de
+varias capas software y hardware) la música en onda "bruta"
+
+#+REVEAL: split
+
+Hay que tener en cuenta que el sonido *puede ocupar mucho espacio*
+
+Cuanta más fidelidad queramos reproducir, más precisión (/resolución/)
+necesitaremos almacenar
+
+Es decir, más *números*
+
+#+REVEAL: split
+
+Cuando la precisión es muy grande, el archivo de audio puede tener un
+tamaño de varias decenas de megas para una canción de 2 o 3 minutos
+
+Esto ocurre con formatos como *WAV o AIFF* (sin compresión)
+
+Por tanto, usamos *compresión*
+
+#+REVEAL: split
+
+Cuando usamos compresión, tenemos dos familias de formatos:
+
+- formatos sin pérdida: el audio, al comprimir y descomprimir, no pierde
+  datos (FLAC)
+- formatos con pérdida: el audio, al ser comprimido, pierde fidelidad.
+  Pero, generalmente, esta pérdida no se nota por el oyente, y la
+  compresión es mucho mayor (MP3)
+
+#+REVEAL: split
+
+El oído humano (en general) distingue frecuencias entre 20 Hz y 20 KHz
+
+La voz masculina ronda los 100-200 Hz, y la femenina los 150-300 Hz (la
+infantil es algo más aguda)
+
+#+REVEAL: split
+
+#+caption: Umbral de audición Masculina (M) y Femenina (W) (frecuencia
+media audible 2KHz - 4 KHz)
+[[file:umbral.png]]
+
+#+REVEAL: split
+
+Ejemplo tono no audible para adultos
+
+[[https://www.youtube.com/watch?v=Ez93oblQAJg][Tono no audible adultos]]
+
+#+REVEAL: split
+
+Comprimir consiste en eliminar las frecuencias no audibles, aunque
+siempre nos llevamos por delante algo que podríamos oír
+
+Con suerte, eso que eliminamos no será muy relevante
+
+* Música y sonido
+:PROPERTIES:
+:CUSTOM_ID: música-y-sonido
+:END:
+
+#+REVEAL: split
+
+Toda la música es sonido
+
+#+REVEAL: split
+
+En general, asumimos que la música es sonido con ciertas propiedades
+(armonía, estructura...)
+
+#+REVEAL: split
+
+En términos técnicos, es muy normal representar la música y el sonido de
+maneras diferentes
+
+#+REVEAL: split
+
+Generalmente, la música en un videojuego se reproduce de forma
+*continua* como elemento decorativo
+
+Los sonidos se lanzan y se espera que estén perfectamente
+*sincronizados* con la acción que los lanzan
+
+#+REVEAL: split
+
+Es muy normal que, como recursos, los sonidos estén en archivos de audio
+en formatos sin compresión y sean cortos
+
+#+REVEAL: split
+
+La música, normalmente, está codificada como pistas, de la misma forma
+que solemos escucharla en reproductores modernos
+([[https://es.wikipedia.org/wiki/MP3][MP3]],
+[[https://es.wikipedia.org/wiki/Ogg][OGG]])
+
+* Reproducir audio en un navegador
+:PROPERTIES:
+:CUSTOM_ID: reproducir-audio-en-un-navegador
+:END:
+
+#+REVEAL: split
+
+Hoy en día las tecnologías web permiten reproducir audio desde el
+navegador
+
+#+REVEAL: split
+
+** Elemento =<audio>=
+:PROPERTIES:
+:CUSTOM_ID: elemento-audio
+:END:
+#+begin_src html
+<audio controls>
+  <source src="https://upload.wikimedia.org/wikipedia/en/4/45/ACDC_-_Back_In_Black-sample.ogg" type="audio/ogg">
+  Tu navegador no soporta audio
+</audio>
+#+end_src
+
+#+begin_html
+  <audio controls>
+#+end_html
+
+#+begin_html
+  <source src="https://upload.wikimedia.org/wikipedia/en/4/45/ACDC_-_Back_In_Black-sample.ogg" type="audio/ogg">
+#+end_html
+
+Tu navegador no soporta audio
+
+* Web Audio
+:PROPERTIES:
+:CUSTOM_ID: web-audio
+:END:
+
+#+REVEAL: split
+
+[[https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API][Web
+Audio]] es una forma de reproducir audio en el navegador a bajo nivel
+
+#+REVEAL: split
+
+Con Web Audio, podemos crear nuestra propia onda de sonido:
+
+#+begin_src js
+// Creamos un "contexto"
+var context = new AudioContext();
+// Creamos un oscilador (genera una onda sencilla)
+var oscillator = context.createOscillator();
+// Conectamos el oscilador con los altavoces
+oscillator.connect(context.destination);
+// Empezamos la reproducción
+oscillator.start(context.currentTime);
+// Finalizamos la reproducción 5 segundos después
+oscillator.stop(context.currentTime + 5);
+#+end_src
+
+#+begin_html
+  <script type="text/javascript">
+  function play() {
+      var context = new AudioContext();
+      var oscillator = context.createOscillator();
+      oscillator.connect(context.destination);
+      oscillator.start(context.currentTime);
+      oscillator.stop(context.currentTime + 5);
+  }
+  </script>
+#+end_html
+
+#+begin_html
+  <button onclick="play()">
+#+end_html
+
+Ejemplo de oscilador
+
+#+begin_html
+  </button>
+#+end_html
+
+#+REVEAL: split
+
+Web Audio no reemplaza al elemento =<audio>=
+
+Para reproducir una pista de audio en un archivo estándar, usar una
+etiqueta =<audio>= es generalmente mucho más razonable
+
+#+REVEAL: split
+
+Web Audio está diseñada de forma que, con la API, construimos nodos
+
+#+caption: Ejemplo de nodos Web Audio
+[[https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API/graphpan.jpg]]
+
+#+REVEAL: split
+
+La información de la "onda" se enruta entre los nodos, de forma que
+encadenamos procesos
+
+Es muy análogo a un montaje electrónico en el que vamos modificando la
+onda
+
+#+REVEAL: split
+
+#+caption: Conectando nodos Web Audio
+[[file:nodos.dot]]
+
+#+REVEAL: split
+
+#+begin_src js
+var context = new AudioContext();
+var oscillator = context.createOscillator();
+oscillator.start(context.currentTime);
+oscillator.stop(context.currentTime + 5);
+// Creamos un nodo nuevo de ganancia
+var gainNode = context.createGain();
+// Conectamos la salida del oscilador al nodo de ganancia
+oscillator.connect(gainNode);
+// Conectamos el nodo de ganancia a la salida
+gainNode.connect(context.destination);
+// Cambiamos el volumen
+gainNode.gain.value = 0.5;
+#+end_src
+
+#+begin_html
+  <script type="text/javascript">
+  function play2() {
+      var context = new AudioContext();
+      var oscillator = context.createOscillator();
+      // oscillator.connect(context.destination);
+      oscillator.start(context.currentTime);
+      oscillator.stop(context.currentTime + 5);
+      var gainNode = context.createGain();
+      oscillator.connect(gainNode);
+      // Connect the gain node to the destination.
+      gainNode.connect(context.destination);
+      gainNode.gain.value = 0.5;
+  }
+  </script>
+#+end_html
+
+#+begin_html
+  <button onclick="play2()">
+#+end_html
+
+Ejemplo de oscilador con nodos
+
+#+begin_html
+  </button>
+#+end_html
+
+* Referencias y tutoriales
+:PROPERTIES:
+:CUSTOM_ID: referencias-y-tutoriales
+:END:
+
+#+REVEAL: split
+
+- [[https://www.html5rocks.com/en/tutorials/webaudio/intro/][Getting Started with Web Audio API]]
+- [[https://code.tutsplus.com/es/tutorials/the-web-audio-api-make-your-own-web-synthesizer--cms-23887][La Web Audio API: Crea Tu Propio Sintetizador Web]]
+- [[https://www.toptal.com/web/web-audio-api-tutorial][Web Audio API: Why Compose When You Can Code?]]

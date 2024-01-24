@@ -1,0 +1,440 @@
+#+title: Motor Arcade en Phaser
+#+setupfile: setup.org
+
+* El motor físico
+:PROPERTIES:
+:CUSTOM_ID: el-motor-físico
+:END:
+
+#+REVEAL: split
+
+El motor físico se encarga de las colisiones y del movimiento
+
+Es una librería que proporciona una simulación aproximada de un cierto
+sistema de física como cuerpos rígidos, cuerpos blandos, fluidos,
+colisiones, telas...
+
+#+REVEAL: split
+
+Se usa en videojuegos y simulación
+
+En la mayoría de los juegos, la velocidad de ejecución es más importante
+que la precisión de la simulación
+
+Por tanto se busca hacer aproximaciones
+
+#+REVEAL: split
+
+** Algunos motores físicos 3D
+:PROPERTIES:
+:CUSTOM_ID: algunos-motores-físicos-3d
+:END:
+- [[https://developer.nvidia.com/physx-sdk][PhysX]]: propiedad de Nvidia
+  y disponible en Unreal Engine y Unity
+- [[https://www.havok.com][Havok]]: antes propiedad de Intel, ahora
+  adquirido por Microsoft
+
+#+REVEAL: split
+
+** Algunos motores físicos 2D
+:PROPERTIES:
+:CUSTOM_ID: algunos-motores-físicos-2d
+:END:
+- [[https://box2d.org/][Box2D]]: Cocos, Unity, Construct 2 (Angry Birds,
+  Limbo)
+- [[https://brm.io/matter-js/][Matter]]
+- [[https://chipmunk-physics.net/][Chipmunk]]: Cocos, Wii
+
+* Físicas en Phaser
+:PROPERTIES:
+:CUSTOM_ID: físicas-en-phaser
+:END:
+
+#+REVEAL: split
+
+O mejor dicho: *los motores físicos de Phaser*
+
+#+REVEAL: split
+
+En Phaser hay dos motores físicos disponibles:
+
+- *Arcade*
+- *Matter.js*
+
+#+REVEAL: split
+
+** Arcade physics
+:PROPERTIES:
+:CUSTOM_ID: arcade-physics
+:END:
+Pensado para tratar colisiones AABB (axis-aligned bounded rectangles):
+para manejar objetos sin rotaciones
+
+Sólo se comprueba si existen colisiones (solapamiento o overlapping)
+entre dos rectángulos
+
+Tiene problemas con las áreas transparentes
+
+Está pensado para juegos sencillos
+
+#+REVEAL: split
+
+** Matter.js
+:PROPERTIES:
+:CUSTOM_ID: matter.js
+:END:
+[[http://brm.io/matter-js/][Matter.js]] admite rotaciones y formas más
+complejas (rampas)
+
+Tiene más precisión, pero es más lento
+
+Tiene un modelo de física mucho más avanzado, /springs/ (muelles),
+polígonos, fuerzas, restricciones...
+
+Angry Birds usaría este motor
+
+* Conceptos generales de un motor físico
+:PROPERTIES:
+:CUSTOM_ID: conceptos-generales-de-un-motor-físico
+:END:
+** Velocidad
+:PROPERTIES:
+:CUSTOM_ID: velocidad
+:END:
+La *velocidad* es una magnitud física vectorial que expresa la distancia
+recorrida de un objeto por unidad de tiempo
+
+Si aplicamos una velocidad a un objeto físico este se moverá hacia la
+dirección indicada con la magnitud indicada
+
+** Fuerza
+:PROPERTIES:
+:CUSTOM_ID: fuerza
+:END:
+Una *fuerza* es todo agente capaz de modificar la cantidad de movimiento
+de un objeto
+
+Se aplica la segunda Ley de Newton:
+
+\[F = m \times a\]
+
+Una fuerza aplicada de manera puntual (en un instante de tiempo) se la
+suele conocer como impulso.
+
+** ¿Qué es una colisión?
+:PROPERTIES:
+:CUSTOM_ID: qué-es-una-colisión
+:END:
+Cuando dos /bounding boxes/ están solapados
+
+Un *bounding box* es una caja que representa el objeto (lo simplifica).
+El tamaño por defecto del bounding box de Phaser es el tamaño del sprite
+
+#+REVEAL: split
+
+#+caption: Bounding box
+[[file:custom-physics-aabb.png]]
+
+#+REVEAL: split
+
+#+caption: Overlapping entre bounding boxes
+[[file:custom-physics-least-overlap.png]]
+
+** ¿Cómo se calcula la colisión?
+:PROPERTIES:
+:CUSTOM_ID: cómo-se-calcula-la-colisión
+:END:
+Las colisiones más sencillas son colisiones AABB que se pueden calcular
+de la siguiente manera:
+
+#+begin_src js
+function AABBvsAABB(a, b) {
+    if(a.max.x < b.min.x || a.min.x > b.max.x) 
+        return false;
+    else if(a.max.y < b.min.y || a.min.y > b.max.y) 
+        return false;
+    else
+        return true
+}
+#+end_src
+
+** Triggers o sensores
+:PROPERTIES:
+:CUSTOM_ID: triggers-o-sensores
+:END:
+Son objetos invisibles que detectan colisiones. Dependiendo del motor,
+solo detectan la colisión inicial o pueden detectar mientras estamos
+colisionando o al salir de la colisión.
+
+#+REVEAL: split
+
+Phaser hace todos estos cálculos por nosotros
+
+* El motor físico Arcade
+:PROPERTIES:
+:CUSTOM_ID: el-motor-físico-arcade
+:END:
+** Inicialización del motor Arcade
+:PROPERTIES:
+:CUSTOM_ID: inicialización-del-motor-arcade
+:END:
+
+#+begin_html
+  <!-- [Ejemplo del uso del motor arcade](https://phaser.io/sandbox/edit/rGYAfFoJ) -->
+#+end_html
+
+Para iniciar el motor de fisica añadimos una propiedad =physics= con la
+[[https://newdocs.phaser.io/docs/3.52.0/Phaser.Types.Physics.Arcade.ArcadeWorldConfig][configuración
+del motor en Arcade]]:
+
+#+begin_src js
+const config = {
+    // ...
+    physics: {
+        default: 'arcade', // elegir motor
+        arcade: { // propiedades del motor
+            gravity: { y: 300 },
+            debug: false // true para ver info
+        }
+    },
+    // ...
+};
+const game = new Phaser.Game(config);
+#+end_src
+
+#+REVEAL: split
+
+** Agregar entidades a la física
+:PROPERTIES:
+:CUSTOM_ID: agregar-entidades-a-la-física
+:END:
+#+begin_src js
+// `this` es una `Scene`
+this.player = this.add.sprite(100, 200, 'dude');
+this.physics.add.existing(this);
+#+end_src
+
+o
+
+#+begin_src js
+this.player = this.physics.add.sprite(100, 450, 'dude');
+#+end_src
+
+#+REVEAL: split
+
+Esto hace que el =Sprite= *tenga la propiedad
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Arcade.Body][=body=]]
+de Arcade*
+
+#+REVEAL: split
+
+** Colisionar con los límites del mundo
+:PROPERTIES:
+:CUSTOM_ID: colisionar-con-los-límites-del-mundo
+:END:
+#+begin_src js
+// `this` es un `Sprite` con físicas
+this.body.setCollideWorldBounds();
+#+end_src
+
+Atención a la propiedad =body= aquí
+
+#+REVEAL: split
+
+Para saber si colisionamos con cualquier suelo:
+
+#+begin_src js
+this.body.onFloor()
+#+end_src
+
+Muy útil para no saltar infinitamente
+
+#+REVEAL: split
+
+Podemos rebotar al colisionar con elementos del mundo:
+
+#+begin_src js
+this.body.setBounce(1,1);
+#+end_src
+
+#+REVEAL: split
+
+Podemos hacer que las colisiones /no muevan un objeto/ con:
+
+#+begin_src js
+this.body.setImmovable(true);
+#+end_src
+
+El objeto se puede mover, pero las colisiones no lo "empujarán"
+
+#+REVEAL: split
+
+Para hacer que un objeto se mueva en una determinada dirección:
+
+#+begin_src js
+this.body.setVelocity(1,0);
+#+end_src
+
+Se verá afectado por otras fuerzas, en particular, por la gravedad
+
+#+REVEAL: split
+
+[[https://codepen.io/gjimenezucm/pen/MWvmPoa][Un pequeño ejemplo de la
+física básica con Matter]]
+
+#+REVEAL: split
+
+** Grupos físicos
+:PROPERTIES:
+:CUSTOM_ID: grupos-físicos
+:END:
+Los
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Arcade.Group][Group]]
+se usan para manejar grupos de colisiones (entre otras cosas)
+
+Una entidad creada por un grupo físico /tendrá física/
+
+#+REVEAL: split
+
+#+begin_src js
+// `this` es una escena
+this.platforms = this.physics.add.group();
+#+end_src
+
+Atención a la propiedad =physics= aquí
+
+#+REVEAL: split
+
+Los grupos creados con =physics.add.group()= son dinámicos
+
+Los grupos creados con =physics.add.staticGroup()= son estáticos
+(entidades que no se mueven, pero que tienen /colisión/)
+
+#+REVEAL: split
+
+** Crear elementos en un grupo
+:PROPERTIES:
+:CUSTOM_ID: crear-elementos-en-un-grupo
+:END:
+Creamos sprites usando el método
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Arcade.Group#create][=create()=]]:
+
+#+begin_src js
+// preload
+this.load.image('platform', 'platform.png');
+#+end_src
+
+#+begin_src js
+// create
+this.platforms = this.physics.add.staticGroup();
+this.platforms.create(500, 150, 'platform');
+this.platforms.create(-200, 300, 'platform');
+this.platforms.create(400, 450, 'platform');
+#+end_src
+
+#+REVEAL: split
+
+O podemos añadir nuestros propios GameObjects con =add()= y
+=addMultiple()=
+
+* Colisiones
+:PROPERTIES:
+:CUSTOM_ID: colisiones
+:END:
+
+#+REVEAL: split
+
+Para activar la detección de colisiones hay que crear un
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Arcade.Factory#collider][=collider=]]:
+
+#+begin_src js
+this.physics.add.collider(player, group);
+#+end_src
+
+#+REVEAL: split
+
+Si queremos que nos avisen si se produce una colisión hay que incluir un
+/callback/:
+
+#+begin_src js
+// create
+this.physics.add.collider(player, group, onCollision);
+
+// el método recibe dos parámetros, son los objetos que han colisionado
+function onCollision(obj1, obj2) {
+    // hacer algo
+}
+#+end_src
+
+#+REVEAL: split
+
+O con una función anónima (recordad el comportamiento del =this=):
+
+#+begin_src js
+// create
+this.physics.add.collider(player, group, (o1, o2) => {
+    // hacer algo
+});
+#+end_src
+
+#+REVEAL: split
+
+=collide()= (¡no =add.collider()=!) devuelve un booleano que indica si
+ha habido colisión:
+
+#+begin_src js
+// en update, donde this es una Scene
+if(this.physics.collide(this.player, this.platform)) {
+    console.log("Hay colisión");
+}
+#+end_src
+
+* Solapamiento
+:PROPERTIES:
+:CUSTOM_ID: solapamiento
+:END:
+
+#+REVEAL: split
+
+Muchas veces queremos saber si hay /solapamiento/, pero sin que haya
+efectos físicos
+
+#+REVEAL: split
+
+Para estos casos, usamos
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Arcade.Factory#overlap][=overlap=]]
+donde usábamos =collider=
+
+#+begin_src js
+// create
+this.physics.add.overlap(player, group, (o1, o2) => {
+    // o1 y o2 se están tocando
+});
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src js
+// en update donde this es una Scene
+if(this.physics.overlap(this.player, this.platform)) {
+    textInfo.text = "Hay solape";
+}
+#+end_src
+
+#+REVEAL: split
+
+** Objetos "invisibles" o triggers
+:PROPERTIES:
+:CUSTOM_ID: objetos-invisibles-o-triggers
+:END:
+Se pueden crear con =add.zone()=, de la escena, y luego lo añadimos a
+las físicas:
+
+#+begin_src js
+// x, y, width, height
+let trigger = this.add.zone(300, 200, 200, 200);
+// Añade un body
+this.physics.world.enable(trigger);
+trigger.body.setAllowGravity(false);
+trigger.body.setImmovable(false);
+#+end_src

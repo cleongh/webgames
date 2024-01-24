@@ -1,0 +1,148 @@
+#+title: Tweens en Phaser
+#+setupfile: setup.org
+
+* Más sobre animación
+:PROPERTIES:
+:CUSTOM_ID: más-sobre-animación
+:END:
+
+#+REVEAL: split
+
+Las animaciones que hemos utilizado hasta ahora son /animaciones por
+frames/, es decir, dibujamos *todas* las imágenes o frames que componen
+la animación
+
+#+REVEAL: split
+
+En la animación tradicional existe la figura del /in-between artist/, el
+artista encargado de dibujar las animaciones entre dos poses de un
+personaje para hacer que la transición entre dos animaciones sea lo más
+suave posible
+
+#+begin_quote
+Hayao Miyazaki comenzó como in-between artist en Toei Animation
+
+#+end_quote
+
+#+REVEAL: split
+
+#+begin_quote
+Estas animaciones /in between/ también se conocen como *tweens*
+
+#+end_quote
+
+#+begin_html
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/sJIeAKwDzSw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+#+end_html
+
+#+begin_html
+  </iframe>
+#+end_html
+
+#+REVEAL: split
+
+En un motor de videojuegos, un *tween* es una animación procedural
+sencilla, creada en base a modificar el valor de un atributo a partir de
+un valor inicial, un valor final, un intervalo de tiempo y una función
+de interpolación:
+
+- Un powerup que se agranda y se contrae
+- Una plataforma que oscila arriba y abajo
+- Una moneda que rota
+- Una desaparición de un enemigo muerto
+- Un objeto que va cambiando de color
+- ...
+
+* Tweens en Phaser
+:PROPERTIES:
+:CUSTOM_ID: tweens-en-phaser
+:END:
+
+#+REVEAL: split
+
+Para crear un tween usamos el objeto factoría de Scene
+
+#+begin_src js
+// this es Scene
+let image = this.add.image(100, 80, 'fish', 0);
+
+// Animación para mover de lado a lado una imagen
+let tween = this.tweens.add({
+    targets: [ image ],
+    x: 700,
+    duration: 4000,
+    ease: 'Sine.easeInOut',
+    flipX: true,
+    yoyo: true,
+    repeat: -1,
+    delay: 10
+});
+#+end_src
+
+Revisa todas las
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Types.Tweens.TweenBuilderConfig][propiedades
+con las que se puede configurar un tween]]
+
+#+REVEAL: split
+
+Existen una gran variedad de
+[[https://github.com/photonstorm/phaser/blob/v3.55.2/src/math/easing/EaseMap.js][funciones
+de interpolación (=ease=) predefinidas]].
+
+#+begin_quote
+Puedes hacerte una idea del comportamiento de cada función
+[[https://easings.net/][en esta página web]]
+
+#+end_quote
+
+#+REVEAL: split
+
+Podemos suscribirnos a
+[[https://newdocs.phaser.io/docs/3.55.2/events][eventos que generan los
+Tweens]]:
+
+#+begin_src js
+let tween = this.tweens.add({
+    targets: image,
+    x: 500,
+    ease: 'Power1',
+    duration: 3000
+});
+tween.on('stop', listener);
+
+function listener() {
+    // hacemos algo cuando termina el tween
+}
+#+end_src
+
+#+REVEAL: split
+
+Podemos encadenar tweens
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Types.Tweens.TimelineBuilderConfig][creando
+un =timeline=]]:
+
+#+begin_src js
+// this es Scene
+var timeline = this.tweens.createTimeline();
+// Primer tween 
+timeline.add({
+    targets: image,
+    x: 600,
+    ease: 'Power1',
+    duration: 3000
+});
+// Segundo tween; se ejecuta al terminar el primero
+timeline.add({
+    targets: image,
+    y: 500,
+    ease: 'Power1',
+    duration: 3000
+});
+...
+
+timeline.play();
+#+end_src
+
+Tienes un ejemplo de uso
+[[https://labs.phaser.io/edit.html?src=src/tweens%5Ctimelines%5Ccreate%20timeline.js][en
+esta página]]
