@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Cliente del juego</title>
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <button id="armas">Pedir precios de armas</button>
+    <button id="comida">Pedir precios de comida</button>
+
+    <p id="lista"></p>
+
+    <script>
+      const armas = document.getElementById("armas");
+      const comida = document.getElementById("comida");
+      const muestra = document.getElementById("lista");
+    </script>
+
+    <script>
+      const direccion = 'localhost';
+      const puerto = 3000;
+      const socket = io('http://' + direccion + ':' + puerto);
+    </script>
+
+    <script>
+      armas.onclick = () => socket.emit('precios', 'armas');
+      comida.onclick = () => socket.emit('precios', 'comida');
+    </script>
+
+    <script>
+      socket.on('respuesta', lista => {
+          // `JSON.stringify` convierte un JSON a string para
+          // poder mostrarlo
+          muestra.innerHTML = JSON.stringify(lista)
+      });
+    </script>
+  </body>
+</html>
