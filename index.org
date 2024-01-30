@@ -12,6 +12,10 @@
 # 8. Animaciones basadas en sprites.
 # 9. Despliegue de proyectos en la web.
 
+* Histórico
+
+- [[file:historico.org]]
+
 * Introducción a los juegos web
 - [[file:tooling.reveal.org]]
 - [[file:dom.reveal.org]]
@@ -69,8 +73,6 @@
 - [[file:redes.reveal.org]]
 - [[file:server.reveal.org]]
 - [[file:cliente.reveal.org]]
-- [[file:server.js]]
-- [[file:client.html]]
   
   
 * Web
