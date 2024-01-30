@@ -1,0 +1,147 @@
+#+title: Histórico de juegos web
+
+Algunos enlaces no funcionan (porque los autores han decidido desactivar el repositorio). Hay juegos web de DVI y PVLI.
+
+* Curso 2023-2024
+
+* Curso 2022-2023
+
+
+* Curso 2021-2022
+:PROPERTIES:
+:CUSTOM_ID: curso-2021-2022
+:END:
+
+- [[https://acedpol.github.io/Proyecto_PVLI---AVES/][AVES]]
+- [[https://javixxu.github.io/PVLI-G11/][PECK]]
+- [[https://javics2002.github.io/Grupo1PVLI/][Vertigo Tower]]
+- [[https://jgomez18ucm.github.io/Loving_Psycho/][Loving Psycho]]
+- [[https://evsanz.github.io/Proyecto-PVLI/][Derailed Trade]]
+- [[https://josemiguelvdz.github.io/Heels-Running/][Heels Running]]
+- [[https://ivo-hr.github.io/last_escape_nnd/][Last Escape]]
+- [[https://miriam-m-s.github.io/GRUPO4-PVLI/][ECLIPSE]]
+- [[https://pvli2021-grupo2.github.io/PVLI/][Through The Window]]
+- [[https://miggon23.github.io/Crowfender/][Crowfender]]
+- [[https://elisatodd.github.io/Grupo-3-PVLI-2021-22/][The Right Man]]
+- [[https://asegar01.github.io/BAFTA/][BAFTA]]
+- [[https://dahermar.github.io/GodSlayer.github.io/]]
+- [[https://tolu9660.github.io/DVI/]]
+- [[https://github.com/BrunoMC102/DVI.github.io]]  
+
+* Curso 2020-2021
+:PROPERTIES:
+:CUSTOM_ID: curso-2020-2021
+:END:
+- [[https://jmeitin.github.io/JODAS-errantes/][Brull
+  (jmeitin.github.io)]]
+- [[https://angelo066.github.io/SanManuelBueno/][EBM(angelo066.github.io/SanManuelBueno/)]]\\
+- [[https://dbrey.github.io/Proyecto-PVLI/]]
+- [[https://srvonpsikerfy.github.io/Veiled/]]
+- [[https://acedpol.github.io/Proyecto_PVLI_/][https://acedpol.github.io/Proyecto_PVLI_/Platero´s_Tale_/]]
+- [[https://albgom21.github.io/BlindLess-PVLI-20-21/]]
+- [[https://mihern07.github.io/EditorialZaratustra/]]
+- [[https://pablos16.github.io/]]
+- [[https://sergimol.github.io/Inside-Design/]]\\
+- [[https://albemu07.github.io/]]
+- [[https://cool-videogames.github.io/Paradox-Invasion/]]
+- [[https://rubenglezortiz.github.io/PVLI-2020-21-CUCU-PROLOGUE/]]
+
+* Curso 2019-2020
+:PROPERTIES:
+:CUSTOM_ID: curso-2019-2020
+:END:
+
+- [[https://auraum.github.io/PVLI/]]
+- [[https://jorgmo02.github.io/Cripple-Ninja/]]
+- [[https://adrian-de-lucas-gomez.github.io/PVLI-ProjectD/]]
+- [[https://sandramonlaz.github.io/Nenes/]]
+- [[https://dcortijo.github.io/2DASH/]]
+- [[https://fenomencoyote.github.io/Dynamic_Defense/]]
+- [[https://dagodoy.github.io/estudioPangolin/]]
+- [[https://github.com/PabloCubells/Cuestion-de-Pelotas]]
+- [[https://aitorcrok.github.io/InDecisionTeam/]]
+- [[https://mmur07.github.io/Avatar-The-last-tower-defender/]]
+- [[https://agusmoure.github.io/PVLI/]]
+- [[https://pj6595.github.io/TinkyTycoon/]]
+- [[https://alonefcp.github.io/Samoa/]]
+- [[https://nicopast.github.io/PVLIG19/]]
+- [[https://nubango.github.io/SecondChance/]]
+- [[https://aibort.github.io/nomisstep/]]
+- [[https://marcoimh.github.io/]]
+- [[https://tomaslopezanton.github.io/ThomasElTrenWeb/]]
+- [[https://raulblas7.github.io/Usarpadores/]]
+
+* Curso 2018-2019
+:PROPERTIES:
+:CUSTOM_ID: curso-2018-2019
+:END:
+
+- [[https://dosanz.github.io/kirby/]]
+- [[https://aibort.github.io/Amborgesa-Games/plantilla-juego/dist/]]
+- [[https://dagil02.github.io/UnluckyGames/][https://pablma13.github.io/This-is-not-Skyrim/]]
+- [[https://miguelzh.github.io/BriasGel-Gang/dist/][https://apoyatos.github.io/Not-New-Super-Mario/docs]]
+- [[https://davidcarmonafauste.github.io/Retro-Sims/]]
+- [[https://alejandropla.github.io/EmpireAtWar/dist/]]
+- [[https://pablogarciagrossi.github.io/Old-Souls/]]
+- [[https://miriamleis.github.io/FiveNightsAtFreddys-8bits/]]
+- [[https://javiarias.github.io/Project-Settlers/]]
+- [[https://posna.github.io/Portal2/]]
+- [[https://erguille33.github.io/TeamSpaghetto/]]
+- [[https://serluis.github.io/KiwiGames/dist/]]
+- [[https://onaranjoucm.github.io/Cube-Carnage/dist/]]
+- [[https://alansonucm.github.io/Plants-vs-Zombies-Retro/]]
+- [[https://argarc03.github.io/LightSeeker/]]
+- [[https://dankgard.github.io/Minilization/dist/index.html]]
+
+* Curso 2017-2018
+:PROPERTIES:
+:CUSTOM_ID: curso-2017-2018
+:END:
+
+- [[https://aramissss.github.io/PVLICirujanosDe5/plantilla-juego/src/index.html]]
+- [[https://gonalba.github.io/IceClimbers/src/]]
+- [[https://sergvx.github.io/PVLI/src/index.html]]
+- [[https://dimart10.github.io/tplvi_Dai-Gurren/]]
+- [[https://ramonarj.github.io/Arkanoid-Remake/src/index.html]]
+- [[https://albcor01.github.io/PVLI/plantilla-juego/src/]]
+- [[https://nestorcabrero.github.io/TetrisPVLI/Web/]]
+- [[https://dimateos.github.io/PVLI_GLaDOS/https://marcoscos13.github.io/CombatCity/src/index.html]]
+- [[https://gonzsa04.github.io/DonkeyKong/PVLI/src/ ]]
+- [[https://jacord01.github.io/Xtreme/Xtreme-SunBlind/src/index.html]]
+- [[http://alcasa04.github.io/PVLI/plantilla-juego/src/index.html]]
+- [[https://celiamartinezgraves.github.io/NullReference/src/index.html]]
+- [[https://lluiscs.github.io/Asteroides/src/index.html]]
+- [[https://rebo95.github.io/ProyectoPVLI-PabloAron-/src/]]
+- [[https://roberinside.github.io/SeriousWagon/src/]]
+- [[https://jubarea.github.io/TBOI-Lite/src/]]
+- [[https://alejandromarinperez.github.io/MetroidPVLI/src/index.html]]
+- [[https://rodrigomanuelperez.github.io/TrepacepaDigDug/src/index.html]]
+- [[https://bornunez.github.io/undefined/src/]]
+- [[https://hectorsed.github.io/PVLI-Zelios/src/index.html]]
+
+* Curso 2016-2017
+:PROPERTIES:
+:CUSTOM_ID: curso-2016-2017
+:END:
+
+- [[https://algaba97.github.io/juego/]]
+- [[https://joshuete1997.github.io/Practica5pvli/]]
+- [[https://jjruzicka.github.io/ProyectoPVLI3/]]
+- [[https://victoref.github.io/PracticaFinal/]]
+- [[https://JoseInside.github.io]]
+- [[http://colincop.github.io]]
+- [[https://daquinte.github.io/Lost-Shadow/]]
+- [[https://mjcguada.github.io/]]
+- [[https://alvaroerrepebass.github.io/PVLI-P4-5]]
+- [[https://kekstar.github.io/]]
+- [[https://pablogomezcalvo.github.io/Macalcan.github.io/]]
+- [[https://pachimorfo.github.io]]
+- [[https://javilanda.github.io/]]
+- [[https://nightmareworks.github.io]]
+- [[https://rajs-pvli.github.io/Foxys-Space-Adventure/]]
+- [[https://gonguz.github.io/]]
+- [[https://davidcogolludo.github.io/Kero-Quest/]]
+- [[https://oscaroscarosc.github.io/PVLI-Timothy-web/]]
+- [[https://Kuzy15.github.io/Mission_Renasci]]
+- [[https://https//filinouns.github.io/][https://https://filinouns.github.io/]]
+
