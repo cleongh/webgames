@@ -12,27 +12,22 @@
 :PROPERTIES:
 :CUSTOM_ID: gamejam-2020
 :END:
-Del 31 de enero al 2 de febrero de 2020, UCM es sede GameJam 2020 en
-Madrid
-
-
+Del 31 de enero al 2 de febrero de 2020, UCM es sede GameJam 2020 en Madrid
 
 ** Medialab Prado
 :PROPERTIES:
 :CUSTOM_ID: medialab-prado
 :END:
-La GGJ UCM se organizó en Medialab Prado
+La GGJ UCM se organizó en Medialab Prado (ahora MediaLab Matadero)
 
-[[https://www.medialab-prado.es]]
-
+https://www.medialab-matadero.es/
 
 
 ** Pantalla
 :PROPERTIES:
 :CUSTOM_ID: pantalla
 :END:
-Medialab Prado tiene una pantalla en la fachada exterior que se puede
-usar
+Medialab Prado tenía una pantalla en la fachada exterior para exhibiciones interactivas
 
 [[https://www.medialab-prado.es/noticias/fachada-digital-informacion-tecnica-0]]
 
@@ -53,13 +48,11 @@ usar
 
 #+REVEAL: split
 
-La pantalla sólo se ve bien de noche (está habilitada como de 18:30 a
-23:30)
+La pantalla solo se veía bien de noche (está habilitada como de 18:30 a 23:30)
 
 #+REVEAL: split
 
-El tamaño de la plaza hace que se vea muy cerca, con lo que los píxeles
-inferiores se ven /bastante mayores/ que los superiores
+El tamaño de la plaza hacía que se vea muy cerca, con lo que los píxeles inferiores se ven /bastante mayores/ que los superiores
 
 
 
@@ -67,7 +60,7 @@ inferiores se ven /bastante mayores/ que los superiores
 :PROPERTIES:
 :CUSTOM_ID: sonido
 :END:
-No hay sonido (está en medio de la calle)
+No había sonido (está en medio de la calle)
 
 
 
@@ -75,7 +68,7 @@ No hay sonido (está en medio de la calle)
 :PROPERTIES:
 :CUSTOM_ID: cámaras
 :END:
-Hay un sistema CCTV que recoge la interacción de la gente en la plaza
+Había un sistema CCTV que recoge la interacción de la gente en la plaza
 
 /Y un API de alto nivel de reconocimiento de personas/
 
@@ -86,8 +79,7 @@ Hay un sistema CCTV que recoge la interacción de la gente en la plaza
 
 #+REVEAL: split
 
-Tienen un PC con salida directa a la fachada, con lo que cualquier trozo
-imagen que quepa en 192 \(\times\) 157, se puede emitir
+Tenían un PC con salida directa a la fachada, con lo que cualquier trozo imagen que quepa en 192 \(\times\) 157, se podía emitir
 
 #+REVEAL: split
 
@@ -99,8 +91,7 @@ Esto requiere bastante gestión (aunque es posible)
 :PROPERTIES:
 :CUSTOM_ID: processing
 :END:
-Medialab Prado ofrece un API de alto nivel para programar la fachada y
-la cámara
+Medialab ofrecía un API de alto nivel para programar la fachada y la cámara
 
 Está basado en [[https://processing.org][Processing]]
 
@@ -133,9 +124,7 @@ void draw() {
 
 #+REVEAL: split
 
-Dado que /Programa la plaza/ ofrece una plataforma web, se recomienda
-usar [[https://p5js.org][P5.js]], que es /Processing/, pero con
-JavaScript
+Dado que /Programa la plaza/ ofrece una plataforma web, se recomienda usar [[https://p5js.org][P5.js]], que es /Processing/, pero con JavaScript
 
 #+REVEAL: split
 
@@ -162,8 +151,7 @@ ejemplo]]
 
 #+REVEAL: split
 
-Hacer con JavaScript y P5.js es mucho más flexible (y está más
-mantenido)
+Hacer con JavaScript y P5.js es mucho más flexible (y está más mantenido)
 
 * Plataforma "Programa la plaza"
 :PROPERTIES:
@@ -172,13 +160,11 @@ mantenido)
 
 #+REVEAL: split
 
-Desde [[http://programalaplaza.medialab-prado.es]] se puede crear una
-cuenta y empezar a programar directamente en el navegador
+Se podía crear una cuenta y empezar a programar directamente en el navegador
 
 #+REVEAL: split
 
-La plataforma no solo ofrece un editor, también ofrece un API
-
+La plataforma no solo  un editor, también ofrece un API
 
 
 ** API seguimiento de personas (/tracking/)
