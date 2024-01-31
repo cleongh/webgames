@@ -129,8 +129,7 @@ Y, como habréis imaginado, los identificadores de las teclas están en
 Usar gamepads es igual de fácil que usar el teclado, pero ya hay muchas
 dependencias y diferencias
 
-*No todo va a funcionar tan bien y es posible que haya errores de
-detección*
+*No todo va a funcionar tan bien y es posible que haya errores de detección*
 
 #+REVEAL: split
 
@@ -181,7 +180,6 @@ let ejexIzda = padExiste && pad.leftStick.x;
 
 Si no hay pad, no dará excepción
 
-#+REVEAL: split
 
 ** Reaccionar a varias entradas
 :PROPERTIES:
@@ -243,9 +241,7 @@ this.input.on('pointerup', pointer => {
 );
 #+end_src
 
-También hay ='pointerdown'=, ='wheel'=, ='gameobjectover'= y
-[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events][otros
-muchos eventos a los que suscribirnos]]
+También hay =pointerdown=, =wheel=, =gameobjectover= y [[https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events][otros muchos eventos a los que suscribirnos]]
 
 #+REVEAL: split
 

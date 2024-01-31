@@ -1,3 +1,6 @@
+#+title: Progressive Web Apps
+#+setupfile: setup.org
+
 * Qué es una PWA
 :PROPERTIES:
 :CUSTOM_ID: qué-es-una-pwa
@@ -22,7 +25,7 @@ nativas
 Además, /el mismo código nos vale para una aplicación en escritorio,
 móvil y web/
 
-#+REVEAL: split
+
 
 ** ¿Por qué "progressive"?
 :PROPERTIES:
@@ -138,7 +141,7 @@ intentar acceder a ese dominio
 
 *Aunque estemos sin conexión*
 
-#+REVEAL: split
+
 
 ** Instalar un service worker
 :PROPERTIES:
@@ -171,7 +174,7 @@ JavaScript en nuestro =index.html=
 En el código anterior, nuestro service worker estará en =sw.js= (lo
 veremos un poco más adelante)
 
-#+REVEAL: split
+
 
 ** Borrar service
 :PROPERTIES:
@@ -181,7 +184,7 @@ veremos un poco más adelante)
 "Unregister"
 [[file:unregister_sw.png]]
 
-#+REVEAL: split
+
 
 ** Cache de archivos
 :PROPERTIES:
@@ -204,7 +207,7 @@ vamos a otro navegador (o a otro ordenador), no estarán los archivos ahí
 #+caption: Podemos ver qué recursos se han almacenado en la cache
 [[file:recurso_almacenado_cache.png]]
 
-#+REVEAL: split
+
 
 ** Borrar datos de la cache
 :PROPERTIES:
@@ -214,7 +217,7 @@ vamos a otro navegador (o a otro ordenador), no estarán los archivos ahí
 para forzar una recarga
 [[file:borrar_cache_sw.png]]
 
-#+REVEAL: split
+
 
 ** ¡Borrar todo!
 :PROPERTIES:
@@ -270,7 +273,7 @@ workbox.precaching.precacheAndRoute([
 ])
 #+end_src
 
-#+REVEAL: split
+
 
 ** Revisiones
 :PROPERTIES:
@@ -290,7 +293,7 @@ navegador reconozca qué archivos han cambiado
 
 Pero mantener el número de revisión a mano es un trabajo tedioso
 
-#+REVEAL: split
+
 
 ** =workbox-cli=
 :PROPERTIES:
@@ -401,7 +404,7 @@ Para eso, podemos tener:
 Así, usaremos =devel.html= en desarrollo, pero desplegaremos con
 =index.html=
 
-#+REVEAL: split
+
 
 ** App shell
 :PROPERTIES:
@@ -423,7 +426,7 @@ Las PWA se pueden beneficiar del
 [[https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage][API
 de almacenamiento local]]
 
-#+REVEAL: split
+
 
 ** Usar =localStorage=
 :PROPERTIES:
@@ -472,6 +475,7 @@ localStorage.clear()
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Se puede ver la lista de datos guardados, por dominio
 [[file:localstorage_chrome.png]]
 
@@ -495,8 +499,8 @@ PWA
 
 #+REVEAL: split
 
-#+caption: Para arrancar la auditoría, sólo hay que seleccionar las
-opciones y darle al botón
+#+attr_html: :height 400
+#+caption: Para arrancar la auditoría, sólo hay que seleccionar las opciones y darle al botón
 [[file:lighthouse.png]]
 
 * Ver como en un móvil
@@ -517,11 +521,12 @@ tableta
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Podemos ver nuestra PWA como se vería en un dispositivo móvil
 [[file:toggle_device_toolbar.png]]
 
 #+REVEAL: split
 
-#+caption: Podemos elegir las opciones del dispositivo que estamos
-simulando
+#+attr_html: :height 400
+#+caption: Podemos elegir las opciones del dispositivo que estamos simulando
 [[file:cambiar_opciones_device.png]]

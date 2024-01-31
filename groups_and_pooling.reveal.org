@@ -6,7 +6,7 @@
 :CUSTOM_ID: rendimiento
 :END:
 
-#+REVEAL: split
+
 
 ** El efecto de los objetos sobre el rendimiento
 :PROPERTIES:
@@ -57,7 +57,7 @@ hacerlo
 Hacer /profiling/ es fundamental para ver cuál es el impacto *real* (y
 no sólo en teoría) de las partes de nuestro código
 
-#+REVEAL: split
+
 
 ** El recolector de basura
 :PROPERTIES:
@@ -107,7 +107,7 @@ en menor tiempo del deseado
 :CUSTOM_ID: pooling
 :END:
 
-#+REVEAL: split
+
 
 ** Controlar el impacto de crear y destruir objetos
 :PROPERTIES:
@@ -155,7 +155,7 @@ mismo
 :CUSTOM_ID: el-ciclo-de-vida-de-las-entidades
 :END:
 
-#+REVEAL: split
+
 
 ** Reemplazar la creación constante con un /pool/
 :PROPERTIES:
@@ -245,7 +245,7 @@ Como ocurre con todas las entidades de Phaser, un
 especialmente diseñada para la *búsqueda, ordenamiento y manipulación en
 grupo* de las entidades que contiene
 
-#+REVEAL: split
+
 
 ** API de búsqueda
 :PROPERTIES:
@@ -342,57 +342,57 @@ Si observamos la consola:
   escena *se mantiene constante*
 - En el segundo ejemplo, el número de entidades *no para de crecer*
 
-#+begin_html
-  <!-- 
-  ## API de ordenamiento
+# #+begin_html
+#   <!-- 
+#   ## API de ordenamiento
 
 
-  Generalmente, los grupos tienen un propósito y hay una buena razón para agrupar las entidades
+#   Generalmente, los grupos tienen un propósito y hay una buena razón para agrupar las entidades
 
 
-  Por ejemplo, si queremos crear un subconjunto de entidades que hacen o reciben algo concreto
+#   Por ejemplo, si queremos crear un subconjunto de entidades que hacen o reciben algo concreto
 
 
-  Muchas veces, las entidades dentro del grupo tienen que estar ordenadas (o viene bien, por eficiencia, que lo estén)
+#   Muchas veces, las entidades dentro del grupo tienen que estar ordenadas (o viene bien, por eficiencia, que lo estén)
 
-  ```js
-  // ordenamos los elementos por su atributo "y"
-  // es muy parecida al 'sort' normal de listas en JavaScript
-  g.customSort(function(a, b) {
-      return a.y - b.y;
-  });
+#   ```js
+#   // ordenamos los elementos por su atributo "y"
+#   // es muy parecida al 'sort' normal de listas en JavaScript
+#   g.customSort(function(a, b) {
+#       return a.y - b.y;
+#   });
 
-  // Como es muy normal ordenar por parámetro, tenemos en el API también esta
-  // función
-  // Ordenamos según el parámetro 'x' de cada entidad
-  g.sort('x', Phaser.Group.SORT_ASCENDING);
-  ```
-   -->
-#+end_html
+#   // Como es muy normal ordenar por parámetro, tenemos en el API también esta
+#   // función
+#   // Ordenamos según el parámetro 'x' de cada entidad
+#   g.sort('x', Phaser.Group.SORT_ASCENDING);
+#   ```
+#    -->
+# #+end_html
 
-#+begin_html
-  <!-- 
-  ## API de manipulación en grupo
-
-
-  Otra de las cosas que podemos hacer con los grupos es tratarlos como una sola entidad
+# #+begin_html
+#   <!-- 
+#   ## API de manipulación en grupo
 
 
-  Por ejemplo, podríamos querer eliminar todos los bloques de hielo en un nivel, o hacer que todos los enemigos avancen más rápido
+#   Otra de las cosas que podemos hacer con los grupos es tratarlos como una sola entidad
 
-  ```js
 
-  let g = scene.add.group();
+#   Por ejemplo, podríamos querer eliminar todos los bloques de hielo en un nivel, o hacer que todos los enemigos avancen más rápido
 
-  // También existe 'forAllAlive', que sólo itera sobre los que están vivos
-  g.iterate(function(item) {
-      item.speed += 2;
-  });
+#   ```js
 
-  g.callAll('kill'); // llama a 'kill' en todas las entidades del grupo
-  g.callAllExists('kill'); // lo mismo, pero sólo las que existen (exists -> es actualizado)
-  ``` -->
-#+end_html
+#   let g = scene.add.group();
+
+#   // También existe 'forAllAlive', que sólo itera sobre los que están vivos
+#   g.iterate(function(item) {
+#       item.speed += 2;
+#   });
+
+#   g.callAll('kill'); // llama a 'kill' en todas las entidades del grupo
+#   g.callAllExists('kill'); // lo mismo, pero sólo las que existen (exists -> es actualizado)
+#   ``` -->
+# #+end_html
 
 * Implementación de pooling con grupos de Phaser
 :PROPERTIES:
@@ -404,7 +404,7 @@ Si observamos la consola:
 Phaser no incluye pools directamente pero podemos utilizar nuestra
 propia clase =Pool= que utilice grupos internamente para ello
 
-#+REVEAL: split
+
 
 ** Creación del pool
 :PROPERTIES:
@@ -430,7 +430,7 @@ class Pool {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** Recuperación de una entidad
 :PROPERTIES:
@@ -453,7 +453,7 @@ spawn (x, y) {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 *** Devolución de una entidad
 :PROPERTIES:
@@ -489,7 +489,7 @@ enlace:
 
 [[https://codepen.io/gjimenezucm/pen/OJmWYGg]]
 
-#+begin_html
-  <!-- Sería interesante añadir redimensión automática como lo hace Belén en
-  https://github.com/belen-albeza/ldjam-32/blob/master/app/js/utils.js#L23 -->
-#+end_html
+# #+begin_html
+#   <!-- Sería interesante añadir redimensión automática como lo hace Belén en
+#   https://github.com/belen-albeza/ldjam-32/blob/master/app/js/utils.js#L23 -->
+# #+end_html

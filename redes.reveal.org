@@ -37,7 +37,7 @@ de comunicación/
 #+caption: Las redes y los protocolos ocurren según un modelo de capas
 [[file:osi.svg]]
 
-#+REVEAL: split
+
 
 ** TCP y UPD
 :PROPERTIES:
@@ -69,7 +69,7 @@ En videojuegos se usan ambos (dependiendo de para qué), pero nosotros
 Una manera usual y típica de hacer una conexión en red (en nuestro caso,
 en Internet), es con un modelo /cliente/-/servidor/
 
-#+REVEAL: split
+
 
 ** El servidor
 :PROPERTIES:
@@ -119,7 +119,7 @@ A veces, podemos tener un nombre para ese ordenador
 ([[http://www.ucm.es]]), pero estos nombres son sólo un "alias" para la
 dirección IP
 
-#+REVEAL: split
+
 
 ** El cliente
 :PROPERTIES:
@@ -164,7 +164,7 @@ como:
 Lo que haremos aquí es una versión muy sencilla y funcional (y
 /didáctica/) de juegos en red
 
-#+REVEAL: split
+
 
 ** Alternativas (entre otras)
 :PROPERTIES:

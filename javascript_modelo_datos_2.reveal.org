@@ -517,8 +517,8 @@ let obj = newShot()                   newShot.api
 {_position: {x: 10...}...} --> {advance: function...};
 
 obj._position.y ----↑                       ↑
-obj.advance #+REVEAL: split#+REVEAL: split----|
-obj.goBack #+REVEAL: split#+REVEAL: split#+REVEAL: split----X
+obj.advance --------------------------------|
+obj.goBack ----------------------------------------------X
 #+end_example
 
 #+REVEAL: split
@@ -825,8 +825,8 @@ de esta forma:
   new Enemy()          Enemy.prototype      Ship.prototype
 { _position: ...} --> { advance: ... } --> { moveLeft: ... }
 enemy._score ---↑            ↑                   ↑
-enemy.advance #+REVEAL: split-|                   |
-enemy.moveLeft #+REVEAL: split#+REVEAL: split------|
+enemy.advance ---------------|                   |
+enemy.moveLeft ----------------------------------|
 #+end_example
 
 #+REVEAL: split
@@ -873,7 +873,7 @@ Enemy.prototype.shoot = function () {
 };
 #+end_src
 
-#+REVEAL: split
+
 
 ** Herencia en el tipo =Ally=
 :PROPERTIES:
@@ -979,7 +979,7 @@ enemy.constructor === Enemy; // fue construido por Enemy, no por Ship
 enemy.constructor !== Ship; // es cierto que Ship fue utilizado pero nada más
 #+end_src
 
-#+REVEAL: split
+
 
 ** Duck typing
 :PROPERTIES:

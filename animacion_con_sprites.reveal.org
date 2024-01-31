@@ -1,20 +1,14 @@
 #+title: Animación con sprites
 #+setupfile: setup.org
 
-* El pasado
+* Qué es animar
 :PROPERTIES:
 :CUSTOM_ID: el-pasado
 :END:
 
 #+REVEAL: split
 
-El [[https://es.wikipedia.org/wiki/Alma][alma]], se creía/cree, es eso que tenemos y que nos hace movernos
-
-Alma en latín se dice =anima=
-
-#+REVEAL: split
-
-/Animar/ es dar /alma/, dar /movimiento/
+Animar (de /anima/) es dar /[[https://es.wikipedia.org/wiki/Alma][alma]]/, dar /movimiento/
 
 * El siglo XIX
 :PROPERTIES:
@@ -30,11 +24,13 @@ distinguir los fotogramas como imágenes separadas /sino como movimiento/
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: The Horse in Motion (Wikipedia)
 [[https://upload.wikimedia.org/wikipedia/commons/7/73/The_Horse_in_Motion.jpg]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: The Horse in Motion animado (Wikipedia)
 [[https://upload.wikimedia.org/wikipedia/commons/0/07/The_Horse_in_Motion-anim.gif]]
 
@@ -121,6 +117,7 @@ Solemos usar formatos con transparencia explícita
 
 Para ello hace falta un formato que lo acepte (como PNG)
 
+#+attr_html: :height 400
 #+caption: Sprite
 [[file:tux.png]]
 
@@ -131,6 +128,7 @@ concreto de fondo
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Esta idea es muy similar a como funciona un [[https://es.wikipedia.org/wiki/Croma][croma]]
 [[file:tux_fondo.png]]
 
@@ -157,6 +155,7 @@ sprites que representan secuencias de movimientos seguidos,
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: [[https://www.flickr.com/photos/goosemouse/4998615136][Spritesheet]]
 [[https://c1.staticflickr.com/5/4147/4998615136_dc0b7b1e39_b.jpg]]
 
@@ -296,6 +295,7 @@ Así, cada fila es un ciclo, y cada columna es un frame del ciclo
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: [[https://www.flickr.com/photos/goosemouse/4998615136][Spritesheet]]
 [[https://c1.staticflickr.com/5/4147/4998615136_dc0b7b1e39_b.jpg]]
 
@@ -317,8 +317,8 @@ Fijémonos en que el tamaño de frame es distinto en esta imagen: no es
 cómodo, pero es posible: habría que indicarlo desde código u otro
 recurso (un JSON)
 
-#+caption: [[https://www.flickr.com/photos/goosemouse/4998615136][Frames
-(verde) y ciclos (rojo)]]
+#+attr_html: :height 400
+#+caption: [[https://www.flickr.com/photos/goosemouse/4998615136][Frames (verde) y ciclos (rojo)]]
 [[file:frameciclo.jpg]]
 
 ** Reusar ciclos

@@ -6,7 +6,7 @@
 :CUSTOM_ID: tiles
 :END:
 
-#+REVEAL: split
+
 
 ** Qué es un tile
 :PROPERTIES:
@@ -29,6 +29,7 @@ fondo) y también /para la lógica del juego/ (como en los
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Dungeon Crawl
 [[https://upload.wikimedia.org/wikipedia/commons/2/29/Dungeon_crawl_stone_soup.png]]
 
@@ -51,13 +52,13 @@ mundo es dividido en una cuadrícula de tamaño fijo (una matriz 2D)
 
 En cada "celda" se pinta un tile, generalmente extraído de un /tile set/
 
-#+begin_html
-  <!-- Cada una de los rectángulos que forman la cuadrícula, en realidad representa un -->
-#+end_html
+# #+begin_html
+#   <!-- Cada una de los rectángulos que forman la cuadrícula, en realidad representa un -->
+# #+end_html
 
-#+begin_html
-  <!-- fragmento o *frame* de un *spritesheet*. -->
-#+end_html
+# #+begin_html
+#   <!-- fragmento o *frame* de un *spritesheet*. -->
+# #+end_html
 
 ** Partes de un mapa de tiles
 :PROPERTIES:
@@ -75,6 +76,7 @@ Normalmente está compuesto por:
 :PROPERTIES:
 :CUSTOM_ID: ejemplo-de-tile-map
 :END:
+#+attr_html: :height 400
 #+caption: Tilemap de "The Legend of Zelda"
 [[file:tilemap_zelda.png]]
 
@@ -88,12 +90,14 @@ Normalmente está compuesto por:
 Un tile set se suele implementar como un archivo de imagen en el que
 cada celda representa un tile
 
-#+REVEAL: split
+
 
 ** Ejemplo de tile set
 :PROPERTIES:
 :CUSTOM_ID: ejemplo-de-tile-set
 :END:
+
+#+attr_html: :height 400
 #+caption: Tileset de "The Legend of Zelda"
 [[file:tileset_zelda.png]]
 
@@ -107,14 +111,14 @@ Esto funciona bien para cosas aisladas: monedas, árboles, cajas...
 
 Pero no funciona bien en *la playa*
 
-#+REVEAL: split
+
 
 ** La playa
 :PROPERTIES:
 :CUSTOM_ID: la-playa
 :END:
-#+caption: [[http://opengameart.org/content/happyland-tileset][Tile set
-de "playa"]]
+#+attr_html: :height 400
+#+caption: [[http://opengameart.org/content/happyland-tileset][Tile set de "playa"]]
 [[http://opengameart.org/sites/default/files/styles/medium/public/preview_128.png]]
 
 #+REVEAL: split
@@ -128,7 +132,7 @@ construir escenas muy complejas
 Se ocupa *mucha menos memoria* que dibujando la escena en una imagen (se
 carga una, se usa muchas veces)
 
-#+REVEAL: split
+
 
 ** ¿Por qué es más eficiente?
 :PROPERTIES:
@@ -146,7 +150,7 @@ carga una, se usa muchas veces)
       = 4 MB
     - Tamaño total = *4.01 MB*
 
-#+REVEAL: split
+
 
 ** Otras ventajas:
 :PROPERTIES:
@@ -181,7 +185,7 @@ Nos simplifican la edición del tile map enormemente
 
 Crear el tile map a mano es mucho mas complejo y propenso a errores
 
-#+REVEAL: split
+
 
 ** Tiled
 :PROPERTIES:
@@ -202,10 +206,11 @@ capa especial de objetos con la ubicación de los objetos en el mapa
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: La interfaz de Tiled
 [[file:tiled.png]]
 
-#+REVEAL: split
+
 
 ** Partes de la interfaz de Tiled
 :PROPERTIES:
@@ -217,7 +222,7 @@ capa especial de objetos con la ubicación de los objetos en el mapa
 - Herramientas (parte superior)
 - Zona de edición (centro)
 
-#+REVEAL: split
+
 
 ** Crear un nuevo proyecto
 :PROPERTIES:
@@ -228,6 +233,7 @@ aparecerá la ventana de creación del tile map
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Nuevo proyecto
 [[file:tiled_nuevo_proyecto.png]]
 
@@ -242,7 +248,7 @@ Aquí establecemos:
   (uncompressed)/ sin comprimir
 - /No/ creamos un mapa infinito
 
-#+REVEAL: split
+
 
 ** Proyecciones ortogonal e isométrica
 :PROPERTIES:
@@ -261,20 +267,23 @@ Aquí establecemos:
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Perspectiva isométrica
 [[file:isometrica.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Perspectiva isométrica en Tiled
 [[file:isometrica_tiled.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Perspectiva ortogonal en Tiled
 [[file:ortogonal_tiled.png]]
 
-#+REVEAL: split
+
 
 ** Usar tilesets
 :PROPERTIES:
@@ -283,10 +292,11 @@ Aquí establecemos:
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Añadir un tileset
 [[file:add_tileset.png]]
 
-#+REVEAL: split
+
 
 ** Importante
 :PROPERTIES:
@@ -295,7 +305,7 @@ Aquí establecemos:
 *El nombre que le demos al tile set* se usará posteriormente para cargar
 el spritesheet con los tiles en Phaser
 
-#+REVEAL: split
+
 
 ** Añadir una capa
 :PROPERTIES:
@@ -308,10 +318,11 @@ objetos del suelo
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Añadir capas
 [[file:nueva_capa.png]]
 
-#+REVEAL: split
+
 
 ** Exportar
 :PROPERTIES:
@@ -326,13 +337,13 @@ Hay más formatos, pero lo mejor opción es JSON
 
 #+REVEAL: split
 
-#+caption: Para que la exportación no dé problemas con Phaser, lo ideal
-es activar =Embed tilesets= y =Resolve object types and properties= en
-*las propiedades de Tiled*
+#+attr_html: :height 400
+#+caption: Para que la exportación no dé problemas con Phaser, lo ideal es activar =Embed tilesets= y =Resolve object types and properties= en *las propiedades de Tiled*
 [[file:export_tiled.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: =Archivo= \(\rightarrow\) =Exportar como...=
 [[file:exportar_tiled.png]]
 
@@ -341,7 +352,7 @@ es activar =Embed tilesets= y =Resolve object types and properties= en
 :CUSTOM_ID: tile-maps-en-phaser
 :END:
 
-#+REVEAL: split
+
 
 ** Phaser 3.50
 :PROPERTIES:
@@ -353,7 +364,7 @@ la API de los mapas]], y se hace algo mejor (y más potente)
 
 Tened cuidado con las versiones en la documentación disponible
 
-#+REVEAL: split
+
 
 ** TileMaps en Phaser
 :PROPERTIES:
@@ -364,7 +375,7 @@ Tened cuidado con las versiones en la documentación disponible
 3. Asignamos las texturas a los tilesets
 4. Creación de las capas
 
-#+REVEAL: split
+
 
 ** 1. Carga de archivos de datos e imágenes
 :PROPERTIES:
@@ -395,7 +406,7 @@ Para cargar el atlas de patrones usaremos la carga de imagenes normal:
 this.load.image('patronesTilemap', 'images/patrones.png');
 #+end_src
 
-#+REVEAL: split
+
 
 ** 2. Creación del tilemap
 :PROPERTIES:
@@ -424,7 +435,7 @@ mundo y de la cámara
 Así mismo, tiene métodos para convertir coordenadas del mundo en tiles y
 viceversa o para acceder a información de los tiles o de las capas.
 
-#+REVEAL: split
+
 
 ** 3. Texturas de los tilesets
 :PROPERTIES:
@@ -459,7 +470,7 @@ const tileset1 = this.map.addTilesetImage('patrones', 'idImagen');
 const tileset2 = this.map.addTilesetImage('patronesFondo', 'idImagen2');
 #+end_src
 
-#+REVEAL: split
+
 
 ** 4. Creación de las capas
 :PROPERTIES:
@@ -507,7 +518,7 @@ this.foreground =
 Una parte importante, una vez que tenemos el mapa, es que los tiles
 tengan /propiedades físicas/
 
-#+REVEAL: split
+
 
 ** Colisión por propiedades
 :PROPERTIES:
@@ -520,7 +531,7 @@ tiles que tengan cierta propiedad, colisionen:
 layer.setCollisionByProperty({ colisiona: true });
 #+end_src
 
-#+REVEAL: split
+
 
 ** Colisión por inclusión
 :PROPERTIES:
@@ -536,7 +547,7 @@ layer.setCollisionBetween(0, 999);
 
 En efecto, cada tipo de tile tiene un /id/
 
-#+REVEAL: split
+
 
 ** Colisión por exclusión
 :PROPERTIES:
@@ -547,7 +558,7 @@ En efecto, cada tipo de tile tiene un /id/
 layer.setCollisionByExclusion([93, 94, 95, 96], true);
 #+end_src
 
-#+REVEAL: split
+
 
 ** Colisiones de Sprites con capas
 :PROPERTIES:
@@ -597,6 +608,7 @@ nuestros personajes en Tiled
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Estos personajes debemos ponerlos en capas de /objetos/
 [[file:crear_capa_objetos.png]]
 
@@ -647,7 +659,7 @@ Cualquier otra propiedad será añadida al
 del GameObject (acceso a propiedades con =getData(key)= y
 =setData(key, value)=)
 
-#+REVEAL: split
+
 
 ** Crear los objetos analizando el mapa
 :PROPERTIES:
@@ -777,6 +789,7 @@ agrandar, se vean difuminados (por el algoritmo de escalado)
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Filtro de escalado con difuminado
 [[file:blur.png]]
 
@@ -792,6 +805,7 @@ const config = {
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Filtro de escalado para pixelart
 [[file:pixel.png]]
 
@@ -811,12 +825,13 @@ tenga otra forma
 
 #+REVEAL: split
 
-#+caption: Tile con forma de cuesta que debería tener una colisión no
-cuadrada
+#+attr_html: :height 400
+#+caption: Tile con forma de cuesta que debería tener una colisión no cuadrada
 [[file:slope.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Primero, tenemos un tileset cargado
 [[file:slope_tileset.png]]
 
@@ -827,6 +842,7 @@ luego a editar las colisiones [[file:editarcolision.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Y, en Tiled, dibujamos la forma de colisión que deseemos
 [[file:slopecolision.png]]
 

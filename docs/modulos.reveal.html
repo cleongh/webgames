@@ -52,7 +52,7 @@ export default class Personaje {}
 import Personaje from './personaje.js'
 
 let link = new Personaje();
-</code></pre> </div> </section> <section> <p> Tanto <code>node</code> como el navegador soportan módulos, pero para que funcionen en <code>node</code>, hay que: </p> <ol> <li>Guardar el archivo con la extensión <code>.mjs</code></li> <li>Ejecutar <code>node</code> con el parámetro <code>--experimental-modules</code></li> </ol> <p> Esto va cambiando versión a versión, mirad la documentación de node.js </p> </section> <section> <div class="org-src-container"> <pre><code class="js">// archivo modulo.mjs
+</code></pre> </div> </section> <section> <p> Tanto <code>node</code> como el navegador soportan módulos, pero para que funcionen en <code>node</code>, hay que guardar el archivo con la extensión <code>.mjs</code> </p> <p> Esto va cambiando versión a versión, mirad la documentación de node.js </p> </section> <section> <div class="org-src-container"> <pre><code class="js">// archivo modulo.mjs
 const Objeto = {x: 1, y: 2};
 
 export default Objeto;
@@ -60,7 +60,7 @@ export default Objeto;
 import Objeto from './modulo.mjs'
 
 console.log(Objeto);
-</code></pre> </div> </section> <section> <div class="org-src-container"> <pre><code class="sh">node --experimental-modules usar.mjs
+</code></pre> </div> </section> <section> <div class="org-src-container"> <pre><code class="sh">node  usar.mjs
 </code></pre> </div> </section> </section> <section> <section id="slide-usando-librerías-cargadas"> <h2 id="usando-librerías-cargadas">Usando librerías cargadas</h2> </section> <section> <p> Si cargamos librerías en la página web (por ejemplo, en el <code>&lt;head&gt;</code> de <code>index.html</code>): </p> <div class="org-src-container"> <pre><code class="html">&lt;!-- index.html --&gt;
 &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.18.1/phaser.min.js"&gt;&lt;/script&gt;
 </code></pre> </div> <p> No tendremos que hacer <code>import</code>, ya estarán dentro del espacio de nombres: </p> <div class="org-src-container"> <pre><code class="js">// entity.js

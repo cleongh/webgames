@@ -23,7 +23,7 @@ Por eso, y gracias a la evolución de los navegadores, la máquina virtual
 JS y el lenguaje en sí, existen librerías que nos permiten hacer
 interfaces
 
-#+REVEAL: split
+
 
 ** Alternativas para interfaces web
 :PROPERTIES:
@@ -55,7 +55,7 @@ crear interfaces
 
 En particular, [[https://facebook.com]] usa React
 
-#+REVEAL: split
+
 
 ** DOM Virtual
 :PROPERTIES:
@@ -80,7 +80,7 @@ Aunque aparentemente modifiquemos mucha parte del DOM en nuestros
 componentes, React sólo aplicará las diferencias entre el estado
 anterior y el nuevo
 
-#+REVEAL: split
+
 
 ** JSX
 :PROPERTIES:
@@ -117,7 +117,7 @@ Necesitamos un proceso que transforme un archivo con extensión =.jsx= a
 otro =.js=, y que transforme las etiquetas HTML a código JavaScript
 normal
 
-#+REVEAL: split
+
 
 ** Babel
 :PROPERTIES:
@@ -202,7 +202,7 @@ render(html`<p>Esto es un párrafo</p>`, document.body)
 
 Ahora veremos lo de =html`...`=
 
-#+REVEAL: split
+
 
 ** Componentes
 :PROPERTIES:
@@ -252,7 +252,7 @@ construir el DOM
 Como lo que hace Babel, pero sólo desde código, sin herramienta
 adicional
 
-#+REVEAL: split
+
 
 ** Plantillas de cadena de texto
 :PROPERTIES:
@@ -264,7 +264,7 @@ literals"]])
 
 Estas cadenas son especiales, y se denotan con =`...`=
 
-#+REVEAL: split
+
 
 *** Cadenas multilínea
 :PROPERTIES:
@@ -277,7 +277,7 @@ tal
 estamos`
 #+end_src
 
-#+REVEAL: split
+
 
 *** Interpolar código
 :PROPERTIES:
@@ -297,7 +297,7 @@ const a = 5
 console.log(`"a" vale ${a}`) // "a" vale 5
 #+end_src
 
-#+REVEAL: split
+
 
 *** Postprocesado de cadenas
 :PROPERTIES:
@@ -376,7 +376,7 @@ de la clase:
 render(html`<${Aviso} />`, document.body)
 #+end_src
 
-#+REVEAL: split
+
 
 ** Estado en las clases
 :PROPERTIES:
@@ -432,7 +432,7 @@ estado de la clase
 Con esto, podemos cambiar lo que se muestra por pantalla en nuestra
 interfaz de usuario
 
-#+REVEAL: split
+
 
 ** Combinar componentes
 :PROPERTIES:
@@ -469,7 +469,7 @@ class Parrafo extends Component {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** Componentes como funciones
 :PROPERTIES:
@@ -484,7 +484,7 @@ function Nota(props) {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** Eventos
 :PROPERTIES:
@@ -510,7 +510,7 @@ function Nota(props) {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** Métodos para callbacks
 :PROPERTIES:
@@ -541,7 +541,7 @@ class ComponenteMetodoCallback extends Component {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** Mucho más
 :PROPERTIES:

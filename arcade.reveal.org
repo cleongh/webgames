@@ -23,7 +23,7 @@ que la precisión de la simulación
 
 Por tanto se busca hacer aproximaciones
 
-#+REVEAL: split
+
 
 ** Algunos motores físicos 3D
 :PROPERTIES:
@@ -61,7 +61,7 @@ En Phaser hay dos motores físicos disponibles:
 - *Arcade*
 - *Matter.js*
 
-#+REVEAL: split
+
 
 ** Arcade physics
 :PROPERTIES:
@@ -77,7 +77,7 @@ Tiene problemas con las áreas transparentes
 
 Está pensado para juegos sencillos
 
-#+REVEAL: split
+
 
 ** Matter.js
 :PROPERTIES:
@@ -179,9 +179,6 @@ Phaser hace todos estos cálculos por nosotros
 :CUSTOM_ID: inicialización-del-motor-arcade
 :END:
 
-#+begin_html
-  <!-- [Ejemplo del uso del motor arcade](https://phaser.io/sandbox/edit/rGYAfFoJ) -->
-#+end_html
 
 Para iniciar el motor de fisica añadimos una propiedad =physics= con la
 [[https://newdocs.phaser.io/docs/3.52.0/Phaser.Types.Physics.Arcade.ArcadeWorldConfig][configuración
@@ -202,7 +199,7 @@ const config = {
 const game = new Phaser.Game(config);
 #+end_src
 
-#+REVEAL: split
+
 
 ** Agregar entidades a la física
 :PROPERTIES:
@@ -226,7 +223,7 @@ Esto hace que el =Sprite= *tenga la propiedad
 [[https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Arcade.Body][=body=]]
 de Arcade*
 
-#+REVEAL: split
+
 
 ** Colisionar con los límites del mundo
 :PROPERTIES:
@@ -282,7 +279,7 @@ Se verá afectado por otras fuerzas, en particular, por la gravedad
 [[https://codepen.io/gjimenezucm/pen/MWvmPoa][Un pequeño ejemplo de la
 física básica con Matter]]
 
-#+REVEAL: split
+
 
 ** Grupos físicos
 :PROPERTIES:
@@ -310,7 +307,7 @@ Los grupos creados con =physics.add.group()= son dinámicos
 Los grupos creados con =physics.add.staticGroup()= son estáticos
 (entidades que no se mueven, pero que tienen /colisión/)
 
-#+REVEAL: split
+
 
 ** Crear elementos en un grupo
 :PROPERTIES:
@@ -421,7 +418,7 @@ if(this.physics.overlap(this.player, this.platform)) {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** Objetos "invisibles" o triggers
 :PROPERTIES:

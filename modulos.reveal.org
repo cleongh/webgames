@@ -231,10 +231,7 @@ let link = new Personaje();
 #+REVEAL: split
 
 Tanto =node= como el navegador soportan módulos, pero para que funcionen
-en =node=, hay que:
-
-1. Guardar el archivo con la extensión =.mjs=
-2. Ejecutar =node= con el parámetro =--experimental-modules=
+en =node=, hay que guardar el archivo con la extensión =.mjs=
 
 Esto va cambiando versión a versión, mirad la documentación de node.js
 
@@ -257,7 +254,7 @@ console.log(Objeto);
 #+REVEAL: split
 
 #+begin_src sh
-node --experimental-modules usar.mjs
+node  usar.mjs
 #+end_src
 
 * Usando librerías cargadas

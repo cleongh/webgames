@@ -1,4 +1,5 @@
 #+title: Ejemplo de componentos
+#+setupfile:  setup.org
 
 * Una implementación de arquitectura de componentes en JavaScript
 :PROPERTIES:

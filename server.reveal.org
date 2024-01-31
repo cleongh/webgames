@@ -70,7 +70,7 @@ Usaremos =socket.io=, una librería de JavaScript para red
 Tanto el servidor como el cliente estarán accesibles a través de
 =socket.io=, con lo que no usaremos GitHub para servir la página
 
-#+REVEAL: split
+
 
 ** Servidor HTTP
 :PROPERTIES:
@@ -79,7 +79,7 @@ Tanto el servidor como el cliente estarán accesibles a través de
 Lo primero que tendremos es un servidor HTTP que nos habilitará el
 protocolo básico
 
-#+REVEAL: split
+
 
 ** Servidor de aplicaciones
 :PROPERTIES:
@@ -90,7 +90,7 @@ También crearemos un servidor de aplicaciones web
 Esto no es más que una capa por encima de HTTP para gestionar mejor las
 URLs y lo que devuelven
 
-#+REVEAL: split
+
 
 ** Servidor de conexión
 :PROPERTIES:
@@ -121,7 +121,7 @@ Los proyectos (la información de paquetes y versiones) se guarda en
 
 =npm= gestiona =package.json= por nosotros
 
-#+REVEAL: split
+
 
 ** Iniciar el proyecto
 :PROPERTIES:
@@ -183,7 +183,7 @@ Así, al acceder a la IP/URL, veremos directamente el juego
 Con sólo este código, ya podemos centrarnos en la lógica del servidor de
 juego
 
-#+REVEAL: split
+
 
 ** Responder a mensajes
 :PROPERTIES:
@@ -246,7 +246,7 @@ Como vemos, para enviar mensajes por un =socket= necesitamos el método
 - Un =string= con el tipo de mensaje
 - Un objeto JavaScript con todo lo que queramos mandar
 
-#+REVEAL: split
+
 
 ** Arrancando el servidor realmente
 :PROPERTIES:
@@ -262,7 +262,7 @@ http.listen(port, () => {
 });
 #+end_src
 
-#+REVEAL: split
+
 
 ** Ejecutar el servidor
 :PROPERTIES:
@@ -275,7 +275,7 @@ Y, dentro de la carpeta inicializada con el proyecto y el archivo
 node server.js
 #+end_src
 
-#+REVEAL: split
+
 
 ** Servir contenido extra
 :PROPERTIES:

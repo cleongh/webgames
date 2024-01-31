@@ -6,7 +6,7 @@
 :CUSTOM_ID: sonido-en-un-computador
 :END:
 
-#+REVEAL: split
+
 
 ** El sonido
 :PROPERTIES:
@@ -21,7 +21,7 @@ elástico) que esté generando el movimiento vibratorio de un cuerpo
 
 #+end_quote
 
-#+REVEAL: split
+
 
 ** Características del sonido
 :PROPERTIES:
@@ -73,7 +73,7 @@ Hercio (Hz) es el número de veces que se repite una onda por segundo
 
 #+end_quote
 
-#+REVEAL: split
+
 
 ** ¿Cómo producir sonido?
 :PROPERTIES:
@@ -227,7 +227,7 @@ que solemos escucharla en reproductores modernos
 Hoy en día las tecnologías web permiten reproducir audio desde el
 navegador
 
-#+REVEAL: split
+
 
 ** Elemento =<audio>=
 :PROPERTIES:
@@ -235,30 +235,28 @@ navegador
 :END:
 #+begin_src html
 <audio controls>
-  <source src="https://upload.wikimedia.org/wikipedia/en/4/45/ACDC_-_Back_In_Black-sample.ogg" type="audio/ogg">
+  <source src="https://upload.wikimedia.org/wikipedia/commons/4/45/Dryoscopus_cubla_okavangensis%2C_roepe%2C_27_s%2C_voorstedelike_Pretoria%2C_b.mp3" type="audio/mp3">
   Tu navegador no soporta audio
 </audio>
 #+end_src
 
-#+begin_html
+#+begin_export html
   <audio controls>
-#+end_html
 
-#+begin_html
-  <source src="https://upload.wikimedia.org/wikipedia/en/4/45/ACDC_-_Back_In_Black-sample.ogg" type="audio/ogg">
-#+end_html
+  <source src="https://upload.wikimedia.org/wikipedia/commons/4/45/Dryoscopus_cubla_okavangensis%2C_roepe%2C_27_s%2C_voorstedelike_Pretoria%2C_b.mp3" type="audio/mp3">
 
 Tu navegador no soporta audio
+
+</audio
+
+#+end_export
 
 * Web Audio
 :PROPERTIES:
 :CUSTOM_ID: web-audio
 :END:
 
-#+REVEAL: split
-
-[[https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API][Web
-Audio]] es una forma de reproducir audio en el navegador a bajo nivel
+[[https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API][Web Audio]] es una forma de reproducir audio en el navegador a bajo nivel
 
 #+REVEAL: split
 
@@ -277,7 +275,7 @@ oscillator.start(context.currentTime);
 oscillator.stop(context.currentTime + 5);
 #+end_src
 
-#+begin_html
+#+begin_export html
   <script type="text/javascript">
   function play() {
       var context = new AudioContext();
@@ -287,24 +285,15 @@ oscillator.stop(context.currentTime + 5);
       oscillator.stop(context.currentTime + 5);
   }
   </script>
-#+end_html
 
-#+begin_html
-  <button onclick="play()">
-#+end_html
-
-Ejemplo de oscilador
-
-#+begin_html
-  </button>
-#+end_html
+  <button onclick="play()">Ejemplo de oscilador  </button>
+#+end_export
 
 #+REVEAL: split
 
 Web Audio no reemplaza al elemento =<audio>=
 
-Para reproducir una pista de audio en un archivo estándar, usar una
-etiqueta =<audio>= es generalmente mucho más razonable
+Para reproducir una pista de audio en un archivo estándar, usar una etiqueta =<audio>= es generalmente mucho más razonable
 
 #+REVEAL: split
 
@@ -315,8 +304,7 @@ Web Audio está diseñada de forma que, con la API, construimos nodos
 
 #+REVEAL: split
 
-La información de la "onda" se enruta entre los nodos, de forma que
-encadenamos procesos
+La información de la "onda" se enruta entre los nodos, de forma que encadenamos procesos
 
 Es muy análogo a un montaje electrónico en el que vamos modificando la
 onda
@@ -343,7 +331,7 @@ gainNode.connect(context.destination);
 gainNode.gain.value = 0.5;
 #+end_src
 
-#+begin_html
+#+begin_export html
   <script type="text/javascript">
   function play2() {
       var context = new AudioContext();
@@ -358,24 +346,13 @@ gainNode.gain.value = 0.5;
       gainNode.gain.value = 0.5;
   }
   </script>
-#+end_html
-
-#+begin_html
-  <button onclick="play2()">
-#+end_html
-
-Ejemplo de oscilador con nodos
-
-#+begin_html
-  </button>
-#+end_html
+    <button onclick="play2()">Ejemplo de oscilador con nodos</button>
+#+end_export
 
 * Referencias y tutoriales
 :PROPERTIES:
 :CUSTOM_ID: referencias-y-tutoriales
 :END:
-
-#+REVEAL: split
 
 - [[https://www.html5rocks.com/en/tutorials/webaudio/intro/][Getting Started with Web Audio API]]
 - [[https://code.tutsplus.com/es/tutorials/the-web-audio-api-make-your-own-web-synthesizer--cms-23887][La Web Audio API: Crea Tu Propio Sintetizador Web]]

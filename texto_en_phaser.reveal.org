@@ -43,7 +43,7 @@ text.setFill('#43d637');
 text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
 #+end_src
 
-#+REVEAL: split
+
 
 ** Texto en UI
 :PROPERTIES:
@@ -62,7 +62,7 @@ desaparecer de la escena.
 [[https://newdocs.phaser.io/docs/3.52.0/Phaser.GameObjects.Sprite#setScrollFactor][=SetScrollFactor=]]
 que controla el movimiento de un objeto con respecto al de la cámara
 
-#+REVEAL: split
+
 
 ** Botones con texto
 :PROPERTIES:
@@ -99,7 +99,7 @@ fonts) o usar fuentes Web (*webfonts*) como
 #+caption: Bitmap Fonts
 [[file:bitmapfont.png]]
 
-#+REVEAL: split
+
 
 ** Texto con fuentes de mapa de bits
 :PROPERTIES:
@@ -181,7 +181,7 @@ create(){
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** ¿Problemas de las Google Fonts u otras fuentes Web?
 :PROPERTIES:

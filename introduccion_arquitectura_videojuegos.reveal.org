@@ -189,8 +189,6 @@ aspectos que hay que gestionar:
 
 Muchos videojuegos se han modelado con patrones de herencia
 
-¿*Por qué*?
-
 #+REVEAL: split
 
 ¿Por qué /no/ seguimos haciéndolo?
@@ -256,12 +254,12 @@ antes que herencia]]
 #+REVEAL: split
 
 Para aliviar los problemas relativos de la estructura de herencia (con
-/es-un/), usamos
-[[https://en.wikipedia.org/wiki/Entity_component_system][*componentes*]]
+/es-un/), usamos [[https://en.wikipedia.org/wiki/Entity_component_system][*componentes*]]
 
 ** Qué es un componente
 :PROPERTIES:
 :CUSTOM_ID: qué-es-un-componente
+:ID:       2d4635f4-196a-4ec0-8f90-ad9a6d44b4cc
 :END:
 
 #+REVEAL: split
@@ -286,7 +284,6 @@ información de cómo guardar objetos
 
 Puede haber un componente para las entidades que son visibles, y otro
 componente para las entidades que tienen respuesta física al sistema
-(tabla [cite/t:@tbl:componentes])
 
 #+REVEAL: split
 
@@ -297,9 +294,7 @@ componente para las entidades que tienen respuesta física al sistema
 | Trigger  | ✗      | ✗       |
 | Espíritu | ✓      | ✗       |
 #+caption: Entidades y sus componentes correspondientes
-{#tbl:componentes}
 
-#+REVEAL: split
 
 ** Entonces, ¿qué es una entidad?
 :PROPERTIES:

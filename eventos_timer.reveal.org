@@ -15,7 +15,7 @@ Un evento es un aviso de que algo ha ocurrido
 Creamos *callbacks* o funciones que se ejecutarán en respuesta a estos
 eventos
 
-#+REVEAL: split
+
 
 ** Algunos eventos en Phaser
 :PROPERTIES:
@@ -33,7 +33,7 @@ eventos
 Pero hay muchos más eventos en Phaser:
 [[https://newdocs.phaser.io/docs/3.55.2/events][Mirar en Events]]
 
-#+REVEAL: split
+
 
 ** Suscripción a eventos
 :PROPERTIES:
@@ -83,7 +83,7 @@ la que llamar en cada tick)!
 
 #+end_quote
 
-#+REVEAL: split
+
 
 ** Eventos propios
 :PROPERTIES:

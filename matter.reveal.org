@@ -92,7 +92,7 @@ nave.setVelocity(16, 0); // x e y
 nave.applyForce({15, 24}); // un vector
 #+end_src
 
-#+REVEAL: split
+
 
 ** Aplicando fuerzas
 :PROPERTIES:
@@ -114,7 +114,7 @@ sprite.thrustLeft(14);
 sprite.thrustBack(5);
 #+end_src
 
-#+REVEAL: split
+
 
 ** Aplicando impulsos
 :PROPERTIES:
@@ -125,7 +125,7 @@ cesa y su efecto (la aceleración) sólo ocurre un instante
 
 Con /Matter.js/, lo haremos usado =applyForce()= sólo un instante
 
-#+REVEAL: split
+
 
 ** Gravedad
 :PROPERTIES:
@@ -162,7 +162,7 @@ rect.setBody({
     });
 #+end_src
 
-#+REVEAL: split
+
 
 ** Formas
 :PROPERTIES:
@@ -241,9 +241,7 @@ genera
 
 #+REVEAL: split
 
-Para crear
-[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Physics.Matter.Factory#constraint][una
-unión o muelle]] en /Matter.js/:
+Para crear [[https://newdocs.phaser.io/docs/3.55.1/Phaser.Physics.Matter.Factory#constraint][una unión o muelle]] en /Matter.js/:
 
 #+begin_src js
 scene.matter.add.constraint(obj1,
@@ -255,18 +253,11 @@ scene.matter.add.constraint(obj1,
 
 #+REVEAL: split
 
-#+begin_html
+[[https://codepen.io/gjimenezucm/pen/jOmBPqm][En este ejemplo]], haciendo clic, se aplica impulso a una de las bolas
+
+#+begin_export html
   <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.19.0/phaser.min.js" integrity="sha256-kF1kZP3VeVryJL2hSRtuAu34Fva0NKx/7IfxsD+Hl2Q=" crossorigin="anonymous"></script>
-#+end_html
-
-[[https://codepen.io/gjimenezucm/pen/jOmBPqm][En este ejemplo]],
-haciendo clic, se aplica impulso a una de las bolas
-
-#+begin_html
   <canvas id="ejemplo1" />
-#+end_html
-
-#+begin_html
   <script>
   new Phaser.Game({
       type: Phaser.WEBGL,
@@ -313,7 +304,7 @@ haciendo clic, se aplica impulso a una de las bolas
       });
   }
   </script>
-#+end_html
+#+end_export
 
 * Sensores
 :PROPERTIES:
@@ -423,7 +414,7 @@ scene.matter.world.pause();
 scene.matter.world.resume();
 #+end_src
 
-#+REVEAL: split
+
 
 ** Entidades que se duermen
 :PROPERTIES:
@@ -480,7 +471,7 @@ scene.matter.world.on('sleepend', (event, body) => {
 :CUSTOM_ID: kinematic-bodies
 :END:
 
-#+REVEAL: split
+
 
 ** Cuerpos Kinemáticos Vs Cuerpos Físicos
 :PROPERTIES:
@@ -546,7 +537,7 @@ this.matterImage = this.matter.add.image(400, -100, 'block');
 this.arcadeImage = this.physics.add.image(400, 100, 'fuji');
 #+end_src
 
-#+REVEAL: split
+
 
 ** Pero...
 :PROPERTIES:

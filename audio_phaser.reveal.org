@@ -182,7 +182,7 @@ No solemos saber (o no es cómodo saber) cuánto dura un sonido
 Así que lo que hacemos es /decirle a Phaser que haga algo cuando el
 sonido termine de reproducirse/
 
-#+REVEAL: split
+
 
 ** Evento cuando el sonido termina de reproducirse
 :PROPERTIES:

@@ -69,7 +69,7 @@ del objeto =Scene=
 Por ejemplo, como parte de la creación de una escena en el método
 =create=
 
-#+REVEAL: split
+
 
 ** Atributos relevantes de las imágenes
 :PROPERTIES:
@@ -110,8 +110,6 @@ Se puede cambiar su transparencia con =alpha=
 Se puede cambiar su profundidad o /z-index/ con =depth=
 
 (¡mirad el API!)
-
-#+REVEAL: split
 
 ** Métodos relevantes de las imágenes
 :PROPERTIES:
@@ -175,7 +173,7 @@ export default class Menu extends Phaser.Scene {
 }  
 #+end_src
 
-#+REVEAL: split
+
 
 ** Añadir entidades a la escena
 :PROPERTIES:
@@ -189,33 +187,30 @@ Para Phaser, la escena, representado por la clase
 *abstracción del lugar (un plano bidimensional) donde habitan las
 entidades*
 
-#+REVEAL: split
+
 
 ** Cámara
 :PROPERTIES:
 :CUSTOM_ID: cámara
 :END:
-#+caption: La escena, la cámara y entidades más allá de los límites de
-la cámara
+#+attr_html: :height 400
+#+caption: La escena, la cámara y entidades más allá de los límites de la cámara
 [[file:world.svg]]
 
 #+REVEAL: split
 
-Miramos al mundo a través de
-[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Cameras.Scene2D.Camera][cámaras]]
+Miramos al mundo a través de [[https://newdocs.phaser.io/docs/3.55.2/Phaser.Cameras.Scene2D.Camera][cámaras]]
 
 #+REVEAL: split
 
-#+caption: El mundo, la cámara y entidades más allá de los límites de la
-cámara
+#+attr_html: :height 400
+#+caption: El mundo, la cámara y entidades más allá de los límites de la cámara
 [[file:world-and-camera.svg]]
 
 #+REVEAL: split
 
-Al iniciar, se crea una cámara, a la que podemos acceder a través del
-atributo
-[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Scene#cameras][=cameras.main=]]
-de la escena:
+Al iniciar, se crea una cámara, a la que podemos acceder a través del atributo
+[[https://newdocs.phaser.io/docs/3.55.2/Phaser.Scene#cameras][=cameras.main=]] de la escena:
 
 #+begin_src js
 // en el método create, donde this es una Scene
@@ -238,7 +233,7 @@ Las cámaras tienen otros muchos métodos y funciones
 [[https://newdocs.phaser.io/docs/3.55.2/Phaser.Cameras.Scene2D.Camera][que
 se pueden consultar en su API]].
 
-#+REVEAL: split
+
 
 ** Cambio de escenas
 :PROPERTIES:
@@ -404,7 +399,7 @@ class MiEscena extends Phaser.Scene {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** Atributos y métodos relevantes de los sprites
 :PROPERTIES:
@@ -435,7 +430,7 @@ Recuerda que las transformaciones se ven afectadas por la posición del
 pivote [[https://codepen.io/gjimenezucm/pen/zYwZpqK][como puedes ver en
 este ejemplo]].
 
-#+REVEAL: split
+
 
 ** Posicionamiento
 :PROPERTIES:
@@ -465,7 +460,7 @@ class Martian extends Phaser.GameObjects.Sprite {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** Rotación
 :PROPERTIES:
@@ -497,7 +492,7 @@ preUpdate (t, dt) {
 };
 #+end_src
 
-#+REVEAL: split
+
 
 ** Escalado
 :PROPERTIES:
@@ -551,6 +546,7 @@ en forma de árbol
 A veces queremos asociar objetos con una jerarquía, con objetos /hijo/
 que dependan de objetos /padre/
 
+#+attr_html: :height 400
 #+caption: La espada y el escudo son /hijos/ del soldado
 [[file:guerrero.png]]
 
@@ -645,5 +641,4 @@ sistema de coordenadas de =Earth= y no del mundo
 
 #+REVEAL: split
 
-Podéis ver un [[https://codepen.io/gjimenezucm/pen/jOmybNe][ejemplo en
-Phaser 3]] en el que las entidades se agrupan según una jerarquía
+Podéis ver un [[https://codepen.io/gjimenezucm/pen/jOmybNe][ejemplo en Phaser 3]] en el que las entidades se agrupan según una jerarquía

@@ -50,7 +50,7 @@ if(pad &amp;&amp; pad.axis.length) {
 }
 </code></pre> </div> </section> <section> <p> Pero podemos hacerlo más fácil: </p> <div class="org-src-container"> <pre><code class="js">let padExiste = pad &amp;&amp; pad.axis.length
 let ejexIzda = padExiste &amp;&amp; pad.leftStick.x;
-</code></pre> </div> <p> Si no hay pad, no dará excepción </p> </section> <section> </section> <section id="slide-reaccionar-a-varias-entradas"> <h3 id="reaccionar-a-varias-entradas">Reaccionar a varias entradas</h3> <p> Es muy posible que queramos que nuestro juego funcione tanto con pad como con teclado </p> </section> <section> <p> Para no complicarnos mucho, simplemente hacemos: </p> <div class="org-src-container"> <pre><code class="js">let pad = this.scene.input.gamepad.getPad(0);
+</code></pre> </div> <p> Si no hay pad, no dará excepción </p> </section> <section id="slide-reaccionar-a-varias-entradas"> <h3 id="reaccionar-a-varias-entradas">Reaccionar a varias entradas</h3> <p> Es muy posible que queramos que nuestro juego funcione tanto con pad como con teclado </p> </section> <section> <p> Para no complicarnos mucho, simplemente hacemos: </p> <div class="org-src-container"> <pre><code class="js">let pad = this.scene.input.gamepad.getPad(0);
 let padExiste = pad &amp;&amp; pad.axes.length;
 let leftPad = padExiste &amp;&amp; (pad.leftStick.x &lt; 0 || pad.left);
 
@@ -72,7 +72,7 @@ console.log("Está pulsado:", pointer.isDown);
     // se ha soltado el botón izquierdo
   }
 );
-</code></pre> </div> <p> También hay <code>'pointerdown'</code>, <code>'wheel'</code>, <code>'gameobjectover'</code> y <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events">otros muchos eventos a los que suscribirnos</a> </p> </section> <section> <p> Los <code>Sprite=s que se marcan con =setInteractive()</code> pueden recibir eventos del ratón: </p> <div class="org-src-container"> <pre><code class="js">// en el preload
+</code></pre> </div> <p> También hay <code>pointerdown</code>, <code>wheel</code>, <code>gameobjectover</code> y <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events">otros muchos eventos a los que suscribirnos</a> </p> </section> <section> <p> Los <code>Sprite=s que se marcan con =setInteractive()</code> pueden recibir eventos del ratón: </p> <div class="org-src-container"> <pre><code class="js">// en el preload
 this.load.image('rock', 'rock.png');
 
 // en el create
