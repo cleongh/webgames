@@ -1,9 +1,12 @@
+#+title: Fachada MediaLab Prado
+#+setupfile: setup.org
+
 * Contexto
 :PROPERTIES:
 :CUSTOM_ID: contexto
 :END:
 
-#+REVEAL: split
+
 
 ** GameJam 2020
 :PROPERTIES:
@@ -12,7 +15,7 @@
 Del 31 de enero al 2 de febrero de 2020, UCM es sede GameJam 2020 en
 Madrid
 
-#+REVEAL: split
+
 
 ** Medialab Prado
 :PROPERTIES:
@@ -22,7 +25,7 @@ La GGJ UCM se organizó en Medialab Prado
 
 [[https://www.medialab-prado.es]]
 
-#+REVEAL: split
+
 
 ** Pantalla
 :PROPERTIES:
@@ -33,7 +36,7 @@ usar
 
 [[https://www.medialab-prado.es/noticias/fachada-digital-informacion-tecnica-0]]
 
-#+REVEAL: split
+
 
 ** Dimensiones
 :PROPERTIES:
@@ -44,6 +47,7 @@ usar
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Diagrama de la pantalla
 [[https://www.medialab-prado.es/sites/default/files/import/ftp_medialab/5/5770/500_0.png]]
 
@@ -57,7 +61,7 @@ La pantalla sólo se ve bien de noche (está habilitada como de 18:30 a
 El tamaño de la plaza hace que se vea muy cerca, con lo que los píxeles
 inferiores se ven /bastante mayores/ que los superiores
 
-#+REVEAL: split
+
 
 ** Sonido
 :PROPERTIES:
@@ -65,7 +69,7 @@ inferiores se ven /bastante mayores/ que los superiores
 :END:
 No hay sonido (está en medio de la calle)
 
-#+REVEAL: split
+
 
 ** Cámaras
 :PROPERTIES:
@@ -89,7 +93,7 @@ imagen que quepa en 192 \(\times\) 157, se puede emitir
 
 Esto requiere bastante gestión (aunque es posible)
 
-#+REVEAL: split
+
 
 ** Processing
 :PROPERTIES:
@@ -175,7 +179,7 @@ cuenta y empezar a programar directamente en el navegador
 
 La plataforma no solo ofrece un editor, también ofrece un API
 
-#+REVEAL: split
+
 
 ** API seguimiento de personas (/tracking/)
 :PROPERTIES:
@@ -193,7 +197,7 @@ function draw() {
 }
 #+end_src
 
-#+REVEAL: split
+
 
 ** API de guardado
 :PROPERTIES:
@@ -207,7 +211,7 @@ api.storage.set('valor', 15);
 valor = api.storage.get('valor');
 #+end_src
 
-#+REVEAL: split
+
 
 ** Imágenes
 :PROPERTIES:
@@ -218,6 +222,7 @@ plataforma y luego se referencian por la URL que nos da el sistema
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Subir imágenes
 [[file:subirimagen.png]]
 
@@ -296,6 +301,7 @@ código (sin nuestro /API/ proxy), y funcionará
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: El juego
 [[file:juego.gif]]
 
@@ -460,48 +466,56 @@ Jam!
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Logo UCM
 [[file:ggj_ucm.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Dragón
 [[file:ggj_dragon.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Logo GGJ
 [[file:ggj_ggj.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Guerrero
 [[file:ggj_guerrero.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Magia
 [[file:ggj_magia.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Mago
 [[file:ggj_mago.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Palanca
 [[file:ggj_palanca.png]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Puerta
 [[file:ggj_puerta.png]]
 
 #+REVEAL: split
 
-#+caption: Los enemigos mueren "desvaneciéndose", para informar al
-jugador
+#+attr_html: :height 400
+#+caption: Los enemigos mueren "desvaneciéndose", para informar al jugador
 [[file:fantasma.gif]]
 
 * El juego
@@ -515,5 +529,6 @@ Todo está [[https://github.com/cleongh/majemag][accesible en GitHub]]
 
 #+REVEAL: split
 
+#+attr_html: :height 400
 #+caption: Pantalla MLP con el juego
 [[file:pantalla_mlp.jpg]]
