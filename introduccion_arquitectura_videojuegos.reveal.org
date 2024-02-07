@@ -92,6 +92,7 @@ objetos/ basada en clases
 Las clases son los tipos, las estructuras de las que se crean instancias
 
 #+caption: Ejemplo de clases
+#+attr_html: :height 400
 [[file:umlbasico.pu]]
 
 
@@ -140,8 +141,8 @@ Las clases pueden /heredarse/, de forma que una clase /hija/ *es-una*
 (=is-a=) clase padre también
 
 #+caption: Clases para estructurar un juego
-[[file:herencia.pu]]
-
+#+attr_html: :height 400
+[[file:./herencia.pu]]
 
 ** Uso
 :PROPERTIES:
@@ -154,6 +155,7 @@ Las clases pueden /usarse/ unas a otras, de forma que se /pasen
 mensajes/
 
 #+caption: Clases que se usan
+#+attr_html: :height 400
 [[file:asociacion.pu]]
 
 
@@ -165,6 +167,7 @@ Las clases pueden /componerse/, de forma que la relación es muy fuerte.
 Así, si desaparece el todo, /desaparecen las partes también/
 
 #+caption: Composición de clases
+#+attr_html: :height 200
 [[file:composicion.pu]]
 
 * Arquitecturas basadas en herencia
@@ -220,6 +223,7 @@ Intentémoslo:
 #+REVEAL: split
 
 #+caption: Herencia básica
+#+attr_html: :height 400
 [[file:herenciacorrecta.pu]]
 
 #+REVEAL: split
@@ -235,6 +239,7 @@ Intentémoslo:
 Ahora hagamos un jugador que no se puede mover:
 
 #+caption: Herencia problemática
+#+attr_html: :height 400
 [[file:herenciaproblema.pu]]
 
 #+REVEAL: split
@@ -389,6 +394,7 @@ de una u otra manera
 Por ejemplo, en la parte física no suele influir mucho el sonido:
 
 #+caption: Relación entre sistemas y componentes
+#+attr_html: :height 400
 [[file:sistemascomponentes.pu]]
 
 #+REVEAL: split
@@ -430,6 +436,7 @@ Object.assign(Sword.prototype, Takeable);
 #+REVEAL: split
 
 #+caption: Ejemplo en UML con un /mixin/
+#+attr_html: :height 400
 [[file:mixin.pu]]
 
 #+REVEAL: split

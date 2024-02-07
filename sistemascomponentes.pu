@@ -1,0 +1,15 @@
+@startuml
+abstract Manager
+abstract Component
+Manager <|-- PhysicsManager
+Manager <|-- AudioManager
+Game "1" *-- "*" Manager
+Game *-- Scenario
+Scenario "1" *-- "many" Entity
+Entity "1" *-- "many" Component
+Component <|-- PhysicsComponent
+Component <|-- AudioComponent
+PhysicsManager --> PhysicsComponent
+AudioManager --> AudioComponent
+hide members
+@enduml

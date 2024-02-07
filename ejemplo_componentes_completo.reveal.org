@@ -22,6 +22,7 @@ usada para *desacoplar* los componentes, y las entidades
 #+REVEAL: split
 
 #+caption: Diagrama UML de la arquitectura
+#+attr_html: :height 400
 [[file:arquitectura.pu]]
 
 ** =Game= → el juego
