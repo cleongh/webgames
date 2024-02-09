@@ -1,6 +1,6 @@
 digraph nodos {
     rankdir=LR
-    bgcolor=transparent
+    bgcolor="ghostwhite"
     subgraph cluster_0 {
         label = "audio"
         oscillator -> gain -> speaker
