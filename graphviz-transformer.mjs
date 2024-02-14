@@ -4,18 +4,18 @@ import { readFileSync } from 'node:fs';
 import path from 'path';
 
 export default new Transformer({
-	async transform({ asset }) {
+    async transform({ asset }) {
 
-		const filename = asset.filePath;
-		const bn = path.basename(filename, ".dot");
+        const filename = asset.filePath;
+        const bn = path.basename(filename, ".dot");
 
-		execSync(`dot -T svg ${filename} -O`)
+        execSync(`dot -T svg ${filename} -O`)
 
-		const stdout = readFileSync(`${bn}.svg`);
+        const stdout = readFileSync(`${bn}.dot.svg`);
 
-		asset.type = 'svg';
-		asset.setCode(stdout)
+        asset.type = 'svg';
+        asset.setCode(stdout)
 
-		return [asset];
-	}
+        return [asset];
+    }
 });

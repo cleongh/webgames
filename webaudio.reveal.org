@@ -247,7 +247,7 @@ navegador
 
 Tu navegador no soporta audio
 
-</audio
+</audio>
 
 #+end_export
 
