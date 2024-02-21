@@ -289,10 +289,7 @@ image1.destroy();
 sound4.destroy();
 #+end_src
 
-#+begin_html
-  <!-- Aqué el contexto es muy relevante puesto que no hemos explicado la caché
-  Hay que indicar que `cache` es una propiedad del objeto juego. -->
-#+end_html
+
 
 * Sprites en Phaser
 :PROPERTIES:
@@ -312,7 +309,7 @@ player = this.add.sprite(100, 200, 'player');
 #+REVEAL: split
 
 #+caption: =player=
-[[https://examples.phaser.io/assets/sprites/phaser-dude.png]]
+[[https://labs.phaser.io/assets/sprites/phaser-dude.png]]
 
 Hay que usar la clave que se le puso en la carga. El objeto, obviamente,
 /debe estar cargado memoria/ con =scene.load=
