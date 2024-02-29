@@ -206,6 +206,40 @@ let goLeft = leftPad
 if (goLeft) { this.goLeft(); }
 #+end_src
 
+
+** Respuesta háptica (/rumble/)
+
+Es posible hacer que un gamepad vibre, pero la API no es aún muy robusta
+
+Cada navegador presenta una API diferente (Chrome y Firefox no funcionarán igual)
+
+#+REVEAL: split
+
+#+begin_src js
+// `this' es una Phaser.Scene
+const moduloVibracion = this.input.gamepad.getPad(0).vibration
+
+// moduloVibracion ahora es el objeto del Gamepad API
+
+// En Firefox (esto es más "estándar", con muchos "peros")
+moduloVibracion.pulse(1.0, 200);
+
+// En Chrome
+moduloVibracion.playEffect("dual-rumble", {
+  startDelay: 0,
+  duration: 100,
+  weakMagnitude: 0.5,
+  strongMagnitude: 1.0,
+});
+#+end_src
+
+#+REVEAL: split
+
+Comprobad la evolución de la compatibilidad de la [[https://developer.mozilla.org/en-US/docs/Web/API/GamepadHapticActuator#browser_compatibility][api web]]
+
+
+
+
 * Ratón
 :PROPERTIES:
 :CUSTOM_ID: ratón
@@ -245,7 +279,7 @@ También hay =pointerdown=, =wheel=, =gameobjectover= y [[https://newdocs.phaser
 
 #+REVEAL: split
 
-Los =Sprite=s que se marcan con =setInteractive()= pueden recibir
+Los =Sprite= que se marcan con =setInteractive()= pueden recibir
 eventos del ratón:
 
 #+begin_src js

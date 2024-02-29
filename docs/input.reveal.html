@@ -61,7 +61,22 @@ let goLeft = leftPad
            || this.cursorsArrows.left.isDown;
 
 if (goLeft) { this.goLeft(); }
-</code></pre> </div> </section> </section> <section> <section id="slide-ratón"> <h2 id="ratón">Ratón</h2> </section> <section> <p> Phaser nos permite usar el cursor del ratón para entrada de forma sencilla </p> </section> <section> <p> Podemos saber la posición <code>x</code> es <code>y</code> del puntero en todo momento: </p> <div class="org-src-container"> <pre><code class="js">// this es una scene
+</code></pre> </div> </section> <section id="slide-orgdc7074e"> <h3 id="orgdc7074e">Respuesta háptica (<i>rumble</i>)</h3> <p> Es posible hacer que un gamepad vibre, pero la API no es aún muy robusta </p> <p> Cada navegador presenta una API diferente (Chrome y Firefox no funcionarán igual) </p> </section> <section> <div class="org-src-container"> <pre><code class="js">// `this' es una Phaser.Scene
+const moduloVibracion = this.input.gamepad.getPad(0).vibration
+
+// moduloVibracion ahora es el objeto del Gamepad API
+
+// En Firefox (esto es más "estándar", con muchos "peros")
+moduloVibracion.pulse(1.0, 200);
+
+// En Chrome
+moduloVibracion.playEffect("dual-rumble", {
+  startDelay: 0,
+  duration: 100,
+  weakMagnitude: 0.5,
+  strongMagnitude: 1.0,
+});
+</code></pre> </div> </section> <section> <p> Comprobad la evolución de la compatibilidad de la <a href="https://developer.mozilla.org/en-US/docs/Web/API/GamepadHapticActuator#browser_compatibility">api web</a> </p> </section> </section> <section> <section id="slide-ratón"> <h2 id="ratón">Ratón</h2> </section> <section> <p> Phaser nos permite usar el cursor del ratón para entrada de forma sencilla </p> </section> <section> <p> Podemos saber la posición <code>x</code> es <code>y</code> del puntero en todo momento: </p> <div class="org-src-container"> <pre><code class="js">// this es una scene
 let pointer = this.input.activePointer;
 
 console.log("Coordenada X", pointer.worldX);
@@ -72,7 +87,7 @@ console.log("Está pulsado:", pointer.isDown);
     // se ha soltado el botón izquierdo
   }
 );
-</code></pre> </div> <p> También hay <code>pointerdown</code>, <code>wheel</code>, <code>gameobjectover</code> y <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events">otros muchos eventos a los que suscribirnos</a> </p> </section> <section> <p> Los <code>Sprite=s que se marcan con =setInteractive()</code> pueden recibir eventos del ratón: </p> <div class="org-src-container"> <pre><code class="js">// en el preload
+</code></pre> </div> <p> También hay <code>pointerdown</code>, <code>wheel</code>, <code>gameobjectover</code> y <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events">otros muchos eventos a los que suscribirnos</a> </p> </section> <section> <p> Los <code>Sprite</code> que se marcan con <code>setInteractive()</code> pueden recibir eventos del ratón: </p> <div class="org-src-container"> <pre><code class="js">// en el preload
 this.load.image('rock', 'rock.png');
 
 // en el create
