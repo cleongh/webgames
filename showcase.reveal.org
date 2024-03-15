@@ -225,6 +225,12 @@
 
 [[http://www.quakejs.com/]]
 
+
+
+** Mario Kart
+
+https://mario-kart-3-js.vercel.app/#r=RH3Q5
+
 ** NES Emulator
 :PROPERTIES:
 :CUSTOM_ID: nes-emulator
