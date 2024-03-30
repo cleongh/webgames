@@ -29,8 +29,7 @@ https://www.medialab-matadero.es/
 :END:
 Medialab Prado tenía una pantalla en la fachada exterior para exhibiciones interactivas
 
-[[https://www.medialab-prado.es/noticias/fachada-digital-informacion-tecnica-0]]
-
+https://www.medialab-matadero.es/programas/fachada-digital-y-la-cosa
 
 
 ** Dimensiones
@@ -40,11 +39,7 @@ Medialab Prado tenía una pantalla en la fachada exterior para exhibiciones inte
 - 15m \(\times\) 10m
 - 192 \(\times\) 157 "píxeles" (enormes)
 
-#+REVEAL: split
-
-#+attr_html: :height 400
-#+caption: Diagrama de la pantalla
-[[https://www.medialab-prado.es/sites/default/files/import/ftp_medialab/5/5770/500_0.png]]
+https://www.medialab-matadero.es/noticias/fachada-digital-informacion-tecnica-0
 
 #+REVEAL: split
 
@@ -146,8 +141,7 @@ function draw() {
 }
 #+end_src
 
-[[https://p5js.org/examples/structure-setup-and-draw.html][Enlace al
-ejemplo]]
+[[https://p5js.org/examples/structure-setup-and-draw.html][Enlace al ejemplo]]
 
 #+REVEAL: split
 
