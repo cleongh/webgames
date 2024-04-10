@@ -857,9 +857,9 @@ convexos, o usar una malla que tenga más coste (casco convexo)
 #+REVEAL: split
 
 Tenéis
-[[https://phaser.io/examples/v3/view/tilemap/collision/matter#][varios
+[[https://labs.phaser.io/index.html?dir=tilemap/collision/&q=][varios
 ejemplos]] del uso de
-[[https://phaser.io/examples/v3/view/tilemap/collision/matter-detect-collision-with-tile][Tilemaps
+[[https://labs.phaser.io/view.html?src=src\tilemap\collision\matter%20detect%20collision%20with%20tile.js][Tilemaps
 con Matter]] en
-[[https://phaser.io/examples/v3/view/tilemap/collision/matter-platformer-modify-map][la
+[[https://labs.phaser.io/view.html?src=src\tilemap\collision\matter%20platformer%20modify%20map.js][la
 página de Phaser]]
