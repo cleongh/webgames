@@ -241,16 +241,4 @@ hay un ejemplo de este tipo de audio]]
 :CUSTOM_ID: recursos-de-audio
 :END:
 
-#+REVEAL: split
-
-- Recursos de audio de Phaser (los *assets*)
-- [[https://www.freesound.org/][Free sound]]
-- [[https://soundbible.com/][SoundBible]]
-- [[https://www.newgrounds.com/audio][Newgrounds Audio]]
-- [[https://freemusicarchive.org/home][Free Music Archive]]
-- Generadores
-  - [[https://sfxr.me/][jsfxr]]
-  - [[https://sfbgames.itch.io/chiptone][Chiptone]]
-  - [[https://keithclark.github.io/ZzFXM/][ZzFXM]]
-  - [[https://pernyblom.github.io/abundant-music/index.html][Abundant-music]]
-- /Cualquier DAW (Digital Audio Workstation) con un buen sinte/
+Hay enlaces a recursos y generadores en el Campus Virtual
