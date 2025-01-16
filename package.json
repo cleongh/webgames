@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "npx parcel index.org --open",
-    "build": "npx parcel build index.org --public-url ./ --dist-dir docs"
+    "build": "npx parcel build index.org --dist-dir docs"
   },
   "repository": {
     "type": "git",
