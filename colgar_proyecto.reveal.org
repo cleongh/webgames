@@ -45,31 +45,31 @@ Indica las librerías que hacen falta, con sus versiones
 
 También incluyen comandos que vamos a usar (cómo desarrollar, como hacer el /release/)
 
-** Parcel
+** Vite
 
-[[https://parceljs.org/][Parcel]] es una herramienta de configuración automática de proyectos JS (hay otras como [[https://webpack.js.org/][Webpack]])
+[[https://es.vite.dev/][Vite]] es una herramienta de configuración automática de proyectos JS (hay otras como [[https://webpack.js.org/][Webpack]])
 
 #+REVEAL: split
 
-Parcel es un /bundler/, un programa que coge un punto inicial (=index.html= en nuestro caso), y a partir de lo que haya enlazado, construye:
+Vite es un /bundler/, un programa que coge un punto inicial (=index.html= en nuestro caso), y a partir de lo que haya enlazado, construye:
 
 - Un servidor de desarrollo, para trabajar en local: vuelve a generar las dependencias, recarga la página...
 - Una versión de publicación, optimizada para ser publicada
 
-** Instalación de Parcel
+** Instalación de Vite
 
-Para instalar Parcel tenéis que usar =npm=
+Para instalar Vite tenéis que usar =npm=
 
-- Se puede instalar directamente (mala idea): src_sh{npm install parcel}
+- Se puede instalar directamente (mala idea): src_sh[:eval no]{npm install --save-dev vite}
 - Editando el archivo de proyecto de =node.js=: =package.json=
 
-** Uso de Parcel
+** Uso de Vite
 
-Parcel simplifica mucho el desarrollo web
+Vite simplifica mucho el desarrollo web
 
-1. Tenemos un proyecto con un =package.json= que incluye Parcel en sus dependencias
-2. Decimos a =npm= que instale las dependencias automáticamente, y eso instalará Parcel y todo lo demás (Phaser, por ejemplo)
-3. Arrancamos el servidor de desarrollo de Parcel, que analiza y actualiza los cambios
+1. Tenemos un proyecto con un =package.json= que incluye Vite en sus dependencias
+2. Decimos a =npm= que instale las dependencias automáticamente, y eso instalará Vite y todo lo demás (Phaser, por ejemplo)
+3. Arrancamos el servidor de desarrollo de Vite, que analiza y actualiza los cambios
 4. Cada vez que queramos hacer /release/, creamos una build apropiada
 5. Hacemos =push= del contenido, y con GitHub pages ya está publicado
 

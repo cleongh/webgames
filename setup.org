@@ -1,5 +1,5 @@
-# #+AUTHOR: Carlos León
-# #+EMAIL: cleon@ucm.es
+#+AUTHOR: Carlos León
+#+EMAIL: cleon@ucm.es
 #+department: Department of Software Engineering and Artificial Intelligence
 #+institution: Computer Science Faculty, Universidad Complutense de Madrid
 #+address: Calle Profesor José García Santesmases, 9, 28040 Madrid, Spain

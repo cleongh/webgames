@@ -4,18 +4,32 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 
 * Curso 2023-2024
 
+** DVI
+
+- [[https://chuvakanalejandro.github.io/ishimondo.github.io/][Ishimondo]]
+- [[https://troops-prod-yadfj.ondigitalocean.app/][Troops]]
+- [[https://marsampe.github.io/ProyectoDVI/][Awakening of the Gods]]
+- [[https://github.com/cijaaimee/arham-quest][Arham Quest]]
+- [[https://juanromo-dev.github.io/Run-Gun/][The Fal-Out Dystopia]]
+- [[https://raulaj.github.io/MYSELF/][Myself]]
+- [[https://p3ibol711.github.io/Spell_Keeper/][Spell Keeper]]
+- [[https://github.com/JoseRamonRenteroJimenez/DVI_G8][Escape en alta mar]]
+- [[https://enrique-m-m.github.io/IntoTheAdventure/][Into the adventure]]
+- [[https://lmhrkn.github.io/Drag-Me-to-Heaven/][Drag me to Heaven]]
+- [[https://yikch.github.io/Yikerv-Studios/][Bellum primordia]]
+
 ** PVLI
 
-- MeronメロンWorks: My Beloved True Interest: https://cyntrist.github.io/PVLI-ProjectM/
-- Dummy Studios! Link: https://alvapina.github.io/PVLI---Grupo-4---23_24/
-- Workaholote Studio - Work To The Top: https://nahigles.github.io/Workaholote/
-- Black Hole Studios - Ego Battle: https://javibravoperucho.github.io/Ego-Battle/
-- Scripted Games - Survival Spectrum: https://lparres2000.github.io/JuegoPVLI/
-- YellowRide Studios - DEATH CAB: https://pokoli0.github.io/PVLI-Taxistas/
-- Berdestudios - Green Bean Redemption: https://guco23.github.io/greenGame1/
-- Nineando Corp - Cocktails & You: http://marc0spm.github.io/COCKTAILS-N-YOU/
-- CapyPoomStudios - JuegosDeChikes.cum: https://paigro.github.io/JuegosDeChikes.cum/
-- SombrererosProductions-40 Crisis: https://adelpozo04.github.io/Grupo03-40Crisis/
+- [[https://cyntrist.github.io/PVLI-ProjectM/][MeronメロンWorks: My Beloved True Interest]]
+- [[https://alvapina.github.io/PVLI---Grupo-4---23_24/][Dummy Studios! Link]]
+- [[https://nahigles.github.io/Workaholote/][Workaholote Studio - Work To The Top]]
+- [[https://javibravoperucho.github.io/Ego-Battle/][Black Hole Studios - Ego Battle]]
+- [[https://lparres2000.github.io/JuegoPVLI/][Scripted Games - Survival Spectrum]]
+- [[https://pokoli0.github.io/PVLI-Taxistas/][YellowRide Studios - DEATH CAB]]
+- [[https://guco23.github.io/greenGame1/][Berdestudios - Green Bean Redemption]]
+- [[http://marc0spm.github.io/COCKTAILS-N-YOU/][Nineando Corp - Cocktails & You]]
+- [[https://paigro.github.io/JuegosDeChikes.cum/][CapyPoomStudios - JuegosDeChikes.cum]]
+- [[https://adelpozo04.github.io/Grupo03-40Crisis/][SombrererosProductions-40 Crisis]]
 
 
 * Curso 2022-2023

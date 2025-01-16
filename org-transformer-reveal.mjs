@@ -11,7 +11,8 @@ export default new Transformer({
 		// const stdout =
 		// execSync(`pandoc ${filename} -s --highlight-style=espresso -t html5`);
 		// execSync(`emacsclient -e '(progn (find-file "index.org") (org-html-export-to-html))'`);
-// 
+	    // -s exporter
+	    // execSync(`emacsclient -a "" -s exporter --eval '(setq org-export-with-toc nil)' --eval '(setq org-html-link-org-files-as-html nil)' --eval "(setq org-re-reveal-plugins '(search highlight zoom))"  --eval '(setq org-re-reveal-root "node_modules/reveal.js/")' -e '(progn (find-file-read-only "${filename}") (org-re-reveal-export-to-html t))'`)
 	    execSync(`emacs -l ~/.emacs.d/init.el ${filename} --eval '(setq org-export-with-toc nil)' --eval '(setq org-html-link-org-files-as-html nil)' --eval "(setq org-re-reveal-plugins '(search highlight zoom))"  --eval '(setq org-re-reveal-root "node_modules/reveal.js/")' --batch -f org-re-reveal-export-to-html`)
 
 		const stdout = readFileSync(`${bn}.reveal.html`);
