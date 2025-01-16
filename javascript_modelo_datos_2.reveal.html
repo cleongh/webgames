@@ -52,7 +52,7 @@ En el ejemplo de Space Invaders, el estado de los enemigos formado por:
 </p>
 
 
-<div id="org262a838" class="figure">
+<div id="org05407bb" class="figure">
 <p><img src="space-invaders-enemy-state.svg" alt="space-invaders-enemy-state.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 1: </span>Estado del enemigo en el modelado de Space Invaders</p>
@@ -139,7 +139,7 @@ objeto:
 </p>
 
 
-<div id="org8dae106" class="figure">
+<div id="org0f5131b" class="figure">
 <p><img src="space-invaders-enemy-state.svg" alt="space-invaders-enemy-state.svg" class="org-svg">
 </p>
 <p><span class="figure-number">Figura 2: </span>API del enemigo en el modelado de Space Invaders</p>
@@ -390,7 +390,7 @@ directamente el de constructor
 </p>
 
 
-<div id="orgc9ea104" class="figure">
+<div id="orgb32bf12" class="figure">
 <p><img src="space-invaders-constructor-example.svg" alt="space-invaders-constructor-example.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 3: </span>Constructores de objetos</p>
@@ -612,7 +612,7 @@ así sucesivamente hasta alcanzar la propiedad o el final de esta cadena
 Por ejemplo:
 </p>
 
-<pre class="example" id="org4269fba">
+<pre class="example" id="org89f26d8">
 obj1                    obj2               obj3
 { a: 1, b: 2, c: 3} --&gt; { d: 4, e: 5 } --&gt; { f: 6 }
 obj1.c -------↑           ↑                  ↑
@@ -717,7 +717,7 @@ Los prototipos se prestan a ser el lugar ideal para contener la API que
 es el comportamiento común de todos los objetos de un tipo
 </p>
 
-<pre class="example" id="org2e5254d">
+<pre class="example" id="org9c09122">
 let obj = newShot()                   newShot.api
 {_position: {x: 10...}...} --&gt; {advance: function...};
 
@@ -955,7 +955,7 @@ hacerlo eficazmente usando constructores y la cadena de prototipos
 </p>
 
 
-<div id="org620d0d4" class="figure">
+<div id="org883caa5" class="figure">
 <p><img src="space-invaders-hierarchy.svg" alt="space-invaders-hierarchy.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 4: </span>Relación de herencia entre nave y los enemigos y la nave aliada</p>
@@ -1087,7 +1087,7 @@ personalizarán
 </p>
 
 
-<div id="orge966a21" class="figure">
+<div id="org2660ae3" class="figure">
 <p><img src="space-invaders-hierarchy-constructor.svg" alt="space-invaders-hierarchy-constructor.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 5: </span>Jerarquía de constructores</p>
@@ -1136,7 +1136,7 @@ En cuanto a la API, lo ideal sería contar con una cadena de prototipos
 de esta forma:
 </p>
 
-<pre class="example" id="orga7dfbc9">
+<pre class="example" id="org15c6c85">
   new Enemy()          Enemy.prototype      Ship.prototype
 { _position: ...} --&gt; { advance: ... } --&gt; { moveLeft: ... }
 enemy._score ---↑            ↑                   ↑
