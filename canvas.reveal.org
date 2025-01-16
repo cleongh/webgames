@@ -205,8 +205,7 @@ img.src = 'https://placekitten.com/g/300/300';
 - Es una API estándar de gráficos 3D
 - [[https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API][Documentación
   MDN]]
-- Para pedir un contexto 3D a =<canvas>= debemos especificar *=webgl=*1
-  en =getContext=
+- Para pedir un contexto 3D a =<canvas>= debemos especificar =webgl= en =getContext=
 
 1. O =experimental-webgl= en algunos navegadores.
 
