@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Cliente de red</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Cliente de red</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-el-juego-de-verdad">
+<h2 id="el-juego-de-verdad">El juego de verdad</h2>
+</section>
+<section>
+
+<p>
+El cliente estará en una página (un archivo <code>.html</code>), como siempre
+</p>
+
+</section>
+<section>
+
+<p>
+Iniciamos una página HTML normal:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Cliente del juego&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+El servidor que hemos creado no sólo nos sirve la página web, sino
+también la librería
+</p>
+
+<p>
+Esto nos asegura no tener diferentes versiones entre cliente y servidor
+</p>
+
+</section>
+<section>
+
+<p>
+Añadimos esta línea a nuestro <code>&lt;body&gt;</code>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script src="/socket.io/socket.io.js"&gt;&lt;/script&gt;
+</code></pre>
+</div>
+
+<p>
+La ruta la crea automáticamente el servidor con <code>socket.io</code>, no hay que
+tener el archivo
+</p>
+
+</section>
+<section>
+
+<p>
+Creamos dos botones y un párrafo para la interfaz, y cogemos sus
+referencias para manejarlos desde JavaScript:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;button id="armas"&gt;Pedir precios de armas&lt;/button&gt;
+&lt;button id="comida"&gt;Pedir precios de comida&lt;/button&gt;
+
+&lt;p id="lista"&gt;&lt;/p&gt;
+
+&lt;script&gt;
+  const armas = document.getElementById("armas");
+  const comida = document.getElementById("comida");
+  const muestra = document.getElementById("lista");
+&lt;/script&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Iniciamos la conexión con la dirección y el puerto (que tiene que ser el
+mismo que el del servidor)
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script&gt;
+  const direccion = 'localhost';
+  const puerto = 3000;
+  const socket = io('http://' + direccion + ':' + puerto);
+&lt;/script&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Es más cómodo definir el puerto <i>sólo en 1 sitio</i> (en vez de poner
+<code>const port=3000</code> en cliente y servidor), e importar el módulo
+</p>
+
+</section>
+<section>
+
+<p>
+Cada botón va a enviar un mensaje del mismo tipo (<code>'precios'</code>), con un
+objeto adicional particular:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script&gt;
+  armas.onclick = () =&gt; socket.emit('precios', 'armas');
+  comida.onclick = () =&gt; socket.emit('precios', 'comida');
+&lt;/script&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Cuando llegue la lista, la mostramos en el párrafo <code>muestra</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >  &lt;script&gt;
+    socket.on('respuesta', lista =&gt; {
+      // `JSON.stringify` convierte un JSON a string para
+      // poder mostrarlo
+      muestra.innerHTML = JSON.stringify(lista)
+    });
+  &lt;/script&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

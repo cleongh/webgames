@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Modelo de datos de JavaScript (II)</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Modelo de datos de JavaScript (II)</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-objetos-y-paso-de-mensajes">
+<h2 id="objetos-y-paso-de-mensajes">Objetos y paso de mensajes</h2>
+</section>
+<section>
+
+<p>
+Los objetos de JavaScript y el poder usar código como un valor más
+permite codificar los conceptos de objeto y paso de mensajes de la
+programación orientada a objetos
+</p>
+</section>
+<section id="slide-codificando-el-estado">
+<h3 id="codificando-el-estado">Codificando el estado</h3>
+<p>
+Con lo que se ha visto hasta ahora se tiene suficiente conocimiento para
+codificar el estado
+</p>
+
+<p>
+El <b>conjunto de atributos</b> del objeto del modelado orientado a objetos
+se traduce al <b>conjunto de propiedades</b> de los objetos JavaScript
+</p>
+
+</section>
+<section>
+
+<p>
+En el ejemplo de Space Invaders, el estado de los enemigos formado por:
+</p>
+
+
+<div id="org262a838" class="figure">
+<p><img src="space-invaders-enemy-state.svg" alt="space-invaders-enemy-state.svg" class="org-svg" height="400">
+</p>
+<p><span class="figure-number">Figura 1: </span>Estado del enemigo en el modelado de Space Invaders</p>
+</div>
+
+</section>
+<section>
+
+<p>
+Se puede codificar mediante:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let enemy = {
+  graphic: 'specie01.png',
+  currentDirection: 'right',
+  position: { x: 10, y: 10 },
+  score: 40
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+La primera limitación en JavaScript es que <b>no se puede restringir el
+acceso a las propiedades de un objeto</b>
+</p>
+
+<p>
+Así, nada nos impide poder modificar la posición directamente
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy.position.x = 100; // perfectamente válido
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Lo único que podemos hacer es desaconsejar al usuario que utilice las
+propiedades que determinemos como atributos
+</p>
+
+<p>
+Una práctica muy común es añadir un guíon bajo <code>_</code> a los atributos como
+indicando que son <b>privados</b>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let enemy = {
+  _graphic: 'specie01.png',
+  _currentDirection: 'right',
+  _position: { x: 10, y: 10 },
+  _score: 40
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Pero esto es un convenio, y podemos seguir accediendo a los atributos
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy._position.x = 100; // perfectamente válido también
+</code></pre>
+</div>
+</section>
+<section id="slide-codificando-la-api">
+<h3 id="codificando-la-api">Codificando la API</h3>
+<p>
+Los <b>métodos</b> pueden implementarse como <b>funciones</b> en propiedades de un
+objeto:
+</p>
+
+
+<div id="org8dae106" class="figure">
+<p><img src="space-invaders-enemy-state.svg" alt="space-invaders-enemy-state.svg" class="org-svg">
+</p>
+<p><span class="figure-number">Figura 2: </span>API del enemigo en el modelado de Space Invaders</p>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let enemy = {
+  _graphic: 'specie01.png',
+  _currentDirection: 'right',
+  _position: { x: 10, y: 10 },
+  _score: 40,
+
+  moveLeft: function () { console.log('Going left!'); },
+  moveRight: function () { console.log('Going right!'); },
+  advance: function () { console.log('Marching forward!'); },
+  shoot: function () { console.log('PICHIUM!'); } // (es un láser)
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Enviar un mensaje a un objeto consiste sencillamente <b>acceder a una
+función propiedad del destinatario y llamarla</b>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy.shoot(); // primero accedemos con punto, luego llamamos con ()
+enemy.moveLeft();
+enemy.moveLeft();
+enemy.advance();
+enemy['shoot'](); // es lo mismo, acceder con corchetes y llamar con ()
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Cualquier función puede actuar como método. Y como cualquier propiedad
+de un objeto, podemos cambiarla en cualquier momento:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy.shoot(); // PICHIUM!
+enemy.shoot = function () { console.log('PAÑUM!'); };
+enemy.shoot(); // PAÑUM!
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ahora bien, observa el siguiente comportamiento:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy; // fíjate en la posición
+enemy.moveLeft();
+enemy; // fíjate en la posición otra vez
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Obviamente, echando un vistazo a lo que hace <code>moveLeft()</code> no podríamos
+decir que cambia el estado del objeto destinatario del mensaje
+</p>
+
+</section>
+<section>
+
+<p>
+Como cualquier función puede actuar como método, necesitamos una forma
+de <b>referirnos al destinatario del mensaje</b>, si existe
+</p>
+
+<p>
+Este se guarda en la letiable <b><code>this</code></b>
+</p>
+
+<p>
+Ojo con <code>this</code>&#x2026; =)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-this">
+<h2 id="this"><code>this</code></h2>
+</section>
+<section>
+
+<p>
+Con <code>this</code>, vamos a implementar los métodos de movimiento:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy.moveLeft = function () { this._position.x -= 2; };
+enemy.moveRight = function () { this._position.x += 2; };
+enemy.advance = function () { this._position.y += 2; };
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ahora puedes probar el mismo experimento de antes y ver cómo
+efectivamente alteramos el estado del objeto:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy; // fíjate en la posición
+enemy.moveLeft();
+enemy; // fíjate en la posición otra vez
+</code></pre>
+</div>
+</section>
+<section id="slide-el-valor-de-this">
+<h3 id="el-valor-de-this">El valor de <code>this</code></h3>
+<p>
+El valor de <code>this</code> es uno de los aspectos más controvertidos de
+JavaScript
+</p>
+
+<p>
+En otros lenguajes métodos y funciones son cosas distintas y un método
+<b>siempre</b> tiene asociado un y sólo un objeto así que <code>this</code> nunca cambia
+</p>
+
+</section>
+<section>
+
+<p>
+Pero en JavaScript, <code>this</code> depende de cómo llamemos a la función, si la
+llamamos como si fuera una función o si la llamamos como si fuera un
+método
+</p>
+
+<p>
+Considera la siguiente función:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function inspect() {
+  // sólo inspecciona this
+  console.log('Tipo:', typeof this);
+  console.log('Valor:', this);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y prueba lo siguiente:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// Piensa qué puede valer this antes de probar cada ejemplo
+let ship1 = { name: 'T-Fighter', method: inspect };
+let ship2 = { name: 'X-Wing', method: inspect };
+ship1.method();
+ship2.method();
+inspect();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+En el último caso, el valor de <code>this</code> es <b>el objeto global</b> porque la
+función no se está usando como un método por lo que no hay destinatario
+</p>
+
+<p>
+En JavaScript podemos hacer que cualquier objeto sea <code>this</code> en cualquier
+función
+</p>
+
+</section>
+<section>
+
+<p>
+Para ello usaremos
+<a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Function/apply"><code>apply()</code></a>
+en una función:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let onlyNameShip = { name: 'Death Star' };
+inspect.apply(onlyNameShip); // hace que this valga onlyNameShip en inspect
+</code></pre>
+</div>
+
+<p>
+A
+<a href="http://dmitrysoshnikov.com/ecmascript/javascript-the-core/#this-value"><code>this</code></a>
+se le conoce también como <b>objeto de contexto</b> y utilizaremos este
+término de cuando en cuando
+</p>
+</section>
+</section>
+<section>
+<section id="slide-tipos-y-constructores-de-objetos">
+<h2 id="tipos-y-constructores-de-objetos">Tipos y constructores de objetos</h2>
+</section>
+<section>
+
+<p>
+Javascript permite modelar <b>prototipos de objetos</b>
+</p>
+
+<p>
+JavaScript no permite modelar tipos nuevos y tendremos que dar un rodeo
+</p>
+
+<p>
+Esta es una de las principales diferencias con otros lenguajes
+orientados a objetos
+</p>
+
+</section>
+<section>
+
+<p>
+Lo que vamos a hacer es saltarnos el concepto de tipo para abordar
+directamente el de constructor
+</p>
+
+
+<div id="orgc9ea104" class="figure">
+<p><img src="space-invaders-constructor-example.svg" alt="space-invaders-constructor-example.svg" class="org-svg" height="400">
+</p>
+<p><span class="figure-number">Figura 3: </span>Constructores de objetos</p>
+</div>
+
+</section>
+<section>
+
+<p>
+Vamos a crear dos funciones constructoras, una para puntos y otra para
+disparos:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function newPoint(x, y) {
+  let obj = {};
+  obj.x = x;
+  obj.y = y;
+  return obj;
+}
+
+function newShot(position, velocity) {
+  let obj = {};
+  obj._position = position;
+  obj._velocity = velocity;
+  obj.advance = function () {
+    this._position.y += this._velocity;
+  };
+  return obj;
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+La forma de las funciones constructoras es muy similar: crear un objeto
+vacío, establecer las propiedades del objeto y devolver el nuevo objeto
+</p>
+
+</section>
+<section>
+
+<p>
+Ahora podemos crear un nuevo disparo con algo así:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// Velocidad positiva para que se mueva hacia abajo
+let enemyShot = newShot(newPoint(15, 15), 2);
+
+// Velocidad negativa para que se mueva hacia arriba
+let allyShot = newShot(newPoint(15, 585), -2);
+
+enemyShot !== allyShot;
+</code></pre>
+</div>
+</section>
+<section id="slide-reaprovechando-funcionalidad">
+<h3 id="reaprovechando-funcionalidad">Reaprovechando funcionalidad</h3>
+<p>
+El problema con esta aproximación es que estamos creando funciones
+distintas para comportamientos idénticos. Una función por objeto
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let s1 = newShot(newPoint(15, 15), 2);
+let s2 = newShot(newPoint(15, 15), 2);
+let s3 = newShot(newPoint(15, 15), 2);
+s1.advance !== s2.advance;
+s2.advance !== s3.advance;
+s3.advance !== s1.advance;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Esto es altamente ineficiente dado que cada función ocupa un espacio
+distinto en memoria
+</p>
+
+<p>
+No necesitamos distintas funciones sino una solamente actuando sobre
+distintos objetos
+</p>
+
+</section>
+<section>
+
+<p>
+Así que vamos a <b>crear un objeto que contenga sólamente la API</b>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let shotAPI = {
+  advance: function () {
+    this._position.y += this._velocity;
+  }
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y a usarlo en la creación del objeto para referenciar la API:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function newShot(position, velocity) {
+  let obj = {};
+  obj._position = position;
+  obj._velocity = velocity;
+  obj.advance = shotAPI.advance;
+  return obj;
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ahora todas las instancias comparten la misma función pero cada función
+actúa sobre el objeto correspondiente gracias al uso de <code>this</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let s1 = newShot(newPoint(15, 15), 2);
+let s2 = newShot(newPoint(15, 15), 2);
+let s3 = newShot(newPoint(15, 15), 2);
+s1.advance === s2.advance; // ahora SÍ son iguales
+s2.advance === s3.advance;
+s3.advance === s1.advance;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Para hacer todavía más fuerte la asociación entre el constructor y la
+API, modificamos el <b>objeto con la API como una propiedad de la función
+constructora</b>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function newShot(position, velocity) {
+  let obj = {};
+  obj._position = position;
+  obj._velocity = velocity;
+  obj.advance = newShot.api.advance;
+  return obj;
+}
+
+// Recuerda, una función es un objeto, así que le podemos añadir una propiedad
+newShot.api = {
+  advance: function () {
+    this._position.y += this._velocity;
+  }
+};
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-la-cadena-de-prototipos">
+<h2 id="la-cadena-de-prototipos">La cadena de prototipos</h2>
+</section>
+<section>
+
+<p>
+JavaScript posee una característica muy representativa y única del
+lenguaje: <b>la cadena de prototipos</b>
+</p>
+
+<p>
+Puedes experimentar con ella en
+<a href="http://www.objectplayground.com/">Object Playground</a>, una excelente
+herramienta que te ayudará a visualizarla
+</p>
+
+</section>
+<section>
+
+<p>
+La idea no es complicada. La cadena de prototipos <b>es una lista de
+búsqueda para las propiedades</b>
+</p>
+
+<p>
+Cada elemento de la cadena es <b>prototipo</b> del objeto anterior
+</p>
+
+</section>
+<section>
+
+<p>
+Cuando accedemos a la propiedad de un objeto, esta propiedad se busca en
+el objeto y si no se encuentra, se busca en el prototipo del objeto, y
+así sucesivamente hasta alcanzar la propiedad o el final de esta cadena
+</p>
+
+</section>
+<section>
+
+<p>
+Por ejemplo:
+</p>
+
+<pre class="example" id="org4269fba">
+obj1                    obj2               obj3
+{ a: 1, b: 2, c: 3} --&gt; { d: 4, e: 5 } --&gt; { f: 6 }
+obj1.c -------↑           ↑                  ↑
+obj1.d -------------------|                  |
+obj1.f --------------------------------------|
+obj1.z -----------------------------------------------X
+</pre>
+
+</section>
+<section>
+
+<p>
+Crear esta jerarquía en JavaScript requiere el uso de
+<a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Object/create"><code>Object.create()</code></a>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// La cadena se monta de atrás hacia adelante
+let obj3 = { f: 6 };
+// Encadenamos obj2 a obj3
+let obj2 = Object.create(obj3);
+obj2.d = 4;
+obj2.e = 5;
+// Encadenamos obj1 a obj2
+let obj1 = Object.create(obj2);
+obj1.a = 1;
+obj1.b = 2;
+obj1.c = 3;
+
+obj1.c;
+obj1.d;
+obj1.f;
+obj1.z; // undefined
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+El método <code>Object.create()</code> crea un nuevo objeto vacío (como <code>{}</code>) cuyo
+prototipo es el objeto pasado como parámetro
+</p>
+
+</section>
+<section>
+
+<p>
+Se puede usar el método
+<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty"><code>hasOwnProperty()</code></a>
+para determinar si una propiedad pertenece a un objeto sin atravesar la
+cadena de prototipos:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >obj1.hasOwnProperty('c');
+obj1.hasOwnProperty('d');
+obj1.hasOwnProperty('f');
+obj1.hasOwnProperty('z');
+
+obj2.hasOwnProperty('c');
+obj2.hasOwnProperty('d');
+obj2.hasOwnProperty('f');
+obj2.hasOwnProperty('z');
+
+obj3.hasOwnProperty('c');
+obj3.hasOwnProperty('d');
+obj3.hasOwnProperty('f');
+obj3.hasOwnProperty('z');
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Se puede usar el método
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf"><code>Object.getPrototypeOf</code></a>
+para obtener el prototipo de un objeto:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >Object.getPrototypeOf(obj1) === obj2;
+Object.getPrototypeOf(obj2) === obj3;
+Object.getPrototypeOf(obj3) === Object.prototype;
+Object.getPrototypeOf(Object.prototype) === null;
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-constructores-y-cadenas-de-prototipos">
+<h2 id="constructores-y-cadenas-de-prototipos">Constructores y cadenas de prototipos</h2>
+</section>
+<section>
+
+<p>
+Los prototipos se prestan a ser el lugar ideal para contener la API que
+es el comportamiento común de todos los objetos de un tipo
+</p>
+
+<pre class="example" id="org2e5254d">
+let obj = newShot()                   newShot.api
+{_position: {x: 10...}...} --&gt; {advance: function...};
+
+obj._position.y ----↑                       ↑
+obj.advance --------------------------------|
+obj.goBack ----------------------------------------------X
+</pre>
+
+</section>
+<section>
+
+<p>
+Para crear este enlace modificaremos el constructor:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function newShot(position, velocity) {
+  // Con esto la API es el prototipo del objeto
+  let obj = Object.create(newShot.api);
+  obj._position = position;
+  obj._velocity = velocity;
+  return obj;
+}
+
+newShot.api = {
+  advance: function () {
+    this._position.y += this._velocity;
+  }
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y ahora probamos a crear un nuevo disparo:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let shot = newShot(newPoint(0,0), 2);
+shot; // al inspeccionar shot sólo se muestran las propiedades del objeto
+shot.advance; // pero advance existe en su prototipo
+shot.hasOwnProperty('advance');
+Object.getPrototypeOf(shot).hasOwnProperty('advance');
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Si hiciéramos esto con todos los constructores, cláramente
+encontraríamos un patrón:
+</p>
+
+<ol>
+<li>Crea un objeto para contener la API</li>
+<li>Implementa la API como propiedades de este objeto</li>
+<li>En el constructor haz que este objeto sea el prototipo de un nuevo
+objeto</li>
+<li>Establece las propiedades del nuevo objeto con el estado</li>
+<li>Devuelve el nuevo objeto</li>
+
+</ol>
+
+</section>
+<section>
+
+<p>
+Sólo los pasos 2 y 4 involucran diferencias de un constructor a otro.
+Todo lo demás es exactamente igual. Tanto es así que JavaScript lo tiene
+en cuenta y viene con los mecanismos para automatizar los pasos 1, 3 y 5
+</p>
+
+</section>
+<section>
+
+<p>
+Primero, JavaScript permite que cualquier función pueda usarse como
+constructor
+</p>
+
+</section>
+<section>
+
+<p>
+Cada vez que escribimos una función, JavaScript <b>crea una propiedad de
+la función llamada <code>prototype</code></b> que es un objeto con una única propiedad
+<code>constructor</code> que apunta a la función
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function anyFunction() {}
+anyFunction.prototype;
+anyFunction.prototype.constructor === anyFunction;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Esto automatiza el paso 1. Ya no es necesario el objeto <code>api</code> que
+preparábamos nosotros manualmente
+</p>
+
+</section>
+<section>
+
+<p>
+Ahora, al llamar a la función con el operador <code>new</code> delante, se crea un
+<b>nuevo objeto cuyo prototipo es precisamente la propiedad <code>prototype</code></b>
+de la función:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let obj = new anyFunction();
+let anotherObj = new anyFunction();
+
+// Los objetos son distintos
+obj !== anotherObj;
+
+// Pero sus prototipos son iguales
+Object.getPrototypeOf(obj) === Object.getPrototypeOf(anotherObj);
+
+// Y además son la propiedad prototype de la función
+Object.getPrototypeOf(obj) === anyFunction.prototype;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Con esto automatizamos el paso 3. Ya no es necesario llamar a
+<code>Object.create()</code> para establecer la cadena de prototipos entre objeto y
+API
+</p>
+
+</section>
+<section>
+
+<p>
+Finalmente, cuando se llama con <code>new</code>, la <b>función recibe como objeto de
+contexto (recuerda, el <code>this</code>) el elemento que está siendo creado</b> lo
+que nos permite establecer sus atributos
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Hero(name) {
+  this.name = name;
+  this.sword = null;
+  this.shield = null;
+}
+
+let hero = new Hero('Link');
+hero;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Si la <b>función devuelve nada</b>, el resultado del operador <code>new</code> será el
+nuevo objeto. Esto automatiza el paso 5 puesto que no es necesario
+devolver el nuevo objeto, esta devolución se hace implícita
+</p>
+
+<p>
+Veamos como queda el constructor de punto:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y el del disparo:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Shot(position, velocity) {
+  this._position = position;
+  this._velocity = velocity;
+}
+
+// El prototipo ya existe, pero le añadimos el método advance()
+Shot.prototype.advance = function () {
+  this._position.y += this._velocity;
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ahora crear los objetos será cuestión de usar <code>new</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let enemyShot = new Shot(new Point(15, 15), 2);
+let allyShot = new Shot(new Point(15, 585), -2);
+enemyShot !== allyShot;
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-herencia">
+<h2 id="herencia">Herencia</h2>
+</section>
+<section>
+
+<p>
+Sabemos como crear objetos con atributos y métodos y sabemos como
+hacerlo eficazmente usando constructores y la cadena de prototipos
+</p>
+
+
+<div id="org620d0d4" class="figure">
+<p><img src="space-invaders-hierarchy.svg" alt="space-invaders-hierarchy.svg" class="org-svg" height="400">
+</p>
+<p><span class="figure-number">Figura 4: </span>Relación de herencia entre nave y los enemigos y la nave aliada</p>
+</div>
+
+</section>
+<section>
+
+<p>
+Falta explicar cómo podemos crear una <b>relación de herencia</b>
+</p>
+
+<p>
+Usemos el ejemplo de los enemigos y la nave protagonista de la lección
+anterior
+</p>
+
+</section>
+<section>
+
+<p>
+Necesitaremos pues nuestros constructores de puntos y disparos:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+
+function Shot(position, velocity) {
+  this._position = position;
+  this._velocity = velocity;
+}
+
+Shot.prototype.advance = function () {
+  this._position.y += this._velocity;
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+El constructor del enemigo podría ser:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Enemy(graphic, position, score) {
+  this._graphic = graphic;
+  this._currentDirection = 'right';
+  this._position = position;
+  this._score = score;
+}
+
+Enemy.prototype.moveLeft = function () { this._position.x -= 2; };
+Enemy.prototype.moveRight = function () { this._position.x += 2; };
+Enemy.prototype.advance = function () { this._position.y += 2; };
+Enemy.prototype.shoot = function () {
+  let firePosition = new Position(this._position.x, this._position.y + 10);
+  let shot = new Shot(firePosition, 2);
+  return shot;
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y el de la nave aliada:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Ally(position) {
+  this._graphic = 'ally.png';
+  this._position = position;
+}
+
+Ally.prototype.moveLeft = function () { this._position.x -= 2; };
+Ally.prototype.moveRight = function () { this._position.x += 2; };
+Ally.prototype.shoot = function () {
+  let firePosition = new Position(this._position.x, this._position.y - 10);
+  let shot = new Shot(firePosition, -2);
+  return shot;
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Podemos pensar en un constructor que capture las propiedades comunes de
+ambos tipos:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Ship(graphic, position) {
+  this._graphic = graphic;
+  this._position = position;
+}
+
+Ship.prototype.moveLeft = function () { this._position.x -= 2; };
+Ship.prototype.moveRight = function () { this._position.x += 2; };
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+No incluimos disparar porque unos disparan hacia arriba y otros hacia
+abajo
+</p>
+
+</section>
+<section>
+
+<p>
+Recordemos que ahora los constructores de la nave aliada y los enemigos
+pedirán primero al constructor de nave una nave y luego la
+personalizarán
+</p>
+
+
+<div id="orge966a21" class="figure">
+<p><img src="space-invaders-hierarchy-constructor.svg" alt="space-invaders-hierarchy-constructor.svg" class="org-svg" height="400">
+</p>
+<p><span class="figure-number">Figura 5: </span>Jerarquía de constructores</p>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Enemy(graphic, position, score) {
+  Ship.apply(this, [graphic, position]);
+  this._currentDirection = 'right';
+  this._score = score;
+}
+
+function Ally(position) {
+  Ship.apply(this, ['ally.png', position]);
+}
+</code></pre>
+</div>
+
+<p>
+Con
+<a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Function/apply"><code>apply()</code></a>
+se puede ejecutar una función indicando cuál será su objeto de contexto
+y sus parámetros
+</p>
+
+</section>
+<section>
+
+<p>
+Con la configuración anterior, las nuevas instancias de enemigos y
+aliados pasarán primero por el constructor de <code>Ship</code> que establecerá los
+<b>atributos comunes</b> y luego serán modificados cada uno por el
+constructor pertinente para convertirse en enemigos o aliados
+concretamente
+</p>
+
+</section>
+<section>
+
+<p>
+En cuanto a la API, lo ideal sería contar con una cadena de prototipos
+de esta forma:
+</p>
+
+<pre class="example" id="orga7dfbc9">
+  new Enemy()          Enemy.prototype      Ship.prototype
+{ _position: ...} --&gt; { advance: ... } --&gt; { moveLeft: ... }
+enemy._score ---↑            ↑                   ↑
+enemy.advance ---------------|                   |
+enemy.moveLeft ----------------------------------|
+</pre>
+
+</section>
+<section>
+
+<p>
+De forma que los atributos del enemigo estén en la instancia, la API
+específica en la propiedad <code>prototype</code> del constructor <code>Enemy</code> y la API
+común en la propiedad <code>prototype</code> del constructor <code>Ship</code>
+</p>
+
+</section>
+<section>
+
+<p>
+Como ocurría con el ejemplo en la sección anterior, tendremos que crear
+la cadena de atrás hacia adelante. El enlace entre las instancias y los
+constructores nos lo proporciona JavaScript al utilizar <code>new</code> pero el
+enlace entre la propiedad <code>prototype</code> de <code>Enemy</code> y de <code>Ship</code> <b>tenemos
+que establecerlo manualmente</b>
+</p>
+</section>
+<section id="slide-herencia-en-el-tipo-enemy">
+<h3 id="herencia-en-el-tipo-enemy">Herencia en el tipo <code>Enemy</code></h3>
+<div class="org-src-container">
+
+<pre><code class="js" >// Inspecciona la propiedad prototype
+Enemy.prototype;
+
+// Enlaza ambas propiedades prototype
+Enemy.prototype = Object.create(Ship.prototype);
+
+// Inspecciona la propiedad prototype otra vez y busca diferencias
+Enemy.prototype;
+
+// Corrige la propiedad constructor
+Enemy.prototype.constructor = Enemy;
+
+// Añade el método específico del tipo Enemy
+Enemy.prototype.advance = function () {
+  this._position.y += 2;
+};
+
+// Otro método específico
+Enemy.prototype.shoot = function () {
+  let firePosition = new Point(this._position.x, this._position.y + 10);
+  let shot = new Shot(firePosition, 2);
+  return shot;
+};
+</code></pre>
+</div>
+</section>
+<section id="slide-herencia-en-el-tipo-ally">
+<h3 id="herencia-en-el-tipo-ally">Herencia en el tipo <code>Ally</code></h3>
+<div class="org-src-container">
+
+<pre><code class="js" >// Lo mismo para el aliado
+Ally.prototype = Object.create(Ship.prototype);
+Ally.prototype.constructor = Ally
+
+Ally.prototype.shoot = function () {
+  let firePosition = new Point(this._position.x, this._position.y - 10);
+  let shot = new Shot(firePosition, -2);
+  return shot;
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ahora sí, podemos crear un enemigo y un aliado usando sus constructores:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let enemy = new Enemy('enemy1.png', new Point(10, 10), 40);
+let ally = new Ally(new Point(10, 590));
+
+Object.getPrototypeOf(ally) === Ally.prototype;
+Object.getPrototypeOf(enemy) === Enemy.prototype;
+Ally.prototype !== Enemy.prototype;
+Object.getPrototypeOf(Ally.prototype) === Object.getPrototypeOf(Enemy.prototype);
+Object.getPrototypeOf(Ally.prototype) === Ship.prototype;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y comprobar dónde está cada propiedad
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy.hasOwnProperty('_score');
+enemy.hasOwnProperty('advance');
+enemy.hasOwnProperty('moveLeft');
+
+Enemy.prototype.hasOwnProperty('_score');
+Enemy.prototype.hasOwnProperty('advance');
+Enemy.prototype.hasOwnProperty('moveLeft');
+
+Ship.prototype.hasOwnProperty('_score');
+Ship.prototype.hasOwnProperty('advance');
+Ship.prototype.hasOwnProperty('moveLeft');
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-polimorfismo">
+<h2 id="polimorfismo">Polimorfismo</h2>
+</section>
+<section>
+
+<p>
+Las relaciones de herencia que acabamos de establecer nos permiten decir
+que un enemigo es una instancia del tipo <code>Enemy</code> pero también lo es del
+tipo <code>Ship</code>
+</p>
+
+<p>
+Una misma instancia <b>tiene múltiples formas</b> gracias a la herencia En
+programación orientada a objetos a esto se lo llama <b>polimorfismo</b>
+</p>
+
+</section>
+<section>
+
+<p>
+Alternativamente podemos decir que un enemigo es una instancia de
+<code>Enemy</code> porque tiene la API de <code>Enemy</code> o que es una instancia de <code>Ship</code>
+porque tiene la API de <code>Ship</code>
+</p>
+
+<p>
+Esto es equivalente a decir que las propiedades <code>prototype</code> de <code>Enemy</code> y
+<code>Ship</code> están en la cadena de prototipos del objeto
+</p>
+
+</section>
+<section>
+
+<p>
+El operador <code>instanceof</code> devuelve verdadero si la propiedad <code>prototype</code>
+de la función de la derecha está en la cadena de prototipos del objeto
+de la izquierda
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy instanceof Enemy;  // el primer eslabón
+enemy instanceof Ship;   // el segundo
+enemy instanceof Object; // el tercero
+
+enemy instanceof Ally;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+En lo referente al estado, resulta conveniente saber qué constructor ha
+construido el objeto. Esto es como determinar cuál es el <b>primer
+eslabón</b> de la cadena de prototipos
+</p>
+
+</section>
+<section>
+
+<p>
+Como todos los prototipos tienen una propiedad <code>constructor</code> que
+referencia al constructor que los tiene, proporcionar esta propiedad
+siempre recaerá sobre el primer prototipo
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >enemy.constructor;
+enemy.constructor === Enemy; // fue construido por Enemy, no por Ship
+enemy.constructor !== Ship; // es cierto que Ship fue utilizado pero nada más
+</code></pre>
+</div>
+</section>
+<section id="slide-duck-typing">
+<h3 id="duck-typing">Duck typing</h3>
+<blockquote>
+<p>
+In other words, don't check whether it IS-a duck: check whether it
+QUACKS-like-a duck, WALKS-like-a duck, etc, etc, depending on exactly
+what subset of duck-like behaviour you need to play your language-games
+with
+</p>
+</blockquote>
+
+<p>
+<a href="https://groups.google.com/forum/?hl=en#!msg/comp.lang.python/CCs2oJdyuzc/NYjla5HKMOIJ">Alex
+Martelli sobre polimorfismo</a>
+</p>
+
+</section>
+<section>
+
+<p>
+La frase se refiere a que más que comprobar si algo es una instancia de
+un tipo, deberíamos comprobar si tiene la funcionalidad que necesitamos
+</p>
+
+</section>
+<section>
+
+<p>
+JavaScript es tan dinámico que el operador <code>instanceof</code> y la propiedad
+<code>constructor</code> sólo tienen sentido si seguimos los convenios aprendidos
+en la lección
+</p>
+
+</section>
+<section>
+
+<p>
+Nada nos impide borrar la propiedad <code>constructor</code> de un prototipo o
+sobreescribirla en un objeto determinado. En las nuevas versiones de
+JavaScript, el prototipo de un objeto puede cambiar después de haber
+sido construido
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

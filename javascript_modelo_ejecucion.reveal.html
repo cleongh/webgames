@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Modelo de ejecución de JavaScript</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Modelo de ejecución de JavaScript</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-ejecución-asíncrona">
+<h2 id="ejecución-asíncrona">Ejecución asíncrona</h2>
+</section>
+<section>
+
+<p>
+JavaScript se caracteriza por facilitar (que no forzar) un modelo de
+ejecución asíncrono donde los resultados <b>no se encuentran disponibles
+inmediatamente</b>, sino que lo estarán en un futuro
+</p>
+
+</section>
+<section>
+
+<p>
+Esto quiere decir que el lenguaje está diseñado para responder bien a
+resultados que llegan cuando están preparados, mientras que la ejecución
+sigue su curso
+</p>
+
+</section>
+<section>
+
+<p>
+Para esto, hay una serie de particularidades del modelo de ejecución que
+vamos a ver en este tema
+</p>
+</section>
+</section>
+<section>
+<section id="slide-ámbito-y-hoisting">
+<h2 id="ámbito-y-hoisting">Ámbito y <i>hoisting</i></h2>
+</section>
+<section>
+
+<p>
+Como en muchos lenguajes, los nombres de las variables <b>pueden
+reutilizarse</b> y guardar valores distintos siempre y cuando se encuentren
+en <b>ámbitos distintos</b>
+</p>
+
+</section>
+<section>
+
+<p>
+El ámbito o <i>scope</i> de una variable es la porción de código donde puede
+ser utilizada
+</p>
+
+<p>
+<b>Variables con el mismo nombre en ámbitos distintos son variables
+distintas</b>
+</p>
+
+</section>
+<section>
+
+<p>
+El <b>ámbito en JavaScript es el cuerpo de la función</b>, delimitado entre
+el par de llaves <code>{</code> y <code>}</code> que siguen a la lista de parámetros de la
+función
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function introduction() {
+  // Esta es la variable text
+  var text = 'I\'m Ziltoid, the Omniscient.';
+  greetings();
+  console.log(text);
+}
+
+function greetings(list) {
+  // Y esta es OTRA variable text distinta
+  var text = 'Greetings humans!';
+  console.log(text);
+}
+
+introduction();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+En JavaScript, las funciones pueden definirse dentro de otras funciones
+y de esta forma, anidar ámbitos
+</p>
+
+<p>
+El anidamiento de funciones es útil cuando se quieren usar <b>pequeñas
+funciones auxiliares</b>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function getEven(list) {
+  function isEven(n) {
+    return n % 2 === 0;
+  }
+  return list.filter(isEven);
+}
+
+getEven([1, 2, 3, 4, 5, 6]);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Como el ámbito es el de la función, el mismo nombre en una función
+anidada se puede referir a dos cosas
+</p>
+
+</section>
+<section>
+
+<p>
+<b>Si se usa con <code>var</code></b>, se estará declarando <b>otra variable distinta</b>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function introduction() {
+  // Esta es una variable text
+  var text = 'I\'m Ziltoid, the Omniscient.';
+
+  function greetings(list) {
+    // Y esta es OTRA variable text distinta
+    var text = 'Greetings humans!';
+    console.log(text);
+  }
+
+  greetings();
+  console.log(text);
+}
+
+introduction();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+En el caso anterior, decimos que la variable <code>text</code> de la función
+anidada <code>greetings()</code> oculta a la variable <code>text</code> de la función
+<code>introduction()</code>
+</p>
+
+</section>
+<section>
+
+<p>
+Recuerda que para introducir una <b>nueva variable</b> necesitas declararla
+con <code>var</code> antes de usarla (o al mismo tiempo que la asignas)
+</p>
+
+<p>
+Si omites la palabra <code>var</code>, no estás creando una nueva variable sino
+<b>reutilizando</b> la que ya existía
+</p>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function introduction() {
+  // Esta es una variable text
+  var text = 'I\'m Ziltoid, the Omniscient.';
+
+  function greetings(list) {
+    // Esta es la MISMA variable text que la de afuera
+    text = 'Greetings humans!';
+    console.log(text);
+  }
+
+  greetings();
+  console.log(text);
+}
+
+introduction();
+</code></pre>
+</div>
+</section>
+<section id="slide-hoisting">
+<h3 id="hoisting">Hoisting</h3>
+<p>
+En JavaScript da igual a qué altura de la función declares una variable
+JavaScript asumirá cualquier declaración como si ocurriese al comienzo
+de la función
+</p>
+
+</section>
+<section>
+
+<p>
+Es decir que esto:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function f() {
+  for (var i = 0; i &lt; 10; i++) {
+    for (var j = 0; j &lt; 10; j++) {
+      console.log('i: ', i, ' j: ', j);
+    }
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Es equivalente a esto:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function f() {
+  var i;
+  var j;
+  for (i = 0; i &lt; 10; i++) {
+    for (j = 0; j &lt; 10; j++) {
+      console.log('i: ', i, ' j: ', j);
+    }
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Esto quiere decir que todo lo que declaremos dentro de una función,
+aunque esté en otro ámbito, <i>afectará a toda la función</i>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >for(var b = 0; b &lt; 10; b++);
+console.log(b); // 10
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Además, <code>var</code> a nivel global hace que el objeto <code>window</code> en un navegador
+almacene el valor:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script&gt;
+  var a = 4;
+  console.log(window.a); // imprime "4"
+&lt;/script&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Fíjate que JavaScript <b><i>alza</i> la declaración de la variable, no la
+inicialización</b>
+</p>
+
+<p>
+Es por eso que este código no falla pero imprime <code>undefined</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function f() {
+  console.log(i);
+  var i = 5;
+}
+f();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+En modo estricto, usar una variable que no ha sido declarada <b>es un
+error</b>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function f() {
+  console.log(i); // comenta esto después de probar f
+  i = 5;
+}
+f();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Con las declaraciones de funciones esto no pasa: cuando una declaración
+de función se alza, se alza entera, <b>definición incluida</b>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function getEven(list) {
+  return list.filter(isEven);
+
+  function isEven(n) {
+    return n % 2 === 0;
+  }
+}
+
+getEven([1, 2, 3, 4, 5, 6]);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Esto permite una bonita forma de ordenar el código en el que las
+funciones auxiliares pueden situarse más abajo en las funciones que las
+utilicen
+</p>
+
+<p>
+Así, viendo sólo la línea:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >return list.filter(isEven);
+</code></pre>
+</div>
+
+<p>
+Ya podemos saber qué significa
+</p>
+
+</section>
+<section>
+
+<p>
+Y si aun tenemos dudas, podemos bajar e investigar qué es esa función
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function isEven(n) {
+  return n % 2 === 0;
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-let">
+<h3 id="let"><code>let</code></h3>
+<p>
+<code>let</code> es una forma de declarar variables que se añadió en
+<a href="https://en.wikipedia.org/wiki/ECMAScript#Versions">ES6</a>
+</p>
+
+</section>
+<section>
+
+<p>
+<code>let</code> y <code>var</code> son muy parecidos, y ambas valen para declarar variables
+en un ámbito
+</p>
+
+<p>
+Pero <code>let</code> sólo crea variables <i>a partir de su definición</i>, no antes
+</p>
+
+</section>
+<section>
+
+<p>
+Además, <code>let</code> existe entre las llaves que lo delimitan <code>{}</code> (por
+ejemplo, sólo dentro de un <code>for</code>), y no se extiende a toda la función
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >for(let b = 0; b &lt; 10; b++);
+console.log(b); // ReferenceError
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+<code>let</code> a nivel global, a diferencia de <code>var</code>, <b>no</b> hace que el objeto
+<code>window</code> en un navegador almacene el valor:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script&gt;
+  let a = 4;
+  console.log(window.a); // imprime "undefined"
+&lt;/script&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Mucha gente prefiere usar <code>let</code> por defecto, porque una declaración con
+<code>let</code> tiene reglas de hoisting diferentes:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function let_vs_var() {
+  console.log(bien);
+  console.log(mal); // como `let` no hace hoisting, falla
+  var bien = 5;
+  let mal = 5;
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-const">
+<h3 id="const"><code>const</code></h3>
+<p>
+<code>const</code> tiene el mismo comportamiento en ámbito que <code>let</code>, pero impide
+que la referencia cambie
+</p>
+
+<p>
+Pero lo referenciado <b>sí</b> puede cambiar (es "mutable")
+</p>
+
+</section>
+<section>
+
+<p>
+Aquí, lo declarado con <code>const</code> se podría cambiar, pero no el objeto al
+que apunta la variable:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >const objeto = {x: 1, y: 2};
+objeto.x = 4; // ¡correcto!
+objeto = {no: "funciona"}; // da error
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+En general, usemos <code>let</code> y <code>const</code> siempre que no necesitemos nada
+sofisticado, son más "razonables" que <code>var</code>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-diferencias-entre-ámbitos-en-node-y-el-navegador">
+<h2 id="diferencias-entre-ámbitos-en-node-y-el-navegador">Diferencias entre ámbitos en node y el navegador</h2>
+</section>
+<section>
+
+<p>
+Hemos dicho que el ámbito en JavaScript es equivalente a la función pero
+sabemos que podemos abrir una consola o un fichero y empezar a declarar
+variables sin necesidad de escribir una función
+</p>
+
+<p>
+Esto es así porque estamos usando el <b>ámbito global</b>
+</p>
+
+<p>
+El ámbito global está <b>disponible en el navegador y en node</b>
+</p>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// Esta es una variable text en el ámbito GLOBAL
+var text = 'I\'m Ziltoid, the Omniscient.';
+
+// Esta es una función en el ámbito GLOBAL
+function greetings(list) {
+  // Esta es OTRA variable text en el ámbito de la función
+  var text = 'Greetings humans!';
+  console.log(text);
+}
+
+greetings();
+console.log(text);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Sin embargo, existe una peculiaridad en node
+</p>
+
+<p>
+El ámbito global es realmente <b>local al fichero</b>. Esto quiere decir que:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// En a.js, text es visible únicamente dentro del FICHERO
+"use strict";
+var text = 'I\'m Ziltoid, the Omniscient.';
+
+// En b.js, text es visible únicamente dentro del FICHERO
+"use strict";
+var text = 'Greetings humans!';
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-closures">
+<h2 id="closures"><i>Closures</i></h2>
+</section>
+<section>
+
+<p>
+Las funciones son datos y se crean cada vez que se encuentra una
+instrucción <code>function</code>
+</p>
+
+</section>
+<section>
+
+<p>
+De esta forma podemos crear una función que devuelva funciones
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function buildFunction() {
+  return function () { return 42; };
+}
+
+var f = buildFunction();
+var g = buildFunction();
+
+typeof f === 'function';
+typeof g === 'function';
+
+f();
+g(); // Las funciones hacen lo mismo..
+
+f !== g; // ...pero NO son la misma función
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Por sí sólo, este no es un mecanismo muy potente pero sabiendo que una
+función anidada puede acceder a las variables de los ámbitos superiores,
+podemos hacer algo así:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function newDie(sides) {
+  return function () {
+    return Math.floor(Math.random() * sides) + 1;
+  };
+}
+var d100 = newDie(100);
+var d20 = newDie(20);
+
+d100 !== d20; // distintas, creadas en dos llamadas distintas a newDie
+
+d100();
+d20();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+En JavaScript, <b>las funciones retienen el acceso a las variables en
+ámbitos superiores</b>
+</p>
+
+<p>
+Una <b>función que se refiere a alguna de las variables en ámbitos
+superiores se denomina <i>closure</i></b>
+</p>
+
+</section>
+<section>
+
+<p>
+Esto <b>no afecta al valor de <code>this</code></b> que seguirá siendo <b>el destinatario
+del mensaje</b>
+</p>
+</section>
+<section id="slide-métodos-closures-y-this">
+<h3 id="métodos-closures-y-this">Métodos, closures y <code>this</code></h3>
+<p>
+Considera el siguiente ejemplo:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let diceUtils = {
+  history: [], // lleva el histórico de tiradas
+
+  newDie: function (sides) {
+    return function die() {
+      let result = Math.floor(Math.random() * sides) + 1;
+      this.history.push([new Date(), sides, result]);
+      return result;
+    }
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Nuestra intención es poder crear dados y llevar un registro de todas las
+tiradas que se hagan con estos dados
+</p>
+
+<p>
+Pero esto no funciona:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >const d10 = diceUtils.newDie(10);
+d10(); // ¡error!
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y es así porque <b><code>this</code> siempre es el destinatario del mensaje</b> y <code>d10</code>
+se está llamando como si fuera una función y no un método
+</p>
+
+<p>
+Recordad que podíamos hacer que cualquier función tomara un valor
+forzoso como <code>this</code> con <code>.apply()</code> por lo que esto sí funciona pero es
+un engorro:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >d10.apply(diceUtils);
+d10.apply(diceUtils);
+diceUtils.history;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Lo que tenemos que hacer es que la función <code>die</code> dentro de <code>newDie</code> se
+refiera al <code>this</code> del ámbito superior, no al suyo
+</p>
+
+</section>
+<section>
+
+<p>
+Podemos hacer esto de dos maneras. La primera es un mero juego de
+variables:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let diceUtils = {
+  history: [], // Lleva el histórico de dados
+
+  newDie: function (sides) {
+    let self = this; // self es ahora el destinatario de newDie
+    return function die() {
+      let result = Math.floor(Math.random() * sides) + 1;
+      // Usando self nos referimos al destinatario de newDie
+      self.history.push([new Date(), sides, result]);
+      return result;
+    }
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Esto sí funciona y es mucho más conveniente:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let d10 = diceUtils.newDie(10);
+let d6 = diceUtils.newDie(6);
+d10();
+d6();
+d10();
+diceUtils.history;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+La segunda forma es usando el método
+<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_objects/Function/bind"><code>bind()</code></a>
+de las funciones
+</p>
+
+</section>
+<section>
+
+<p>
+El método <code>bind()</code> de una función <b>devuelve otra función cuyo <code>this</code>
+será el primer parámetro de <code>bind()</code></b>. De este modo:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let diceUtils = {
+  history: [], // Lleva el histórico de dados
+
+  newDie: function (sides) {
+    return die.bind(this); // una nueva función que llamará a die con su
+                           // destinatario establecido al primer parámetro
+
+    function die() {
+      let result = Math.floor(Math.random() * sides) + 1;
+      this.history.push([new Date(), sides, result]);
+      return result;
+    }
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Las dos formas son <b>ampliamente utilizadas</b> pero la segunda se ve
+escrita muchas veces de este modo:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let diceUtils = {
+  history: [], // Lleva el histórico de dados
+
+  newDie: function (sides) {
+    return function die() {
+      let result = Math.floor(Math.random() * sides) + 1;
+      this.history.push([new Date(), sides, result]);
+      return result;
+    }.bind(this); // el bind sigue a la expresión de función
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Pero esto sigue siendo un poco pesado, y en ES6 se crearon las funciónes
+flecha:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >const miFuncion = (x) =&gt; x + 2;
+console.log(miFuncion(4)); // 6
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Por un lado, son ideales para programación funcional, y necesitan menos
+texto:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >[1, 2, 3].map(x =&gt; x * 3);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y, por otro lado, <i>no sobreescriben <code>this</code></i>, con lo que se usa el <code>this</code>
+anterior:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Clase() {
+  this.v = 5;
+}
+
+Clase.prototype.mal = function() {
+  return [ 1, 2, 3 ].map(function(x) {return x * this.v});
+}
+
+Clase.prototype.bien = function() {
+  return [ 1, 2, 3 ].map(x =&gt; x * this.v);
+}
+
+const c = new Clase();
+console.log(c.mal()); // NaN, NaN, NaN
+console.log(c.bien()); // 5, 10, 15
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

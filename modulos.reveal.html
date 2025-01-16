@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Módulos en JavaScript</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Módulos en JavaScript</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-qué-son-los-módulos">
+<h2 id="qué-son-los-módulos">¿Qué son los módulos?</h2>
+</section>
+<section>
+
+<p>
+Un mecanismo para dividir un programa grande en elementos más pequeños
+que podamos ir importando solo cuando lo necesitemos.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-por-qué-usar-módulos">
+<h2 id="por-qué-usar-módulos">¿Por qué usar módulos?</h2>
+</section>
+<section id="slide-mantenibilidad">
+<h3 id="mantenibilidad">Mantenibilidad</h3>
+<p>
+Un buen módulo nos permite concentrarnos en su uso y su lógica, y
+"olvidarnos" del resto del sistema
+</p>
+</section>
+<section id="slide-espacios-de-nombres">
+<h3 id="espacios-de-nombres">Espacios de nombres</h3>
+<p>
+Un módulo mantiene un conjunto de nombres privado, con lo que no tenemos
+que preocuparnos de crear muchos nombres de variables y funciones
+diferentes para no colisionar
+</p>
+</section>
+<section id="slide-reusabilidad">
+<h3 id="reusabilidad">Reusabilidad</h3>
+<p>
+Un módulo puede ser reusado en varias aplicaciones, posiblemente sin
+necesidad de trabajo extra
+</p>
+</section>
+</section>
+<section>
+<section id="slide-la-historia-de-los-módulos">
+<h2 id="la-historia-de-los-módulos">La historia de los módulos</h2>
+</section>
+<section>
+
+<p>
+JavaScript, originalmente, no tenía módulos (no estaba pensado para
+grandes sistemas)
+</p>
+
+</section>
+<section>
+
+<p>
+Cuando la programación web empezó a ser relevante, se hizo necesario
+crear un sistema de módulos
+</p>
+
+</section>
+<section>
+
+<p>
+<code>node.js</code> tiene un sistema de módulos por defecto, pero (hasta hace
+poco) los navegadores no lo tenían
+</p>
+
+<p>
+Era necesario usar <code>node.js</code> para transformar archivos con módulos <b>en
+un solo archivo</b> JavaScript
+</p>
+</section>
+<section id="slide-patrón-módulo">
+<h3 id="patrón-módulo"><a href="https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript">Patrón Módulo</a></h3>
+<p>
+Era la forma en la que se implementaban inicialmente los módulos
+</p>
+
+<p>
+Hacen uso de los cierres (<i>closures</i>) para decidir qué publica el módulo
+</p>
+
+</section>
+<section>
+
+<p>
+Observa que la función se ejecuta inmediatamente
+(<a href="https://developer.mozilla.org/es/docs/Glossary/IIFE">IIFE</a>)
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >var testModule = (function () {
+  var counter = 0; 
+  return { 
+    incrementCounter: function () {
+      return counter++;
+    }, 
+    resetCounter: function () {
+      console.log( "counter value prior to reset: " + counter );
+      counter = 0;
+    }
+  }; 
+})();
+
+testModule.incrementCounter();
+</code></pre>
+</div>
+</section>
+<section id="slide-commonjs">
+<h3 id="commonjs">CommonJS</h3>
+<div class="org-src-container">
+
+<pre><code class="js" >// archivo modulo.js
+function funcion() {
+  console.log("función");
+}
+module.exports = funcion;
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// archivo usuario_modulo.js
+const funcionImportada = require('./modulo')
+
+funcionImportada();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Hay muchos sistemas de módulos es JavaScript, nosotros usaremos sólo el
+del ES6
+</p>
+</section>
+</section>
+<section>
+<section id="slide-módulos-es6">
+<h2 id="módulos-es6">Módulos ES6</h2>
+</section>
+<section>
+
+<p>
+ECMAScript 6 añade sintaxis y funcionalidad nativa de módulos, tanto
+para exportar como para importar
+</p>
+
+</section>
+<section>
+
+<p>
+Lo primero que podemos hacer es exportar, dentro de un archivo concreto
+<code>.js</code>, elementos declarados:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// pi.js
+export const pi = 3.141592;
+
+export function sumaPi(x) { return pi + x; }
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Después, en otro archivo, importamos las definiciones:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// matematica.js
+import {pi, sumaPi} from './pi.js'
+
+console.log(sumaPi(5));
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Podemos importar <i>todo lo exportado de un módulo</i>, como un objeto:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >import * as p from './pi.js'
+
+console.log(p.pi)
+</code></pre>
+</div>
+</section>
+<section id="slide-export-default">
+<h3 id="export-default"><code>export default</code></h3>
+<p>
+Es posible elegir uno de los valores exportados y hacer que sea el valor
+por defecto, así:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >const PI  = 3.141592;
+export default PI;
+
+// También se podría haber hecho:
+export { PI as default };
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+De esta forma, importarlo se simplifica:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// pi_default.js
+import PI_Importado from './pi_default.js';
+import { default as Pi_Importado } from './pi_default.js'  // esto es equivalente
+</code></pre>
+</div>
+
+<p>
+Notemos que, aquí, el nombre de la importación puede cambiar, aunque no
+es necesario
+</p>
+</section>
+<section id="slide-mezclar-default-y-exportación-normal">
+<h3 id="mezclar-default-y-exportación-normal">Mezclar <code>default</code> y exportación normal</h3>
+<div class="org-src-container">
+
+<pre><code class="js" >// pi.js
+const PI  = 3.141592;
+export default PI;
+export function sumaPi(x) { return pi + x; }
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// usuario.js
+import PI, {sumaPi} from './pi.js' 
+</code></pre>
+</div>
+</section>
+<section id="slide-clases">
+<h3 id="clases">Clases</h3>
+<p>
+Así, podemos importar/exportar clases ES6:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// personaje.js
+export default class Personaje {}
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// juego.js
+import Personaje from './personaje.js'
+
+let link = new Personaje();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Tanto <code>node</code> como el navegador soportan módulos, pero para que funcionen
+en <code>node</code>, hay que guardar el archivo con la extensión <code>.mjs</code>
+</p>
+
+<p>
+Esto va cambiando versión a versión, mirad la documentación de node.js
+</p>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// archivo modulo.mjs
+const Objeto = {x: 1, y: 2};
+
+export default Objeto;
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// archivo usar.mjs
+import Objeto from './modulo.mjs'
+
+console.log(Objeto);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >node  usar.mjs
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-usando-librerías-cargadas">
+<h2 id="usando-librerías-cargadas">Usando librerías cargadas</h2>
+</section>
+<section>
+
+<p>
+Si cargamos librerías en la página web (por ejemplo, en el <code>&lt;head&gt;</code> de
+<code>index.html</code>):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;!-- index.html --&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.18.1/phaser.min.js"&gt;&lt;/script&gt;
+</code></pre>
+</div>
+
+<p>
+No tendremos que hacer <code>import</code>, ya estarán dentro del espacio de
+nombres:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// entity.js
+export default class Entity extends Phaser.GameObjects.Sprite { }
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-usando-módulos-es6-en-el-navegador">
+<h2 id="usando-módulos-es6-en-el-navegador">Usando módulos ES6 en el navegador</h2>
+</section>
+<section>
+
+<p>
+Cuando se usan módulos ES6 en HTML, hace falta añadir el atributo
+<code>type</code>"module"= a la etiqueta <code>&lt;script&gt;</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script type="module"&gt;
+  import Game from './game.js';
+  document.game = new Game();
+&lt;/script&gt;
+</code></pre>
+</div>
+
+<p>
+ó
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script type="module" src="myGame.js"&gt;&lt;/script&gt; 
+&lt;!--  Si myGame.js hace uso de los import y export--&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Los módulos se diferencian de un "script" normal, además (y entre otras
+cosas), en:
+</p>
+
+<ul>
+<li>Las variables son locales al módulo</li>
+<li>Usan <code>"strict"</code> por defecto</li>
+<li>Se cargan de forma <i>asíncrona</i> (¡más velocidad!)</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

@@ -61,7 +61,7 @@ let goLeft = leftPad
            || this.cursorsArrows.left.isDown;
 
 if (goLeft) { this.goLeft(); }
-</code></pre> </div> </section> <section id="slide-orga4d405d"> <h3 id="orga4d405d">Respuesta háptica (<i>rumble</i>)</h3> <p> Es posible hacer que un gamepad vibre, pero la API no es aún muy robusta </p> <p> Cada navegador presenta una API diferente (Chrome y Firefox no funcionarán igual) </p> </section> <section> <div class="org-src-container"> <pre><code class="js">// `this' es una Phaser.Scene
+</code></pre> </div> </section> <section id="slide-org13fcb57"> <h3 id="org13fcb57">Respuesta háptica (<i>rumble</i>)</h3> <p> Es posible hacer que un gamepad vibre, pero la API no es aún muy robusta </p> <p> Cada navegador presenta una API diferente (Chrome y Firefox no funcionarán igual) </p> </section> <section> <div class="org-src-container"> <pre><code class="js">// `this' es una Phaser.Scene
 const moduloVibracion = this.input.gamepad.getPad(0).vibration
 
 // moduloVibracion ahora es el objeto del Gamepad API

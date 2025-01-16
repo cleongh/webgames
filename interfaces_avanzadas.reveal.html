@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Interfaces avanzadas en HTML</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Interfaces avanzadas en HTML</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-librerías-para-interfaz-web">
+<h2 id="librerías-para-interfaz-web">Librerías para interfaz web</h2>
+</section>
+<section>
+
+<p>
+Modificar el DOM directamente es tedioso
+</p>
+
+</section>
+<section>
+
+<p>
+Hay modelos de ingeniería software que han demostrado ser muy útiles
+para gestionar interfaces
+</p>
+
+<p>
+El API del DOM no es, precisamente, uno de ellos
+</p>
+
+</section>
+<section>
+
+<p>
+Por eso, y gracias a la evolución de los navegadores, la máquina virtual
+JS y el lenguaje en sí, existen librerías que nos permiten hacer
+interfaces
+</p>
+</section>
+<section id="slide-alternativas-para-interfaces-web">
+<h3 id="alternativas-para-interfaces-web">Alternativas para interfaces web</h3>
+<p>
+<a href="https://angular.io/"><code>Angular</code></a> (de Google),
+<a href="https://reactjs.org/"><code>React</code></a> (de Facebook) y
+<a href="https://vuejs.org/"><code>Vue.js</code></a> son algunas de las más usadas
+</p>
+
+</section>
+<section>
+
+<p>
+Vamos a ver una introducción a los principios básicos de una versión
+ligera de <code>React</code> (<code>Preact</code>)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-react">
+<h2 id="react">React</h2>
+</section>
+<section>
+
+<p>
+React es una librería creada por Facebook en 2013, y mantenida desde
+entonces por Facebook y la comunidad (se publica como código abierto)
+</p>
+
+</section>
+<section>
+
+<p>
+El desarrollo está muy activo, y es uno de los proyecto más usados para
+crear interfaces
+</p>
+
+<p>
+En particular, <a href="https://facebook.com">https://facebook.com</a> usa React
+</p>
+</section>
+<section id="slide-dom-virtual">
+<h3 id="dom-virtual">DOM Virtual</h3>
+<p>
+Veremos que React construye un árbol DOM cuando creamos componentes
+</p>
+
+<p>
+Sin embargo, React hace uso del <i>DOM virtual</i>
+</p>
+
+</section>
+<section>
+
+<p>
+El DOM virtual es una representación interna de la librería en la que se
+almacena el estado actual del DOM (la estructura de la página),
+independientemente de cómo lo almacene el navegador
+</p>
+
+</section>
+<section>
+
+<p>
+Esto permite mucha <i>flexibilidad</i> en la librería, y una mejora del
+<i>rendimiento</i>
+</p>
+
+<p>
+Aunque aparentemente modifiquemos mucha parte del DOM en nuestros
+componentes, React sólo aplicará las diferencias entre el estado
+anterior y el nuevo
+</p>
+</section>
+<section id="slide-jsx">
+<h3 id="jsx">JSX</h3>
+<p>
+Para representar los cambios en el DOM que modifican los componentes de
+la página, podemos usar llamadas al API
+</p>
+
+<p>
+Pero también podemos usar algo muy parecido a HTML
+</p>
+
+</section>
+<section>
+
+<p>
+JSX es una extensión sintáctica de JavaScript, que permite poner
+etiquetas HTML dentro del mismo código:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="jsx" >const parrafo = &lt;p&gt;Esto es un párrafo de verdad&lt;/p&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+JSX permite interpolar contenido de JavaScript dentro de las etiquetas:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="jsx" >const nombre = 'Juan'
+const parrafo = &lt;p&gt;Creo que el señor se llamaba {nombre}&lt;/p&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Pero la máquina virtual de los navegadores no entiende JSX
+</p>
+
+<p>
+Necesitamos un proceso que transforme un archivo con extensión <code>.jsx</code> a
+otro <code>.js</code>, y que transforme las etiquetas HTML a código JavaScript
+normal
+</p>
+</section>
+<section id="slide-babel">
+<h3 id="babel">Babel</h3>
+<p>
+<a href="https://babeljs.io/">Babel</a> es una herramienta que procesa JavaScript
+y lo transforma (lo que se llama, en la jerga, un "transpilador")
+</p>
+
+</section>
+<section>
+
+<p>
+En particular (y con algo de configuración), Babel puede transformar JSX
+en JS
+</p>
+
+<p>
+Y hacer muchas cosas más, como transformar JavaScript moderno en
+JavaScript más antiguo, para que funcione en navegadores sin
+compatibilidad
+</p>
+</section>
+</section>
+<section>
+<section id="slide-preact">
+<h2 id="preact"><code>Preact</code></h2>
+</section>
+<section>
+
+<p>
+Usar JSX con Babel y React funciona muy bien (y tiene buen apoyo de
+editores como VSCode), pero requiere desplegar bastante "tooling"
+</p>
+
+</section>
+<section>
+
+<p>
+Vamos a usar Preact (una alternativa ligera a React, con un API muy
+parecido), y vamos a usar una alternativa a JSX que no necesita Babel
+</p>
+
+</section>
+<section>
+
+<p>
+Para empezar, sólo necesitamos un <code>index.html</code> normal y corriente, que
+tenga un <code>&lt;script&gt;</code>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Test Preact&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src="gui.js" type="module"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+En nuestro <code>gui.js</code>, tenemos que importar la librería:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >import { html, render, Component } 
+   from 'https://unpkg.com/htm/preact/standalone.module.js'
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Estamos usando <a href="https://unpkg.com/"><code>unpkg</code></a>
+</p>
+
+<p>
+<code>unpkg</code> es un proyecto que sirve paquetes de <code>npm</code> para que se puedan
+usar directamente desde JavaScript en una web (¡sin necesidad de
+herramientas!)
+</p>
+
+</section>
+<section>
+
+<p>
+Con el <code>import</code> anterior, estamos usando directamente Preact y <code>htm</code>,
+una librería que nos permite usar etiquetas HTML en el código
+</p>
+
+</section>
+<section>
+
+<p>
+Después, sólo tenemos que crear llamar a <code>render</code>, que sustituirá un
+nodo del DOM (en este caso <code>document.body</code>, la raíz):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >render(html`&lt;p&gt;Esto es un párrafo&lt;/p&gt;`, document.body)
+</code></pre>
+</div>
+
+<p>
+Ahora veremos lo de <code>html`...`</code>
+</p>
+</section>
+<section id="slide-componentes">
+<h3 id="componentes">Componentes</h3>
+<p>
+Esto no tendría mucho uso por sí mismo, pero Preact nos permite definir
+<b>componentes</b>
+</p>
+
+</section>
+<section>
+
+<p>
+Un <i>componente</i> es un objeto JavaScript que representa un nodo complejo
+en el DOM:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >class Parrafo extends Component {
+  render() {
+    return html`&lt;p&gt;Esto sigue siendo un párrafo&lt;/p&gt;`
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Así, tendríamos una manera un poco más potente de crear interfaces de
+usuario:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >render(html`&lt;${Parrafo} /&gt;`, document.body)
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Pero, antes, veamos cómo estamos construyendo el HTML dentro de
+JavaScript
+</p>
+</section>
+</section>
+<section>
+<section id="slide-htm">
+<h2 id="htm">htm</h2>
+</section>
+<section>
+
+<p>
+<a href="https://github.com/developit/htm"><code>htm</code></a> es una librería que procesa
+cadenas JavaScript (<code>string</code>) y las usa como llamadas a funciones de
+construir el DOM
+</p>
+
+<p>
+Como lo que hace Babel, pero sólo desde código, sin herramienta
+adicional
+</p>
+</section>
+<section id="slide-plantillas-de-cadena-de-texto">
+<h3 id="plantillas-de-cadena-de-texto">Plantillas de cadena de texto</h3>
+<p>
+<code>htm</code> usa "plantillas de cadena de texto" para conseguir esto
+(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">"template
+literals"</a>)
+</p>
+
+<p>
+Estas cadenas son especiales, y se denotan con <code>`...`</code>
+</p>
+</section>
+<section id="slide-cadenas-multilínea">
+<h4 id="cadenas-multilínea">Cadenas multilínea</h4>
+<div class="org-src-container">
+
+<pre><code class="js" >`hola
+qué
+tal
+estamos`
+</code></pre>
+</div>
+</section>
+<section id="slide-interpolar-código">
+<h4 id="interpolar-código">Interpolar código</h4>
+<p>
+Antes:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >const a = 5
+console.log('"a" vale', a) // "a" vale 5
+</code></pre>
+</div>
+
+<p>
+Después:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >const a = 5
+console.log(`"a" vale ${a}`) // "a" vale 5
+</code></pre>
+</div>
+</section>
+<section id="slide-postprocesado-de-cadenas">
+<h4 id="postprocesado-de-cadenas">Postprocesado de cadenas</h4>
+<div class="org-src-container">
+
+<pre><code class="js" >html`Cadena JS` // === html('Cadena JS')---más o menos
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Esto quiere decir que hay una función <code>html</code> que transforma la cadena en
+algo más interesante
+</p>
+
+</section>
+<section>
+
+<p>
+Es lo que hace la librería <code>htm</code>
+</p>
+
+<p>
+Define una función especial, <code>html()</code>, que transforma nuestro string con
+HTML a una estructura que se usará en el DOM virtual
+</p>
+
+</section>
+<section>
+
+<p>
+En VSCode, por ejemplo, si instalamos la extensión
+<a href="https://marketplace.visualstudio.com/items?itemName=bierner.lit-html"><code>lit-html</code></a>,
+veremos los templates que empiezan con <code>html`...`</code> con resaltado de
+sintaxis HTML
+</p>
+
+</section>
+<section>
+
+<p>
+Con esto, podemos usar <code>Preact</code> y <code>htm</code> para hacer nuestra interfaz web
+</p>
+</section>
+</section>
+<section>
+<section id="slide-componentes-preact-o-react">
+<h2 id="componentes-preact-o-react">Componentes Preact (o React&#x2026;)</h2>
+</section>
+<section>
+
+<p>
+Los componentes son las unidades en Preact
+</p>
+
+<p>
+Crearemos componentes que representes nuestros objetos de interfaz
+</p>
+
+</section>
+<section>
+
+<p>
+Empezamos (como antes) importando <code>Preact</code> y <code>htm</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >import { html, render, Component } from 'https://unpkg.com/htm/preact/standalone.module.js'
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Para crear un componente, podemos extender la clase <code>Component</code> de
+<code>Preact</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >class Aviso extends Component {
+  render() {
+    return html`&lt;b&gt;¡Hola!&lt;/b&gt;`
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+El componente <code>Aviso</code> corresponderá a lo que devuelva la función
+<code>render()</code>, que en este caso es sólo una cadena en negrita
+</p>
+
+</section>
+<section>
+
+<p>
+Para que se vea en la página, usamos plantillas de cadena con el nombre
+de la clase:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >render(html`&lt;${Aviso} /&gt;`, document.body)
+</code></pre>
+</div>
+</section>
+<section id="slide-estado-en-las-clases">
+<h3 id="estado-en-las-clases">Estado en las clases</h3>
+<p>
+También podemos usar la clase para guardar el estado de un componente:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >class Aviso extends Component {
+  constructor(props) {
+    super(props)
+    this.valor = props.valor
+  }
+  render() {
+    return html`&lt;b&gt;¡mi valor es ${this.valor}!&lt;/b&gt;`
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Es fundamental llamar al costructor padre de <code>Component</code> con <code>props</code>,
+para que funcione:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" > constructor(props) {
+  super(props)
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Si queremos pasarle argumentos propios al constructor, seguimos usando
+HTML:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >class Aviso extends Component {
+  constructor(props) {
+    super(props)
+    // ¡props.tamano viene del HTML!
+    this.tamano = props.tamano
+  }
+}
+
+render(html`&lt;${Aviso} tamano=6 /&gt;`, document.body)
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+La función <code>render()</code> puede devolver diferentes <code>html`...`</code>, según el
+estado de la clase
+</p>
+
+<p>
+Con esto, podemos cambiar lo que se muestra por pantalla en nuestra
+interfaz de usuario
+</p>
+</section>
+<section id="slide-combinar-componentes">
+<h3 id="combinar-componentes">Combinar componentes</h3>
+<p>
+Para combinar componentes, simplemente los usamos como HTML
+</p>
+
+</section>
+<section>
+
+<p>
+Componente base:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >class Aviso extends Component {
+  constructor(props) {
+    super(props)
+    this.valor = props.valor
+  }
+  render() {
+    return html`&lt;b&gt;¡mi valor es ${this.valor}!&lt;/b&gt;`
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Componente que usa <code>Aviso</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >class Parrafo extends Component {
+  render() {
+    return html`&lt;p&gt;Un componente con 
+       un aviso (&lt;${Aviso} valor=15 /&gt;) &lt;/p&gt;`
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-componentes-como-funciones">
+<h3 id="componentes-como-funciones">Componentes como funciones</h3>
+<p>
+Si el componente es sencillo y no tiene que gestionar estado, puede ser
+una función y no una clase entera:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Nota(props) {
+  return html`&lt;em&gt;frase con énfasis&lt;/em&gt;`
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-eventos">
+<h3 id="eventos">Eventos</h3>
+<p>
+También tenemos que programar la funcionalidad de responder a eventos
+</p>
+
+</section>
+<section>
+
+<p>
+Para esto, en el "HTML", vamos a registrar eventos JavaScript, igual que
+lo haríamos en etiquetas en un archivo <code>.html</code>
+</p>
+
+<p>
+Usaremos interpolación de cadenas para poner nuestro código JavaScript
+</p>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function Nota(props) {
+  return html`&lt;em onclick=${(e) =&gt; {
+    e.stopPropagation()
+    console.log('Este evento no se progaga')
+  }}&gt;¡Pincha aquí para ver lo que imprimo!&lt;/em&gt;`
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-métodos-para-callbacks">
+<h3 id="métodos-para-callbacks">Métodos para callbacks</h3>
+<p>
+Es posible que queramos, en un componente descrito como clase, usar
+métodos para los callbacks
+</p>
+
+</section>
+<section>
+
+<p>
+Para ello, tenemos que usar <code>bind</code>, para que cuando se llame al método,
+<code>this</code> apunte a la instancia del objeto
+</p>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >class ComponenteMetodoCallback extends Component {
+  render() {
+    return html`&lt;p 
+      onclick=${this.handleClick.bind(this)}&gt;Prueba&lt;/p&gt;`
+  }
+
+  handleClick(e) {
+    // `this` funciona si hemos hecho `bind`
+    e.preventDefault()
+    console.log('Se ha hecho clic.')
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-mucho-más">
+<h3 id="mucho-más">Mucho más</h3>
+<p>
+React/Preact y todas estas librerías hacen <i>muchas más cosas</i>
+</p>
+
+<p>
+Podéis mirar la
+<a href="https://preactjs.com/guide/v10/getting-started">documentación de
+Preact</a>, pero con estos pasos ya se puede montar una funcionalidad
+básica
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Introducción a Phaser</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Introducción a Phaser</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-qué-es-phaser">
+<h2 id="qué-es-phaser">Qué es Phaser</h2>
+<p>
+<b>Phaser</b> es un framework que nos permite construir juegos en HTML5 para
+equipos de escritorio y dispositivos móviles
+</p>
+
+<p>
+Tiene una apasionada comunidad en el proceso de desarrollo, por lo que
+crece rápidamente
+</p>
+</section>
+<section id="slide-game">
+<h3 id="game">Game</h3>
+<p>
+El objeto principal de Phaser es un objeto JavaScript llamado <code>Game</code>
+</p>
+
+<p>
+Dentro de un <i>juego</i> (<code>Game</code>) hay <i>escenas</i> (<code>Scene</code>), y dentro de
+<i>escenas</i>, <i>objetos</i> (<code>GameObject</code>), que son los que darán lógica y
+representación al juego
+</p>
+</section>
+<section id="slide-escenas-en-phaser">
+<h3 id="escenas-en-phaser">Escenas en Phaser</h3>
+<p>
+Las =Scene=s de Phaser son la unidad mínima que maneja el framework para
+crear una escena de juego
+</p>
+
+<p>
+Una <code>Scene</code> es un <i>objeto</i> JavaScript, con métodos y atributos
+("propiedades") para su gestión
+</p>
+
+<p>
+Phaser incluye un "scene manager" para gestionarlas
+</p>
+
+</section>
+<section>
+
+<p>
+Por ejemplo, puede haber una escena para:
+</p>
+
+<ul>
+<li>el menú principal</li>
+<li>cada uno de los niveles</li>
+<li>el inventario</li>
+
+</ul>
+
+<p>
+En teoría (aunque hay libertad), cada escena representa una lógica de
+interacción concreta
+</p>
+</section>
+<section id="slide-puede-haber-varias-escenas-activas">
+<h3 id="puede-haber-varias-escenas-activas">Puede haber varias escenas activas</h3>
+<p>
+Phaser permite varias escenas <i>activas</i> y superpuestas
+</p>
+
+<p>
+El orden de las escenas es importante, ya que el <i>scene manager</i> las
+actualiza y pinta en el orden en el que son añadidas
+</p>
+</section>
+<section id="slide-métodos-básicos-de-una-escena">
+<h3 id="métodos-básicos-de-una-escena">Métodos básicos de una escena</h3>
+<p>
+El motor llama a estos métodos automáticamente:
+</p>
+
+<ul>
+<li><code>init</code>: se ejecuta cuando se carga la escena. Aquí se pueden pasar
+datos entre escenas.</li>
+<li><code>preload</code>: aquí hay que cargar los recursos antes de que sean usados.</li>
+<li><code>create</code>: una vez que la clase está instanciada y el motor está a
+punto, se llama a este método para inicializar.</li>
+<li><code>update(time, delta)</code>: se llama cada ciclo de juego, para modificar el
+estado.</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Además, Phaser proporciona una serie de propiedades que podemos utilizar
+en nuestro juego. Mayoritariamente, estas propiedades son formas de
+acceder a los subsistemas de Phaser
+</p>
+</section>
+<section id="slide-algunos-subsistemas">
+<h3 id="algunos-subsistemas">Algunos subsistemas</h3>
+<p>
+Accesibles desde el objeto <code>Scene</code> con <code>scene.add</code>, <code>scene.load</code>&#x2026;:
+</p>
+
+<ul>
+<li><code>add</code>: La factoría de GameObject</li>
+<li><code>cameras</code>: La cámara</li>
+<li><code>input</code>: La entrada de Phaser</li>
+<li><code>load</code>: el cargador de recursos</li>
+<li><code>sound</code>: el sistema de sonido</li>
+<li><code>scene</code>: el SceneManager</li>
+<li><code>time</code>: el manager de tiempo</li>
+<li><code>physics</code>: el sistema de físicas</li>
+
+</ul>
+</section>
+<section id="slide-utilidades-matemáticas">
+<h3 id="utilidades-matemáticas">Utilidades matemáticas</h3>
+<p>
+<a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Math"><code>Phaser.Math</code></a>
+contiene métodos que ayudan a realizar ciertas operaciones matemáticas
+típicas de un motor de videojuegos
+</p>
+
+<p>
+Además, tiene un
+<a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Math.RandomDataGenerator">generador
+de números aleatorios</a> muy útil, accesible a través de
+<code>Phaser.Math.RND</code>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-crear-un-juego-en-phaser">
+<h2 id="crear-un-juego-en-phaser">Crear un juego en Phaser</h2>
+</section>
+<section>
+
+<p>
+Para crear un juego, hay que crear una instancia de <code>Phaser.Game</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >new Phaser.Game({
+  type: Phaser.AUTO,
+  width: 800,
+  height: 400,
+  scene: [ClaseEscenaInicial, ClaseEscenaNivel1]
+})
+</code></pre>
+</div>
+
+<p>
+Esto crea un <code>&lt;canvas&gt;</code> al final de la página
+</p>
+
+<p>
+En realidad, podemos crearlo
+<a href="https://codepen.io/gjimenezucm/pen/bGRPRYz">de una manera más
+sencilla</a>
+</p>
+
+</section>
+<section>
+
+<p>
+Si queremos usar nuestro propio <code>&lt;canvas&gt;</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;canvas id="juego"&gt;&lt;/canvas&gt;
+&lt;script&gt;
+new Phaser.Game({
+  type: Phaser.CANVAS,
+  canvas: document.getElementById('juego'),
+  width: 800,
+  height: 400,
+  scene: [ClaseEscenaInicial, ClaseEscenaNivel1]
+})
+&lt;/script&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Si queremos que el <code>&lt;canvas&gt;</code> tenga el foco, lo hacemos con
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus"><code>focus()</code></a>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script&gt;document.getElementById('juego').focus()&lt;/script&gt;
+</code></pre>
+</div>
+</section>
+<section id="slide-documentación">
+<h3 id="documentación">Documentación</h3>
+<ul>
+<li><a href="https://photonstorm.github.io/phaser3-docs/index.html">Documentación  de Phaser 3</a>: Acceder desde la barra de menú en la parte superior</li>
+<li><a href="https://newdocs.phaser.io/docs/">Nuevo sistema de  documentación de Phaser</a>: Similar al anterior (en Beta)</li>
+<li><a href="https://phaser.io/examples/v3">Ejemplos de Phaser 3</a></li>
+<li><a href="https://rexrainbow.github.io/phaser3-rex-notes/docs/site/index.html">Notes  of Phaser 3</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-localización-de-los-recursos">
+<h2 id="localización-de-los-recursos">Localización de los recursos</h2>
+</section>
+<section id="slide-phaser-y-urls">
+<h3 id="phaser-y-urls">Phaser y URLs</h3>
+<p>
+Por seguridad, los navegadores restringen mucho el acceso al disco
+</p>
+
+<p>
+Por tanto, todos los recursos (imágenes y demás) tienen que ser cargados
+a través de la red
+</p>
+
+<p>
+Para ello, tenemos que referencias los recursos con URLs
+</p>
+</section>
+<section id="slide-urls">
+<h3 id="urls">URLs</h3>
+<p>
+En Internet (y en más sitios), cada elemento tiene un identificador
+único
+</p>
+
+</section>
+<section>
+
+<p>
+Solemos referirnos a URLs (Uniform Resource Locator)
+</p>
+</section>
+<section id="slide-urls-absolutas">
+<h3 id="urls-absolutas">URLs absolutas</h3>
+<ul>
+<li><code>http://www.ucm.es</code></li>
+<li><code>ftp://rediris.com/resourcea</code></li>
+<li><code>http://es.wikipedia.org/wiki</code></li>
+
+</ul>
+
+<p>
+La parte de antes de <code>:</code> es el <i>protocolo</i> (<code>http</code>, <code>ftp</code>&#x2026;)
+</p>
+</section>
+<section id="slide-urls-relativas">
+<h3 id="urls-relativas">URLs relativas</h3>
+<p>
+En una web, <code>/</code> es la raíz del sitio
+</p>
+
+<p>
+El directorio especial <code>../</code> indica el directorio padre al del fichero
+actual.
+</p>
+
+<p>
+El directorio <code>./</code> indica el directorio del fichero actual
+</p>
+
+<ul>
+<li><code>./ejemplo/ruta</code></li>
+<li><code>../otro_hijo/ruta/musica.ogg</code></li>
+<li><code>/hijo_raiz_sitio/archivo.png</code></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-carga-de-recursos-en-memoria">
+<h2 id="carga-de-recursos-en-memoria">Carga de recursos en memoria</h2>
+</section>
+<section id="slide-cargar">
+<h3 id="cargar">Cargar</h3>
+<p>
+Se le añade una <i>key</i> (clave o nombre) al recurso para poder
+identificarlo
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// this es un objeto Scene
+function preload() {
+    // Para cargar desde el sitio de Phaser
+    this.load.setBaseURL("https://examples.phaser.io/");
+    this.load.image('player', 'assets/sprites/phaser-dude.png');
+    this.load.image('platform', 'assets/sprites/platform.png');
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Podemos cargar diferentes recursos como: imágenes, archivos JSON, atlas
+de texturas, video, sonido, tilemaps&#x2026;
+</p>
+
+<p>
+Las rutas son <i>relativas</i> al <code>index.html</code> (aunque se pueden modificar
+con los métodos
+<a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Loader.LoaderPlugin#setPath"><code>setPath</code></a>
+y
+<a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Loader.LoaderPlugin#setBaseURL"><code>setBaseUrl</code></a>
+del subsistema de carga de recursos)
+</p>
+</section>
+<section id="slide-liberación-de-recursos">
+<h3 id="liberación-de-recursos">Liberación de recursos</h3>
+</section>
+<section>
+
+<p>
+Si cambiamos de escena y la desactivamos, es muy probable que haya
+recursos que ya no utilizaremos nunca
+</p>
+
+<p>
+En este caso podemos eliminarlos de la
+<a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Game#cache">caché de
+<code>Game</code></a>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >image1.destroy();
+sound4.destroy();
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-sprites-en-phaser">
+<h2 id="sprites-en-phaser">Sprites en Phaser</h2>
+</section>
+<section>
+
+<p>
+Son las imágenes 2D que sirven para visualizar los objetos en un juego
+2D. En Phaser se instancian así:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// this es una Scene
+player = this.add.sprite(100, 200, 'player');
+</code></pre>
+</div>
+
+</section>
+<section>
+
+
+<div id="org9b5b75d" class="figure">
+<p><img src="https://labs.phaser.io/assets/sprites/phaser-dude.png" alt="phaser-dude.png">
+</p>
+<p><span class="figure-number">Figura 1: </span><code>player</code></p>
+</div>
+
+<p>
+Hay que usar la clave que se le puso en la carga. El objeto, obviamente,
+<i>debe estar cargado memoria</i> con <code>scene.load</code>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-spritesheet-o-atlas-de-sprites">
+<h2 id="spritesheet-o-atlas-de-sprites">Spritesheet o atlas de sprites</h2>
+</section>
+<section>
+
+
+<div id="orgfe84564" class="figure">
+<p><img src="mario_spritesheet.gif" alt="mario_spritesheet.gif">
+</p>
+<p><span class="figure-number">Figura 2: </span>Spritesheet o atlas de Sprites</p>
+</div>
+
+</section>
+<section>
+
+<p>
+Sirven para optimizar recursos:
+</p>
+
+<ul>
+<li>Reduce el número de accesos al servidor (no es lo mismo traerse una
+imagen grande con muchas imágenes pequeñas que muchas imágenes
+pequeñas individuales)</li>
+<li>Es más eficiente en memoria</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Sirve también para crear animaciones por frames
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// this es un objeto scene
+function preload() {
+    // Recordad: solo para cargar desde el sitio de Phaser
+    this.load.setBaseURL("https://examples.phaser.io/");
+    this.load.spritesheet('mummy_spritesheet', 
+                          'assets/sprites/metalslug_mummy37x45.png',
+                          { frameWidth: 37, frameHeight: 45, endFrame: 17 });
+}
+
+function create() {
+    let mummy = this.add.sprite(300, 200, 'mummy_spritesheet');
+
+    this.anims.create({
+      key: 'walking',
+      frames: this.anims.generateFrameNumbers('mummy_spritesheet', { start: 0, end: 16 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    mummy.play('walking');
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+
+<div id="org9773a7d" class="figure">
+<p><img src="mummy.gif" alt="mummy.gif">
+</p>
+<p><span class="figure-number">Figura 3: </span>Animation</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

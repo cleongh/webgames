@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Canvas</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Canvas</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-el-elemento-canvas">
+<h2 id="el-elemento-canvas">El elemento <code>&lt;canvas&gt;</code></h2>
+</section>
+<section id="slide-canvas">
+<h3 id="canvas"><code>&lt;canvas&gt;</code></h3>
+<ul>
+<li>Introducido en HTML5</li>
+<li>Nos permite pintar gráficos 2D o 3D usando JavaScript</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;canvas width="320" height="200"&gt;&lt;/canvas&gt;
+</code></pre>
+</div>
+</section>
+<section id="slide-escalado">
+<h3 id="escalado">Escalado</h3>
+<p>
+Las dimensiones del canvas no tienen por qué corresponderse con las
+dimensiones en pantalla
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="css" >canvas {
+    width: 640px;
+    height: 480px;
+}
+</code></pre>
+</div>
+
+<p>
+Podemos usar esto a nuestro favor y jugar con los escalados, o adaptar
+nuestro juego a distintos tamaños de pantalla. Ejemplo:
+<a href="https://belenalbeza.com/retro-crisp-pixel-art-in-html-5-games/">Retro,
+crisp pixel art in HTML5 games</a>
+</p>
+</section>
+<section id="slide-contextos">
+<h3 id="contextos">Contextos</h3>
+<p>
+Para hacer cualquier operación de pintado, necesitamos el <b>contexto</b> de
+un <code>&lt;canvas&gt;</code>
+</p>
+
+<p>
+Lo obtenemos con <code>getContext</code>, al que debemos indicar si lo queremos 2D
+o 3D
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >var c = document.querySelector('canvas').getContext('2d');
+</code></pre>
+</div>
+</section>
+<section id="slide-canvas-api">
+<h3 id="canvas-api">Canvas API</h3>
+<ul>
+<li>Es la API de dibujo 2D en canvas</li>
+<li>Permite pintar imágenes, manipular píxeles, dibujar primitivas,
+curvas, etc</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Documentación
+en la MDN</a></li>
+<li><a href="http://joshondesign.com/p/books/canvasdeepdive/toc.html">Canvas Deep
+Dive</a> (libro online conciso, pero bastante completo)</li>
+
+</ul>
+</section>
+<section id="slide-ejemplo">
+<h3 id="ejemplo">Ejemplo</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >var ctx = document.querySelector('canvas').getContext('2d');
+ctx.fillRect(10, 10, 100, 100);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+
+<div id="orgffd5687" class="figure">
+<p><img src="canvas_ex01.png" alt="canvas_ex01.png">
+</p>
+<p><span class="figure-number">Figura 1: </span>Screenshot</p>
+</div>
+
+<p>
+<a href="https://jsfiddle.net/nea366Lm/">Snippet de código</a> online.
+</p>
+</section>
+<section id="slide-colores-bordes-etc">
+<h3 id="colores-bordes-etc">Colores, bordes, etc</h3>
+<ul>
+<li>Es similar a cómo funciona un programa de dibujo</li>
+<li>En el <b>contexto</b> indicamos los estilos que queremos que las
+"herramientas" (operaciones) usen</li>
+<li>¡Ojo que hay que "deshacer"!</li>
+
+</ul>
+</section>
+<section id="slide-ejemplo-1">
+<h3 id="ejemplo-1">Ejemplo</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >// red rectangles
+ctx.fillStyle = '#FF004D';
+ctx.fillRect(10, 10, 100, 100);
+ctx.fillRect(190, 10, 100, 100);
+// blue rect with white border
+ctx.fillStyle = 'rgba(41, 173, 255, 0.8)';
+ctx.fillRect(50, 50, 100, 100);
+ctx.strokeStyle = '#fff';
+ctx.lineWidth = 5;
+ctx.strokeRect(50, 50, 100, 100);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+
+<div id="orgb9cee87" class="figure">
+<p><img src="canvas_ex02.png" alt="canvas_ex02.png">
+</p>
+<p><span class="figure-number">Figura 2: </span>Screenshot</p>
+</div>
+
+<p>
+<a href="https://jsfiddle.net/x8knv6w3/2/">Snippet de código</a> online.
+</p>
+</section>
+<section id="slide-imágenes">
+<h3 id="imágenes">Imágenes</h3>
+<ul>
+<li>Las imágenes deben estar <b>ya cargadas</b> (por ejemplo con <code>&lt;img&gt;</code>) para
+poder pintarlas</li>
+<li>Podemos obtener <i>sources</i> de imágenes de otros medios: la webcam del
+usuario, un <code>&lt;video&gt;</code>, otro <code>&lt;canvas&gt;</code>, etc</li>
+
+</ul>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;img src="kitten.png" alt="A cute kitten" id="kitten"&gt;
+&lt;canvas width="300" height="300"&gt;&lt;/canvas&gt;
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >var img = document.getElementById('kitten');
+var ctx = document.querySelector('canvas')
+    .getContext('2d');
+
+ctx.drawImage(img, 0, 0);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+
+<div id="org1c5deb5" class="figure">
+<p><img src="canvas_ex03.png" alt="canvas_ex03.png">
+</p>
+<p><span class="figure-number">Figura 3: </span>Screenshot</p>
+</div>
+
+<p>
+<a href="https://jsfiddle.net/j4hbb46h/1/">Snippet de código</a> online
+</p>
+</section>
+<section id="slide-cargar-imágenes-al-vuelo">
+<h3 id="cargar-imágenes-al-vuelo">Cargar imágenes al vuelo</h3>
+<p>
+Podemos cargar imágenes al vuelo <b>desde JavaScript</b>
+</p>
+
+<ol>
+<li>Usamos el constructor <b><code>Image</code></b></li>
+<li>Nos subscribimos al evento de <b><code>load</code></b> (para pintar la imagen cuando
+se haya producido)</li>
+<li>Establecemos el atributo <b><code>src</code></b> de la imagen para iniciar la carga</li>
+
+</ol>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >var img = new Image();
+img.addEventListener('load', function () {
+    ctx.drawImage(img, 0, 0);
+});
+img.src = 'https://placekitten.com/g/300/300';
+</code></pre>
+</div>
+
+<p>
+<a href="https://jsfiddle.net/Lm56dcb6/">Snippet de código</a> online
+</p>
+</section>
+<section id="slide-sobre-la-carga-de-imágenes">
+<h3 id="sobre-la-carga-de-imágenes">Sobre la carga de imágenes</h3>
+<ul>
+<li>Las <code>&lt;img&gt;</code> con el estilo <code>display:none</code> se siguen cargando igualmente</li>
+<li><code>window.onload</code> se dispara cuando las imágenes creadas con <code>&lt;img&gt;</code> se
+han cargado</li>
+<li>Para precargar varias imágenes, se suelen utilizar
+<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promesas</a>,
+o bien un contador para detectar cuándo se han cargado todas</li>
+
+</ul>
+</section>
+<section id="slide-qué-más-se-puede-hacer-con-la-api">
+<h3 id="qué-más-se-puede-hacer-con-la-api">Qué más se puede hacer con la API</h3>
+<ul>
+<li>Dibujar curvas y paths complejos</li>
+<li>Pintar gradientes</li>
+<li>Clipping</li>
+<li>Transformaciones</li>
+<li>Manipular píxeles</li>
+<li>¡Y más!</li>
+
+</ul>
+</section>
+<section id="slide-webgl">
+<h3 id="webgl">WebGL</h3>
+<ul>
+<li>Implementación en JavaScript de OpenGL ES 2.0</li>
+<li>Es una API estándar de gráficos 3D</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">Documentación
+MDN</a></li>
+<li>Para pedir un contexto 3D a <code>&lt;canvas&gt;</code> debemos especificar *=webgl=*1
+en <code>getContext</code></li>
+
+<li>O <code>experimental-webgl</code> en algunos navegadores.</li>
+
+</ul>
+</section>
+<section id="slide-gráficos-2d-en-webgl">
+<h3 id="gráficos-2d-en-webgl">¿Gráficos 2D en WebGL?</h3>
+<ul>
+<li>Podemos dibujar gráficos 2D usando una API 3D como WebGL</li>
+<li>El "truco" es utilizar una proyección ortográfica, que no deforme los
+objetos con perspectiva</li>
+
+</ul>
+</section>
+<section id="slide-recursos">
+<h3 id="recursos">Recursos</h3>
+<ul>
+<li><i>Introduction to WebGL</i>
+<a href="https://dev.opera.com/articles/introduction-to-webgl-part-1/">parte
+1</a> y
+<a href="https://dev.opera.com/articles/introduction-to-webgl-part-2-porting-3d/">parte
+2</a></li>
+<li><a href="http://webglfundamentals.org/">WebGL fundamentals</a>: tutoriales paso
+a paso</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-librerías">
+<h2 id="librerías">Librerías</h2>
+</section>
+<section id="slide-d-pixi.js">
+<h3 id="d-pixi.js">2D: Pixi.js</h3>
+<ul>
+<li><a href="http://www.pixijs.com/">www.pixijs.com</a></li>
+<li>Renderiza gráficos 2D</li>
+<li>Funciona por defecto con WebGL, pero tiene fallback a Canvas 2D</li>
+<li>Phaser utiliza Pixi para renderizar gráficos</li>
+
+</ul>
+</section>
+<section id="slide-d-three.js">
+<h3 id="d-three.js">3D: THREE.js</h3>
+<ul>
+<li><a href="https://threejs.org/">THREE.js</a></li>
+<li>Es la librería de referencia para trabajar con WebGL</li>
+<li>Hay infinidad de tutoriales, libros, etc</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-animaciones">
+<h2 id="animaciones">Animaciones</h2>
+</section>
+<section id="slide-cómo-animar-gráficos">
+<h3 id="cómo-animar-gráficos">¿Cómo animar gráficos?</h3>
+<ul>
+<li>Necesitamos renderizar 60 veces por segundo (idealmente)</li>
+<li><b><code>setTimeout</code></b> y <code>setInterval</code>
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout#Reasons_for_delays_longer_than_specified"><i>no</i>
+nos sirven</a></li>
+<li><b><code>requestAnimationFrame</code></b> FTW</li>
+
+</ul>
+</section>
+<section id="slide-requestanimationframe">
+<h3 id="requestanimationframe"><code>requestAnimationFrame</code></h3>
+<ul>
+<li>Proporcionamos un <b>callback</b> con nuestras operaciones de dibujo</li>
+<li>Se llama automáticamente la siguiente vez que el navegador <b><i>pueda</i>
+pintar</b> en pantalla</li>
+<li>Si llamamos a <code>requstAnimationFrame</code> cada vez que acabamos de pintar,
+establecemos un <b>bucle</b></li>
+
+</ul>
+</section>
+<section id="slide-ejemplo-2">
+<h3 id="ejemplo-2">Ejemplo</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(x, 25, 50, 50);
+  x = (x + 1) % canvas.width;
+
+  requestAnimationFrame(render);
+}
+
+requestAnimationFrame(render);
+</code></pre>
+</div>
+
+<ul>
+<li><a href="https://jsfiddle.net/oxx3h8dp/2/">Snippet de código</a> con
+<code>requestAnimationFrame</code></li>
+<li><a href="https://jsfiddle.net/m92kpe4n/2/">Snippet de código</a> con
+<code>setInterval</code></li>
+
+</ul>
+</section>
+<section id="slide-tiempo-delta">
+<h3 id="tiempo-delta">Tiempo delta</h3>
+<ul>
+<li><code>requestAnimationFrame</code> pasa un <b>timestamp</b> como parámetro al callback</li>
+<li>El timestamp es el tiempo en <b>milisegundos</b> desde que se llamó por
+primera vez</li>
+<li>El timestamp se obtiene con <code>Performance.now()</code> (más eficiente y
+preciso que construir un <code>Date</code>)</li>
+<li>Con este timestamp podemos calcular el tiempo que ha pasado entre este
+frame y el anterior (<b>delta time</b>)</li>
+
+</ul>
+</section>
+<section id="slide-ejemplo-3">
+<h3 id="ejemplo-3">Ejemplo</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >const SPEED = 60; // pixels per second
+var oldTimestamp = 0;
+
+function render(timestamp) {
+  var delta = (timestamp - oldTimestamp) / 1000.0;
+  oldTimestamp = timestamp;
+
+  // ..
+  x = (x + SPEED * delta) % canvas.width;
+  requestAnimationFrame(render);
+}
+</code></pre>
+</div>
+
+<p>
+<a href="https://jsfiddle.net/0e11fv91/2/">Snippet de código</a> online
+</p>
+</section>
+<section id="slide-consideraciones-con-el-tiempo-delta">
+<h3 id="consideraciones-con-el-tiempo-delta">Consideraciones con el tiempo delta</h3>
+<ul>
+<li><i>Siempre</i> tenéis que poner una <b>cota</b> al valor del tiempo delta (por
+ejemplo 250ms) para evitar glitches en la lógica del juego</li>
+<li>A veces es recomendable saltarse el <i>update</i> de nuestro juego un frame</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

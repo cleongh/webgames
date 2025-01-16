@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Ejemplo de componentes</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Ejemplo de componentes</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-una-implementación-de-arquitectura-de-componentes-en-javascript">
+<h2 id="una-implementación-de-arquitectura-de-componentes-en-javascript">Una implementación de arquitectura de componentes en JavaScript</h2>
+</section>
+<section>
+
+<p>
+Vamos a implementar un sistema <i>muy simple</i> de entidades, componentes y
+<b>mensajes</b>
+</p>
+
+<p>
+Hasta ahora no hemos visto los <i>mensajes</i>, pero son una técnica muy
+usada para <b>desacoplar</b> los componentes, y las entidades
+</p>
+</section>
+</section>
+<section>
+<section id="slide-arquitectura">
+<h2 id="arquitectura">Arquitectura</h2>
+</section>
+<section>
+
+<p height="400">
+<a href="arquitectura.pu" height="400">arquitectura.pu</a>
+</p>
+</section>
+<section id="slide-game-el-juego">
+<h3 id="game-el-juego"><code>Game</code> → el juego</h3>
+<p>
+El juego tiene:
+</p>
+
+<ul>
+<li>Una lista de <code>Entity</code></li>
+<li>Una cola de <code>Message</code>
+<ul>
+<li>Los mensajes se meten en la cola</li>
+<li>El juego los "reparte"</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-entitiy-las-entidades">
+<h3 id="entitiy-las-entidades"><code>Entitiy</code> → las entidades</h3>
+<p>
+En una arquitectura simple de componentes, una <code>Entity</code> es poco más que
+una lista de componentes
+</p>
+
+<p>
+Esto significa que todo lo "interesante" estará <b>delegado</b> en los
+componentes
+</p>
+</section>
+<section id="slide-component-los-componentes">
+<h3 id="component-los-componentes"><code>Component</code> → los componentes</h3>
+<p>
+Los componentes tienen realmente el modelo del juego
+</p>
+
+<p>
+Veremos varios componentes que hacen cosas particulares
+</p>
+</section>
+<section id="slide-message-los-mensajes">
+<h3 id="message-los-mensajes"><code>Message</code> → los mensajes</h3>
+<p>
+Los sistemas de paso de mensajes son muy flexibles, pero aumentan la
+arquitectura y tienen <i>impacto en la eficiencia</i>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-bucle-principal">
+<h2 id="bucle-principal">Bucle principal</h2>
+</section>
+<section id="slide-qué-es-el-bucle-principal">
+<h3 id="qué-es-el-bucle-principal">¿Qué es el bucle principal?</h3>
+<p>
+Es un <i>bucle</i> que se ejecuta durante todo el juego
+</p>
+
+<p>
+En cada ciclo:
+</p>
+
+<ul>
+<li>Se lee la entrada</li>
+<li>Se actualiza el estado</li>
+<li>Se vuelve a pintar</li>
+<li>Se envían los mensajes pendientes</li>
+<li>Se comprueban colisiones</li>
+<li>&#x2026;</li>
+
+</ul>
+</section>
+<section id="slide-cómo-es-un-main-loop">
+<h3 id="cómo-es-un-main-loop">Cómo es un <i>main loop</i></h3>
+<div class="org-src-container">
+
+<pre><code class="js" >while(juegoContinua()) {
+    dt = tiempoDesdeLaIteracionAnterior() // unos pocos ms
+    entrada = leerEntrada();
+    estado = actualizarEstado(entrada, estadoAnterior, dt);
+    pintarEstado(estado);
+}
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

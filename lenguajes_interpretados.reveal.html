@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h2 class="author">Carlos León</h2><p class="date">Created: 2024-01-02 mar 11:31</p>
+</section>
+<section>
+<section id="slide-lenguajes-interpretados">
+<h2 id="lenguajes-interpretados"><span class="section-number-2">1.</span> Lenguajes interpretados</h2>
+</section>
+<section id="slide-lenguajes-compilados-a-código-máquina">
+<h3 id="lenguajes-compilados-a-código-máquina"><span class="section-number-3">1.1.</span> Lenguajes compilados a código máquina</h3>
+<p>
+<a href="compilar.dot">compilar.dot</a>
+</p>
+</section>
+<section id="slide-lenguajes-compilados-a-código-intermedio-bytecode">
+<h3 id="lenguajes-compilados-a-código-intermedio-bytecode"><span class="section-number-3">1.2.</span> Lenguajes compilados a código intermedio (bytecode)</h3>
+<p>
+<a href="compilado-bytecode.dot">compilado-bytecode.dot</a>
+</p>
+</section>
+<section id="slide-qué-son-lenguajes-interpretados">
+<h3 id="qué-son-lenguajes-interpretados"><span class="section-number-3">1.3.</span> Qué son lenguajes interpretados</h3>
+</section>
+<section>
+
+<p>
+Los <a href="https://en.wikipedia.org/wiki/Interpreted_language">lenguajes
+interpretados</a> son lenguajes diseñados para describir programas que
+<b>no</b> se ejecutan en el procesador, sino en otro programa que emula a un
+procesador, llamado <b>intérprete</b>
+</p>
+
+<p>
+<a href="interpretes.dot">interpretes.dot</a>
+</p>
+</section>
+<section id="slide-cómo-funcionan">
+<h3 id="cómo-funcionan"><span class="section-number-3">1.4.</span> Cómo funcionan</h3>
+<p>
+<a href="instrucciones.dot">instrucciones.dot</a>
+</p>
+</section>
+<section id="slide-en-comparación-con-los-compilados">
+<h3 id="en-comparación-con-los-compilados"><span class="section-number-3">1.5.</span> En comparación con los compilados</h3>
+<p>
+<a href="compilado.dot">compilado.dot</a>
+</p>
+</section>
+<section id="slide-ecmascript">
+<h3 id="ecmascript"><span class="section-number-3">1.6.</span> ECMAScript</h3>
+<p>
+ECMAScript/JavaScript es el lenguaje de los navegadores
+</p>
+
+<p>
+Comenzó como un pequeño lenguaje que se interpretaba dentro de
+<a href="https://es.wikipedia.org/wiki/Netscape_Navigator">Netscape</a>,
+principalmente para incluir efectos y operaciones sencillas
+</p>
+
+<p>
+<img src="netscape_logo.svg" alt="netscape_logo.svg" class="org-svg" /><br />
+</p>
+</section>
+</section>
+<section>
+<section id="slide-lenguajes-dinámicos">
+<h2 id="lenguajes-dinámicos"><span class="section-number-2">2.</span> Lenguajes dinámicos</h2>
+</section>
+<section id="slide-qué-son-los-lenguajes-dinámicos">
+<h3 id="qué-son-los-lenguajes-dinámicos"><span class="section-number-3">2.1.</span> ¿Qué son los lenguajes dinámicos?</h3>
+<p>
+Son lenguajes <i>diseñados para</i> hacer durante la ejecución lo que otros
+hacen cuando compilan
+</p>
+
+<p>
+Aunque no es una clasificación perfectamente formal, se esperan ciertos
+atributos en estos lenguajes
+</p>
+</section>
+<section id="slide-evaluación">
+<h3 id="evaluación"><span class="section-number-3">2.2.</span> Evaluación</h3>
+<p>
+Los lenguajes dinámicos suelen ser capaces de evaluar código generado
+dinámicamente, con una función de tipo <code>eval</code>
+</p>
+</section>
+<section id="slide-objetos-dinámicos">
+<h3 id="objetos-dinámicos"><span class="section-number-3">2.3.</span> Objetos dinámicos</h3>
+<p>
+Los lenguajes dinámicos pueden cambiar los campos de sus estructuras de
+datos en tiempo de ejecución:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >const a = {};     // se define el objeto sin campos
+a.campo = 'hola'; // se añade un campo nuevo
+</code></pre>
+</div>
+</section>
+<section id="slide-introspección">
+<h3 id="introspección"><span class="section-number-3">2.4.</span> Introspección</h3>
+<p>
+Otra característica típica es la <i>introspección</i> (<i>reflection</i>), o
+conocer y cambiar las propiedades del programa en sí
+</p>
+</section>
+</section>
+<section>
+<section id="slide-tipado-dinámico-y-estático">
+<h2 id="tipado-dinámico-y-estático"><span class="section-number-2">3.</span> Tipado dinámico y estático</h2>
+</section>
+<section id="slide-tipado-estático">
+<h3 id="tipado-estático"><span class="section-number-3">3.1.</span> Tipado estático</h3>
+<p>
+Los lenguajes de tipado estático tienen sistemas para declarar y fijar
+el tipo de las variables, estructuras de datos y funciones
+</p>
+
+<p>
+Por ejemplo, a través de la declaración de tipos:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="C" >int a = 5;
+int suma(int x, int y) { return x + y; }
+</code></pre>
+</div>
+</section>
+<section id="slide-compilado-de-tipos-estáticos">
+<h3 id="compilado-de-tipos-estáticos"><span class="section-number-3">3.2.</span> Compilado de tipos estáticos</h3>
+<p>
+El compilador tiene mecanismos para saber si una expresión tiene el tipo
+correcto, <i>durante la compilación</i>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="cpp" >int suma(int x, int y) { return x + y; } 
+
+suma(4, "juan"); // el compilador lanza un error
+</code></pre>
+</div>
+</section>
+<section id="slide-tipado-dinámico">
+<h3 id="tipado-dinámico"><span class="section-number-3">3.3.</span> Tipado dinámico</h3>
+<p>
+Los lenguajes de tipado dinámico, por el contrario, no tienen
+compiladores que comprueben el tipo
+</p>
+
+<p>
+Así que la corrección será comprobado más tarde, <i>durante la ejecución</i>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >function resta(x, y) { return x - y; } 
+
+resta(4, "juan"); // el intérprete no da error hasta que esto no se ejecuta
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-javascript">
+<h2 id="javascript"><span class="section-number-2">4.</span> JavaScript</h2>
+</section>
+<section id="slide-javascript-1">
+<h3 id="javascript-1"><span class="section-number-3">4.1.</span> JavaScript</h3>
+<p>
+JavaScript es un dialecto de
+<a href="https://es.wikipedia.org/wiki/ECMAScript">ECMAScript</a>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >const variable = 6;
+
+if(variable === 5) {
+    console.log("Sí, es igual a 5.")
+}
+else {
+    console.log("Pues no, vale " + variable + ".")
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-javascript-2">
+<h3 id="javascript-2"><span class="section-number-3">4.2.</span> JavaScript</h3>
+<p>
+Su sintaxis es parecida a la de C/C++/Java (intencionadamente)
+</p>
+
+<p>
+Cuando JS fue creado, Java estaba muy de moda. Por eso se eligieron el
+nombre y la sintaxis
+</p>
+
+<blockquote>
+<p>
+Pero JavaScript tiene <b>muy poco que ver con Java</b>
+</p>
+</blockquote>
+</section>
+<section id="slide-javascript-en-los-navegadores">
+<h3 id="javascript-en-los-navegadores"><span class="section-number-3">4.3.</span> JavaScript en los navegadores</h3>
+<p>
+Casi todos los navegadores "modernos" tienen dentro una máquina virtual
+que ejecuta JavaScript
+</p>
+
+<p>
+Además, tienen un API llamado DOM (<i>Document Object Model</i>) que permite
+acceder a las partes del documento (por ejemplo, acceder a un párrafo o
+imagen de una página web)
+</p>
+
+<div class="html" id="org7a0601d">
+<p>
+&lt;!&#x2013; Prueba con el navegador para ver el acceso al DOM:
+document.getElementsByTagName("h2").forEach((item) =&gt; item.style.color = "red")
+ &#x2013;&gt;
+</p>
+
+</div>
+</section>
+<section id="slide-javascript-en-el-mundo-real">
+<h3 id="javascript-en-el-mundo-real"><span class="section-number-3">4.4.</span> JavaScript en el mundo real</h3>
+<p>
+JavaScript hoy en día se usa para:
+</p>
+
+<ul>
+<li>Videojuegos (Phaser)</li>
+<li>IDEs (Construct, VSCode)</li>
+<li>Gmail, Calendar&#x2026;</li>
+<li>Herramientas online: <a href="https://ledoux.itch.io/bitsy">Bitsy</a>,
+<a href="https://www.piskelapp.com/p/create/sprite">Piskel</a>,
+<a href="https://sfbgames.itch.io/chiptone">Chiptone</a>,
+<a href="https://www.codeandweb.com/free-sprite-sheet-packer">Spritesheet
+Packer</a>&#x2026;</li>
+<li>Facebook, Instagram</li>
+<li>Scripting</li>
+<li><i>Servidores</i></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-ejecutando-javascript">
+<h2 id="ejecutando-javascript"><span class="section-number-2">5.</span> Ejecutando JavaScript</h2>
+</section>
+<section id="slide-en-el-navegador">
+<h3 id="en-el-navegador"><span class="section-number-3">5.1.</span> En el navegador</h3>
+<p>
+A lo largo del curso, escribiremos JavaScript que se ejecutará dentro
+del navegador
+</p>
+
+<p>
+Porque <b>el navegador tiene incluido un intérprete de Javascript</b>
+</p>
+
+<p>
+Pero hay otros intérpretes que son capaces de interpretar JavaScript y
+<b>algunos no son parte de un navegador</b>
+</p>
+</section>
+<section id="slide-node.js">
+<h3 id="node.js"><span class="section-number-3">5.2.</span> Node.js</h3>
+<p>
+<a href="https://nodejs.org/">Node.js</a> es un <i>intérprete</i> de JavaScript:
+</p>
+
+<ol>
+<li>Recibe código JS como entrada</li>
+<li>Lo analiza (hace <i>parsing</i>)</li>
+<li>Crea una representación intermedia → ¡no lo compila!</li>
+<li>Ejecuta esa representación intermedia</li>
+
+</ol>
+</section>
+<section id="slide-node.js-como-máquina-virtual">
+<h3 id="node.js-como-máquina-virtual"><span class="section-number-3">5.3.</span> Node.js como máquina virtual</h3>
+<p>
+Por lo tanto, <code>Node.js</code> contiene una máquina virtual capaz de leer,
+entender y ejecutar JS
+</p>
+
+<p>
+Una MV es sólo código, un programa que "simula" ser un ordenador
+</p>
+
+<p>
+Esta máquina se llama
+<a href="https://en.wikipedia.org/wiki/V8_(JavaScript_engine)">V8</a>
+</p>
+
+<p>
+<b>V8</b> es el motor de
+<a href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>.
+</p>
+</section>
+<section id="slide-usando-node.js">
+<h3 id="usando-node.js"><span class="section-number-3">5.4.</span> Usando Node.js</h3>
+<p>
+<code>Node.js</code> se puede usar desde línea de comandos:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >node script.js
+
+# Ejecuta el contenido de script.js
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+También lo podemos usar como un
+<a href="https://es.wikipedia.org/wiki/REPL">REPL</a>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >➜ node
+Welcome to Node.js v12.8.1.
+Type ".help" for more information.
+&gt; console.log("Probando")
+Probando
+undefined
+&gt; 2 + 5
+7
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'convex',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

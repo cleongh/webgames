@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Texto en Phaser</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Texto en Phaser</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-crear-texto-usando-fuentes-del-sistema">
+<h2 id="crear-texto-usando-fuentes-del-sistema">Crear texto usando fuentes del sistema</h2>
+</section>
+<section>
+
+<p>
+Para crear texto simplemente podemos usar la clase
+<a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Text"><code>Phaser.GameObjects.Text</code></a>
+con la factoría de Phaser <code>add.text</code> de <code>Scene</code>
+</p>
+
+</section>
+<section>
+
+<p>
+Pero podemos modificar los atributos de <code>text</code> para cambiar su aspecto
+como:
+</p>
+
+<ul>
+<li><code>setAlign</code>: alineación del texto</li>
+<li><code>setFont</code>: tipo de letra</li>
+<li><code>setFontSize</code>: tamaño</li>
+<li><code>setStroke</code>: color del borde y grosor</li>
+<li><code>setFill</code>: color de relleno</li>
+
+</ul>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// this es una Scene
+let text = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, '- phaser text stroke -');
+text.setOrigin(0.5,0.5);
+
+// alineación del texto
+text.setAlign('center');
+
+// Font style
+text.setFont('Arial Black');
+text.setFontSize(50);
+
+//Color del reborde de la letra y grosor.
+text.setStroke('#000000', 6)
+text.setFill('#43d637');
+text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
+</code></pre>
+</div>
+</section>
+<section id="slide-texto-en-ui">
+<h3 id="texto-en-ui">Texto en UI</h3>
+<p>
+Muchas veces, el texto se utiliza como parte de la UI del juego
+(puntuación, vidas&#x2026;)
+</p>
+
+<p>
+Pero el texto creado tal cual lo hemos hecho tiene una posición en la
+escena y, por tanto, se queda fijo al mover la cámara y puede
+desaparecer de la escena.
+</p>
+
+</section>
+<section>
+
+<p>
+<b>Solución</b>: Recordad que algunos GameObject tienen un método
+<a href="https://newdocs.phaser.io/docs/3.52.0/Phaser.GameObjects.Sprite#setScrollFactor"><code>SetScrollFactor</code></a>
+que controla el movimiento de un objeto con respecto al de la cámara
+</p>
+</section>
+<section id="slide-botones-con-texto">
+<h3 id="botones-con-texto">Botones con texto</h3>
+<p>
+Se puede crear un botón fácilmente usando un texto interactivo y
+añadiendo un evento de <code>onpointerdown</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let button = this.add.text(...).setInteractive();
+button.on('pointerdown', pointer =&gt; {
+    // hacer algo
+});
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-problema-de-las-fuentes-del-sistema">
+<h2 id="problema-de-las-fuentes-del-sistema">Problema de las fuentes del sistema</h2>
+</section>
+<section>
+
+<p>
+Una fuente de nuestra máquina puede no estar disponible en la máquina
+del usuario.
+</p>
+
+<p>
+¿Solución? Usar
+<a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp">fuentes
+estándar</a>, crear nuestras propias fuentes de mapa de bits (bitmap
+fonts) o usar fuentes Web (<b>webfonts</b>) como
+<a href="https://fonts.google.com/">Google Fonts</a>
+</p>
+
+</section>
+<section>
+
+
+<div id="org6727f63" class="figure">
+<p><img src="bitmapfont.png" alt="bitmapfont.png">
+</p>
+<p><span class="figure-number">Figura 1: </span>Bitmap Fonts</p>
+</div>
+</section>
+<section id="slide-texto-con-fuentes-de-mapa-de-bits">
+<h3 id="texto-con-fuentes-de-mapa-de-bits">Texto con fuentes de mapa de bits</h3>
+<p>
+Para cargar una fuente de mapa de bits hay que usar
+<a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Loader.LoaderPlugin#bitmapFont"><code>scene.load.bitmapFont()</code></a>
+en el <code>preload</code>
+</p>
+
+<p>
+Hay que pasarle el bitmap (en
+<a href="https://es.wikipedia.org/wiki/Portable_Network_Graphics">PNG</a>, por
+ejemplo) con las fuentes y el XML que las describe
+</p>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// this es scene
+preload(){
+    this.load.bitmapFont(
+        'bitmapFont', 'assets/fonts/bitmapFonts/bitmapFont.png',
+        'assets/fonts/bitmapFonts/bitmapFont.xml');
+}
+create(){
+    this.greeting = this.add.bitmapText(200, 100, 'bitmapFont','Bitmap Fonts!', 64);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Para generar el XML y el mapa de bits podemos usar:
+</p>
+
+<ul>
+<li><a href="https://snowb.org/">SnowB BMF</a> (online)</li>
+<li><a href="http://www.angelcode.com/products/bmfont/">Bmfont</a> (Windows)</li>
+<li><a href="https://www.71squared.com/glyphdesigner">Glyph Designer</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-texto-con-fuentes-web">
+<h2 id="texto-con-fuentes-web">Texto con fuentes Web</h2>
+</section>
+<section>
+
+<p>
+Podemos cargar fuentes desde la web, por ejemplo desde
+<a href="https://fonts.google.com/">Google Fonts</a>
+</p>
+
+<p>
+Hay que cargar la fuente previamente antes de usarla
+</p>
+
+</section>
+<section>
+
+<p>
+Cargamos el código para usar webfonts:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >preload() {
+    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Después, llamamos a <code>WebFont.load()</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// this es Scene
+create(){
+    let self = this; // Para usarlo en active
+    WebFont.load({
+        google: {
+            families: [ 'Freckle Face', 'Finger Paint', 'Nosifer' ]
+        },
+        active: function () // se llama a esta función cuando está cargada
+        {
+            let nuevoTexto = 
+                self.add.text(16, 0, 
+                    'The face of the\nmoon was in\nshadow.', 
+                    { fontFamily: 'Freckle Face', fontSize: 80, color: '#ffffff' })
+            nuevoTexto.setShadow(2, 2, "#333333", 2, false, true);
+        }
+    });
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-problemas-de-las-google-fonts-u-otras-fuentes-web">
+<h3 id="problemas-de-las-google-fonts-u-otras-fuentes-web">¿Problemas de las Google Fonts u otras fuentes Web?</h3>
+<p>
+Que dependemos de ellas para que el juego funcione y no tenemos control
+sobre ellas
+</p>
+</section>
+<section id="slide-solución">
+<h3 id="solución">Solución</h3>
+<p>
+Almacenar las fuentes de nuestro juego en el servidor y cargarlas.
+</p>
+
+<p>
+Las podemos guardar en <code>/assets/fonts</code>
+</p>
+
+</section>
+<section>
+
+<p>
+Creamos una función auxiliar y cargamos la fuente:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >loadFont(name, url) {
+    let newFont = new FontFace(name, `url(${url})`);
+    newFont.load().then(function (loaded) {
+        document.fonts.add(loaded);
+    }).catch(function (error) {
+        return error;
+    });
+}
+
+preload() {
+    // Archivo .ttf descargable desde
+    // https://www.dafont.com/es/happy-donuts.font
+    this.loadFont("Donuts", "/assets/fonts/HAPPY_DONUTS.ttf");
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// this es Scene
+create() {
+    let nuevoTexto = 
+        this.add.text(16, 0, 
+            'The face of the\nmoon was in\nshadow.', 
+            { fontFamily: 'Donuts', fontSize: 80, color: '#ffffff' })
+}
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

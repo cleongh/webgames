@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Audio en Phaser</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Audio en Phaser</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-motores-de-audio">
+<h2 id="motores-de-audio">Motores de audio</h2>
+</section>
+<section>
+
+<p>
+El sonido, a bajo nivel, es un aspecto complejo y requiere de
+conocimiento amplio de física y procesamiento de señal
+</p>
+
+</section>
+<section>
+
+<p>
+En general, cuando estamos haciendo videojuegos, queremos una <i>capa de
+abstracción</i> sobre la gestión de sonido
+</p>
+
+</section>
+<section>
+
+<p>
+Es muy normal asumir que el sonido en un videojuego consiste en un
+conjunto de archivos (sonidos y música) que queremos reproducir (al
+lanzarse eventos, o de fondo)
+</p>
+
+</section>
+<section>
+
+<p>
+Aunque, desde luego, esto no sea necesariamente así en todos los juegos,
+es como vamos a tratarlo en este curso
+</p>
+</section>
+</section>
+<section>
+<section id="slide-formatos">
+<h2 id="formatos">Formatos</h2>
+</section>
+<section>
+
+<p>
+Los sonidos se almacenan en digital de dos formas:
+</p>
+
+<ul>
+<li>Guardando la onda (análogo a un mapa de bits)</li>
+<li>Guardando las notas musicales, su duración, etc. (análogo a una imagen
+vectorial): <a href="https://es.wikipedia.org/wiki/MIDI">MIDI</a></li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Nosotros trabajaremos sólo con audio de onda (no MIDI)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-audio-en-phaser">
+<h2 id="audio-en-phaser">Audio en Phaser</h2>
+</section>
+<section>
+
+<p>
+Phaser provee, entre otros módulo, uno de gestión de audio de <i>muy alto
+nivel</i>
+</p>
+
+</section>
+<section>
+
+<p>
+Esto quiere decir que, para gestionar audio, sólo tenemos que
+preocuparnos de:
+</p>
+
+<ol>
+<li>tener los archivos</li>
+<li>cargarlos</li>
+<li>(asegurarnos de que están bien cargados)</li>
+<li>reproducirlos &#x2013;de fondo, como eventos, en loop&#x2026;&#x2013;</li>
+<li>enterarnos de cuándo han acabado de reproducirse (si queremos)</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-carga-de-sonidos">
+<h2 id="carga-de-sonidos">Carga de sonidos</h2>
+</section>
+<section>
+
+<p>
+Cargar el sonido <code>explosion.mp3</code> y asignarle un nombre:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >scene.load.audio("explosion", "assets/audio/SoundEffects/explosion.mp3");
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+También podemos hacer una "lista de prioridad" de carga. El navegador
+intentará cargar estos archivos (por orden), sólo se quedará con uno
+</p>
+
+<p>
+En <code>preload</code> de nuestra escena:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >scene.load.audio("boden", [
+  "assets/audio/bodenstaendig_2000_in_rock_4bit.mp3",
+  "assets/audio/bodenstaendig_2000_in_rock_4bit.ogg",
+]);
+</code></pre>
+</div>
+
+<p>
+(Por ejemplo, Firefox elegirá el OGG)
+</p>
+
+</section>
+<section>
+
+<p>
+Añadimos el audio al juego
+<a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Types.Sound.SoundConfig">con
+una configuración inicial</a> (opcional):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >const config = {
+  mute: false,
+  volume: 1,
+  rate: 1,
+  detune: 0,
+  seek: 0,
+  loop: false,
+  delay: 0,
+}; // config es opcional
+this.explosion = scene.sound.add("explosion", config);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y, finalmente, reproducimos el sonido:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >explosion.play();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Si queremos parar la reproducción
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >music.stop();
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Hacer que un sonido se repita
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// hace que `explosion` se vuelva a reproducir cuando acabe
+// (muy útil para música)
+explosion.setLoop(true);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Si queremos borrarlo en algún momento, destruimos la entidad (con
+<code>destroy()</code>) y el recurso (con <code>remove</code>)
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >explosion.destroy();
+scene.sound.remove("explosion");
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-comenzar-el-sonido">
+<h2 id="comenzar-el-sonido">Comenzar el sonido</h2>
+</section>
+<section>
+
+<p>
+Los navegadores no nos permiten empezar a reproducir audio <b>si no es por
+un evento lanzado por el usuario</b>
+</p>
+
+</section>
+<section>
+
+<p>
+Así que antes de poder reproducir, tendremos que haber hecho clic (por
+ejemplo) en un botón de nuestro juego
+</p>
+
+</section>
+<section>
+
+<p>
+Esto se suele conseguir con un botón de <i>Jugar</i>, o algo similar
+</p>
+
+<p>
+¡Sed creativos!
+</p>
+</section>
+</section>
+<section>
+<section id="slide-eventos-de-sonido-en-phaser">
+<h2 id="eventos-de-sonido-en-phaser">Eventos de sonido en Phaser</h2>
+</section>
+<section>
+
+<p>
+No solemos saber (o no es cómodo saber) cuánto dura un sonido
+</p>
+
+<p>
+Así que lo que hacemos es <i>decirle a Phaser que haga algo cuando el
+sonido termine de reproducirse</i>
+</p>
+</section>
+<section id="slide-evento-cuando-el-sonido-termina-de-reproducirse">
+<h3 id="evento-cuando-el-sonido-termina-de-reproducirse">Evento cuando el sonido termina de reproducirse</h3>
+<div class="org-src-container">
+
+<pre><code class="js" >function create() {
+  explosion.once("stop", (music) =&gt; {
+    // ...
+  });
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+No es el único evento pero sí suele ser el más comúnmente usado
+</p>
+
+<p>
+Phaser proporciona otros muchos
+<a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Sound.Events">eventos
+relacionados con la reproducción de sonido</a>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-audio-sprites">
+<h2 id="audio-sprites">Audio sprites</h2>
+</section>
+<section>
+
+<p>
+Antes de las tecnologías de audio HTML modernas, los navegadores tenían
+muchas restricciones y problemas para cargar varios archivos de audio
+</p>
+
+</section>
+<section>
+
+<p>
+Los
+<a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Sound.BaseSoundManager#addAudioSprite"><i>audio
+sprites</i></a> son un sistema en el que un solo archivo de audio contiene
+varios sonidos grabados (uno detrás de otro)
+</p>
+
+<p>
+Se acompañan de un archivo con información de dónde empieza y acaba cada
+uno (JSON)
+</p>
+
+</section>
+<section>
+
+<p>
+Es decir, algo muy similar a un <i>atlas de texturas</i>
+</p>
+
+</section>
+<section>
+
+<p>
+En general, no son necesarios hoy en día (aunque pueden hacer más
+eficiente la carga)
+</p>
+
+<p>
+<a href="https://phaser.io/examples/v3/view/audio/html5-audio/audiosprite#">Aquí
+hay un ejemplo de este tipo de audio</a>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-recursos-de-audio">
+<h2 id="recursos-de-audio">Recursos de audio</h2>
+<p>
+Hay enlaces a recursos y generadores en el Campus Virtual
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

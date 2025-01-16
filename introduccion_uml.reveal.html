@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Introducción a UML</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Introducción a UML</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-sistemas-complejos">
+<h2 id="sistemas-complejos">Sistemas complejos</h2>
+</section>
+<section>
+
+<p>
+Un sistema software puede tener muchos, muchos módulos
+</p>
+
+</section>
+<section>
+
+<p>
+Trabajar con todas las piezas a la vez puede ser inviable
+</p>
+
+</section>
+<section>
+
+<p>
+Dividir, encapsular y ordenar las piezas es fundamental
+</p>
+
+</section>
+<section>
+
+<p>
+Además, es importante <b>recordar</b> y <b>comunicar</b> la estructura software
+que estamos utilizando
+</p>
+</section>
+</section>
+<section>
+<section id="slide-uml">
+<h2 id="uml">UML</h2>
+</section>
+<section>
+
+<p>
+UML (<i>Unified Modeling Languge</i>) es un lenguaje <b>visual</b> que sirve para
+representar un diseño software
+</p>
+
+</section>
+<section>
+
+<p>
+UML se usa como el "plano" software
+</p>
+
+<p>
+Todos los miembros del equipo deberían seguir este plano
+</p>
+
+</section>
+<section>
+
+<p>
+Se usa para dar una visión abstracta de una arquitectura software, en
+particular, de arquitecturas <i>orientadas a objetos</i>
+</p>
+
+</section>
+<section>
+
+<blockquote>
+<p>
+UML no es un lenguaje de programación, es un lenguaje de modelado
+</p>
+</blockquote>
+</section>
+</section>
+<section>
+<section id="slide-tipos-de-diagramas-uml">
+<h2 id="tipos-de-diagramas-uml">Tipos de diagramas UML</h2>
+</section>
+<section>
+
+<p>
+No hay un diagrama UML, hay muchos (secuencia, casos de uso, de
+actividades&#x2026;)
+</p>
+
+</section>
+<section>
+
+<p>
+Nosotros vamos a centrarnos en uno de los tipos más comunes: <i>el
+diagrama de clases UML</i>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-diagramas-de-clase-uml">
+<h2 id="diagramas-de-clase-uml">Diagramas de clase UML</h2>
+</section>
+<section>
+
+<p>
+Una clase se representa con una caja, con su nombre en la primera
+sección:
+</p>
+
+<p>
+<a href="frutas.pu">frutas.pu</a>
+</p>
+
+</section>
+<section>
+
+<p>
+Las clases pueden tener atributos, que se representan en la segunda
+sección:
+</p>
+
+<p>
+<a href="atributos.pu">atributos.pu</a>
+</p>
+
+</section>
+<section>
+
+<p>
+También pueden representarse los métodos, en la tercera sección:
+</p>
+
+<p>
+<a href="metodos.pu">metodos.pu</a>
+</p>
+
+</section>
+<section>
+
+<p>
+La idea, en un diagrama, es que se vean representadas todas las clases
+relevantes:
+</p>
+
+<p>
+<a href="muchos.pu">muchos.pu</a>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-relaciones">
+<h2 id="relaciones">Relaciones</h2>
+</section>
+<section id="slide-herencia">
+<h3 id="herencia">Herencia</h3>
+<p>
+Una de las relaciones más usadas en la programación orientada a objetos
+es la herencia
+</p>
+
+<p>
+En UML, la herencia se representa con una flecha <i>hueca</i>, <b>desde el hijo
+hasta el padre</b>
+</p>
+
+</section>
+<section>
+
+<p>
+<a href="herenciafrutas.pu">herenciafrutas.pu</a>
+</p>
+</section>
+<section id="slide-implementación">
+<h3 id="implementación">Implementación</h3>
+<p>
+Se puede reflejar la idea de implementación de una interfaz
+</p>
+
+<p>
+Una interfaz es un conjunto de funciones no implementadas que
+representan un comportamiento que puede ser especificado en cada clase
+</p>
+
+</section>
+<section>
+
+<p>
+<a href="interface.pu">interface.pu</a>
+</p>
+</section>
+<section id="slide-agregación">
+<h3 id="agregación">Agregación</h3>
+<p>
+La agregación es un tipo de relación en la que hay un contenedor y un
+contenido
+</p>
+
+</section>
+<section>
+
+<p>
+<a href="agregacionuml.pu">agregacionuml.pu</a>
+</p>
+</section>
+<section id="slide-composición">
+<h3 id="composición">Composición</h3>
+<p>
+La composición es más "fuerte" que la agregación
+</p>
+
+</section>
+<section>
+
+<p>
+En la composición, el todo y las partes tienen el mismo ciclo de vida
+</p>
+
+<p>
+Es decir, no hay todo sin las partes
+</p>
+
+</section>
+<section>
+
+<p>
+<a href="composicionuml.pu">composicionuml.pu</a>
+</p>
+</section>
+<section id="slide-asociación">
+<h3 id="asociación">Asociación</h3>
+<p>
+Es una relación estructural que describe una conexión entre objetos de
+esas clases
+</p>
+
+</section>
+<section>
+
+<ul>
+<li>Pueden ser bidireccionales o unidireccionales</li>
+<li>En este último caso, una flecha indica qué clase hace uso de la otra</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+<a href="asociacion.pu">asociacion.pu</a>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-más">
+<h2 id="más">Más&#x2026;</h2>
+</section>
+<section>
+
+<p>
+UML es mucho, mucho más complejo, y se puede usar para representar mucho
+más que una estructura de clases
+</p>
+
+<p>
+Hay
+<a href="https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/">muchos
+recursos en Internet</a> a través de los cuales podéis aprender más
+detalles
+</p>
+
+</section>
+<section>
+
+<p>
+También os recomendamos que useis aplicaciones que facilitan el
+desarrollo de los diagramas UML:
+</p>
+
+<ul>
+<li><a href="https://app.diagrams.net/">draw.io</a></li>
+<li><a href="https://online.visual-paradigm.com/diagrams.jsp">Visual Paradigm
+online</a></li>
+<li><a href="https://yuml.me/diagram/scruffy/class/draw">Yuml</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

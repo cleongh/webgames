@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Scripting con JavaScript en Tiled</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Scripting con JavaScript en Tiled</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-org49b347c">
+<h2 id="org49b347c">Extensiones en Tiled</h2>
+<p>
+A partir de la versión 1.3, Tiled permite crear scripts con JavaScript
+</p>
+
+
+</section>
+<section>
+
+
+<div id="org7509e9b" class="figure">
+<p><img src="abrir_consola_tiled.png" alt="abrir_consola_tiled.png" />
+</p>
+<p><span class="figure-number">Figura 1: </span>Lo primero es abrir la consola</p>
+</div>
+
+</section>
+<section>
+
+<p>
+podemos ejecutar JavaScript
+<img src="consola_tiled.png" alt="consola_tiled.png" />
+</p>
+
+</section>
+<section>
+
+
+<div id="org6e02c7f" class="figure">
+<p><img src="js_tiled.png" alt="js_tiled.png" />
+</p>
+<p><span class="figure-number">Figura 2: </span>Cualquier expresión de JavaScript funciona</p>
+</div>
+
+</section>
+<section>
+
+<p>
+Se puede pegar un script pequeño de JavaScript en la línea de comandos,
+o se pueden ejecutar aquellos que está en
+<a href="https://doc.mapeditor.org/en/stable/reference/scripting/#script-extensions">la
+carpeta <code>extensions</code></a>
+</p>
+
+</section>
+<section>
+
+<p>
+Preguntar algo al usuario:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >if(tiled.confirm("¿Quieres borrar todo el mapa?", "Borrado total")) {
+    tiled.alert("¡Borrado!");
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Recorrer todo el mapa y cambiar una propiedad:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >for(let x = 0; x &lt; tiled.activeAsset.width; x++) {
+    for(let y = 0; y &lt; tiled.activeAsset.height; y++) {
+        tiled.activeAsset.currentLayer.tileAt(x, y).propiedad = valor;
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+La <a href="https://www.mapeditor.org/docs/scripting/">API</a> del motor de
+JavaScript tiene detalles de cómo se puede hacer extensiones a Tiled con
+JavaScript
+</p>
+</section>
+</section>
+<section>
+<section id="slide-ejemplo-flip-aleatorio-de-objetos">
+<h2 id="ejemplo-flip-aleatorio-de-objetos">Ejemplo: Flip aleatorio de objetos</h2>
+</section>
+<section>
+
+<p>
+Queremos que en una capa de objetos, algunos de los objetos cambien su
+orientación vertical (así, no tenemos que andar cambiando la propiedad
+manualmente)
+</p>
+
+</section>
+<section>
+
+
+<div id="org3c2c8ef" class="figure">
+<p><img src="ejemploFlip.png" alt="ejemploFlip.png" />
+</p>
+<p><span class="figure-number">Figura 3: </span>Ejemplo de ejecución</p>
+</div>
+
+</section>
+<section>
+
+<p>
+Recorremos un mapa y hacemos flip aleatoriamente a los objetos
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >function flipObjects(map) {
+    for (let i = map.layerCount - 1; i &gt;= 0; i--) {
+        const layer = map.layerAt(i);
+        let numFlips = 0;
+        if (layer.isObjectLayer) {
+            for (const obj of layer.objects) {
+                let coin = Math.random()
+                if (coin &lt; 0.5) {
+                    obj.tileFlippedVertically = true;
+                    numFlips++;
+                }
+            }
+        }
+        return numFlips;
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Creamos una acción para ejecutar la función anterior
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >let flipObject = tiled.registerAction("FlipObject", function(/* action */) {
+    const map = tiled.activeAsset;
+    if (!map.isTileMap) {
+        tiled.alert("Not a tile map!");
+        return;
+    }
+
+    const numFlips = flipObjects(map);
+    tiled.alert("Number of objects flipped = " + numFlips);
+        return;
+});
+flipObject.text = "Flip objects in layer";
+flipObject.shortcut = "Ctrl+Shift+F";
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Añadimos la acción al menú de Layer
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >tiled.extendMenu("Layer", [
+    { separator: true },
+    { action: "FlipObject" },
+]);
+</code></pre>
+</div>
+</section>
+<section id="slide-más-ejemplos">
+<h3 id="más-ejemplos">Más ejemplos&#x2026;</h3>
+<p>
+<a href="https://github.com/mapeditor/tiled-extensions">https://github.com/mapeditor/tiled-extensions</a>
+</p>
+
+<p>
+Y en el readme hay enlaces a otros repositorios de ejemplos.
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

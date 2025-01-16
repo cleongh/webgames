@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Proyectos en la web</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Proyectos en la web</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-proyectos-o-juegos">
+<h2 id="proyectos-o-juegos">¿Proyectos o juegos?</h2>
+</section>
+<section>
+
+<p>
+En realidad, hablaremos de videojuegos en HTML5
+</p>
+
+<p>
+Muchos aspectos son extrapolables a otros proyectos y sectores (móviles,
+por ejemplo)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-los-proyectos-en-la-web-son-particulares">
+<h2 id="los-proyectos-en-la-web-son-particulares">Los proyectos en la web son particulares</h2>
+</section>
+<section id="slide-perdemos-una-buena-parte-del-control-sobre-el-cliente">
+<h3 id="perdemos-una-buena-parte-del-control-sobre-el-cliente">Perdemos una buena parte del control sobre el cliente</h3>
+</section>
+<section>
+
+<p>
+No sabemos, a priori, si el acceso a nuestro proyecto será con un PC, un
+móvil, una tablet&#x2026;
+</p>
+
+</section>
+<section>
+
+<p>
+Además, no sabemos el navegador, ni podemos controlar el sistema
+operativo
+</p>
+
+<p>
+(Podemos, pero seguramente <i>no es lo ideal</i>)
+</p>
+</section>
+<section id="slide-los-ciclos-de-desarrollo-son-muy-cortos">
+<h3 id="los-ciclos-de-desarrollo-son-muy-cortos">Los ciclos de desarrollo son <b>muy cortos</b></h3>
+</section>
+<section>
+
+<p>
+La competencia en la web en <b>inmensa</b>
+</p>
+
+<p>
+La oferta cambia constantemente (literalmente, todos los días y a todas
+horas)
+</p>
+</section>
+<section id="slide-la-ganancia-y-pérdida-de-usuarios-es-muy-rápida-baja-inercia">
+<h3 id="la-ganancia-y-pérdida-de-usuarios-es-muy-rápida-baja-inercia">La ganancia y pérdida de usuarios es muy rápida (<b>baja inercia</b>)</h3>
+</section>
+<section>
+
+<p>
+En general, es difícil alinearse con "campañas" o "temporadas"
+</p>
+
+</section>
+<section>
+
+<p>
+Atraer al usuario es sólo el primer paso: hay que saber mantenerlo,
+hacer que comunique, comparta y dé publicidad
+</p>
+</section>
+<section id="slide-nuestro-código-se-publica-abierto">
+<h3 id="nuestro-código-se-publica-abierto">Nuestro código se publica abierto</h3>
+</section>
+<section>
+
+<p>
+(O una buena parte de él)
+</p>
+
+</section>
+<section>
+
+<p>
+Si nuestro juego corre completamente en cliente y está en JavaScript,
+cualquiera podrá ver nuestro código
+</p>
+</section>
+</section>
+<section>
+<section id="slide-cómo-gestionar-las-particularidades">
+<h2 id="cómo-gestionar-las-particularidades">Cómo gestionar las particularidades</h2>
+</section>
+<section id="slide-ser-visibles">
+<h3 id="ser-visibles">Ser visibles</h3>
+</section>
+<section>
+
+<p>
+Es fundamental tener un posicionamiento bueno
+(<a href="https://es.wikipedia.org/wiki/Posicionamiento_en_buscadores">SEO</a>/<a href="https://es.wikipedia.org/wiki/Mercadotecnia_en_motores_de_b%C3%BAsqueda">SEM</a>)
+</p>
+
+</section>
+<section>
+
+<p>
+También es importante pensar en particular en el público al que queremos
+orientarnos, y tener presencia en los sitios que se visitan
+</p>
+
+</section>
+<section>
+
+<p>
+Hay un trabajo muy grande implícito que tiene poco que ver con el
+desarrollo software, pero que es fundamental de cara al éxito de un
+proyecto
+</p>
+
+<p>
+La calidad es un requisito fundamental, pero no lo es todo
+</p>
+</section>
+<section id="slide-release-early-release-often">
+<h3 id="release-early-release-often"><a href="https://es.wikipedia.org/wiki/Release_early,_release_often">Release early, release often</a></h3>
+</section>
+<section>
+
+<p>
+Los ciclos tan rápidos, la necesidad de ofrecer algo novedoso y las
+características abiertas invitan a publicar pronto y muy a menudo
+</p>
+
+<p>
+El código no va a estar escondido, lo que cobra valor es la idea
+</p>
+
+<p>
+Por tanto, la idea tiene que estar muy pronto fuera, y constantemente
+depurada
+</p>
+</section>
+<section id="slide-el-código-abierto-lo-puede-ver-cualquiera">
+<h3 id="el-código-abierto-lo-puede-ver-cualquiera">El código abierto lo puede ver cualquiera</h3>
+</section>
+<section>
+
+<p>
+La idea de que la implementación tiene valor en sí misma es cada vez
+menos importante
+</p>
+
+<p>
+Hoy en día, grandes proyectos de videojuegos han dado el salto al código
+abierto con muchísimo éxito
+</p>
+</section>
+<section id="slide-desarrollo-en-cliente-y-servidor">
+<h3 id="desarrollo-en-cliente-y-servidor">Desarrollo en cliente y servidor</h3>
+</section>
+<section>
+
+<p>
+A pesar de que hemos trabajado principalmente con código en cliente, es
+muy común tener una parte del desarrollo en el servidor
+</p>
+
+</section>
+<section>
+
+<p>
+Esto no sólo se centra en el <i>servidor de juego</i>, sino también en:
+</p>
+
+<ul>
+<li>El servidor web</li>
+<li>La página web</li>
+<li>Las conexiones con servicios externos</li>
+<li>El alojamiento de nuestro código</li>
+<li>Información de usuarios y clientes</li>
+<li>Publicación de código</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Esto quiere decir que un juego en Internet que corra en el navegador
+tienen muchos más aspectos que el código
+</p>
+</section>
+<section id="slide-no-olvidemos-las-pruebas">
+<h3 id="no-olvidemos-las-pruebas">No olvidemos las pruebas</h3>
+</section>
+<section>
+
+<p>
+Probad el juego antes de publicarlo
+</p>
+
+</section>
+<section>
+
+<p>
+Las pruebas tienen que ser estrictas, aburridas, mecánicas, exhaustivas
+y destinadas a hacer que algo se rompa
+</p>
+
+</section>
+<section>
+
+<p>
+Cada versión preparada para el lanzamiento tiene que tener su propio set
+de pruebas
+</p>
+</section>
+<section id="slide-mantenimiento">
+<h3 id="mantenimiento">Mantenimiento</h3>
+</section>
+<section>
+
+<p>
+Cualquier proyecto tiene que estar mantenido
+</p>
+
+<p>
+No es suficiente (ni de lejos) publicar la primera versión y dejar que
+el juego genere beneficios por sí mismo
+</p>
+
+</section>
+<section>
+
+<ul>
+<li>Corrección de errores</li>
+<li>Añadido de características demandadas</li>
+<li>Ajuste de parámetros</li>
+<li>Adaptación de precios</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-cómo-aprovechar-las-particularidades">
+<h2 id="cómo-aprovechar-las-particularidades">Cómo <b>aprovechar</b> las particularidades</h2>
+</section>
+<section>
+
+<p>
+No todo son malas noticias
+</p>
+
+</section>
+<section>
+
+<p>
+La razón por lo que los juegos en el navegador tienen tanto éxito (y
+bastante futuro a priori) es que ofrecen muchas oportunidades
+</p>
+</section>
+<section id="slide-no-hay-despliegue-en-cliente">
+<h3 id="no-hay-despliegue-en-cliente">"No hay despliegue en cliente"</h3>
+</section>
+<section>
+
+<p>
+Aunque esto no es necesariamente cierto (pensad en los problemas del
+navegador, cookies&#x2026;)
+</p>
+
+</section>
+<section>
+
+<p>
+El cliente <b>no</b> tiene que:
+</p>
+
+<ul>
+<li>Instalar software</li>
+<li>Ir a la tienda</li>
+<li>Descargar (activamente) nada</li>
+
+</ul>
+</section>
+<section id="slide-es-crucial-recibir-realimentación">
+<h3 id="es-crucial-recibir-realimentación">Es crucial recibir realimentación</h3>
+</section>
+<section>
+
+<p>
+Uno de los principios básicos de cualquier proyecto es saber <i>cuál es el
+impacto que está teniendo</i>
+</p>
+
+</section>
+<section>
+
+<p>
+La realimentación es fundamental
+</p>
+
+<p>
+Ayuda a ver los problemas que surgen
+</p>
+
+</section>
+<section>
+
+<p>
+Estos pueden ser errores de programación, pero también defectos de
+interfaz, de jugabilidad (en el caso de juegos), de modificación de
+requisitos&#x2026;
+</p>
+
+<p>
+Es muy posible, por ejemplo, que el jugador evolucione y que pida
+características nuevas en vuestro juego
+</p>
+
+</section>
+<section>
+
+<p>
+Para todo esto, un buen proyecto debe <i>habilitar formas de comunicación
+con sus jugadores</i>
+</p>
+
+<p>
+Cuanto más accesibles y sencillas sean, más fácil es encontrar respuesta
+(nadie quiere pasarse media hora para poner una reclamación)
+</p>
+</section>
+<section id="slide-aplicar-la-realimentación-probar-y-volver-a-desplegar-ha-de-ser-rápido">
+<h3 id="aplicar-la-realimentación-probar-y-volver-a-desplegar-ha-de-ser-rápido">Aplicar la realimentación, probar y volver a desplegar ha de ser rápido</h3>
+</section>
+<section>
+
+<p>
+Si hay algo que un proyecto que no convence al jugador y no se arregla,
+el jugador desaparecerá
+</p>
+
+</section>
+<section>
+
+<p>
+En un marco tan competitivo, cualquier otro juego aprovechará las
+debilidades relativas de vuestro juego para su beneficio
+</p>
+
+</section>
+<section>
+
+<p>
+Con el <a href="https://en.wikipedia.org/wiki/Free-to-play">F2P</a> y la
+accesibilidad en Internet de casi todos juegos, la calidad, la respuesta
+rápida y la adaptación constante son fundamentales
+</p>
+</section>
+<section id="slide-monetización">
+<h3 id="monetización">Monetización</h3>
+<p>
+Monetizar: convertir vuestro juego en dinero
+</p>
+
+<p>
+La monetización es uno de los temas más críticos de los videojuegos
+</p>
+
+</section>
+<section>
+
+<p>
+No es difícil (más o menos) crear un juego aceptable al que mucha gente
+juegue, lo complicado es vivir de ello
+</p>
+
+<ul>
+<li>Vender el juego (la licencia) a un <i>publisher</i></li>
+<li>Publicidad</li>
+<li>Vender capacidad de hacer juegos</li>
+<li>Fundraising (de muchos tipos)</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Se pueden terminar vendiendo en un marketplace (Steam, App Store, Google
+Play&#x2026;)
+</p>
+
+<ul>
+<li>Wrappers (<a href="https://www.electronjs.org/es/">Electron</a>, <a href="https://nwjs.io/">NW.js</a>,  <a href="https://cordova.apache.org/">Apache Cordova</a>&#x2026; ) para distribuir
+tu juego en estos marketplace</li>
+<li>Tu juego en HTML5 se distribuye y ejecuta como una aplicación nativa</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

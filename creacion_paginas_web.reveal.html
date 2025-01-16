@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Creación de páginas web</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Creación de páginas web</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-por-qué">
+<h2 id="por-qué">¿Por qué?</h2>
+</section>
+<section>
+
+<p>
+Si queréis publicar juegos en la web, <i>necesitáis</i> saber cómo funciona
+un navegador, y cómo funciona la web
+</p>
+</section>
+<section id="slide-por-qué-conocer-tecnologías-web">
+<h3 id="por-qué-conocer-tecnologías-web">¿Por qué conocer tecnologías web?</h3>
+<ul>
+<li>Como poco, vuestro juego deberá estar contenido en una página web
+(HTML), que tendrá cierta apariencia (CSS)</li>
+<li>Es útil para implementar cosas como un botón de fullscreen, o una
+splash screen, o usar fuentes custom en vuestros juegos</li>
+<li>Si tenéis un bug, necesitáis conocimientos de APIs Web para poder
+depurar con éxito (la API de Gamepad, o WebGL)</li>
+<li>Si queréis modificar el engine o framework para añadir features o
+arreglar un bug</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-navegadores">
+<h2 id="navegadores">Navegadores</h2>
+</section>
+<section id="slide-navegadores-1">
+<h3 id="navegadores-1">Navegadores</h3>
+<ul>
+<li>Son programas que permiten acceder a la Web</li>
+<li>¡No todos los navegadores son iguales!
+<ul>
+<li>No todos incluyen el mismo motor de renderizado: Gecko (Firefox),
+Blink (Chrome, Opera), WebKit (Apple Safari)</li>
+<li>No todos incluyen la misma VM de JavaScript: SpiderMonkey (Firefox),
+V8 (Chrome), JavascriptCore (Apple Safari)</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-muchos-y-con-particularidades">
+<h3 id="muchos-y-con-particularidades">Muchos, y con particularidades</h3>
+<ul>
+<li>Hay consideraciones técnicas a tener en cuenta, tanto a nivel de
+interfaz como de seguridad</li>
+<li>¡Herramientas de desarrollo! depurador, profiler, network requests,
+etc</li>
+
+</ul>
+</section>
+<section id="slide-cómo-detectar-qué-soporta-cada-navegador">
+<h3 id="cómo-detectar-qué-soporta-cada-navegador">¿Cómo detectar qué soporta cada navegador?</h3>
+<ul>
+<li><a href="http://caniuse.com">caniuse.com</a>, rápida e intuitiva</li>
+<li><a href="http://developer.mozilla.org">MDN</a>, tiene detalles concretos sobre
+la implementación y diferencias entre navegadores</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-documentos-web-e-internet">
+<h2 id="documentos-web-e-internet">Documentos web e Internet</h2>
+</section>
+<section id="slide-una-página-web-no-tiene-por-qué-estar-en-internet">
+<h3 id="una-página-web-no-tiene-por-qué-estar-en-internet">Una página web no tiene por qué estar en Internet</h3>
+<p>
+El navegador entiende HTML, CSS y JS, es decir, es como un visor de PDF
+</p>
+
+<p>
+Se pueden crear y abrir en local documentos HTML
+</p>
+
+
+<div id="org1064d09" class="figure">
+<p><img src="./navegador-fichero.png" alt="navegador-fichero.png">
+</p>
+<p><span class="figure-number">Figura 1: </span>Chrome y Firefox, al abrir un documento local</p>
+</div>
+</section>
+<section id="slide-el-navegador-es-un-visor-que-se-conecta">
+<h3 id="el-navegador-es-un-visor-que-se-conecta">El navegador es un visor que se conecta</h3>
+<p>
+<b>Además</b> de mostrar documentos web y ejecutar JS, es capaz de que le
+pidamos HTMLs, JSs y CSSs que están en Internet
+</p>
+
+<p>
+Se conecta con otro ordenador, le pide archivos, se los descarga, y los
+muestra
+</p>
+
+<p>
+De hecho, se los puede descargar a un directorio local
+</p>
+
+</section>
+<section>
+
+
+<div id="org175a43a" class="figure">
+<p><img src="./navegador-servidor.png" alt="navegador-servidor.png">
+</p>
+<p><span class="figure-number">Figura 2: </span>Chrome y Firefox, al conectarse a un servidor</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-redes-y-protocolos">
+<h2 id="redes-y-protocolos">Redes y protocolos</h2>
+</section>
+<section id="slide-una-red-son-ordenadores-conectados-entre-sí">
+<h3 id="una-red-son-ordenadores-conectados-entre-sí">Una red son ordenadores conectados entre sí</h3>
+<p>
+Y nada más. Internet es una red más, en la que muchos ordenadores de
+todo el mundo están conectados
+</p>
+</section>
+<section id="slide-internet-no-es-la-web">
+<h3 id="internet-no-es-la-web">Internet no es la web</h3>
+<p>
+Internet en la gran conexión mundial de ordenadores
+</p>
+
+<p>
+La web es el conjunto de páginas
+</p>
+
+<p>
+VoIP, servicios de streaming, juegos online&#x2026; Todo eso también es
+Internet, pero no es <i>la web</i>
+</p>
+</section>
+<section id="slide-servidores">
+<h3 id="servidores">Servidores</h3>
+<p>
+Un servidor es sólo un ordenador conectado a la red que tiene un
+programa que escucha y da algún servicio
+</p>
+
+<p>
+También se llama servidor al programa que da dicho servicio en la red
+</p>
+
+<p>
+No tienen necesariamente un hardware especial
+</p>
+</section>
+<section id="slide-un-protocolo-es-una-manera-de-comunicar-dos-ordenadores">
+<h3 id="un-protocolo-es-una-manera-de-comunicar-dos-ordenadores">Un protocolo es una manera de comunicar dos ordenadores</h3>
+<p>
+Es decir, un lenguaje común que ambos extremos conocen
+</p>
+
+<p>
+La información (archivos, vídeos&#x2026;) se distribuye usando <i>protocolos</i>
+</p>
+</section>
+<section id="slide-hypertext-transfer-protocol">
+<h3 id="hypertext-transfer-protocol">Hypertext Transfer Protocol</h3>
+<p>
+Más conocido como HTTP
+</p>
+
+<p>
+Es el protocolo que se usa en la web
+</p>
+
+<p>
+Muy simple, sin estado:
+</p>
+
+<ul>
+<li>CLIENTE: "quiero ver que tienes"</li>
+<li>SERVIDOR: "toma estos <b>archivos</b>"</li>
+
+</ul>
+</section>
+<section id="slide-servidor-web">
+<h3 id="servidor-web">Servidor web</h3>
+<p>
+Es sólo un programa:
+</p>
+
+<ul>
+<li>Conectado a una red</li>
+<li>Que entiende y habla HTTP</li>
+<li>Que, cuando se le pide una página, devuelve archivos de la web</li>
+
+</ul>
+
+<p>
+Por extensión, llamamos servidor tanto a la máquina como al programa
+</p>
+</section>
+<section id="slide-servidor-local">
+<h3 id="servidor-local">Servidor local</h3>
+<p>
+Como un servidor web es sólo un programa, puedo <b>ejecutarlo en mi
+ordenador</b> y <b>conectarme a él en local</b>
+</p>
+
+<p>
+Porque TCP (el "sistema" que usa Internet) permite conectarme a mi
+propia máquina con la <i>dirección local</i>:
+</p>
+
+<ul>
+<li><code>localhost</code></li>
+<li><code>127.0.0.1</code></li>
+
+</ul>
+
+<p>
+(En realidad es más complejo que esto)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-qué-pasa-cuando-accedéis-a-una-web-en-un-navegador">
+<h2 id="qué-pasa-cuando-accedéis-a-una-web-en-un-navegador">¿Qué pasa cuando accedéis a una web en un navegador?</h2>
+</section>
+<section id="slide-petición-http-get-a-un-servidor">
+<h3 id="petición-http-get-a-un-servidor">1. Petición HTTP GET a un servidor</h3>
+
+<div id="orgc4aa95a" class="figure">
+<p><img src="request_dance_step1.png" alt="request_dance_step1.png">
+</p>
+<p><span class="figure-number">Figura 3: </span>Petición HTTP GET</p>
+</div>
+
+<p>
+Se hace un HTTP GET a una URL, y si el recurso existe (y no está
+cacheado), el servidor lo retorna
+</p>
+</section>
+<section id="slide-descarga-de-archivos">
+<h3 id="descarga-de-archivos">2. Descarga de archivos</h3>
+
+<div id="org95024bb" class="figure">
+<p><img src="request_dance_step2.png" alt="request_dance_step2.png">
+</p>
+<p><span class="figure-number">Figura 4: </span>Descarga de archivos</p>
+</div>
+
+<p>
+Los archivos HTML pueden hacer referencia a otros recursos&#x2026; que el
+navegador deberá pedir al servidor
+</p>
+
+<p>
+Mientras tanto, se va renderizando el HTML descargado
+</p>
+</section>
+<section id="slide-carga-finalizada">
+<h3 id="carga-finalizada">3. Carga finalizada</h3>
+<p>
+Cuando todas las imágenes, scripts, CSS, etc. se han cargado, se dispara
+el <b>evento <code>load</code></b> de <code>window</code> (lo veremos más tarde)
+</p>
+</section>
+<section id="slide-los-3-lenguajes-de-la-web">
+<h3 id="los-3-lenguajes-de-la-web">Los 3 lenguajes de la web</h3>
+<ul>
+<li>Documento y estructura: <i>HTML</i></li>
+<li>Apariencia: <i>CSS</i></li>
+<li>Lógica: <i>JavaScript</i></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-html">
+<h2 id="html">HTML</h2>
+</section>
+<section id="slide-hypertext-markup-language">
+<h3 id="hypertext-markup-language">Hypertext Markup Language</h3>
+<ul>
+<li>Representa el <b>contenido</b> de una página: párrafos, títulos, imágenes,
+vídeos, elementos de canvas, etc</li>
+
+<li>Es un lenguaje de <b>marcado (no de programación)</b> basado en etiquetas:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;h1&gt;Esto es un título&lt;/h1&gt;
+</code></pre>
+</div>
+</section>
+<section id="slide-html-es-un-lenguaje-de-marcado">
+<h3 id="html-es-un-lenguaje-de-marcado">HTML es un lenguaje de <i>marcado</i></h3>
+<p>
+Es decir, <i>no se puede programar sólo con HTML</i>
+</p>
+</section>
+<section id="slide-documentos-html">
+<h3 id="documentos-html">Documentos HTML</h3>
+<p>
+Una página HTML es un archivo de <i>texto plano</i> que contiene la
+descripción de un documento
+</p>
+</section>
+<section id="slide-ejemplo-de-página-web">
+<h3 id="ejemplo-de-página-web">Ejemplo de página web</h3>
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;!DOCTYPE html&gt; &lt;!-- establece el tipo de HTML --&gt;
+&lt;html lang="es"&gt; &lt;!-- abre la página --&gt;
+&lt;head&gt; &lt;!-- `head` son los datos del documento --&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Título&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt; &lt;!-- cuerpo del documento, lo que se ve --&gt;
+  Contenido
+&lt;/body&gt;
+&lt;/html&gt; &lt;!-- cierra la página --&gt;
+</code></pre>
+</div>
+</section>
+<section id="slide-la-estructura-se-hace-con-etiquetas">
+<h3 id="la-estructura-se-hace-con-etiquetas">La estructura se hace con <i>etiquetas</i></h3>
+<p>
+Las etiquetas se definen entre ángulos: <code>&lt;etiqueta&gt;</code>
+</p>
+
+</section>
+<section>
+
+<p>
+(Casi) todas las etiquetas se abren y cierran, y afectan al contenido
+encerrado:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;strong&gt;texto con fuerza&lt;/strong&gt;
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Se pueden anidar:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;strong&gt;texto con fuerza y &lt;em&gt;énfasis&lt;/em&gt;, hay de todo&lt;/strong&gt;
+</code></pre>
+</div>
+</section>
+<section id="slide-comentarios">
+<h3 id="comentarios">Comentarios</h3>
+<p>
+Se encierran en <code>&lt;!-- ... --&gt;</code>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-css">
+<h2 id="css">CSS</h2>
+</section>
+<section id="slide-al-principio-no-había-separación">
+<h3 id="al-principio-no-había-separación">Al principio, no había separación</h3>
+<p>
+HTML permite establecer las propiedades de apariencia de los elementos
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;h1 style="color: red;"&gt;Título en color rojo&lt;/h1&gt;
+...
+&lt;h1 style="color: red;"&gt;Otro título en color rojo&lt;/h1&gt;
+</code></pre>
+</div>
+
+<p>
+Pero esto significaba tener que cambiar los colores a todos los botones,
+párrafos, títulos&#x2026;
+</p>
+
+<p>
+Era difícil mantener una estética correcta
+</p>
+</section>
+<section id="slide-cascade-style-sheets">
+<h3 id="cascade-style-sheets">Cascade Style Sheets</h3>
+<p>
+CSS se creó para establecer la apariencia de los elementos de forma
+unificada, en un sólo conjunto de archivos
+</p>
+
+<p>
+Una hoja de estilos es un archivo de texto que contiene, para cada tipo
+de elemento, la apariencia apropiada
+</p>
+
+</section>
+<section>
+
+<ul>
+<li>Nos permite personalizar la <b>apariencia</b> de los elementos HTML:
+colores, fondos, bordes, posición, columnas, tamaños..</li>
+
+<li>Es un lenguage <b>declarativo</b> basado en reglas:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="css" >h1 {
+  color: red;
+}
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-javascript">
+<h2 id="javascript">JavaScript</h2>
+</section>
+<section>
+
+<p>
+Sirve para dotar de lógica a un documento
+</p>
+
+<p>
+Un archivo HTML es un documento, <i>no un programa</i> (como un PDF o un
+archivo de Word)
+</p>
+
+<p>
+En un momento concreto de la historia de los navegadores, se incluyó la
+posibilidad de crear lógica con JavaScript
+</p>
+
+</section>
+<section>
+
+<ul>
+<li>Nos permite implementar <b>comportamiento</b> y <b>lógica</b></li>
+
+<li>Es un <b>lenguaje dinámico</b> orientado a prototipos, con características
+funcionales</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >console.log("Hello, world!");
+</code></pre>
+</div>
+
+<p>
+<a href="https://github.com/cleongh/plantillaphaser">Ejemplo de html, JS y CSS</a>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-cómo-incluir-javascript-en-una-web">
+<h2 id="cómo-incluir-javascript-en-una-web">Cómo incluir JavaScript en una web</h2>
+</section>
+<section id="slide-estructura-básica-de-un-documento-html">
+<h3 id="estructura-básica-de-un-documento-html">Estructura básica de un documento HTML</h3>
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;!-- el head es metadata --&gt;
+  &lt;head&gt;
+    &lt;title&gt;Cancamusa&lt;/title&gt;
+    &lt;meta charset="utf-8"&gt;
+  &lt;/head&gt;
+  &lt;!-- el body es contenido --&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Monkey Island&lt;/h1&gt;
+    &lt;p&gt;Mira detrás de ti, ¡un mono de tres cabezas!&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</div>
+</section>
+<section id="slide-dónde-va-el-código-javascript">
+<h3 id="dónde-va-el-código-javascript">¿Dónde va el código JavaScript?</h3>
+<ul>
+<li>Podemos incluir JavaScript tanto en el <code>&lt;head&gt;</code> como en el <code>&lt;body&gt;</code></li>
+<li>Pero tened en cuenta el flujo de carga de una web
+<ul>
+<li>En el <code>&lt;head&gt;</code> se iniciará la carga antes que el resto de
+recursos&#x2026; pero bloqueará el renderizado mientras se ejecuta</li>
+<li>Al final de <code>&lt;body&gt;</code> permitirá que se renderice la web&#x2026; pero
+tardará más en ejecutarse</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+Esto es una simplificación, info más completa en
+<a href="https://www.html5rocks.com/en/tutorials/speed/script-loading/">este
+artículo de Jake Archibald</a>
+</p>
+</section>
+<section id="slide-scripts-inline">
+<h3 id="scripts-inline">Scripts inline</h3>
+<p>
+Podemos incluir código JavaScript inline en el HTML con la etiqueta
+<code>&lt;script&gt;</code>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script&gt;
+    console.log("Hello, world!");
+&lt;/script&gt;
+</code></pre>
+</div>
+</section>
+<section id="slide-scripts-externos">
+<h3 id="scripts-externos">Scripts externos</h3>
+<p>
+Podemos incluir archivos JavaScript con la etiqueta <code>&lt;script&gt;</code> también:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;script src="js/game.js"&gt;&lt;/script&gt;
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-cómo-se-ejecuta-javascript">
+<h2 id="cómo-se-ejecuta-javascript">Cómo se ejecuta JavaScript</h2>
+</section>
+<section id="slide-modelo-asíncrono">
+<h3 id="modelo-asíncrono">Modelo asíncrono</h3>
+<ul>
+<li>Mientras JavaScript se está ejecutando, <b>bloquea todo lo demás</b>
+(incluida la UI)</li>
+<li>La manera de programar JavaScript en la Web es <b>subscribiéndonos a
+eventos</b> (o usando <b>callbacks</b>) y ejecutando código sólo cuando esos
+eventos se disparan</li>
+<li>Si los eventos no se disparan, o los callbacks no se llaman, no se
+ejecuta código</li>
+
+</ul>
+</section>
+<section id="slide-un-solo-hilo">
+<h3 id="un-solo-hilo">Un solo hilo</h3>
+<ul>
+<li>Los callbacks de los eventos se ejecutan <b>de uno en uno</b></li>
+<li>Los callbacks se ejecutan inmediatamente cuando el evento se dispara
+(el resto del código espera su finalización)</li>
+
+</ul>
+</section>
+<section id="slide-ejemplo-final-de-carga-de-una-página">
+<h3 id="ejemplo-final-de-carga-de-una-página">Ejemplo: Final de carga de una página</h3>
+<p>
+Cuando todas las imágenes, scripts, CSS, etc. se han cargado, se dispara
+el <b>evento <code>load</code></b> de <code>window</code>
+</p>
+
+<p>
+Es muy común incluir el código que inicializa la ejecución del programa
+en el <i>handler</i> de ese evento
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >window.onload = function () {
+  // hello world
+};
+</code></pre>
+</div>
+</section>
+<section id="slide-ejemplo-callback-para-un-botón">
+<h3 id="ejemplo-callback-para-un-botón">Ejemplo: Callback para un botón</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >// Handler o función que se ejecutará 
+// en respuesta a un evento
+button.onclick = function (evt) {
+    console.log("Click");
+}
+
+// ..
+// Disparo el evento (similar a que el usuario
+// hubiese pulsado el botón)
+button.click();
+// el botón no se desactiva hasta que el handler de "click"
+// haya acabado de ejecutarse
+button.disabled = true;
+</code></pre>
+</div>
+
+<p>
+<a href="https://jsfiddle.net/1wqevdob/">Snippet de código</a>
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

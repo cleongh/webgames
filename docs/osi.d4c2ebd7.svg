@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="476" height="560" viewBox="-78 -46 476 560"><defs id="defs4"><path id="bracket-mask" fill="#fff" stroke="#fff" d="m-3.557 225-.23-4.08-.848-3.93-1.309-3.23-1.617-2.93-2.156-2.46-2.31-2-2.695-1.16-3.003-.38 3.003-.24 2.695-1.23 2.31-1.69 2.156-2.7 1.617-3 1.31-3.23.846-3.85.231-4.24"/><path id="bracket" fill="none" stroke="#7c7c7c" d="m-3.557 225-.23-4.08-.848-3.93-1.309-3.23-1.617-2.93-2.156-2.46-2.31-2-2.695-1.16-3.003-.38 3.003-.24 2.695-1.23 2.31-1.69 2.156-2.7 1.617-3 1.31-3.23.846-3.85.231-4.24"/></defs><rect width="100%" height="100%" x="-78" y="-46" fill="#fff"/><g fill="none"><rect width="30.945" height="192" x="-22.297" y="283.04" stroke="#7c7c7c" stroke-width="2" class="bracket" ry="5"/><rect width="30.945" height="257.77" x="-21.953" y="-4.017" stroke="#7c7c7c" stroke-width="2" class="bracket" ry="6"/><rect width="360.12" height="212.09" x="8.95" y="272.97" stroke="#b2b2b2" stroke-width="6" class="outline" ry="17.641"/><rect width="360.12" height="278.17" x="8.944" y="-14.017" stroke="#b2b2b2" stroke-width="6" class="outline" ry="17.641"/></g><g stroke="#000" stroke-opacity=".4" stroke-width="2" style="paint-order:stroke"><g fill="#c4db80"><rect width="120" height="60" x="18.982" y="-4.073" class="col1 row1" ry="17.641"/><rect width="220" height="60" x="138.98" y="-4.073" class="col2 row1" ry="17.641"/><rect width="120" height="60" x="18.982" y="61.927" class="col1 row2" ry="17.641"/><rect width="220" height="60" x="138.98" y="61.927" class="col2 row2" ry="17.641"/><rect width="120" height="60" x="18.982" y="127.93" class="col1 row3" ry="17.641"/><rect width="220" height="60" x="138.98" y="127.93" class="col2 row3" ry="17.641"/></g><rect width="120" height="60" x="18.982" y="193.93" fill="#e0e97f" class="col1 row4" ry="17.641"/><rect width="220" height="60" x="138.98" y="193.93" fill="#e0e97f" class="col2 row4" ry="17.641"/><rect width="120" height="60" x="19.04" y="283.03" fill="#f0e17f" class="col1 row5" ry="17.641"/><rect width="220" height="60" x="139.04" y="283.03" fill="#f0e17f" class="col2 row5" ry="17.641"/><rect width="120" height="60" x="19.04" y="349.03" fill="#edc27f" class="col1 row6" ry="17.641"/><rect width="220" height="60" x="139.04" y="349.03" fill="#edc27f" class="col2 row6" ry="17.641"/><rect width="120" height="60" x="19.04" y="415.03" fill="#dca27f" class="col1 row7" ry="17.641"/><rect width="220" height="60" x="139.04" y="415.03" fill="#dca27f" class="col2 row7" ry="17.641"/></g><use xlink:href="#bracket-mask" x="-17" y="-80"/><use xlink:href="#bracket" x="-18.4" y="-80" fill="none" stroke="#7c7c7c" stroke-width="1.9"/><use xlink:href="#bracket-mask" x="-17" y="176"/><use xlink:href="#bracket" x="-18.4" y="176" fill="none" stroke="#7c7c7c" stroke-width="1.9"/><switch font-family="Arial,sans-serif" font-size="18.062"><g style="text-anchor:middle" systemLanguage="it"><text x="80" y="-26.305">unità di dato</text><text x="250" y="-26.305">livelli</text><text x="78.982" y="31.388">Dati</text><text x="78.982" y="97.388">Dati</text><text x="78.982" y="163.388">Dati</text><text x="78.982" y="229.388">Segmenti</text><text x="79.04" y="318.494">Pacchetti</text><text x="79.04" y="384.494">Trame</text><text x="79.04" y="450.494">Bit</text><text x="248.982" y="18">
+    <tspan>Applicazione</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">dal processo di rete</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">all&apos;applicazione</tspan>
+   </text><text x="248.982" y="82">
+    <tspan>Presentazione</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">rappresentazione dei dati</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">e criptazione</tspan>
+   </text><text x="248.982" y="150">
+    <tspan>Sessione</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">comunicazione inter-host</tspan>
+   </text><text x="248.982" y="214">
+    <tspan>Trasporto</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">connessioni end-to-end</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">e affidabilità</tspan>
+   </text><text x="249.04" y="303">
+    <tspan>Rete</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">determinazione dei percorsi e</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">indirizzamento logico (IP)</tspan>
+   </text><text x="249.04" y="369">
+    <tspan>Collegamento</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">indirizzamento fisico</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">(MAC e LLC)</tspan>
+   </text><text x="249.04" y="435">
+    <tspan>Fisico</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">mezzo, segnale e</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">trasmissione binaria</tspan>
+   </text><g font-size="24.062"><text x="-50" y="127" transform="rotate(-90 -50 127)">Livelli degli host</text><text x="-50" y="384" transform="rotate(-90 -50 384)">Livelli dei mezzi</text></g></g><g style="text-anchor:middle" systemLanguage="ro"><text x="80" y="-26.305">unitate de date</text><text x="250" y="-26.305">niveluri</text><text x="78.982" y="31.388">Date</text><text x="78.982" y="97.388">Date</text><text x="78.982" y="163.388">Date</text><text x="78.982" y="229.388">Segmente</text><text x="79.04" y="318.494">Pachete</text><text x="79.04" y="384.494">Cadre</text><text x="79.04" y="450.494">Biți</text><text x="248.982" y="18">
+    <tspan>Aplicație</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">de la procesulde rețea</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">la&apos;aplicație</tspan>
+   </text><text x="248.982" y="82">
+    <tspan>Prezentare</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">reprezentarea datelor</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">și criptare</tspan>
+   </text><text x="248.982" y="150">
+    <tspan>Sesiune</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">comunicare între hosturi</tspan>
+   </text><text x="248.982" y="214">
+    <tspan>Trasport</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">conexiuni end-to-end</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">și fiabilitate</tspan>
+   </text><text x="249.04" y="303">
+    <tspan>Rețea</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">determinarea rutelor</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">și adresare logică (IP)</tspan>
+   </text><text x="249.04" y="369">
+    <tspan>Legătură de date</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">adresare fizică</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">(MAC și LLC)</tspan>
+   </text><text x="249.04" y="435">
+    <tspan>Fizic</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">mediu, semnal și</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">transmisiune binară</tspan>
+   </text><g font-size="24.062"><text x="-50" y="127" transform="rotate(-90 -50 127)">Niveluri ale hostului</text><text x="-50" y="384" transform="rotate(-90 -50 384)">Niveluri are mediului</text></g></g><g style="text-anchor:middle" systemLanguage="cs"><text x="80" y="-26.305">data</text><text x="250" y="-26.305">vrstva</text><text x="78.982" y="31.388">Data</text><text x="78.982" y="97.388">Data</text><text x="78.982" y="163.388">Data</text><text x="78.982" y="229.388">Segmenty</text><text x="79.04" y="318.494">Pakety</text><text x="79.04" y="384.494">Rámce</text><text x="79.04" y="450.494">Bity</text><text x="248.982" y="18">
+    <tspan>Aplikační</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">síťový proces aplikací</tspan>
+   </text><text x="248.982" y="82">
+    <tspan>Prezentační</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">prezentace dat a šifrování</tspan>
+   </text><text x="248.982" y="150">
+    <tspan>Relační</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">komunikace mezi</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">hostitely</tspan>
+   </text><text x="248.982" y="214">
+    <tspan>Transportní</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">End-to-End spojení</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">a spolehlivost</tspan>
+   </text><text x="249.04" y="303">
+    <tspan>Síťová</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">určování cesty a</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">logické adresování (IP)</tspan>
+   </text><text x="249.04" y="369">
+    <tspan>Spojová</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">fyzické adresování</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">(MAC a LLC)</tspan>
+   </text><text x="249.04" y="435">
+    <tspan>Fyzická</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">médium, signál, binární přenos</tspan>
+   </text><g font-size="24.062"><text x="-50" y="127" transform="rotate(-90 -50 127)">Vrstvy hostitelů</text><text x="-50" y="384" transform="rotate(-90 -50 384)">Vrstvy média</text></g></g><g style="text-anchor:middle" systemLanguage="sv"><text x="80" y="-26.305">data</text><text x="250" y="-26.305">skikt</text><text x="78.982" y="31.388">Data</text><text x="78.982" y="97.388">Data</text><text x="78.982" y="163.388">Data</text><text x="78.982" y="229.388">Segment</text><text x="79.04" y="318.494">Paket</text><text x="79.04" y="384.494">Ramar</text><text x="79.04" y="450.494">Bitar</text><text x="248.982" y="18">
+    <tspan>Applikation</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">nätverksprocess</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">till applikation</tspan>
+   </text><text x="248.982" y="82">
+    <tspan>Presentation</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">dataframställning</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">och kryptering</tspan>
+   </text><text x="248.982" y="150">
+    <tspan>Session</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">mellanvärdslig</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">kommunikationssamordning</tspan>
+   </text><text x="248.982" y="214">
+    <tspan>Transport</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">sändning, mottagning</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">och ankomstkontroll</tspan>
+   </text><text x="249.04" y="303">
+    <tspan>Nätverk</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">navigering och</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">logisk adressering (IP)</tspan>
+   </text><text x="249.04" y="369">
+    <tspan>Datalänk</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">fysisk adressering</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">(MAC och LLC)</tspan>
+   </text><text x="249.04" y="435">
+    <tspan>Fysiskt</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">media, signal och</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">binär överföring</tspan>
+   </text><g font-size="24.062"><text x="-50" y="127" transform="rotate(-90 -50 127)">Värdskikt</text><text x="-50" y="384" transform="rotate(-90 -50 384)">Mediumskikt</text></g></g><g style="text-anchor:middle" systemLanguage="es"><text x="80" y="-26.305">data unit</text><text x="250" y="-26.305">layers</text><text x="78.982" y="31.388">Data</text><text x="78.982" y="97.388">Data</text><text x="78.982" y="163.388">Data</text><text x="78.982" y="229.388">Segments</text><text x="79.04" y="318.494">Packets</text><text x="79.04" y="384.494">Frames</text><text x="79.04" y="450.494">Bits</text><text x="248.982" y="18">
+    <tspan>Nivel de Aplicación</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">servicios de red a aplicaciones</tspan>
+   </text><text x="248.982" y="82">
+    <tspan>Nivel de Presentación</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">representación de los datos</tspan>
+   </text><text x="248.982" y="150">
+    <tspan>Nivel de Sesión</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">comunicación entre dispositivos</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">de la red</tspan>
+   </text><text x="248.982" y="214">
+    <tspan>Nivel de Transporte</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">conexión extremo-a-extremo</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">y fiabilidad de los datos</tspan>
+   </text><text x="249.04" y="303">
+    <tspan>Nivel de Red</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">determinación de ruta e</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">direccionamiento lógico (IP)</tspan>
+   </text><text x="249.04" y="369">
+    <tspan>Nivel de Enlace de Datos</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">direccionamiento físico</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">(MAC y LLC)</tspan>
+   </text><text x="249.04" y="435">
+    <tspan>Nivel Físico</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">señal y transmisión binaria</tspan>
+   </text><g font-size="24.062"><text x="-50" y="127" transform="rotate(-90 -50 127)">Host Layers</text><text x="-50" y="384" transform="rotate(-90 -50 384)">Media Layers</text></g></g><g style="text-anchor:middle" systemLanguage="sk"><text x="80" y="-26.305">dáta</text><text x="250" y="-26.305">vrstva</text><text x="78.982" y="31.388">Dáta</text><text x="78.982" y="97.388">Dáta</text><text x="78.982" y="163.388">Dáta</text><text x="78.982" y="229.388">Segmenty</text><text x="79.04" y="318.494">Pakety</text><text x="79.04" y="384.494">Rámce</text><text x="79.04" y="450.494">Bity</text><text x="248.982" y="18">
+    <tspan>Aplikačná</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">sieťový proces aplikácii</tspan>
+   </text><text x="248.982" y="82">
+    <tspan>Prezentačná</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">reprezentácia dát</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">a kryptovanie</tspan>
+   </text><text x="248.982" y="150">
+    <tspan>Relačná</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">komunikácia</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">medzi strojmi</tspan>
+   </text><text x="248.982" y="214">
+    <tspan>Transportná</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">End-to-end spojenia</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">a spoľahlivosť</tspan>
+   </text><text x="249.04" y="303">
+    <tspan>Sieťová</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">určovanie cesty a</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">logické adresovanie (IP)</tspan>
+   </text><text x="249.04" y="369">
+    <tspan>Spojová</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">fyzické adresovanie</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">(MAC a LLC)</tspan>
+   </text><text x="249.04" y="435">
+    <tspan>Fyzická</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">médium, signál,</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">binárny prenos</tspan>
+   </text><g font-size="24.062"><text x="-50" y="127" transform="rotate(-90 -50 127)">Vrstvy stroja</text><text x="-50" y="384" transform="rotate(-90 -50 384)">Vrstvy média</text></g></g><g style="text-anchor:middle" systemLanguage="fr"><text x="80" y="-26.305">unité de données</text><text x="250" y="-26.305">couches</text><text x="78.982" y="31.388">Donnée</text><text x="78.982" y="97.388">Donnée</text><text x="78.982" y="163.388">Donnée</text><text x="78.982" y="229.388">Segment</text><text x="79.04" y="318.494">Paquet</text><text x="79.04" y="384.494">Trame</text><text x="79.04" y="450.494">Bit</text><text x="248.982" y="18">
+    <tspan>7 - Application</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">Point d&apos;accès aux services réseau</tspan>
+   </text><text x="248.982" y="82">
+    <tspan>6 - Présentation</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Conversion et chiffrement</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">des données</tspan>
+   </text><text x="248.982" y="150">
+    <tspan>5 - Session</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">Communication Interhost</tspan>
+   </text><text x="248.982" y="214">
+    <tspan>4 - Transport</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Connexion de bout en bout</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">et contrôle de flux (TCP)</tspan>
+   </text><text x="249.04" y="303">
+    <tspan>3 - Réseau</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Détermine le parcours</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">et l&apos;adressage logique (IP)</tspan>
+   </text><text x="249.04" y="369">
+    <tspan>2 - Liaison</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Adressage physique</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">(MAC et LLC)</tspan>
+   </text><text x="249.04" y="435">
+    <tspan>1 - Physique</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Transmission binaire</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">numérique ou analogique</tspan>
+   </text><g font-size="24.062"><text x="-50" y="127" transform="rotate(-90 -50 127)">Couches hautes</text><text x="-50" y="384" transform="rotate(-90 -50 384)">Couches matérielles</text></g></g><g style="text-anchor:middle"><text x="80" y="-26.305">data unit</text><text x="250" y="-26.305">layers</text><text x="78.982" y="31.388">Data</text><text x="78.982" y="97.388">Data</text><text x="78.982" y="163.388">Data</text><text x="78.982" y="229.388">Segments</text><text x="79.04" y="318.494">Packets</text><text x="79.04" y="384.494">Frames</text><text x="79.04" y="450.494">Bits</text><text x="248.982" y="18">
+    <tspan>Application</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">Network Process to Application</tspan>
+   </text><text x="248.982" y="82">
+    <tspan>Presentation</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Data Representation</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">and Encryption</tspan>
+   </text><text x="248.982" y="150">
+    <tspan>Session</tspan>
+    <tspan x="248.982" dy="22" font-size="10pt">Interhost Communication</tspan>
+   </text><text x="248.982" y="214">
+    <tspan>Transport</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">End-to-End Connections</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">and Reliability</tspan>
+   </text><text x="249.04" y="303">
+    <tspan>Network</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Path Determination and</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Logical Addressing (IP)</tspan>
+   </text><text x="249.04" y="369">
+    <tspan>Data Link</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Physical Addressing</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">(MAC and LLC)</tspan>
+   </text><text x="249.04" y="435">
+    <tspan>Physical</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Media, Signal and</tspan>
+    <tspan x="248.982" dy="16" font-size="10pt">Binary Transmission</tspan>
+   </text><g font-size="24.062"><text x="-50" y="127" transform="rotate(-90 -50 127)">Host Layers</text><text x="-50" y="384" transform="rotate(-90 -50 384)">Media Layers</text></g></g></switch></svg>

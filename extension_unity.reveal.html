@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Scripting con C# en Unity</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Scripting con C# en Unity</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-scripting-con-c-en-unity">
+<h2 id="scripting-con-c-en-unity">Scripting con C# en Unity</h2>
+</section>
+<section>
+
+<p>
+C# en Unity se utiliza principalmente para:
+</p>
+
+<ul>
+<li>Creación de contenidos de gameplay</li>
+<li>Extender la funcionalidad del editor</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+La primera ya la hemos usado bastante.
+</p>
+
+<p>
+Veamos, por tanto, como modificar el editor con C#.
+</p>
+
+</section>
+<section>
+</section>
+<section id="slide-generalidades">
+<h3 id="generalidades">Generalidades</h3>
+<ul>
+<li>Se guardan en una carpeta <code>Editor</code> dentro de la carpeta <code>Assets</code> de
+Unity</li>
+<li>No heredan de <code>MonoBahaviour</code> sino que usan otras clases de Unity como
+<code>Editor</code> o <code>EditorWindow</code></li>
+<li>Estas clases (y otras) están en la librería <code>UnityEditor</code></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >using UnityEditor;
+</code></pre>
+</div>
+</section>
+<section id="slide-imgui">
+<h3 id="imgui">IMGUI</h3>
+<p>
+<a href="https://docs.unity3d.com/ScriptReference/UnityEngine.IMGUIModule.html"><b>I*mmediate
+*M*ode *GUI</b></a>
+</p>
+
+<ul>
+<li>La creación y el comportamiento de la interfaz se implementan a la vez</li>
+<li>Para crear interfaces de juego y modificar el editor</li>
+<li>Usaremos las factorías de
+<a href="https://docs.unity3d.com/ScriptReference/GUI.html"><code>GUI</code></a> y de
+<a href="https://docs.unity3d.com/ScriptReference/GUILayout.html"><code>GUILayout</code></a>
+(y
+<a href="https://docs.unity3d.com/ScriptReference/EditorGUILayout.html"><code>EditorGUILayout</code></a>,
+en algunos casos)</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-crear-ventanas-del-editor">
+<h2 id="crear-ventanas-del-editor">Crear ventanas del editor</h2>
+</section>
+<section>
+
+<p>
+Sirve para crear nuevas ventanas para incorporarlas al editor de Unity.
+</p>
+
+<p>
+Estas nuevas ventanas nos permitirán hacer funciones adicionales que no
+están definidas en el editor de Unity.
+</p>
+
+</section>
+<section>
+</section>
+<section id="slide-en-breve">
+<h3 id="en-breve">En breve&#x2026;</h3>
+<ul>
+<li>Extender la clase
+<a href="https://docs.unity3d.com/ScriptReference/EditorWindow.html"><code>EditorWindow</code></a></li>
+<li>Implementar la interfaz y el comportamiento en
+<a href="https://docs.unity3d.com/ScriptReference/EditorWindow.OnGUI.html"><code>OnGUI</code></a>
+con IMGUI.</li>
+
+</ul>
+</section>
+<section id="slide-ejemplo-herramienta-para-colorear-objetos-seleccionados">
+<h3 id="ejemplo-herramienta-para-colorear-objetos-seleccionados">Ejemplo: Herramienta para colorear objetos seleccionados</h3>
+
+<div id="orgbd6b5a6" class="figure">
+<p><img src="./colorizer.png" alt="colorizer.png" />
+</p>
+<p><span class="figure-number">Figura 1: </span>Ventana de la herramienta para colorear objetos</p>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >using UnityEngine;
+using UnityEditor;
+
+public class ColorizerWindow : EditorWindow {
+    
+    Color selectedColor;
+
+    // Creamos una opción de menú para mostrar la ventana
+    [MenuItem("Window/Colorizer")]
+    public static void ShowWindow() {
+        // Mostramos la ventana
+        GetWindow&lt;ColorizerWindow&gt;("Cambiar color");
+    }
+...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >...
+void OnGUI() {
+    // Etiqueta de la ventana
+    GUILayout.Label("Cambia el color de los objetos seleccionados", EditorStyles.boldLabel);
+
+    // Selector de color
+    selectedColor = EditorGUILayout.ColorField("Color", selectedColor);
+...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >...
+// Layout horizontal
+GUILayout.BeginHorizontal();
+// Primer botón
+if (GUILayout.Button("Colorear seleccionados")) {
+    // Selection nos da acceso a los objetos seleccionados
+    foreach (GameObject obj in Selection.gameObjects) {
+        Renderer selectedRenderer = obj.GetComponent&lt;Renderer&gt;();
+        if (selectedRenderer != null) {
+            // OJO: esto crea una nueva instancia del material
+            // Si usamos sharedMaterial cambiamos el compartido por
+            // todos los objetos
+            selectedRenderer.material.color = selectedColor;
+        }
+    }
+}
+...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >...
+// Creamos el botón de Reset
+if (GUILayout.Button("Reset")) {
+    foreach (GameObject obj in Selection.gameObjects) {
+        Renderer selectedRenderer = obj.GetComponent&lt;Renderer&gt;();
+        if (selectedRenderer != null) {
+            // OJO: esto crea una nueva instancia del material
+            // Si usamos sharedMaterial cambiamos el compartido por
+            // todos los objetos
+            selectedRenderer.material.color = Color.white;
+        }
+    }
+}
+// Dejamos de usar el layout horizontal
+GUILayout.EndHorizontal();
+} // OnGUI
+}
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-crear-inspectores-de-componentes-personalizados">
+<h2 id="crear-inspectores-de-componentes-personalizados">Crear inspectores de componentes personalizados</h2>
+</section>
+<section>
+
+<p>
+Sirve para crear paneles de edición de componentes (<i>inspectors</i>)
+personalizados con el fin de facilitar y acelerar el desarrollo de
+gameplay.
+</p>
+
+</section>
+<section>
+</section>
+<section id="slide-en-breve-1">
+<h3 id="en-breve-1">En breve&#x2026;</h3>
+<ul>
+<li>Añadir el atributo <code>[CustomEditor(typeof(MI_MONOBEHAVIOUR))]</code></li>
+<li>Extender la clase
+<a href="https://docs.unity3d.com/ScriptReference/Editor.html"><code>Editor</code></a></li>
+<li>Implementar la interfaz y el comportamiento en
+<a href="https://docs.unity3d.com/ScriptReference/Editor.OnInspectorGUI.html"><code>OnInspectorGUI</code></a>
+con IMGUI (incluyendo elementos del
+<a href="https://docs.unity3d.com/ScriptReference/EditorGUILayout.html"><code>EditorGUILayout</code></a>)</li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Editor-target.html"><code>target</code></a>
+da acceso al componente</li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Editor-serializedObject.html"><code>serializedObject</code></a>
+da acceso al componente <i>serializado</i> de modo que se pueda utilizar
+las operaciones de Undo y la actualización de los Prefabs</li>
+
+</ul>
+
+</section>
+<section>
+</section>
+<section id="slide-ejemplo-panel-para-la-creación-de-waypoints">
+<h3 id="ejemplo-panel-para-la-creación-de-waypoints">Ejemplo: Panel para la creación de waypoints</h3>
+
+<div id="org9c364b2" class="figure">
+<p><img src="./createWaypoints.png" alt="createWaypoints.png" />
+</p>
+<p><span class="figure-number">Figura 2: </span>Panel para la creación de Waypoints</p>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >public class FollowWaypoints : MonoBehaviour {
+    public List&lt;GameObject&gt; waypoints;
+    
+    void Awake() {
+        waypoints = new List&lt;GameObject&gt;();
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >using UnityEngine;
+using UnityEditor;
+
+[CustomEditor(typeof(FollowWaypoints))]
+public class FollowWaypointsEditor : Editor
+{
+    private FollowWaypoints theTarget;
+    private void OnEnable()
+    {
+        // Referencia al componente
+        theTarget = target as FollowWaypoints;
+    }
+...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >...
+public override void OnInspectorGUI() {
+    // Comenzar con base.OnInspectorGUI() si queremos
+    // mantener la info por defecto del inspector
+    EditorGUILayout.HelpBox("Use buttons to create waypoints or remove them",
+                                MessageType.Info);
+    EditorGUILayout.Space();
+    // Etiqueta 
+    EditorGUILayout.LabelField("Number of waypoints: ",
+        theTarget.waypoints.Count.ToString());
+
+    // Layout horizontal
+    GUILayout.BeginHorizontal();
+
+    // Comportamiento del botón para crear waypoints
+    if (GUILayout.Button("Create Waypoint")) {
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        theTarget.waypoints.Add(sphere);
+    }
+}
+...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >...
+// Comportamiento del botón de borrado de waypoints
+if (GUILayout.Button("Clear Waypoints"))
+{
+    foreach (GameObject item in theTarget.waypoints)
+    {
+        GameObject.DestroyImmediate(item);
+    }
+    theTarget.waypoints.Clear();
+}
+// Fin del layout horizontal
+GUILayout.EndHorizontal();
+} // OnInspectorGUI
+}
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-personalizar-la-inspección-de-componentes">
+<h2 id="personalizar-la-inspección-de-componentes">Personalizar la inspección de componentes</h2>
+</section>
+<section>
+
+<p>
+Unity permite mostrar elementos en la escena que nos ayuden a la hora de
+definir un componente desde el inspector.
+</p>
+
+</section>
+<section>
+</section>
+<section id="slide-en-breve-2">
+<h3 id="en-breve-2">En breve&#x2026;</h3>
+<ul>
+<li>Añadir el atributo <code>[CustomEditor(typeof(MI_MONOBEHAVIOUR))]</code></li>
+<li>Extender la clase
+<a href="https://docs.unity3d.com/ScriptReference/Editor.html"><code>Editor</code></a></li>
+<li>Implementar la interfaz y el comportamiento en
+<a href="https://docs.unity3d.com/ScriptReference/Editor.OnSceneGUI.html"><code>OnSceneGUI</code></a>
+con IMGUI (incluyendo elementos del
+<a href="https://docs.unity3d.com/ScriptReference/EditorGUILayout.html"><code>EditorGUILayout</code></a>)</li>
+<li>Usar
+<a href="https://docs.unity3d.com/ScriptReference/Handles.html"><code>Handles</code></a>
+para dibujar elementos en la escena</li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Editor-target.html"><code>target</code></a>
+da acceso al componente</li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Editor-serializedObject.html"><code>serializedObject</code></a>
+da acceso al componente <i>serializado</i> de modo que se pueda utilizar
+las operaciones de Undo y la actualización de los Prefabs</li>
+
+</ul>
+
+</section>
+<section>
+</section>
+<section id="slide-ejemplo-rutas-por-waypoints">
+<h3 id="ejemplo-rutas-por-waypoints">Ejemplo: Rutas por Waypoints</h3>
+<p>
+<code>FollowWaypoints</code>
+<img src="./waypoints.png" alt="waypoints.png" />
+</p>
+
+</section>
+<section>
+
+<p>
+Igual que en el ejemplo anterior&#x2026;
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >using UnityEngine;
+using UnityEditor;
+
+[CustomEditor(typeof(FollowWaypoints))]
+public class FollowWaypointsEditor : Editor {
+    ...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >...
+// Dibuja una línea entre los puntos de la ruta
+void OnSceneGUI() {
+    // Dibujamos si tenemos al menos dos waypoints
+    if ( theTarget == null  
+         ||   theTarget.waypoints == null
+         ||   theTarget.waypoints.Count &lt;=1 )
+        return;
+
+    // Seleccionamos el primer punto de ruta
+    Vector3 first = theTarget.waypoints[0].transform.position;
+    Vector3 current = first;
+...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="csharp" >...
+    // Iteramos entre el resto de puntos de ruta...
+    for (int i = 1; i &lt; theTarget.waypoints.Count; i++) {
+        // ... y dibujamos una línea entre ellos
+        if (theTarget.waypoints[i] != null)
+        {
+            Handles.DrawLine(
+                current, 
+                theTarget.waypoints[i].transform.position
+            );
+            current = theTarget.waypoints[i].transform.position;
+        }
+    }
+
+    // Dibujamos la línea que cierra la ruta
+    Handles.DrawLine(current, first);
+} // OnSceneGUI
+}
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Animación con sprites</title>
+<meta name="author" content="Carlos León"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="base.css"/>
+<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Animación con sprites</h1><h2 class="author">Carlos León</h2><h2 class="email"><a href="mailto:cleon@ucm.es">cleon@ucm.es</a></h2>
+</section>
+<section>
+<section id="slide-el-pasado">
+<h2 id="el-pasado">Qué es animar</h2>
+</section>
+<section>
+
+<p>
+Animar (de <i>anima</i>) es dar <i><a href="https://es.wikipedia.org/wiki/Alma">alma</a></i>, dar <i>movimiento</i>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-el-siglo-xix">
+<h2 id="el-siglo-xix">El siglo XIX</h2>
+</section>
+<section>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Eadweard_Muybridge">Eadweard Muybridge</a>
+diseñó un sistema de fotografía en el que, haciendo muchas fotos
+seguidas con una cámara fija, conseguía que el ojo humano no pudiera
+distinguir los fotogramas como imágenes separadas <i>sino como movimiento</i>
+</p>
+
+</section>
+<section>
+
+
+<div id="orga7dc485" class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/7/73/The_Horse_in_Motion.jpg" alt="The_Horse_in_Motion.jpg" height="400">
+</p>
+<p><span class="figure-number">Figura 1: </span>The Horse in Motion (Wikipedia)</p>
+</div>
+
+</section>
+<section>
+
+
+<div id="org8153c0f" class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/0/07/The_Horse_in_Motion-anim.gif" alt="The_Horse_in_Motion-anim.gif" height="400">
+</p>
+<p><span class="figure-number">Figura 2: </span>The Horse in Motion animado (Wikipedia)</p>
+</div>
+
+</section>
+<section>
+
+<p>
+Con la misma idea, los
+<a href="https://es.wikipedia.org/wiki/Hermanos_Lumi%C3%A8re">Hermanos
+Lumière</a> inventaron el cinematógrafo
+</p>
+</section>
+</section>
+<section>
+<section id="slide-hoy">
+<h2 id="hoy">Hoy</h2>
+</section>
+<section>
+
+<p>
+La idea prácticamente no ha variado
+</p>
+
+<p>
+Para crear la <b>sensación</b> de movimiento (animación), reproducimos
+imágenes en orden, suficientemente rápido
+</p>
+</section>
+</section>
+<section>
+<section id="slide-sprites">
+<h2 id="sprites">Sprites</h2>
+</section>
+<section>
+
+<p>
+Un
+<a href="https://en.wikipedia.org/wiki/Sprite_(computer_graphics)"><i>sprite</i></a>
+es una imagen sencilla, única, en 2D
+</p>
+
+</section>
+<section>
+
+<p>
+Su origen es parte de la historia del videojuego
+</p>
+
+<p>
+Algunas de las primeras máquinas dedicadas a ejecutar juegos tenían
+hardware <i>dedicado</i> para sprites (aunque no es exactamente el mismo
+concepto que conocemos ahora)
+</p>
+
+</section>
+<section>
+
+<p>
+Esta tecnología de sprite no realizaba cambios en RAM que se volcaban al
+dispositivo gráfico
+</p>
+
+</section>
+<section>
+
+<p>
+Esta es una de las razones por las que los sprites tenían restricciones
+físicas
+</p>
+
+</section>
+<section>
+
+<p>
+Hoy en día, generalmente, hacemos la creación de la escena gráfica
+(<b>frame</b>) en la RAM y volcamos (<code>blit</code>) al contexto gráfico
+</p>
+
+<p>
+Esto nos da una flexibilidad enorme, pero es <i>más lento</i>
+</p>
+
+</section>
+<section>
+
+<p>
+Obviamente, esto en irrelevante en términos de eficiencia con el
+hardware moderno
+</p>
+</section>
+<section id="slide-sprites-hoy">
+<h3 id="sprites-hoy">Sprites hoy</h3>
+</section>
+<section>
+
+<p>
+Hoy en día, los sprites son generalmente mapas de bits de cualquier
+tamaño
+</p>
+
+</section>
+<section>
+
+<p>
+En general, usamos formas rectangulares con formatos (razonablemente)
+estándar
+</p>
+
+<p>
+Dado cómo usamos los sprites, el tamaño o el número de colores ya no es,
+generalmente, un problema
+</p>
+
+</section>
+<section>
+
+<p>
+Solemos usar formatos con transparencia explícita
+</p>
+
+<p>
+Para ello hace falta un formato que lo acepte (como PNG)
+</p>
+
+
+<div id="org8efb1e8" class="figure">
+<p><img src="tux.png" alt="tux.png" height="400">
+</p>
+<p><span class="figure-number">Figura 3: </span>Sprite</p>
+</div>
+
+</section>
+<section>
+
+<p>
+También (esto depende del formato de la imagen) podemos usar un color
+concreto de fondo
+</p>
+
+</section>
+<section>
+
+
+<div id="orgaa4c5da" class="figure">
+<p><img src="tux_fondo.png" alt="tux_fondo.png" height="400">
+</p>
+<p><span class="figure-number">Figura 4: </span>Esta idea es muy similar a como funciona un <a href="https://es.wikipedia.org/wiki/Croma">croma</a></p>
+</div>
+
+</section>
+<section>
+
+<p>
+Ya hemos cargado y usado sprites, ahora vamos a ver cómo podemos hacer
+que esos sprites estén animados
+</p>
+</section>
+</section>
+<section>
+<section id="slide-muchos-sprites">
+<h2 id="muchos-sprites">Muchos sprites</h2>
+</section>
+<section>
+
+<p>
+Producimos la <i>sensación</i> de animación al reproducir imágenes
+consecutivas con pequeños cambios secuenciales, <i>suficientemente rápido</i>
+</p>
+
+</section>
+<section>
+
+<p>
+Para conseguir esto en videojuegos, simplemente disponemos de varios
+sprites que representan secuencias de movimientos seguidos,
+<b>diferenciales</b>
+</p>
+
+</section>
+<section>
+
+
+<div id="org20fb123" class="figure">
+<p><img src="https://c1.staticflickr.com/5/4147/4998615136_dc0b7b1e39_b.jpg" alt="4998615136_dc0b7b1e39_b.jpg" height="400">
+</p>
+<p><span class="figure-number">Figura 5: </span><a href="https://www.flickr.com/photos/goosemouse/4998615136">Spritesheet</a></p>
+</div>
+
+</section>
+<section>
+
+<p>
+Una vez que tenemos la información, simplemente tenemos que usarla para
+dibujar, en un contexto gráfico, los sprites por orden
+</p>
+
+<p>
+<i>De la misma manera que el cine</i>
+</p>
+
+</section>
+<section>
+
+<p>
+Para hacer esto de forma que el movimiento, la animación, sea
+convincente, tenemos que asegurarnos de que el reemplazo de una imagen
+por la siguiente en la secuencia no tenga "fallos"
+</p>
+
+</section>
+<section>
+
+<p>
+Estos requisitos los cumplimos manteniendo propiedades básicas entre las
+imágenes:
+</p>
+
+<ul>
+<li>Mismo tiempo por fotograma</li>
+<li>Mismo tamaño de fotogramas</li>
+<li>Mismo fondo</li>
+<li>Misma paleta de colores</li>
+<li>Misma información de transparencia</li>
+<li>Misma localización relativa del sprite en el recuadro</li>
+<li>Misma escala</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Si mantenemos esos requisitos (lo cual no es <i>técnicamente</i> necesario),
+el programa que procese la información para representarla por pantalla
+podrá ser sencillo
+</p>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// asumimos tiempo fijo entre frames
+// el tamaño y la posición del personaje: fijos
+let width = 10, height = 10;
+let tiempo_entre_frames = 0.01;
+let frames = [frame1, frame2, frame3, ..., frame_n];
+let x = 10, y = 10, frames_por_ciclo = frames.length;
+
+while(true) { // repite la animación indefinidamente
+    for(let frame_actual = 0;
+            frame_actual &lt; frames_por_ciclo;
+            frame_actual++) {
+        let frame_que_pinto = frames[frame_actual];
+        pintar_frame(frame_que_pinto, width, height, x, y);
+        esperar(tiempo_entre_frames);
+    }
+}
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-spritesheets">
+<h2 id="spritesheets">Spritesheets</h2>
+</section>
+<section>
+
+<p>
+Es generalmente cómodo y fácil tener todos los frames de una animación
+en un solo recurso
+</p>
+
+</section>
+<section>
+
+<p>
+Podemos usar un atlas de imagen en el que cada imagen sea un frame de la
+animación
+</p>
+</section>
+<section id="slide-frames">
+<h3 id="frames"><i>Frames</i></h3>
+</section>
+<section>
+
+<p>
+Un frame, como hemos visto, es cada una de las imágenes que serán
+representadas en una animación
+</p>
+
+</section>
+<section>
+
+<p>
+Generalmente se representa cada frame seguido del siguiente
+</p>
+
+</section>
+<section>
+
+<p>
+Varios frames forman un <i>ciclo</i>
+</p>
+</section>
+<section id="slide-ciclos">
+<h3 id="ciclos"><i>Ciclos</i></h3>
+</section>
+<section>
+
+<p>
+Un recurso de animación puede contener varios <i>ciclos</i> de animación
+</p>
+
+<p>
+Normalmente, una entidad en un videojuego puede hacer varias cosas, de
+forma que necesitará una animación para representar cada una de ellas
+</p>
+
+</section>
+<section>
+
+<ul>
+<li>Andar</li>
+<li>Saltar</li>
+<li>Agacharse</li>
+<li>Disparar</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Cada una de estas acciones se representa en animación con lo que
+llamamos <i>ciclo</i>
+</p>
+
+<p>
+Un ciclo es una secuencia ordenada de frames que representan un
+movimiento continuo
+</p>
+
+</section>
+<section>
+
+<p>
+Los ciclos pueden ser:
+</p>
+
+<ul>
+<li>Cíclicos: diseñados para que, cuando se acabe el último frame, empiece
+el siguiente (andar)</li>
+<li>Simples: diseñados para que se quede en un estado estacionario (morir)</li>
+
+</ul>
+</section>
+<section id="slide-combinando-frames-y-ciclos">
+<h3 id="combinando-frames-y-ciclos">Combinando frames y ciclos</h3>
+</section>
+<section>
+
+<p>
+Para combinar frames y ciclos solemos usar una disposición en rejilla
+</p>
+
+</section>
+<section>
+
+<p>
+Así, cada fila es un ciclo, y cada columna es un frame del ciclo
+</p>
+
+</section>
+<section>
+
+
+<div id="org70c83c7" class="figure">
+<p><img src="https://c1.staticflickr.com/5/4147/4998615136_dc0b7b1e39_b.jpg" alt="4998615136_dc0b7b1e39_b.jpg" height="400">
+</p>
+<p><span class="figure-number">Figura 6: </span><a href="https://www.flickr.com/photos/goosemouse/4998615136">Spritesheet</a></p>
+</div>
+
+</section>
+<section>
+
+<p>
+Es importante notar que los ciclos no tienen que tener todos los mismos
+frames
+</p>
+
+<p>
+Desde <i>el código</i>, o exportando datos adicionales, se carga la
+información de:
+</p>
+
+<ul>
+<li>El tamaño de cada frame</li>
+<li>Qué ciclos hay</li>
+<li>Los frames de cada ciclo</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Fijémonos en que el tamaño de frame es distinto en esta imagen: no es
+cómodo, pero es posible: habría que indicarlo desde código u otro
+recurso (un JSON)
+</p>
+
+
+<div id="orgf6d8b6e" class="figure">
+<p><img src="frameciclo.jpg" alt="frameciclo.jpg" height="400">
+</p>
+<p><span class="figure-number">Figura 7: </span><a href="https://www.flickr.com/photos/goosemouse/4998615136">Frames (verde) y ciclos (rojo)</a></p>
+</div>
+</section>
+<section id="slide-reusar-ciclos">
+<h3 id="reusar-ciclos">Reusar ciclos</h3>
+</section>
+<section>
+
+<p>
+Cuando un personaje en 2D se mueve, es muy normal que pueda hacerlo en
+varias direcciones
+</p>
+
+</section>
+<section>
+
+<p>
+Así, en una vista de arriba a abajo, es de esperar que el personaje
+pueda ir hacia la izquierda, derecha, arriba y abajo
+</p>
+
+</section>
+<section>
+
+<p>
+Si tenemos un ciclo de animación en el que el personaje puede ir en una
+dirección, no tenemos por qué dibujarlo yendo en la contraria, ya que
+podemos aprovechar la simetría
+</p>
+
+<p>
+Haciendo esto, hacemos la imagen espejada por software y la usamos como
+el ciclo de animación correspondiente
+</p>
+</section>
+<section id="slide-enlazando-los-ciclos">
+<h3 id="enlazando-los-ciclos">Enlazando los ciclos</h3>
+</section>
+<section>
+
+<p>
+Cuando se crean ciclos, es de esperar que, en el videojuego, se pase de
+uno a otro de manera "suave"
+</p>
+
+</section>
+<section>
+
+<p>
+Esto quiere decir (con un ejemplo práctico) que el personaje tiene que
+pasar del ciclo de <i>salto</i> al ciclo de <i>andar</i> de una manera fluida
+</p>
+
+</section>
+<section>
+
+<p>
+Para hacer esto, se aplica un poco de artesanía al dibujo del sprite, y
+se pueden aplicar algunas (o varias) de estas técnicas, entre otras:
+</p>
+
+</section>
+<section>
+
+<ul>
+<li>se dibujan los principios y finales de las ciclos de manera que sean
+"neutros" (el personaje en una postura que dé lugar a otros ciclos),</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li>o se asume un estilo de sprite animado en el que la transición se
+muestra muy bruscamente,</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li>o se hacen diferentes ciclos de transición:
+<ul>
+<li>se activa andar,</li>
+<li>cuando se deja de andar, se pasa a un ciclo de "parándose", que no
+es cíclico,</li>
+<li>cuando se termina el estado "parándose", se puede activar la
+animación de "quieto" de forma natural;</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li>o se anima por huesos (no lo veremos hoy) y se hace la transición de
+otra forma</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-animación-en-phaser">
+<h2 id="animación-en-phaser">Animación en Phaser</h2>
+</section>
+<section>
+
+<p>
+Phaser permite animar mediante secuencias de frames y ciclos
+</p>
+</section>
+<section id="slide-cargar-un-spritesheet">
+<h3 id="cargar-un-spritesheet">Cargar un spritesheet</h3>
+<p>
+Con
+<a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Loader.LoaderPlugin#spritesheet"><code>spritesheet</code></a>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// En el preload
+this.load.spritesheet('mummy',
+                      'mummy.animated.png',
+                      { frameWidth: 64, frameHeight: 64 });
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// En el create
+this.add.sprite(200, 360, 'mummy'); 
+</code></pre>
+</div>
+</section>
+<section id="slide-establecer-un-ciclo-de-animación">
+<h3 id="establecer-un-ciclo-de-animación">Establecer un ciclo de animación</h3>
+<p>
+Se pueden crear ciclos de animación con el
+<a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Animations.AnimationManager"><code>AnimationManager</code></a>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// Como 'mummy' es un spritesheet, puede identificar los frames
+// this es Scene
+this.anims.create({
+      key: 'standing_mummy',
+      frames: this.anims.generateFrameNumbers('mummy', { start: 0, end: 5 }),
+      frameRate: 2, // Velocidad de la animación
+      repeat: -1    // Animación en bucle
+    });
+</code></pre>
+</div>
+</section>
+<section id="slide-comenzar-y-detener-la-animación">
+<h3 id="comenzar-y-detener-la-animación">Comenzar y detener la animación</h3>
+</section>
+<section>
+
+<p>
+Con <code>play()</code> se ejecuta una animación:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// `this` es un `Sprite` en la misma escena
+// que se ha creado la animación
+this.play('standing_mummy');
+</code></pre>
+</div>
+
+<p>
+<code>play</code> puede usar un segundo parámetro para indicar si queremos que se
+ignore si la animación ya estaba activada
+</p>
+
+</section>
+<section>
+
+<p>
+Para parar una animación, con <code>stop()</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// `this` es un `Sprite`en la misma escena
+// que se ha creado la animación
+this.stop();
+</code></pre>
+</div>
+</section>
+<section id="slide-eventos-en-animaciones">
+<h3 id="eventos-en-animaciones">Eventos en animaciones</h3>
+</section>
+<section>
+
+<p>
+Es posible hacer "callbacks" para ser informados de cuándo una animación
+se pone en marcha o se detiene
+<a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Animations.Events">usando
+los eventos de animación</a>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >// `this` es un `Sprite`en la misma escena
+// que se ha creado la animación
+this.on('animationrepeat-standing_mummy', () =&gt; {
+  // hacer algo
+});
+</code></pre>
+</div>
+</section>
+<section id="slide-más-cosas-con-animaciones-por-frames">
+<h3 id="más-cosas-con-animaciones-por-frames">Más cosas con animaciones por frames</h3>
+</section>
+<section>
+
+<p>
+Con <code>chain('clave')</code> se pueden <i>encadenar animaciones</i>, de forma que al
+terminar una empiece otra
+</p>
+
+</section>
+<section>
+
+<p>
+Para establecer si se reinicia la reproducción de la animación, usamos
+<code>play()</code>, con un booleano adicional:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >sprite.play('walk', true);
+sprite.play('walk', false);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Cuando animamos una clase que hereda de <code>Sprite</code>, hay que llamar al
+<code>preUpdate(t, dt)</code> del padre (de <code>Sprite</code>) para que se produzca la
+animación:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >class Player extends Phaser.GameObjects.Sprite {
+  preUpdate(t, dt) {
+    super.preUpdate(t, dt)
+    // ... resto de cosas
+  }
+}
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-atlas">
+<h2 id="atlas">Atlas</h2>
+</section>
+<section>
+
+<p>
+Un <i>atlas</i> es un archivo de imagen que contiene varias texturas
+diferentes
+</p>
+
+</section>
+<section>
+
+<p>
+Una de las ventajas es que una sola textura en memoria es usada para
+hacer <i>render</i> de varios objetos, y esto mejora mucho el rendimiento
+</p>
+
+</section>
+<section>
+
+<p>
+El problema es que son más laborioso de mantener
+</p>
+
+</section>
+<section>
+
+<p>
+Los atlas pueden ser de imágenes del mismo tamaño, o de tamaños
+diferentes
+</p>
+
+<p>
+Si son de tamaños diferentes, hay que adjuntar información sobre qué
+área de la textura corresponde a cada imagen
+</p>
+
+<ul>
+<li><a href="https://labs.phaser.io/assets/animations/seacreatures_json.png">PNG</a></li>
+<li><a href="https://labs.phaser.io/assets/animations/seacreatures_json.json">JSON</a></li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Para cargar un atlas en Phaser, le damos un <i>identificador</i>, un
+<i>archivo</i> con la textura, y un <i>JSON</i> con la información de cómo está
+dividida la textura.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >this.load.atlas('cosas', 'cosas.png', 'cosas.json');
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Y, después, podemos usar ese atlas como cualquier <i>spritesheet</i>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >this.anims.create({
+  key: 'enemigo_andar', 
+  frames: 
+     this.anims.generateFrameNames('cosas', {prefix:'prefijo_en_json'}),
+  repeat: -1 });
+
+this.add.sprite(400, 300, 'cosas');
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Hay aplicaciones web que permiten la creación de atlas para Phaser:
+</p>
+
+<p>
+<a href="https://gammafp.github.io/atlas-packer-phaser/">https://gammafp.github.io/atlas-packer-phaser/</a>
+</p>
+
+<p>
+<a href="https://free-tex-packer.com/app/">https://free-tex-packer.com/app/</a>
+</p>
+
+</section>
+<section>
+
+<p>
+Es importante, al exportar el JSON, añadir el prefijo <code>prefijo_en_json</code>,
+que se puede sacar del JSON generado (en <code>filename</code>, y quitando los
+números):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="js" >this.anims.generateFrameNames('cosas', {prefix:'prefijo_en_json'})
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="node_modules/reveal.js/dist/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/search/search.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="node_modules/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>
