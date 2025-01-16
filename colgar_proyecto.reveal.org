@@ -60,8 +60,10 @@ Vite es un /bundler/, un programa que coge un punto inicial (=index.html= en nue
 
 Para instalar Vite tenéis que usar =npm=
 
-- Se puede instalar directamente (mala idea): src_sh[:eval no]{npm install --save-dev vite}
-- Editando el archivo de proyecto de =node.js=: =package.json=
+Se puede instalar directamente (esto lo incluye en =package.json=): ~npm install --save-dev vite~
+
+
+
 
 ** Uso de Vite
 
