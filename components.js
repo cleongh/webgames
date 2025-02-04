@@ -152,10 +152,6 @@ class Game {
 // Components
 //////////////////////////////////////////////////////////////////////////////
 class Attacker extends Component {
-  constructor(entity) {
-    super(entity);
-  }
-
   receive(message) {
     if (message instanceof Presence) {
       if (message.who.type != this.entity.type) {
@@ -167,10 +163,6 @@ class Attacker extends Component {
 
 //////////////////////////////////////////////////////////////////////////////
 class Defender extends Component {
-  constructor(entity) {
-    super(entity);
-  }
-
   receive(message) {
     if (message instanceof Attack) {
       console.log(this.entity.entityName + " was attacked by " + message.who.entityName);
