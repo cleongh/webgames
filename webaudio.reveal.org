@@ -264,9 +264,9 @@ Con Web Audio, podemos crear nuestra propia onda de sonido:
 
 #+begin_src js
 // Creamos un "contexto"
-var context = new AudioContext();
+const context = new AudioContext();
 // Creamos un oscilador (genera una onda sencilla)
-var oscillator = context.createOscillator();
+const oscillator = context.createOscillator();
 // Conectamos el oscilador con los altavoces
 oscillator.connect(context.destination);
 // Empezamos la reproducción
@@ -276,17 +276,17 @@ oscillator.stop(context.currentTime + 5);
 #+end_src
 
 #+begin_export html
-  <script type="text/javascript">
+<script type="text/javascript">
   function play() {
-      var context = new AudioContext();
-      var oscillator = context.createOscillator();
+      const context = new AudioContext();
+      const oscillator = context.createOscillator();
       oscillator.connect(context.destination);
       oscillator.start(context.currentTime);
       oscillator.stop(context.currentTime + 5);
   }
-  </script>
+</script>
 
-  <button onclick="play()">Ejemplo de oscilador  </button>
+<button onclick="play()">Ejemplo de oscilador  </button>
 #+end_export
 
 #+REVEAL: split
@@ -312,14 +312,14 @@ onda
 #+REVEAL: split
 
 #+caption: Conectando nodos Web Audio
-[[file:nodos.dot]]
+[[file:nodos.svg]]
 
 
 #+REVEAL: split
 
 #+begin_src js
-var context = new AudioContext();
-var oscillator = context.createOscillator();
+const context = new AudioContext();
+const oscillator = context.createOscillator();
 oscillator.start(context.currentTime);
 oscillator.stop(context.currentTime + 5);
 // Creamos un nodo nuevo de ganancia
@@ -333,10 +333,10 @@ gainNode.gain.value = 0.5;
 #+end_src
 
 #+begin_export html
-  <script type="text/javascript">
+<script type="text/javascript">
   function play2() {
-      var context = new AudioContext();
-      var oscillator = context.createOscillator();
+      const context = new AudioContext();
+      const oscillator = context.createOscillator();
       // oscillator.connect(context.destination);
       oscillator.start(context.currentTime);
       oscillator.stop(context.currentTime + 5);
@@ -346,8 +346,8 @@ gainNode.gain.value = 0.5;
       gainNode.connect(context.destination);
       gainNode.gain.value = 0.5;
   }
-  </script>
-    <button onclick="play2()">Ejemplo de oscilador con nodos</button>
+</script>
+<button onclick="play2()">Ejemplo de oscilador con nodos</button>
 #+end_export
 
 * Referencias y tutoriales

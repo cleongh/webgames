@@ -201,7 +201,7 @@ function create() {
 No es el único evento pero sí suele ser el más comúnmente usado
 
 Phaser proporciona otros muchos
-[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Sound.Events][eventos
+[[https://docs.phaser.io/api-documentation/event/sound-events][eventos
 relacionados con la reproducción de sonido]]
 
 * Audio sprites
@@ -217,8 +217,7 @@ muchas restricciones y problemas para cargar varios archivos de audio
 #+REVEAL: split
 
 Los
-[[https://newdocs.phaser.io/docs/3.55.1/Phaser.Sound.BaseSoundManager#addAudioSprite][/audio
-sprites/]] son un sistema en el que un solo archivo de audio contiene
+/[[https://docs.phaser.io/api-documentation/class/sound-basesoundmanager#addaudiosprite][audio sprites]]/ son un sistema en el que un solo archivo de audio contiene
 varios sonidos grabados (uno detrás de otro)
 
 Se acompañan de un archivo con información de dónde empieza y acaba cada
@@ -233,8 +232,7 @@ Es decir, algo muy similar a un /atlas de texturas/
 En general, no son necesarios hoy en día (aunque pueden hacer más
 eficiente la carga)
 
-[[https://phaser.io/examples/v3/view/audio/html5-audio/audiosprite#][Aquí
-hay un ejemplo de este tipo de audio]]
+[[https://phaser.io/examples/v3.85.0/audio/view/load-audio-sprite][Aquí hay un ejemplo de este tipo de audio]]
 
 * Recursos de audio
 :PROPERTIES:
