@@ -275,19 +275,19 @@ oscillator.start(context.currentTime);
 oscillator.stop(context.currentTime + 5);
 #+end_src
 
-#+begin_export html
-<script type="text/javascript">
-  function play() {
-      const context = new AudioContext();
-      const oscillator = context.createOscillator();
-      oscillator.connect(context.destination);
-      oscillator.start(context.currentTime);
-      oscillator.stop(context.currentTime + 5);
-  }
-</script>
+# #+begin_export html
+# <script type="text/javascript">
+#   function play() {
+#       const context = new AudioContext();
+#       const oscillator = context.createOscillator();
+#       oscillator.connect(context.destination);
+#       oscillator.start(context.currentTime);
+#       oscillator.stop(context.currentTime + 5);
+#   }
+# </script>
 
-<button onclick="play()">Ejemplo de oscilador  </button>
-#+end_export
+# <button onclick="play()">Ejemplo de oscilador  </button>
+# #+end_export
 
 #+REVEAL: split
 
@@ -332,23 +332,23 @@ gainNode.connect(context.destination);
 gainNode.gain.value = 0.5;
 #+end_src
 
-#+begin_export html
-<script type="text/javascript">
-  function play2() {
-      const context = new AudioContext();
-      const oscillator = context.createOscillator();
-      // oscillator.connect(context.destination);
-      oscillator.start(context.currentTime);
-      oscillator.stop(context.currentTime + 5);
-      var gainNode = context.createGain();
-      oscillator.connect(gainNode);
-      // Connect the gain node to the destination.
-      gainNode.connect(context.destination);
-      gainNode.gain.value = 0.5;
-  }
-</script>
-<button onclick="play2()">Ejemplo de oscilador con nodos</button>
-#+end_export
+# #+begin_export html
+# <script type="text/javascript">
+#   function play2() {
+#       const context = new AudioContext();
+#       const oscillator = context.createOscillator();
+#       // oscillator.connect(context.destination);
+#       oscillator.start(context.currentTime);
+#       oscillator.stop(context.currentTime + 5);
+#       var gainNode = context.createGain();
+#       oscillator.connect(gainNode);
+#       // Connect the gain node to the destination.
+#       gainNode.connect(context.destination);
+#       gainNode.gain.value = 0.5;
+#   }
+# </script>
+# <button onclick="play2()">Ejemplo de oscilador con nodos</button>
+# #+end_export
 
 * Referencias y tutoriales
 :PROPERTIES:

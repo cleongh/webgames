@@ -78,7 +78,7 @@ oscilación de la onda describa un ciclo completo
 <section>
 
 
-<div id="org9810c88" class="figure">
+<div id="org6378f30" class="figure">
 <p><img src="nonsinusoidal_wavelength.jpg" alt="nonsinusoidal_wavelength.jpg">
 </p>
 <p><span class="figure-number">Figura 1: </span>La amplitud de la onda es la altura de la cresta</p>
@@ -382,18 +382,6 @@ oscillator.stop(context.currentTime + 5);
 </code></pre>
 </div>
 
-<script type="text/javascript">
-  function play() {
-      const context = new AudioContext();
-      const oscillator = context.createOscillator();
-      oscillator.connect(context.destination);
-      oscillator.start(context.currentTime);
-      oscillator.stop(context.currentTime + 5);
-  }
-</script>
-
-<button onclick="play()">Ejemplo de oscilador  </button>
-
 </section>
 <section>
 
@@ -413,7 +401,7 @@ Web Audio está diseñada de forma que, con la API, construimos nodos
 </p>
 
 
-<div id="orgdeaefad" class="figure">
+<div id="orgcb450c6" class="figure">
 <p><img src="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API/graphpan.jpg" alt="graphpan.jpg">
 </p>
 <p><span class="figure-number">Figura 2: </span>Ejemplo de nodos Web Audio</p>
@@ -435,7 +423,7 @@ onda
 <section>
 
 
-<div id="orgb7576d9" class="figure">
+<div id="org271738a" class="figure">
 <p><img src="nodos.svg" alt="nodos.svg" class="org-svg">
 </p>
 <p><span class="figure-number">Figura 3: </span>Conectando nodos Web Audio</p>
@@ -461,22 +449,6 @@ gainNode.connect(context.destination);
 gainNode.gain.value = 0.5;
 </code></pre>
 </div>
-
-<script type="text/javascript">
-  function play2() {
-      const context = new AudioContext();
-      const oscillator = context.createOscillator();
-      // oscillator.connect(context.destination);
-      oscillator.start(context.currentTime);
-      oscillator.stop(context.currentTime + 5);
-      var gainNode = context.createGain();
-      oscillator.connect(gainNode);
-      // Connect the gain node to the destination.
-      gainNode.connect(context.destination);
-      gainNode.gain.value = 0.5;
-  }
-</script>
-<button onclick="play2()">Ejemplo de oscilador con nodos</button>
 </section>
 </section>
 <section>
