@@ -18,7 +18,7 @@ rendimiento
 No es difícil degradar el rendimiento de un juego simplemente arrojando
 nuevas entidades a la escena. No es necesario ni modificarlas
 
-[[https://phaser.io/sandbox/dlqdIWMn]]
+# [[https://phaser.io/sandbox/dlqdIWMn]]
 
 #+REVEAL: split
 
