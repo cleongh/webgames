@@ -188,13 +188,12 @@ ejemplo]] muestra un máximo de 10 sprites en pantalla destruyendo la
 entidad más vieja cuando excedemos el máximo
 
 #+begin_src js
-function preload ()
-{
+preload () {
     this.load.setBaseURL('https://labs.phaser.io/assets/');
     this.load.image('phaser', 'sprites/phaser-dude.png');
 }
 
-update(time, delta) {    
+update(time, delta) {
     let x = Math.random() * 300;
     let y = Math.random() * 300;
     this.add.sprite(x, y, 'phaser');
