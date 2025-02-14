@@ -78,7 +78,7 @@ Una clase se representa con una caja, con su nombre en la primera
 sección:
 
 #+caption: Ejemplo de clases
-[[file:frutas.pu]]
+[[file:frutas.svg]]
 
 #+REVEAL: split
 
@@ -86,14 +86,14 @@ Las clases pueden tener atributos, que se representan en la segunda
 sección:
 
 #+caption: Atributos
-[[file:atributos.pu]]
+[[file:atributos.svg]]
 
 #+REVEAL: split
 
 También pueden representarse los métodos, en la tercera sección:
 
 #+caption: Métodos
-[[file:metodos.pu]]
+[[file:metodos.svg]]
 
 #+REVEAL: split
 
@@ -101,7 +101,7 @@ La idea, en un diagrama, es que se vean representadas todas las clases
 relevantes:
 
 #+caption: Varias clases UML
-[[file:muchos.pu]]
+[[file:muchos.svg]]
 
 * Relaciones
 :PROPERTIES:
@@ -122,7 +122,7 @@ hasta el padre*
 #+REVEAL: split
 
 #+caption: Herencia
-[[file:herenciafrutas.pu]]
+[[file:herenciafrutas.svg]]
 
 ** Implementación
 :PROPERTIES:
@@ -136,7 +136,7 @@ representan un comportamiento que puede ser especificado en cada clase
 #+REVEAL: split
 
 #+caption: Interfaces
-[[file:interface.pu]]
+[[file:interface.svg]]
 
 ** Agregación
 :PROPERTIES:
@@ -148,7 +148,7 @@ contenido
 #+REVEAL: split
 
 #+caption: Agregación
-[[file:agregacionuml.pu]]
+[[file:agregacionuml.svg]]
 
 ** Composición
 :PROPERTIES:
@@ -165,7 +165,7 @@ Es decir, no hay todo sin las partes
 #+REVEAL: split
 
 #+caption: Composición
-[[file:composicionuml.pu]]
+[[file:composicionuml.svg]]
 
 ** Asociación
 :PROPERTIES:
@@ -182,7 +182,7 @@ esas clases
 #+REVEAL: split
 
 #+caption: Asociación
-[[file:asociacion.pu]]
+[[file:asociacion.svg]]
 
 * Más...
 :PROPERTIES:
