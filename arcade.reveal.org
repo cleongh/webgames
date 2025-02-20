@@ -56,11 +56,11 @@ O mejor dicho: *los motores físicos de Phaser*
 
 #+REVEAL: split
 
-En Phaser hay dos motores físicos disponibles:
+En Phaser hay tres motores físicos disponibles:
 
 - *Arcade*
 - *Matter.js*
-
+- [[https://phaser.io/box2d][*Box2D*]] (no lo veremos de momento)
 
 
 ** Arcade physics
