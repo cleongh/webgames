@@ -87,16 +87,15 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 :PROPERTIES:
 :CUSTOM_ID: curso-2020-2021
 :END:
-- [[https://jmeitin.github.io/JODAS-errantes/][Brull
-  (jmeitin.github.io)]]
-- [[https://angelo066.github.io/SanManuelBueno/][EBM(angelo066.github.io/SanManuelBueno/)]]\\
+- [[https://jmeitin.github.io/JODAS-errantes/][Brull (jmeitin.github.io)]]
+- [[https://angelo066.github.io/SanManuelBueno/][EBM(angelo066.github.io/SanManuelBueno/)]]
 - [[https://dbrey.github.io/Proyecto-PVLI/]]
-- [[https://srvonpsikerfy.github.io/Veiled/]]
+- [[https://aarmor01.github.io/Veiled/][Veiled]]
 - [[https://acedpol.github.io/Proyecto_PVLI_/][https://acedpol.github.io/Proyecto_PVLI_/Platero´s_Tale_/]]
 - [[https://albgom21.github.io/BlindLess-PVLI-20-21/]]
 - [[https://mihern07.github.io/EditorialZaratustra/]]
 - [[https://pablos16.github.io/]]
-- [[https://sergimol.github.io/Inside-Design/]]\\
+- [[https://sergimol.github.io/Inside-Design/]]
 - [[https://albemu07.github.io/]]
 - [[https://cool-videogames.github.io/Paradox-Invasion/]]
 - [[https://rubenglezortiz.github.io/PVLI-2020-21-CUCU-PROLOGUE/]]
