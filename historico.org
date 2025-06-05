@@ -2,6 +2,19 @@
 
 Algunos enlaces no funcionan (porque los autores han decidido desactivar el repositorio). Hay juegos web de DVI y PVLI.
 
+* Curso 2024-2025
+
+** DVI
+
+- [[https://Alvaro8944.github.io/runaway-thief/][runaway thief]]
+- [[https://PedroAMP22.github.io/Wildborn/][Wildborn]]
+- [[https://boudere.github.io/DVI/][Bit by bit]]
+- [[https://diegomontero747.github.io/dvmtw24-25/][Dungeons and pixels]]
+- [[https://YagoSana.github.io/FirstDayInferno][FirstDayInferno]]
+- [[https://github.io/elmariones/pokerinfinito][All in: la última mano]]
+- [[https://oscarFPG.github.io/Space_Station][Escape Station]]
+- [[https://daniji09.github.io/dvi][That Time I got Reincarnated as a Phat Cat (or the non-linear linear path to revenge)]]
+
 * Curso 2023-2024
 
 ** DVI
