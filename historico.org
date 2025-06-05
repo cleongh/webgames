@@ -11,7 +11,7 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 - [[https://boudere.github.io/DVI/][Bit by bit]]
 - [[https://diegomontero747.github.io/dvmtw24-25/][Dungeons and pixels]]
 - [[https://YagoSana.github.io/FirstDayInferno][FirstDayInferno]]
-- [[https://github.io/elmariones/pokerinfinito][All in: la última mano]]
+- [[https://elmariones.github.io/PokerInfinito/][All in: la última mano]]
 - [[https://oscarFPG.github.io/Space_Station][Escape Station]]
 - [[https://daniji09.github.io/dvi][That Time I got Reincarnated as a Phat Cat (or the non-linear linear path to revenge)]]
 
