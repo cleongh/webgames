@@ -9,7 +9,7 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 - [[https://Alvaro8944.github.io/runaway-thief/][runaway thief]]
 - [[https://PedroAMP22.github.io/Wildborn/][Wildborn]]
 - [[https://boudere.github.io/DVI/][Bit by bit]]
-- [[https://diegomontero747.github.io/dvmtw24-25/][Dungeons and pixels]]
+- [[https://diegomontero747.github.io/DVMTW24-25/][Dungeons and pixels]]
 - [[https://YagoSana.github.io/FirstDayInferno][FirstDayInferno]]
 - [[https://elmariones.github.io/PokerInfinito/][All in: la última mano]]
 - [[https://oscarFPG.github.io/Space_Station][Escape Station]]
