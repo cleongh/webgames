@@ -2,6 +2,35 @@
 
 Algunos enlaces no funcionan (porque los autores han decidido desactivar el repositorio). Hay juegos web de DVI y PVLI.
 
+* Curso 2025-2026
+
+** PVLI
+- [[http://maltengd.github.io/TimeBoxed/][PopCat Games - TimeBoxed]]
+- [[https://janime-ucm555.github.io/PVLI_WorldNine/][WorldNine-NINETENDO - SUPER MARIO BROS: LOST KINGDOMS]]
+- [[https://lucdom07.github.io/G07-PVLI][Canibalismo Galletil - The Furrytastic Invasion]]
+- [[https://pvli-25-26.github.io/PVLI-Project/][4Quesos - Project: Queso]]
+- [[https://a2stedb.github.io/PVLI-G11/][Deep Code Studios - Pacific Tactics]]
+- [[https://capitanmanzana.github.io/WarCanvas/][Estudio 1212 - WarCanvas]]
+- [[https://chori1368.github.io/PVLI-grupo-15/][Gehena-Games - Souls' Arena]]
+- [[https://triktor1.github.io/La-Casa-de-las-Ratas-PVLI/][La Casa de las Ratas - Filthy Feathers]]
+- [[https://zhuokai05.github.io/PVLI_G06/][Rocky Games - Highway To Heaven]]
+- [[https://tekiovu.github.io/Entre-Mundos---Grupo-10][Panda Games - Entre Mundos]]
+- [[https://adriandemiguelcerezo.github.io/PVLI/][Zorro Cósmico - The South Border]]
+- [[https://thatcreep2089.github.io/Xhurro-Games-2][Xurro-Games-2 - The Otter Side]]
+- [[https://gabuu0.github.io/RiftWest_PVLI/][67Studio - RiftWest]]
+- [[https://gabuu0.github.io/RiftWest_PVLI/][Matcha Games - Far Away From Tea]]
+- [[https://ariadnarc.github.io/PVLI_G13/][Cat-Astrophic Games - Wally Like an Egyptian]]
+
+** DVI
+
+- [[https://minilina.github.io/DontKillMyDate][Cafatic - Don't Kill my Date!]]
+- [[https://trygach.github.io/cool-substances][Sustancias Cool Studio - MewAlcoholic]]
+- [[https://Jalmu19.github.io/DVI][Los Kologs - Enchantments]]
+- [[https://joseagim.github.io/BandSouls_DVI][Team Berry - Band Souls]]
+- [[https://adrizz8.github.io/ProyectoDVI][CIAA Devs - Final faculty]]
+- [[https://HombreHojalata.github.io/DVTW][Donald Quack - LAME DUCK]]
+- [[https://Pablo2173.github.io/proyecto_DVI][Duck Productions - The Duckler]]
+  
 * Curso 2024-2025
 
 ** DVI
@@ -14,6 +43,22 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 - [[https://elmariones.github.io/PokerInfinito/][All in: la última mano]]
 - [[https://oscarFPG.github.io/Space_Station][Escape Station]]
 - [[https://daniji09.github.io/dvi][That Time I got Reincarnated as a Phat Cat (or the non-linear linear path to revenge)]]
+
+
+** PVLI
+
+- [[https://andrea-aparicio-lopez.github.io/PVLI-Grupo01/][undefined - BullFight]]
+- [[https://rubialuque.github.io/PhantomStudios/][Phantom Studios - Vincere Fabulam]]
+- [[https://ucm-pvli-grupo-3.github.io/Project/][Guardian Enigma - Let's go gambling rolling]]
+- [[https://mank1ng.github.io/Chung-Lee/][Chung-Lee - Chung Lee]]
+- [[https://thatcreep2089.github.io/YUSOA_ES_LEY_by_XhurroGames][Xhurro Games - Yusoa es ley]]
+- [[https://nievesag.github.io/SopaDeEscalofrios/][Sopa de Escalofríos -Introito Antiapotropaico]]
+- NextStationGames - Madness
+- Studios 32 : Back to the Box
+- [[https://reycka.github.io/ISOS/][*_ISOS_*  - CHAMBER OF THE HEART]]
+- [[https://izandevegalopez.github.io/proyecto_PVLI/][Fathom Games - Sawa's Song]]
+- [[https://diegocaballeroruiz.github.io/PVLI-GRUPO13/][Respiración Manual Games🍍 - Pineapple O'clock]]
+- [[https://codeshrimpstudios.github.io/HellBWitchingMario/][CodeShrimpStudios:  - Hell Witching Mario]]
 
 * Curso 2023-2024
 
@@ -96,7 +141,7 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 - [[https://tolu9660.github.io/DVI/]]
 - [[https://github.com/BrunoMC102/DVI.github.io]]  
 
-* Curso 2020-2021
+* Curso 2020-2021
 :PROPERTIES:
 :CUSTOM_ID: curso-2020-2021
 :END:
@@ -160,7 +205,7 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 - [[https://argarc03.github.io/LightSeeker/]]
 - [[https://dankgard.github.io/Minilization/dist/index.html]]
 
-* Curso 2017-2018
+* Curso 2017-2018
 :PROPERTIES:
 :CUSTOM_ID: curso-2017-2018
 :END:
@@ -186,7 +231,7 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 - [[https://bornunez.github.io/undefined/src/]]
 - [[https://hectorsed.github.io/PVLI-Zelios/src/index.html]]
 
-* Curso 2016-2017
+* Curso 2016-2017
 :PROPERTIES:
 :CUSTOM_ID: curso-2016-2017
 :END:

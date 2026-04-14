@@ -120,7 +120,7 @@
   <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/O5rfiQJTVqw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>  </iframe>
 #+end_export
 
-[[http://www.curious-expedition.com/]]
+[[https://www.curious-expedition.com/]]
 
 *** Iron Maiden: Speed of Light
 :PROPERTIES:
@@ -131,7 +131,7 @@
   <iframe width="560" height="315" src="https://www.youtube.com/embed/yLuliCWjGXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>  </iframe>
 #+end_export
 
-[[http://speedoflight.ironmaiden.com/]]
+[[https://speedoflight.ironmaiden.com/]]
 
 *** Elliot Quest
 :PROPERTIES:

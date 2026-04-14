@@ -149,7 +149,7 @@ Las clases son los tipos, las estructuras de las que se crean instancias
 </p>
 
 
-<div id="org671eeb8" class="figure">
+<div id="org359a42c" class="figure">
 <p><img src="umlbasico.svg" alt="umlbasico.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 1: </span>Ejemplo de clases</p>
@@ -205,7 +205,7 @@ Las clases pueden <i>heredarse</i>, de forma que una clase <i>hija</i> <b>es-una
 </p>
 
 
-<div id="org50935e5" class="figure">
+<div id="orgd118f67" class="figure">
 <p><img src="./herencia.svg" alt="herencia.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 2: </span>Clases para estructurar un juego</p>
@@ -222,7 +222,7 @@ mensajes</i>
 </p>
 
 
-<div id="orgbff0208" class="figure">
+<div id="org89ab22f" class="figure">
 <p><img src="asociacion.svg" alt="asociacion.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 3: </span>Clases que se usan</p>
@@ -236,7 +236,7 @@ Así, si desaparece el todo, <i>desaparecen las partes también</i>
 </p>
 
 
-<div id="org8e9be6f" class="figure">
+<div id="org4ce9b95" class="figure">
 <p><img src="composicion.svg" alt="composicion.svg" class="org-svg" height="200">
 </p>
 <p><span class="figure-number">Figura 4: </span>Composición de clases</p>
@@ -263,8 +263,8 @@ aspectos que hay que gestionar:
 </p>
 
 <ul>
-<li>Modelo de datos (orco, espada, mundo&#x2026;)</li>
-<li>Modelo de sistemas (gráficos, sonido, entrada&#x2026;)</li>
+<li>Modelo de datos (orco, espada, mundo&hellip;)</li>
+<li>Modelo de sistemas (gráficos, sonido, entrada&hellip;)</li>
 
 </ul>
 
@@ -322,7 +322,7 @@ Intentémoslo:
 <section>
 
 
-<div id="orgd98009a" class="figure">
+<div id="org9105bad" class="figure">
 <p><img src="herenciacorrecta.svg" alt="herenciacorrecta.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 5: </span>Herencia básica</p>
@@ -332,13 +332,13 @@ Intentémoslo:
 <section>
 
 <p>
-¿Pero qué pasa cuando queremos crear&#x2026;
+¿Pero qué pasa cuando queremos crear&hellip;
 </p>
 
 <ul>
-<li>&#x2026; un personaje <i>invisible</i>?</li>
-<li>&#x2026; un proyectil manejado por la red?</li>
-<li>&#x2026; un enemigo que no se mueve?</li>
+<li>&hellip; un personaje <i>invisible</i>?</li>
+<li>&hellip; un proyectil manejado por la red?</li>
+<li>&hellip; un enemigo que no se mueve?</li>
 
 </ul>
 
@@ -350,7 +350,7 @@ Ahora hagamos un jugador que no se puede mover:
 </p>
 
 
-<div id="orgee33c94" class="figure">
+<div id="org8a71575" class="figure">
 <p><img src="herenciaproblema.svg" alt="herenciaproblema.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 6: </span>Herencia problemática</p>
@@ -488,7 +488,7 @@ La entidad no tiene información de cómo pintarse, ni de cómo moverse
 <section>
 
 <ul>
-<li>Un personaje ("player") será una entidad</li>
+<li>Un personaje (&laquo;player&raquo;) será una entidad</li>
 <li>Un <i>trigger</i>, también</li>
 <li>Un botón</li>
 <li>Los enemigos</li>
@@ -555,7 +555,7 @@ Cada componente tiene información sobre un aspecto del juego
 <li>Colisiones</li>
 <li>Bandos</li>
 <li>Inventario</li>
-<li>&#x2026;</li>
+<li>&hellip;</li>
 
 </ul>
 </section>
@@ -582,7 +582,7 @@ correspondientes
 </p>
 
 <p>
-Sí, en arquitectura no hay teorías generales. Las cosas "suelen" hacerse
+Sí, en arquitectura no hay teorías generales. Las cosas &laquo;suelen&raquo; hacerse
 de una u otra manera
 </p>
 
@@ -594,7 +594,7 @@ Por ejemplo, en la parte física no suele influir mucho el sonido:
 </p>
 
 
-<div id="org11689ff" class="figure">
+<div id="org8fc53d5" class="figure">
 <p><img src="sistemascomponentes.svg" alt="sistemascomponentes.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 7: </span>Relación entre sistemas y componentes</p>
@@ -656,7 +656,7 @@ Object.assign(Sword.prototype, Takeable);
 <section>
 
 
-<div id="orga04f318" class="figure">
+<div id="org159bd9b" class="figure">
 <p><img src="mixin.svg" alt="mixin.svg" class="org-svg" height="400">
 </p>
 <p><span class="figure-number">Figura 8: </span>Ejemplo en UML con un <i>mixin</i></p>
@@ -687,7 +687,7 @@ por componentes, pero hay muchas
 
 <p>
 Paso de mensajes, entidades puras, sistemas independientes o
-acoplados&#x2026; cada decisión de diseño depende del problema a resolver
+acoplados&hellip; cada decisión de diseño depende del problema a resolver
 </p>
 
 </section>
@@ -727,7 +727,7 @@ overview: true,
 transition: 'none',
 transitionSpeed: 'default',
 
-// Plugins with reveal.js 4.x
+// Plugins with reveal.js 4.x and later
 plugins: [ RevealSearch, RevealHighlight, RevealZoom ],
 
 // Optional libraries used to extend reveal.js
