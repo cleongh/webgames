@@ -24,7 +24,7 @@ Algunos enlaces no funcionan (porque los autores han decidido desactivar el repo
 ** DVI
 
 - [[https://minilina.github.io/DontKillMyDate][Cafatic - Don't Kill my Date!]]
-- [[https://trygach.github.io/cool-substances][Sustancias Cool Studio - MewAlcoholic]]
+- [[https://CrisMarkezo.github.io/Cool-Sustances-v2][Sustancias Cool Studio - MewAlcoholic]]
 - [[https://Jalmu19.github.io/DVI][Los Kologs - Enchantments]]
 - [[https://joseagim.github.io/BandSouls_DVI][Team Berry - Band Souls]]
 - [[https://adrizz8.github.io/ProyectoDVI][CIAA Devs - Final faculty]]
