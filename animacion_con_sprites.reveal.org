@@ -582,7 +582,9 @@ Hay aplicaciones web que permiten la creación de atlas para Phaser:
 
 [[https://gammafp.github.io/atlas-packer-phaser/]]
 
-[[https://free-tex-packer.com/app/]]
+[[https://odrick.github.io/free-tex-packer/]]
+
+[[https://spritesheet.dev/]]
 
 #+REVEAL: split
 
